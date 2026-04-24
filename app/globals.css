@@ -18,6 +18,16 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
+button,
+[type="button"],
+[role="button"] {
+  cursor: pointer !important;
+}
+
+button * {
+  cursor: pointer !important;
+}
+
 .landing-aurora-band {
   position: absolute;
   width: 62vw;
