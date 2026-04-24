@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #03040a;
+  --foreground: #f9fafb;
 }
 
 @theme inline {
@@ -12,15 +12,79 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+.landing-aurora-band {
+  position: absolute;
+  width: 62vw;
+  max-width: 760px;
+  min-width: 420px;
+  height: 220px;
+  overflow: hidden;
+  border-radius: 38% 62% 55% 45% / 40% 40% 60% 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.7;
+  filter: blur(14px) saturate(1.08);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.landing-aurora-band-left {
+  left: -18vw;
+  top: 20%;
+  transform: rotate(-28deg) skewX(-6deg);
+}
+
+.landing-aurora-band-right {
+  right: -18vw;
+  top: 20%;
+  transform: rotate(28deg) skewX(6deg);
+}
+
+.landing-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at center, rgba(0, 0, 0, 0) 22%, rgba(0, 0, 0, 0.52) 58%, rgba(0, 0, 0, 0.9) 100%),
+    linear-gradient(to bottom, rgba(2, 3, 10, 0.2), rgba(2, 3, 10, 0.75));
+  pointer-events: none;
+  z-index: 1;
+}
+
+.landing-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05), transparent 45%);
+  background-size:
+    14px 14px,
+    100% 100%;
+  opacity: 0.42;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@media (max-width: 900px) {
+  .landing-aurora-band {
+    display: none;
+  }
+
+  .landing-aurora-band-left {
+    left: -36vw;
+    top: 28%;
+  }
+
+  .landing-aurora-band-right {
+    right: -36vw;
+    top: 28%;
+  }
+
 }
