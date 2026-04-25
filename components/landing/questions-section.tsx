@@ -48,9 +48,12 @@ export function QuestionsSection() {
       className="mt-16 w-full max-w-6xl"
       style={{ contentVisibility: "auto", containIntrinsicSize: "1px 760px" }}
     >
-      <h2 className="mb-6 text-left text-4xl font-semibold text-white md:text-6xl">
-        Questions?
-      </h2>
+      <div className="mb-6 text-left">
+        <h2 className="text-4xl font-semibold tracking-tight text-white md:text-6xl">Questions?</h2>
+        <p className="mt-2 text-sm text-white/60 md:text-base">
+          Everything you need to know before you start.
+        </p>
+      </div>
 
       <div className="space-y-2.5">
         {questions.map((item, index) => {
@@ -59,17 +62,21 @@ export function QuestionsSection() {
           return (
             <article
               key={item.question}
-              className="rounded-3xl border border-white/15 bg-[#1a1c22]/90 px-6 py-5 text-left backdrop-blur-sm"
+              className={`rounded-3xl border px-6 py-5 text-left backdrop-blur-sm transition-colors ${
+                isOpen
+                  ? "border-white/30 bg-gradient-to-r from-[#1d2030]/95 to-[#1a1c22]/95"
+                  : "border-white/12 bg-[#171922]/88"
+              }`}
             >
               <button
                 type="button"
                 onClick={() => setOpenIndex(isOpen ? null : index)}
                 className="flex w-full items-center justify-between gap-4 text-left"
               >
-                <span className="text-2xl font-medium text-white">{item.question}</span>
+                <span className="text-xl font-medium text-white md:text-3xl">{item.question}</span>
                 <span
-                  className={`text-2xl leading-none text-white/80 transition-transform duration-300 ${
-                    isOpen ? "rotate-45" : "rotate-0"
+                  className={`text-2xl leading-none transition-transform duration-300 ${
+                    isOpen ? "rotate-45 text-white" : "rotate-0 text-white/75"
                   }`}
                 >
                   +
@@ -82,7 +89,7 @@ export function QuestionsSection() {
                 }`}
               >
                 <div className="overflow-hidden">
-                  <p className="max-w-5xl text-lg text-white/65">{item.answer}</p>
+                  <p className="max-w-5xl text-base text-white/65 md:text-xl">{item.answer}</p>
                 </div>
               </div>
             </article>

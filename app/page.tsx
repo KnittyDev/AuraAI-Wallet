@@ -6,6 +6,7 @@ import { LandingFooter } from "@/components/landing/landing-footer";
 import { PricingSection } from "@/components/landing/pricing-section";
 import { PromptCard } from "@/components/landing/prompt-card";
 import { QuestionsSection } from "@/components/landing/questions-section";
+import { RealResultsSection } from "@/components/landing/real-results-section";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
           <PromptCard />
           <PricingSection />
           <FeatureShowcaseSection />
+          <RealResultsSection />
           <QuestionsSection />
           <LandingFooter />
         </section>
