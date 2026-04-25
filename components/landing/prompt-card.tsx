@@ -21,9 +21,23 @@ export function PromptCard() {
           </button>
           <button
             type="button"
-            className="rounded-full border border-white/20 bg-white/5 px-4 py-1.5 transition hover:bg-white/10"
+            className="rounded-full border border-white/20 bg-white/5 p-2.5 transition hover:bg-white/10"
+            aria-label="Send prompt"
           >
-            Send
+            <svg
+              viewBox="0 0 24 24"
+              className="h-4 w-4 text-white/90"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12H19M19 12L13 6M19 12L13 18"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </button>
         </div>
       </div>

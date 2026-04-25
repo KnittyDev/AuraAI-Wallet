@@ -8,8 +8,12 @@ const metrics = [
 
 export function RealResultsSection() {
   return (
-    <section className="mt-16 w-full max-w-6xl rounded-[28px] border border-white/15 bg-black/55 p-6 text-white backdrop-blur-sm md:p-10">
-      <div className="grid gap-8 md:grid-cols-2 md:gap-10">
+    <section className="relative mt-16 w-full max-w-6xl overflow-hidden rounded-[28px] border border-white/15 bg-black/55 p-6 text-white backdrop-blur-sm md:p-10">
+      <div className="pointer-events-none absolute -left-24 top-8 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl" />
+      <div className="pointer-events-none absolute -right-24 bottom-6 h-72 w-72 rounded-full bg-violet-500/20 blur-3xl" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-fuchsia-400/10 blur-3xl" />
+
+      <div className="relative z-10 grid gap-8 md:grid-cols-2 md:gap-10">
         <div className="md:pr-8">
           <h2 className="text-5xl font-semibold tracking-tight text-white md:text-6xl">
             Real Results

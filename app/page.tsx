@@ -1,4 +1,5 @@
 import { AuroraBackground } from "@/components/landing/aurora-background";
+import { CaseStudiesSection } from "@/components/landing/case-studies-section";
 import { FeatureShowcaseSection } from "@/components/landing/feature-showcase-section";
 import { LandingHeader } from "@/components/landing/landing-header";
 import { LandingHero } from "@/components/landing/landing-hero";
@@ -22,6 +23,7 @@ export default function Home() {
           <PricingSection />
           <FeatureShowcaseSection />
           <RealResultsSection />
+          <CaseStudiesSection />
           <QuestionsSection />
           <LandingFooter />
         </section>

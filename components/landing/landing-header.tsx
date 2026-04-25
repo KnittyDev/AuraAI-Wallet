@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import auralogo from "@/app/auralogo.png";
 
 export function LandingHeader() {
@@ -20,12 +21,12 @@ export function LandingHeader() {
         >
           Contact sales
         </button>
-        <button
-          type="button"
+        <Link
+          href="/login"
           className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-black transition hover:bg-white/85"
         >
-          Try now
-        </button>
+          Try Now
+        </Link>
       </div>
     </header>
   );
