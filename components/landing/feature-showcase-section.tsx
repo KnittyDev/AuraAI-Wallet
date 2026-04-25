@@ -31,7 +31,10 @@ const cards = [
 
 export function FeatureShowcaseSection() {
   return (
-    <section className="mt-16 w-full max-w-6xl">
+    <section
+      className="mt-16 w-full max-w-6xl"
+      style={{ contentVisibility: "auto", containIntrinsicSize: "1px 980px" }}
+    >
       <div className="mb-6 text-center">
         <h2 className="text-2xl font-semibold text-white md:text-4xl">
           Powerful Features

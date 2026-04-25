@@ -1,5 +1,3 @@
-"use client";
-
 type PricingPlan = {
   name: string;
   price: string;
@@ -45,16 +43,34 @@ const plans: PricingPlan[] = [
     cta: "Upgrade to Pro",
     highlighted: true,
   },
+  {
+    name: "Enterprise",
+    price: "Custom",
+    description:
+      "Built exclusively for company investment operations with protected capital frameworks.",
+    features: [
+      "Company-only investment model",
+      "Security deposit / guarantee collateral setup",
+      "Partial loss recovery returned to the company",
+      "Custom capital protection terms",
+      "Enterprise-grade risk monitoring",
+      "Dedicated investment support",
+    ],
+    cta: "Contact Sales",
+  },
 ];
 
 export function PricingSection() {
   return (
-    <section className="mt-14 w-full max-w-4xl">
+    <section
+      className="mt-14 w-full max-w-6xl"
+      style={{ contentVisibility: "auto", containIntrinsicSize: "1px 900px" }}
+    >
       <div className="mb-6 text-center">
         <h2 className="text-2xl font-semibold text-white md:text-4xl">Pricing</h2>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-3">
         {plans.map((plan) => (
           <article
             key={plan.name}

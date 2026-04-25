@@ -30,20 +30,21 @@ button * {
 
 .landing-aurora-band {
   position: absolute;
-  width: 62vw;
-  max-width: 760px;
+  width: 68vw;
+  max-width: 860px;
   min-width: 420px;
-  height: 220px;
+  height: 260px;
   overflow: hidden;
   border-radius: 38% 62% 55% 45% / 40% 40% 60% 60%;
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0.7;
-  filter: blur(14px) saturate(1.08);
+  opacity: 0.78;
+  filter: blur(18px) saturate(1.1);
   mix-blend-mode: screen;
   pointer-events: none;
   z-index: 0;
+  will-change: transform;
 }
 
 .landing-aurora-band-left {
@@ -66,6 +67,24 @@ button * {
     linear-gradient(to bottom, rgba(2, 3, 10, 0.2), rgba(2, 3, 10, 0.75));
   pointer-events: none;
   z-index: 1;
+}
+
+.landing-aurora-static {
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse at 18% 50%, rgba(95, 198, 242, 0.72) 0%, rgba(95, 198, 242, 0.18) 30%, transparent 58%),
+    radial-gradient(ellipse at 50% 45%, rgba(180, 99, 212, 0.68) 0%, rgba(180, 99, 212, 0.2) 28%, transparent 60%),
+    radial-gradient(ellipse at 78% 58%, rgba(242, 146, 184, 0.56) 0%, rgba(242, 146, 184, 0.14) 26%, transparent 58%),
+    linear-gradient(90deg, transparent 0%, rgba(95, 198, 242, 0.42) 24%, rgba(159, 80, 211, 0.5) 52%, rgba(242, 146, 184, 0.34) 78%, transparent 100%);
+}
+
+.landing-aurora-static-right {
+  background:
+    radial-gradient(ellipse at 16% 55%, rgba(242, 146, 184, 0.6) 0%, rgba(242, 146, 184, 0.16) 28%, transparent 58%),
+    radial-gradient(ellipse at 48% 45%, rgba(95, 198, 242, 0.66) 0%, rgba(95, 198, 242, 0.18) 30%, transparent 60%),
+    radial-gradient(ellipse at 78% 52%, rgba(159, 80, 211, 0.64) 0%, rgba(159, 80, 211, 0.18) 28%, transparent 60%),
+    linear-gradient(90deg, transparent 0%, rgba(242, 146, 184, 0.32) 22%, rgba(95, 198, 242, 0.46) 50%, rgba(159, 80, 211, 0.42) 78%, transparent 100%);
 }
 
 .landing-grid-overlay {
@@ -97,4 +116,10 @@ button * {
     top: 28%;
   }
 
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-grid-overlay {
+    opacity: 0.3;
+  }
 }

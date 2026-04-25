@@ -44,7 +44,10 @@ export function QuestionsSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="mt-16 w-full max-w-6xl">
+    <section
+      className="mt-16 w-full max-w-6xl"
+      style={{ contentVisibility: "auto", containIntrinsicSize: "1px 760px" }}
+    >
       <h2 className="mb-6 text-left text-4xl font-semibold text-white md:text-6xl">
         Questions?
       </h2>

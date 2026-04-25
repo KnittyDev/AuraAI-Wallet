@@ -2,6 +2,7 @@ import { AuroraBackground } from "@/components/landing/aurora-background";
 import { FeatureShowcaseSection } from "@/components/landing/feature-showcase-section";
 import { LandingHeader } from "@/components/landing/landing-header";
 import { LandingHero } from "@/components/landing/landing-hero";
+import { LandingFooter } from "@/components/landing/landing-footer";
 import { PricingSection } from "@/components/landing/pricing-section";
 import { PromptCard } from "@/components/landing/prompt-card";
 import { QuestionsSection } from "@/components/landing/questions-section";
@@ -20,6 +21,7 @@ export default function Home() {
           <PricingSection />
           <FeatureShowcaseSection />
           <QuestionsSection />
+          <LandingFooter />
         </section>
       </main>
     </div>
