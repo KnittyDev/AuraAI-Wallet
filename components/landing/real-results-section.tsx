@@ -1,10 +1,9 @@
-import Image from "next/image";
-import chartImage from "@/app/chart.png";
+import { MonthlyPerformanceChart } from "@/components/landing/monthly-performance-chart";
 
 const metrics = [
-  { value: "2.4x", label: "Faster portfolio rebalancing" },
-  { value: "1.9x", label: "Higher strategy performance*" },
-  { value: "42%", label: "Lower manual trading workload" },
+  { value: "$17,400", label: "You invest in 1 month" },
+  { value: "$3,350", label: "You earn with Aura AI Wallet*" },
+  { value: "$1,520", label: "You earn with manual trading" },
 ];
 
 export function RealResultsSection() {
@@ -16,19 +15,14 @@ export function RealResultsSection() {
             Real Results
           </h2>
 
-          <Image
-            src={chartImage}
-            alt="Aura performance chart"
-            className="mt-8 h-auto w-56 object-contain drop-shadow-[0_20px_40px_rgba(113,81,255,0.4)]"
-            priority
-          />
+          <MonthlyPerformanceChart />
 
           <p className="mt-8 text-sm text-white/60">
-            *Sources: Binance, Kraken, Coinbase, Bitstamp benchmarks
+            *Illustrative 30-day estimate based on historical strategy benchmarks. (Opus 4.7 model)
           </p>
         </div>
 
-        <div className="border-l border-white/12 pl-0 md:pl-10">
+        <div className="border-l border-white/12 pl-0 md:pl-10 md:pt-35">
           {metrics.map((metric, index) => (
             <div
               key={metric.value}
@@ -36,7 +30,7 @@ export function RealResultsSection() {
                 index < metrics.length - 1 ? "border-b border-white/12" : ""
               }`}
             >
-              <span className="text-6xl font-semibold tracking-tight text-white md:text-7xl">
+              <span className="text-5xl font-semibold tracking-tight text-white md:text-6xl">
                 {metric.value}
               </span>
               <span className="text-right text-xl text-white/80 md:text-2xl">{metric.label}</span>
