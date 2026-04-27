@@ -1,4 +1,5 @@
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
+import { OpenPositionsTable } from "@/components/dashboard/open-positions-table";
 import { TradingviewMarketWidget } from "@/components/dashboard/tradingview-market-widget";
 
 export default function MarketDataPage() {
@@ -20,6 +21,8 @@ export default function MarketDataPage() {
           <section className="rounded-3xl border border-white/15 bg-black/45 p-3 backdrop-blur-sm md:p-5">
             <TradingviewMarketWidget />
           </section>
+
+          <OpenPositionsTable />
         </section>
       </div>
     </main>
