@@ -16,7 +16,7 @@ type NavItem = {
 const navItems: NavItem[] = [
   { label: "Overview", href: "/dashboard", icon: LuLayoutDashboard },
   { label: "Market Data", href: "/dashboard/market-data", icon: LuChartBar },
-  { label: "Investments", href: "#", icon: LuWallet },
+  { label: "Investments", href: "/dashboard/investments", icon: LuWallet },
   { label: "Transactions", href: "#", icon: LuWaypoints },
   { label: "Performance", href: "#", icon: LuChartBar },
   { label: "Settings", href: "#", icon: LuSettings },
