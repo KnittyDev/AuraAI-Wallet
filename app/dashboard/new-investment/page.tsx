@@ -3,29 +3,110 @@
 import Link from "next/link";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { LuBot, LuCircleCheck, LuLoaderCircle, LuShieldCheck, LuTrendingUp } from "react-icons/lu";
+import { LuBot, LuCircleCheck, LuLoaderCircle, LuShieldCheck, LuTrendingUp, LuShield, LuScale, LuZap } from "react-icons/lu";
+import { AuroraBackground } from "@/components/landing/aurora-background";
 import { SiBinance, SiBitcoin, SiEthereum, SiSolana, SiTether } from "react-icons/si";
+import Image from "next/image";
+import auraLogo from "@/app/auralogo.png";
 
 const cryptoOptions = [
-  { code: "BTC", icon: SiBitcoin },
-  { code: "ETH", icon: SiEthereum },
-  { code: "SOL", icon: SiSolana },
-  { code: "BNB", icon: SiBinance },
-  { code: "USDT", icon: SiTether },
+  {
+    code: "BTC",
+    name: "Bitcoin",
+    icon: SiBitcoin,
+    description: "Digital gold. The most famous and safest coin to hold long-term.",
+    badge: "Market Leader",
+  },
+  {
+    code: "ETH",
+    name: "Ethereum",
+    icon: SiEthereum,
+    description: "Smart computer. Powers most apps and digital finance systems.",
+    badge: "Popular",
+  },
+  {
+    code: "SOL",
+    name: "Solana",
+    icon: SiSolana,
+    description: "Ultra-fast. A newer, very quick coin designed for millions of users.",
+  },
+  {
+    code: "USDT",
+    name: "Tether",
+    icon: SiTether,
+    description: "Stable dollar. A digital coin tied to the US Dollar to keep your value steady.",
+  },
 ];
 const riskOptions = [
-  { level: "Low", monthlyReturn: "+4% to +7%", note: "Lower volatility, steady pace" },
-  { level: "Medium", monthlyReturn: "+8% to +14%", note: "Balanced risk/reward profile" },
-  { level: "High", monthlyReturn: "+15% to +28%", note: "Higher upside, higher drawdown risk" },
+  {
+    level: "Conservative",
+    icon: LuShield,
+    description: "Safety first. Best for keeping your savings safe while getting steady, small gains.",
+    monthly: "0.4% — 0.7%",
+    tier: "Institutional Low",
+  },
+  {
+    level: "Balanced",
+    icon: LuScale,
+    description: "Best of both worlds. A mix of safety and growth to help your money grow steadily.",
+    recommended: true,
+    monthly: "2.1% — 2.6%",
+    tier: "Institutional Medium",
+  },
+  {
+    level: "Growth",
+    icon: LuTrendingUp,
+    description: "Faster growth. Aim for bigger profits by taking more risk during market changes.",
+    monthly: "4.4% — 6.5%",
+    tier: "High Growth",
+  },
+  {
+    level: "Aggressive",
+    icon: LuZap,
+    description: "Maximum speed. Uses advanced high-speed trading to hunt for the highest possible returns.",
+    monthly: "9.4% — 14.0%",
+    tier: "Maximum Alpha",
+  },
 ];
-const goalOptions = ["Capital Growth", "Passive Income", "Capital Preservation"];
-const experienceOptions = ["Beginner", "Intermediate", "Advanced"];
-const strategyOptions = ["Safe", "Aggressive", "Balanced Growth"];
+const goalOptions = [
+  {
+    title: "Capital Growth",
+    icon: LuTrendingUp,
+    description: "Maximize the total value of your portfolio over the long term.",
+  },
+  {
+    title: "Passive Income",
+    icon: LuScale,
+    description: "Generate regular distributions and consistent cash flow.",
+  },
+  {
+    title: "Capital Preservation",
+    icon: LuShield,
+    description: "Keep your initial investment safe with minimal risk exposure.",
+  },
+];
+const experienceOptions = [
+  {
+    title: "Beginner",
+    icon: LuShield,
+    description: "New to crypto trading. Looking for guidance and automated safety.",
+  },
+  {
+    title: "Intermediate",
+    icon: LuScale,
+    description: "Familiar with market dynamics. Understands technical analysis basics.",
+  },
+  {
+    title: "Advanced",
+    icon: LuZap,
+    description: "Experienced trader. Looking for deep optimization and advanced tools.",
+  },
+];
 
 export default function NewInvestmentPage() {
   const [step, setStep] = useState(1);
   const [crypto, setCrypto] = useState("BTC");
-  const [risk, setRisk] = useState("Medium");
+  const [risk, setRisk] = useState("Balanced");
   const [amount, setAmount] = useState("1000");
   const [days, setDays] = useState("30");
   const [goal, setGoal] = useState("Capital Growth");
@@ -37,7 +118,7 @@ export default function NewInvestmentPage() {
   const [planStage, setPlanStage] = useState(0);
   const [planReady, setPlanReady] = useState(false);
 
-  const TOTAL_STEPS = 8;
+  const TOTAL_STEPS = 7;
   const isLastStep = step === TOTAL_STEPS;
   const planStages = [
     { icon: LuBot, text: "Aura AI is analyzing your investment profile..." },
@@ -79,7 +160,10 @@ export default function NewInvestmentPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black px-6 py-8 text-white md:px-10">
+    <div className="relative min-h-screen overflow-hidden bg-black">
+      <AuroraBackground />
+      <div className="landing-grid-overlay" />
+      <main className="relative z-10 min-h-screen px-6 py-8 text-white md:px-10">
       <section className="mx-auto w-full max-w-4xl">
         <div className="mb-10 flex justify-end">
           <Link
@@ -90,56 +174,96 @@ export default function NewInvestmentPage() {
           </Link>
         </div>
 
-        <div className="text-center">
-          <h1 className="text-3xl font-semibold tracking-tight text-white md:text-5xl">
-            Explain your investment ideas
-          </h1>
-          <p className="mx-auto mt-4 max-w-3xl text-base text-white/65 md:text-lg">
-            Step by step onboarding to create your next investment plan.
-          </p>
-        </div>
+        {step !== 1 && step !== 2 && (
+          <div className="text-center">
+            <h1 className="text-3xl font-semibold tracking-tight text-white md:text-5xl">
+              Explain your investment ideas
+            </h1>
+            <p className="mx-auto mt-4 max-w-3xl text-base text-white/65 md:text-lg">
+              Step by step onboarding to create your next investment plan.
+            </p>
+          </div>
+        )}
 
         <div className="relative mt-10 w-full rounded-[28px] border border-white/15 bg-black/45 p-5 text-left shadow-2xl backdrop-blur-sm md:p-6">
           <div className="pointer-events-none absolute -left-20 top-6 h-40 w-40 rounded-full bg-cyan-400/10 blur-3xl" />
           <div className="pointer-events-none absolute -right-20 bottom-6 h-40 w-40 rounded-full bg-violet-500/10 blur-3xl" />
           <div className="relative z-10">
-            <div className="mb-4 flex items-center justify-between">
-              <p className="text-sm text-white/55">Step {step} / {TOTAL_STEPS}</p>
-              <div className="flex items-center gap-1.5">
-                {Array.from({ length: TOTAL_STEPS }, (_, i) => i + 1).map((dot) => (
-                  <span
-                    key={dot}
-                    className={`h-1.5 w-5 rounded-full ${
-                      dot <= step ? "bg-white/85" : "bg-white/20"
-                    }`}
-                  />
-                ))}
+            <div className="mb-12 w-full">
+              <div className="h-1 w-full overflow-hidden rounded-full bg-white/10">
+                <motion.div
+                  className="h-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+                  initial={false}
+                  animate={{ width: `${(step / TOTAL_STEPS) * 100}%` }}
+                  transition={{ duration: 0.5, ease: "circOut" }}
+                />
+              </div>
+              <div className="mt-3 flex items-center justify-between text-[9px] font-bold tracking-[0.2em] text-white/30 uppercase">
+                <span className="flex items-center gap-2">
+                  <span className="h-1 w-1 rounded-full bg-white/40 animate-pulse" />
+                  Step {step} of {TOTAL_STEPS}
+                </span>
+                <span>{Math.round((step / TOTAL_STEPS) * 100)}% Processed</span>
               </div>
             </div>
 
           <AnimatePresence mode="wait">
           {step === 1 && (
-            <motion.div key="step-1" className="mt-4 max-w-2xl" {...stepAnimation}>
-              <p className="mb-3 text-lg font-medium text-white">Which crypto do you want to invest in?</p>
-              <div className="max-w-sm space-y-2">
+            <motion.div key="step-1" className="mt-4 w-full" {...stepAnimation}>
+              <div className="mb-10 text-center">
+                <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">Step 01</p>
+                <h2 className="text-4xl font-bold tracking-tight text-white mb-4">Select Asset Class</h2>
+                <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/50">
+                  Choose the foundational asset for your investment strategy. <br className="hidden md:block" />
+                  Aura AI will optimize entry points based on the selected asset's liquidity.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                 {cryptoOptions.map((option) => {
                   const Icon = option.icon;
+                  const isSelected = crypto === option.code;
                   return (
-                  <motion.button
-                    key={option.code}
-                    type="button"
-                    onClick={() => setCrypto(option.code)}
-                    className={`flex w-full items-center gap-2.5 rounded-xl border px-4 py-2.5 text-sm transition ${
-                      crypto === option.code
-                        ? "border-white bg-white text-black"
-                        : "border-white/20 bg-white/5 text-white hover:bg-white/10"
-                    }`}
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                  >
-                    <Icon className="h-4 w-4" />
-                    <span>{option.code}</span>
-                  </motion.button>
+                    <motion.button
+                      key={option.code}
+                      type="button"
+                      onClick={() => setCrypto(option.code)}
+                      className={`relative flex h-full flex-col items-start rounded-2xl border p-6 text-left transition-all duration-300 ${
+                        isSelected
+                          ? "border-white bg-white/[0.03] shadow-[0_0_20px_rgba(255,255,255,0.05)]"
+                          : "border-white/10 bg-transparent hover:border-white/20 hover:bg-white/[0.01]"
+                      }`}
+                      whileHover={{ y: -4 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      {option.badge && (
+                        <div className="absolute right-4 top-4 rounded-full bg-white px-2 py-0.5 text-[8px] font-bold tracking-wider text-black uppercase">
+                          {option.badge}
+                        </div>
+                      )}
+                      
+                      <div className={`mb-12 flex h-10 w-10 items-center justify-center rounded-lg ${
+                        isSelected ? "text-white" : "text-white/40"
+                      }`}>
+                        <Icon className="h-6 w-6" />
+                      </div>
+
+                      <h3 className={`mb-1 text-xl font-semibold ${isSelected ? "text-white" : "text-white/90"}`}>
+                        {option.name}
+                      </h3>
+                      <p className="mb-3 text-xs font-medium text-white/30 uppercase tracking-wider">{option.code}</p>
+                      
+                      <p className="text-sm leading-relaxed text-white/40">
+                        {option.description}
+                      </p>
+
+                      {isSelected && (
+                        <motion.div 
+                          layoutId="active-border-crypto"
+                          className="absolute inset-0 rounded-2xl border-2 border-white/80 pointer-events-none"
+                        />
+                      )}
+                    </motion.button>
                   );
                 })}
               </div>
@@ -147,158 +271,257 @@ export default function NewInvestmentPage() {
           )}
 
           {step === 2 && (
-            <motion.div key="step-2" className="mt-4 max-w-2xl" {...stepAnimation}>
-              <p className="mb-3 text-lg font-medium text-white">What is your risk level?</p>
-              <div className="flex flex-wrap gap-2">
-                {riskOptions.map((option) => (
-                  <motion.button
-                    key={option.level}
-                    type="button"
-                    onClick={() => setRisk(option.level)}
-                    className={`rounded-full border px-4 py-2 text-sm transition ${
-                      risk === option.level
-                        ? "border-white bg-white text-black"
-                        : "border-white/20 bg-white/5 text-white hover:bg-white/10"
-                    }`}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    {option.level}
-                  </motion.button>
-                ))}
+            <motion.div key="step-2" className="mt-4 w-full" {...stepAnimation}>
+              <div className="mb-10 text-center">
+                <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">Step 02</p>
+                <h2 className="text-4xl font-bold tracking-tight text-white mb-4">Select Your Risk Profile</h2>
+                <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/50">
+                  Define the operational boundaries for the AETHER neural engine. <br className="hidden md:block" />
+                  Your selection calibrates volatility tolerance and target yield velocity.
+                </p>
               </div>
 
-              <div className="mt-4 grid gap-2.5 sm:grid-cols-3">
-                {riskOptions.map((option) => (
-                  <div
-                    key={`${option.level}-detail`}
-                    className={`rounded-xl border p-3 ${
-                      risk === option.level
-                        ? "border-white/35 bg-white/10"
-                        : "border-white/12 bg-white/5"
-                    }`}
-                  >
-                    <p className="text-sm font-medium text-white">{option.level} risk</p>
-                    <p className="mt-1 text-lg font-semibold text-emerald-300">
-                      {option.monthlyReturn}
-                    </p>
-                    <p className="mt-1 text-xs text-white/60">30-day principal gain estimate</p>
-                    <p className="mt-1 text-xs text-white/50">{option.note}</p>
-                  </div>
-                ))}
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+                {riskOptions.map((option) => {
+                  const Icon = option.icon;
+                  const isSelected = risk === option.level;
+                  return (
+                    <motion.button
+                      key={option.level}
+                      type="button"
+                      onClick={() => setRisk(option.level)}
+                      className={`relative flex h-full flex-col items-start rounded-2xl border p-6 text-left transition-all duration-300 ${
+                        isSelected
+                          ? "border-white bg-white/[0.03] shadow-[0_0_20px_rgba(255,255,255,0.05)]"
+                          : "border-white/10 bg-transparent hover:border-white/20 hover:bg-white/[0.01]"
+                      }`}
+                      whileHover={{ y: -4 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      {option.recommended && (
+                        <div className="absolute right-4 top-4 rounded-full bg-white px-2 py-0.5 text-[8px] font-bold tracking-wider text-black uppercase">
+                          Recommended
+                        </div>
+                      )}
+                      
+                      <div className={`mb-12 flex h-10 w-10 items-center justify-center rounded-lg ${
+                        isSelected ? "text-white" : "text-white/40"
+                      }`}>
+                        <Icon className="h-6 w-6" />
+                      </div>
+
+                      <h3 className={`mb-3 text-xl font-semibold ${isSelected ? "text-white" : "text-white/90"}`}>
+                        {option.level}
+                      </h3>
+                      
+                      <p className="text-sm leading-relaxed text-white/40">
+                        {option.description}
+                      </p>
+
+                      {isSelected && (
+                        <motion.div 
+                          layoutId="active-border"
+                          className="absolute inset-0 rounded-2xl border-2 border-white/80 pointer-events-none"
+                        />
+                      )}
+                    </motion.button>
+                  );
+                })}
               </div>
             </motion.div>
           )}
 
           {step === 3 && (
-            <motion.div key="step-3" className="mt-4 max-w-2xl" {...stepAnimation}>
-              <label htmlFor="amount" className="mb-3 block text-lg font-medium text-white">
-                How much do you want to invest? (USD)
-              </label>
-              <input
-                id="amount"
-                type="number"
-                min="10"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                className="w-full rounded-2xl border border-white/20 bg-white/5 px-4 py-3 text-base text-white outline-none placeholder:text-white/45 focus:border-white/35"
-                placeholder="1000"
-              />
+            <motion.div key="step-3" className="mt-4 w-full" {...stepAnimation}>
+              <div className="mb-10 text-center">
+                <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">Step 03</p>
+                <h2 className="text-4xl font-bold tracking-tight text-white mb-4">Define Strategy Parameters</h2>
+                <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/50">
+                  Specify your capital allocation and desired investment horizon. <br className="hidden md:block" />
+                  Our engine optimizes yield based on your timeframe.
+                </p>
+              </div>
+
+              <div className="mx-auto max-w-xl space-y-12">
+                {/* Initial Capital */}
+                <div>
+                  <div className="mb-4 flex items-center justify-between">
+                    <label className="text-[10px] font-bold tracking-widest text-white/40 uppercase">Initial Capital</label>
+                    <div className="flex items-center gap-2 rounded-lg bg-white/5 px-2 py-1 text-xs font-bold text-white/60">
+                      USDT <span className="text-[10px]">▼</span>
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      min="150"
+                      value={amount}
+                      onChange={(e) => setAmount(e.target.value)}
+                      className="w-full border-b border-white/10 bg-transparent py-4 text-4xl font-light tracking-tight text-white outline-none transition focus:border-white/30"
+                      placeholder="0.00"
+                    />
+                    <span className="absolute right-0 top-1/2 -translate-y-1/2 text-[10px] font-bold tracking-widest text-white/20 uppercase">
+                      Minimum 150
+                    </span>
+                  </div>
+                </div>
+
+                {/* Target Duration */}
+                <div>
+                  <div className="mb-4 flex items-center justify-between">
+                    <label className="text-[10px] font-bold tracking-widest text-white/40 uppercase">Target Duration</label>
+                    <div className="text-2xl font-light text-white">
+                      {days} <span className="text-sm text-white/40 uppercase tracking-widest ml-1">Days</span>
+                    </div>
+                  </div>
+                  <input
+                    type="range"
+                    min="7"
+                    max="365"
+                    step="1"
+                    value={days}
+                    onChange={(e) => setDays(e.target.value)}
+                    className="h-1 w-full cursor-pointer appearance-none rounded-full bg-white/10 accent-white"
+                  />
+                  <div className="mt-4 flex justify-between text-[10px] font-bold tracking-widest text-white/20 uppercase">
+                    <span>7D</span>
+                    <span>90D</span>
+                    <span>180D</span>
+                    <span>Custom</span>
+                  </div>
+                </div>
+
+                {/* Strategy Stats */}
+                <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-white/5 bg-white/5">
+                  <div className="bg-black/20 p-6">
+                    <p className="text-[9px] font-bold tracking-widest text-white/30 uppercase mb-2">Monthly Return Rate</p>
+                    <p className="text-lg font-medium text-white transition-all duration-300">
+                      {riskOptions.find(o => o.level === risk)?.monthly}
+                    </p>
+                  </div>
+                  <div className="bg-black/20 p-6">
+                    <p className="text-[9px] font-bold tracking-widest text-white/30 uppercase mb-2">Risk Tier</p>
+                    <p className="text-lg font-medium text-white transition-all duration-300">
+                      {riskOptions.find(o => o.level === risk)?.tier}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           )}
 
           {step === 4 && (
-            <motion.div key="step-4" className="mt-4 max-w-2xl" {...stepAnimation}>
-              <label htmlFor="days" className="mb-3 block text-lg font-medium text-white">
-                For how many days?
-              </label>
-              <p className="mb-2 text-sm text-amber-300/90">
-                Note: We do not recommend plans shorter than 30 days.
-              </p>
-              <input
-                id="days"
-                type="number"
-                min="1"
-                value={days}
-                onChange={(e) => setDays(e.target.value)}
-                className="w-full rounded-2xl border border-white/20 bg-white/5 px-4 py-3 text-base text-white outline-none placeholder:text-white/45 focus:border-white/35"
-                placeholder="30"
-              />
+            <motion.div key="step-4-goal" className="mt-4 w-full" {...stepAnimation}>
+              <div className="mb-10 text-center">
+                <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">Step 04</p>
+                <h2 className="text-4xl font-bold tracking-tight text-white mb-4">Select Investment Goal</h2>
+                <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/50">
+                  What is the primary objective for this specific strategy? <br className="hidden md:block" />
+                  Your choice influences position holding periods and exit targets.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                {goalOptions.map((option) => {
+                  const Icon = option.icon;
+                  const isSelected = goal === option.title;
+                  return (
+                    <motion.button
+                      key={option.title}
+                      type="button"
+                      onClick={() => setGoal(option.title)}
+                      className={`relative flex h-full flex-col items-start rounded-2xl border p-6 text-left transition-all duration-300 ${
+                        isSelected
+                          ? "border-white bg-white/[0.03] shadow-[0_0_20px_rgba(255,255,255,0.05)]"
+                          : "border-white/10 bg-transparent hover:border-white/20 hover:bg-white/[0.01]"
+                      }`}
+                      whileHover={{ y: -4 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <div className={`mb-12 flex h-10 w-10 items-center justify-center rounded-lg ${
+                        isSelected ? "text-white" : "text-white/40"
+                      }`}>
+                        <Icon className="h-6 w-6" />
+                      </div>
+
+                      <h3 className={`mb-3 text-xl font-semibold ${isSelected ? "text-white" : "text-white/90"}`}>
+                        {option.title}
+                      </h3>
+                      
+                      <p className="text-sm leading-relaxed text-white/40">
+                        {option.description}
+                      </p>
+
+                      {isSelected && (
+                        <motion.div 
+                          layoutId="active-border-goal"
+                          className="absolute inset-0 rounded-2xl border-2 border-white/80 pointer-events-none"
+                        />
+                      )}
+                    </motion.button>
+                  );
+                })}
+              </div>
             </motion.div>
           )}
 
           {step === 5 && (
-            <motion.div key="step-5-goal" className="mt-4 max-w-2xl" {...stepAnimation}>
-              <p className="mb-3 text-lg font-medium text-white">What is your primary investment goal?</p>
-              <div className="flex flex-wrap gap-2">
-                {goalOptions.map((option) => (
-                  <motion.button
-                    key={option}
-                    type="button"
-                    onClick={() => setGoal(option)}
-                    className={`rounded-full border px-4 py-2 text-sm transition ${
-                      goal === option
-                        ? "border-white bg-white text-black"
-                        : "border-white/20 bg-white/5 text-white hover:bg-white/10"
-                    }`}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    {option}
-                  </motion.button>
-                ))}
+            <motion.div key="step-5-experience" className="mt-4 w-full" {...stepAnimation}>
+              <div className="mb-10 text-center">
+                <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">Step 05</p>
+                <h2 className="text-4xl font-bold tracking-tight text-white mb-4">Trading Experience</h2>
+                <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/50">
+                  Select the level that best describes your market proficiency. <br className="hidden md:block" />
+                  Aura AI adjusts its risk warnings and control interface accordingly.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                {experienceOptions.map((option) => {
+                  const Icon = option.icon;
+                  const isSelected = experience === option.title;
+                  return (
+                    <motion.button
+                      key={option.title}
+                      type="button"
+                      onClick={() => setExperience(option.title)}
+                      className={`relative flex h-full flex-col items-start rounded-2xl border p-6 text-left transition-all duration-300 ${
+                        isSelected
+                          ? "border-white bg-white/[0.03] shadow-[0_0_20px_rgba(255,255,255,0.05)]"
+                          : "border-white/10 bg-transparent hover:border-white/20 hover:bg-white/[0.01]"
+                      }`}
+                      whileHover={{ y: -4 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <div className={`mb-12 flex h-10 w-10 items-center justify-center rounded-lg ${
+                        isSelected ? "text-white" : "text-white/40"
+                      }`}>
+                        <Icon className="h-6 w-6" />
+                      </div>
+
+                      <h3 className={`mb-3 text-xl font-semibold ${isSelected ? "text-white" : "text-white/90"}`}>
+                        {option.title}
+                      </h3>
+                      
+                      <p className="text-sm leading-relaxed text-white/40">
+                        {option.description}
+                      </p>
+
+                      {isSelected && (
+                        <motion.div 
+                          layoutId="active-border-experience"
+                          className="absolute inset-0 rounded-2xl border-2 border-white/80 pointer-events-none"
+                        />
+                      )}
+                    </motion.button>
+                  );
+                })}
               </div>
             </motion.div>
           )}
 
           {step === 6 && (
-            <motion.div key="step-6-profile" className="mt-4 max-w-2xl space-y-4" {...stepAnimation}>
-              <div>
-                <p className="mb-3 text-lg font-medium text-white">Your trading experience</p>
-                <div className="flex flex-wrap gap-2">
-                  {experienceOptions.map((option) => (
-                    <motion.button
-                      key={option}
-                      type="button"
-                      onClick={() => setExperience(option)}
-                      className={`rounded-full border px-4 py-2 text-sm transition ${
-                        experience === option
-                          ? "border-white bg-white text-black"
-                          : "border-white/20 bg-white/5 text-white hover:bg-white/10"
-                      }`}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      {option}
-                    </motion.button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <p className="mb-3 text-lg font-medium text-white">Preferred strategy</p>
-                <div className="grid gap-2 sm:grid-cols-2">
-                  {strategyOptions.map((option) => (
-                    <button
-                      key={option}
-                      type="button"
-                      onClick={() => setStrategy(option)}
-                      className={`rounded-xl border px-4 py-2 text-sm text-left transition ${
-                        strategy === option
-                          ? "border-white bg-white text-black"
-                          : "border-white/20 bg-white/5 text-white hover:bg-white/10"
-                      }`}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          )}
-
-          {step === 7 && (
-            <motion.div key="step-7-rules" className="mt-4 max-w-2xl space-y-4" {...stepAnimation}>
+            <motion.div key="step-6-rules" className="mt-4 max-w-2xl space-y-4" {...stepAnimation}>
               <div>
                 <p className="mb-2 text-sm text-white/75">How should we handle your profits?</p>
                 <div className="grid gap-2">
@@ -339,61 +562,166 @@ export default function NewInvestmentPage() {
             </motion.div>
           )}
 
-          {step === 8 && (
-            <motion.div
-              key="step-8"
-              className="mt-4 max-w-2xl rounded-2xl border border-white/15 bg-white/5 p-4"
-              {...stepAnimation}
-            >
-              <p className="text-lg font-medium text-white">Review your plan</p>
-              <ul className="mt-3 space-y-2 text-sm text-white/80">
-                <li>Crypto: <span className="font-medium text-white">{crypto}</span></li>
-                <li>Risk level: <span className="font-medium text-white">{risk}</span></li>
-                <li>Investment amount: <span className="font-medium text-white">${amount}</span></li>
-                <li>Duration: <span className="font-medium text-white">{days} days</span></li>
-                <li>Goal: <span className="font-medium text-white">{goal}</span></li>
-                <li>Experience: <span className="font-medium text-white">{experience}</span></li>
-                <li>Strategy: <span className="font-medium text-white">{strategy}</span></li>
-                <li>Profit action: <span className="font-medium text-white">{profitAction}</span></li>
+          {step === 7 && (
+            <motion.div key="step-7-review" className="mt-4 w-full" {...stepAnimation}>
+              <div className="mb-10 text-center">
+                <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">Step 07</p>
+                <h2 className="text-4xl font-bold tracking-tight text-white mb-4">Final Strategy Review</h2>
+                <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/50">
+                  Review your autonomous strategy parameters before activation. <br className="hidden md:block" />
+                  Aura AI will begin execution immediately upon confirmation.
+                </p>
+              </div>
+
+              <div className="mx-auto max-w-3xl space-y-4">
+                {/* Core Parameters Card */}
+                <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02]">
+                  <div className="border-b border-white/5 bg-white/[0.02] px-6 py-3">
+                    <p className="text-[10px] font-bold tracking-widest text-white/40 uppercase">Core Parameters</p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3">
+                    <div className="border-r border-white/5 p-6">
+                      <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-2">Selected Asset</p>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl font-semibold text-white">{crypto}</span>
+                        <span className="rounded bg-white/10 px-1.5 py-0.5 text-[10px] font-bold text-white/60">MAINNET</span>
+                      </div>
+                    </div>
+                    <div className="border-r border-white/5 p-6">
+                      <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-2">Initial Capital</p>
+                      <p className="text-xl font-semibold text-white">{Number(amount).toLocaleString()} <span className="text-xs text-white/40 uppercase ml-1">USDT</span></p>
+                    </div>
+                    <div className="p-6">
+                      <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-2">Time Horizon</p>
+                      <p className="text-xl font-semibold text-white">{days} <span className="text-xs text-white/40 uppercase ml-1">Days</span></p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  {/* Strategy Card */}
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+                    <div className="mb-6 flex items-center gap-3">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5">
+                        <LuShield className="h-4 w-4 text-white/60" />
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-bold tracking-widest text-white/40 uppercase">Risk & Objective</p>
+                        <p className="text-sm font-medium text-white">{risk} Profile</p>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <div>
+                        <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">Primary Goal</p>
+                        <p className="text-sm text-white/80">{goal}</p>
+                      </div>
+                      <div>
+                        <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">Risk Tier</p>
+                        <p className="text-sm text-white/80">
+                          {riskOptions.find(o => o.level === risk)?.tier}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Execution Rules Card */}
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+                    <div className="mb-6 flex items-center gap-3">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5">
+                        <LuBot className="h-4 w-4 text-white/60" />
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-bold tracking-widest text-white/40 uppercase">Execution Rules</p>
+                        <p className="text-sm font-medium text-white">{experience} Mode</p>
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <div>
+                        <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">Profit Distribution</p>
+                        <p className="text-sm text-white/80">{profitAction}</p>
+                      </div>
+                      <div>
+                        <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">Engine Status</p>
+                        <p className="flex items-center gap-1.5 text-sm text-emerald-400">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          Ready for Deployment
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 {notes.trim() && (
-                  <li>
-                    Notes: <span className="font-medium text-white">{notes}</span>
-                  </li>
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+                    <p className="text-[10px] font-bold tracking-widest text-white/40 uppercase mb-2">Custom Instructions</p>
+                    <p className="text-sm leading-relaxed text-white/60 italic">"{notes}"</p>
+                  </div>
                 )}
-              </ul>
+              </div>
             </motion.div>
           )}
           </AnimatePresence>
 
-          <div className="mt-8 flex items-center justify-between gap-3 text-sm text-white/75">
-            <motion.button
-              type="button"
-              onClick={() => setStep((prev) => Math.max(prev - 1, 1))}
-              className="rounded-full border border-white/20 bg-white/5 px-4 py-2 transition hover:bg-white/10 disabled:opacity-40"
-              disabled={step === 1}
-              whileHover={step === 1 ? undefined : { scale: 1.02 }}
-              whileTap={step === 1 ? undefined : { scale: 0.98 }}
-            >
-              Back
-            </motion.button>
+          {step >= 1 && step <= 7 ? (
+            <div className="mt-12 flex flex-col items-center gap-6">
+              <motion.button
+                type="button"
+                onClick={handleNext}
+                className="w-full max-w-xs rounded-xl bg-[#e5e5e5] py-4 text-sm font-bold tracking-wider text-black uppercase transition hover:bg-white"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Next
+              </motion.button>
+              
+              {step === 1 ? (
+                <Link 
+                  href="/login" 
+                  className="text-[10px] tracking-widest text-white/40 uppercase transition hover:text-white"
+                >
+                  Back to Authentication
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setStep((prev) => prev - 1)}
+                  className="text-[10px] tracking-widest text-white/40 uppercase transition hover:text-white cursor-pointer"
+                >
+                  Go Back
+                </button>
+              )}
+            </div>
+          ) : (
+            <div className="mt-8 flex items-center justify-between gap-3 text-sm text-white/75">
+              <motion.button
+                type="button"
+                onClick={() => setStep((prev) => Math.max(prev - 1, 1))}
+                className="rounded-full border border-white/20 bg-white/5 px-4 py-2 transition hover:bg-white/10 disabled:opacity-40"
+                disabled={step === 1}
+                whileHover={step === 1 ? undefined : { scale: 1.02 }}
+                whileTap={step === 1 ? undefined : { scale: 0.98 }}
+              >
+                Back
+              </motion.button>
 
-            <motion.button
-              type="button"
-              onClick={handleNext}
-              className="rounded-full bg-white px-4 py-2 font-medium text-black transition hover:bg-white/85"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              disabled={isCreatingPlan}
-            >
-              {isLastStep
-                ? isCreatingPlan
-                  ? "Creating Plan..."
-                  : planReady
-                    ? "Plan Created"
-                    : "Create Investment Plan"
-                : "Next"}
-            </motion.button>
-          </div>
+              <motion.button
+                type="button"
+                onClick={handleNext}
+                className="rounded-full bg-white px-4 py-2 font-medium text-black transition hover:bg-white/85"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                disabled={isCreatingPlan}
+              >
+                {isLastStep
+                  ? isCreatingPlan
+                    ? "Creating Plan..."
+                    : planReady
+                      ? "Plan Created"
+                      : "Create Investment Plan"
+                  : "Next"}
+              </motion.button>
+            </div>
+          )}
 
           </div>
         </div>
@@ -405,69 +733,160 @@ export default function NewInvestmentPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 px-6 backdrop-blur-md"
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black px-6"
           >
-            <motion.div
-              initial={{ opacity: 0, y: 12, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 8, scale: 0.98 }}
-              transition={{ duration: 0.22, ease: "easeOut" }}
-              className="w-full max-w-3xl rounded-3xl border border-white/20 bg-[#090b11]/95 p-6 shadow-2xl md:p-8"
-            >
-              <div className="flex items-start gap-3">
-                {isCreatingPlan ? (
-                  <LuLoaderCircle className="mt-0.5 h-6 w-6 animate-spin text-cyan-300" />
-                ) : (
-                  <LuCircleCheck className="mt-0.5 h-6 w-6 text-emerald-300" />
-                )}
-                <div>
-                  <p className="text-2xl font-semibold text-white">
-                    {isCreatingPlan
-                      ? "Aura AI is creating your investment plan"
-                      : "Aura AI completed your investment plan"}
-                  </p>
-                  <div className="mt-3 rounded-2xl border border-white/15 bg-white/[0.03] px-4 py-3">
-                    <AnimatePresence mode="wait">
-                      <motion.p
-                        key={`${planStage}-${isCreatingPlan ? "loading" : "done"}`}
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -6 }}
-                        transition={{ duration: 0.18, ease: "easeOut" }}
-                        className="text-base text-white/85"
-                      >
-                        {planStages[planStage]?.text}
-                      </motion.p>
-                    </AnimatePresence>
-                  </div>
+            {/* Background Effects */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-cyan-500/10 blur-[120px] rounded-full animate-pulse" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-emerald-500/10 blur-[100px] rounded-full animate-pulse delay-700" />
+            </div>
 
-                  <div className="mt-4">
-                    <div className="mb-2 flex items-center justify-between text-xs text-white/55">
-                      <span>Progress</span>
-                      <span>
-                        {Math.min(planStage + 1, planStages.length)} / {planStages.length}
-                      </span>
-                    </div>
-                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-                      <motion.div
-                        className="h-full rounded-full bg-gradient-to-r from-cyan-300 to-emerald-300"
-                        initial={{ width: "0%" }}
-                        animate={{
-                          width: `${
-                            (Math.min(planStage + 1, planStages.length) / planStages.length) * 100
-                          }%`,
-                        }}
-                        transition={{ duration: 0.25, ease: "easeOut" }}
-                      />
-                    </div>
-                  </div>
+            <div className="relative flex flex-col items-center max-w-lg w-full">
+              {/* Neural Core / Loader */}
+              <div className="relative mb-12 flex items-center justify-center">
+                {/* Outer Ring */}
+                <svg className="h-48 w-48 -rotate-90">
+                  <circle
+                    cx="96"
+                    cy="96"
+                    r="88"
+                    className="stroke-white/5 fill-none"
+                    strokeWidth="2"
+                  />
+                  <motion.circle
+                    cx="96"
+                    cy="96"
+                    r="88"
+                    className="stroke-white fill-none"
+                    strokeWidth="2"
+                    strokeDasharray="552"
+                    initial={{ strokeDashoffset: 552 }}
+                    animate={{ 
+                      strokeDashoffset: 552 - (552 * (Math.min(planStage + 1, planStages.length) / planStages.length))
+                    }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    strokeLinecap="round"
+                  />
+                </svg>
+
+                {/* Inner Glow Core */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <motion.div 
+                    className="h-32 w-32 rounded-full bg-gradient-to-br from-white/10 to-white/5 border border-white/20 backdrop-blur-xl flex items-center justify-center shadow-[0_0_40px_rgba(255,255,255,0.05)]"
+                    animate={{ 
+                      scale: [1, 1.05, 1],
+                      boxShadow: [
+                        "0 0 20px rgba(255,255,255,0.05)",
+                        "0 0 40px rgba(255,255,255,0.15)",
+                        "0 0 20px rgba(255,255,255,0.05)"
+                      ]
+                    }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <AnimatePresence mode="wait">
+                      {planReady ? (
+                        <motion.div
+                          key="check"
+                          initial={{ scale: 0, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          className="text-white"
+                        >
+                          <LuCircleCheck className="h-12 w-12" />
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          key="logo"
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 1.2, opacity: 0 }}
+                          className="flex items-center justify-center"
+                        >
+                          <Image 
+                            src={auraLogo} 
+                            alt="Aura Logo" 
+                            width={64} 
+                            height={64} 
+                            className="animate-pulse"
+                          />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
                 </div>
               </div>
-            </motion.div>
+
+              {/* Status Text */}
+              <div className="text-center space-y-4">
+                <motion.p 
+                  className="text-[10px] font-bold tracking-[0.3em] text-white/30 uppercase"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                >
+                  {planReady ? "Strategy Active" : "Neural Optimization in Progress"}
+                </motion.p>
+                
+                <div className="h-12 flex items-center justify-center">
+                  <AnimatePresence mode="wait">
+                    <motion.h3
+                      key={planStage}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="text-xl font-medium text-white/90 leading-tight"
+                    >
+                      {planStages[planStage]?.text}
+                    </motion.h3>
+                  </AnimatePresence>
+                </div>
+
+                {/* Data Points (Faked for aesthetic) */}
+                {!planReady && (
+                  <motion.div 
+                    className="flex gap-8 justify-center mt-8"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                  >
+                    <div className="text-center">
+                      <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">Latency</p>
+                      <p className="text-xs font-mono text-emerald-400">12ms</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">Confidence</p>
+                      <p className="text-xs font-mono text-cyan-400">99.4%</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">Risk Buffer</p>
+                      <p className="text-xs font-mono text-white/60">OK</p>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+
+              {/* Final Action */}
+              <AnimatePresence>
+                {planReady && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-12 w-full"
+                  >
+                    <motion.button
+                      onClick={() => window.location.href = "/dashboard"}
+                      className="w-full rounded-xl bg-white py-4 text-sm font-bold tracking-widest text-black uppercase transition hover:bg-white/90 shadow-[0_0_30px_rgba(255,255,255,0.1)]"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      Enter Terminal
+                    </motion.button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </main>
+      </main>
+    </div>
   );
 }

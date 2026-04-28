@@ -1,7 +1,7 @@
 import { DashboardHoldingsTable } from "@/components/dashboard/dashboard-holdings-table";
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
 import { DashboardStatCard } from "@/components/dashboard/dashboard-stat-card";
-import { LuArrowUpRight, LuWallet } from "react-icons/lu";
+import { LuArrowUpRight, LuWallet, LuPlus } from "react-icons/lu";
 import { SiTether } from "react-icons/si";
 import Link from "next/link";
 
@@ -37,14 +37,24 @@ export default function DashboardPage() {
                 </p>
               </div>
 
-              <Link
-                href="/dashboard/new-investment"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-black transition hover:bg-white/85"
-              >
-                <LuWallet className="h-4 w-4" />
-                New Investment
-                <LuArrowUpRight className="h-4 w-4" />
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/dashboard/deposit"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
+                >
+                  <LuPlus className="h-4 w-4" />
+                  Deposit
+                </Link>
+                
+                <Link
+                  href="/dashboard/new-investment"
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-black transition hover:bg-white/85"
+                >
+                  <LuWallet className="h-4 w-4" />
+                  New Investment
+                  <LuArrowUpRight className="h-4 w-4" />
+                </Link>
+              </div>
             </div>
           </header>
 

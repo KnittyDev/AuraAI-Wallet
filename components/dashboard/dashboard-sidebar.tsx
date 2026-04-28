@@ -5,6 +5,7 @@ import {
   LuSettings,
   LuWallet,
   LuWaypoints,
+  LuPlus,
 } from "react-icons/lu";
 
 type NavItem = {
@@ -17,6 +18,7 @@ const navItems: NavItem[] = [
   { label: "Overview", href: "/dashboard", icon: LuLayoutDashboard },
   { label: "Market Data", href: "/dashboard/market-data", icon: LuChartBar },
   { label: "Investments", href: "/dashboard/investments", icon: LuWallet },
+  { label: "Deposit", href: "/dashboard/deposit", icon: LuPlus },
   { label: "Transactions", href: "#", icon: LuWaypoints },
   { label: "Performance", href: "#", icon: LuChartBar },
   { label: "Settings", href: "#", icon: LuSettings },
@@ -28,7 +30,7 @@ type DashboardSidebarProps = {
 
 export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
   return (
-    <aside className="w-full border-r border-white/10 bg-black/55 p-5 backdrop-blur-sm lg:min-h-screen lg:w-72 lg:p-6">
+    <aside className="relative z-20 w-full border-r border-white/10 bg-black/55 p-5 backdrop-blur-sm lg:min-h-screen lg:w-72 lg:p-6">
       <h2 className="mb-5 text-lg font-semibold text-white">Aura Dashboard</h2>
       <nav className="space-y-2">
         {navItems.map((item) => {
