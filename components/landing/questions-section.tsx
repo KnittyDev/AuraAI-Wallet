@@ -9,34 +9,44 @@ type QuestionItem = {
 
 const questions: QuestionItem[] = [
   {
-    question: "What is Aura?",
+    question: "What exactly is Aura AI?",
     answer:
-      "Aura is an AI-native autonomous trading platform that helps you manage portfolios, execute trades, and track performance with minimal manual work.",
+      "Aura is an AI-native autonomous trading and portfolio management platform. It uses advanced language models and real-time market data to execute complex investment strategies, manage risk, and optimize your crypto holdings without requiring manual intervention.",
   },
   {
-    question: "Is Aura free to use?",
+    question: "How does the AI make trading decisions?",
     answer:
-      "Yes. You can start with the Free plan. For advanced autonomous capabilities and unlimited operations, you can upgrade to the $15 Pro plan.",
+      "Aura AI leverages the Claude Opus 4.7 model, utilizing advanced artificial intelligence specifically trained in the domains of investment and cryptocurrency. The system continuously analyzes real-time news, social sentiment, on-chain data, and live market streams. It autonomously executes trades based on its assessment of these signals to optimize performance in line with your risk profile.",
   },
   {
-    question: "How does automated trading work?",
+    question: "Is my capital secure with Aura?",
     answer:
-      "Aura AI leverages the Claude Opus 4.7 model, utilizing advanced artificial intelligence specifically trained in the domains of investment and cryptocurrency. The system continuously analyzes real-time news and live market data streams, autonomously executing trades based on its assessments, with the objective of optimizing performance in line with your targeted returns.",
+      "Security is our top priority. Aura uses institutional-grade encryption for all data and API connections. We never have direct access to withdraw your funds from connected exchanges; the system only has 'Trade' and 'View' permissions. Additionally, we use multi-sig cold storage for any assets held within the Aura ecosystem.",
   },
   {
-    question: "Can I withdraw funds instantly?",
+    question: "Which assets and exchanges are supported?",
     answer:
-      "Instant withdrawals are available on Pro. Free plan users can make one withdrawal every 3 days.",
+      "Aura currently supports all major cryptocurrencies including BTC, ETH, SOL, and USDT. We provide seamless integration with top-tier exchanges like Binance, Coinbase, and Kraken, as well as direct on-chain execution for decentralized protocols.",
   },
   {
-    question: "Does Aura provide buy and sell suggestions?",
+    question: "How does the Pro plan differ from the Free plan?",
     answer:
-      "Yes. Aura provides AI-powered suggestions and can also run auto buy/auto sell flows based on your selected plan.",
+      "While the Free plan allows you to explore basic portfolio tracking and manual AI suggestions, the Pro plan ($15/mo) unlocks 24/7 fully autonomous trading, instant withdrawals, advanced risk guardrails, and priority execution on all strategies.",
   },
   {
-    question: "Can Aura run 24/7?",
+    question: "How does Aura handle extreme market volatility?",
     answer:
-      "Yes. Pro users get full autonomous 24/7 trade execution and management.",
+      "Aura includes 'Neural Risk Guards' that monitor market stress 24/7. In the event of a flash crash or extreme volatility, the AI can automatically move assets to stables, tighten stop-losses, or hedge positions using shorts to protect your capital from significant drawdowns.",
+  },
+  {
+    question: "Are there any hidden fees per trade?",
+    answer:
+      "No. Aura does not charge any percentage-based commissions or hidden spreads on your trades. You only pay your monthly subscription fee (if on Pro) and the standard transaction fees charged by the underlying exchanges or blockchain networks.",
+  },
+  {
+    question: "Can I cancel my subscription at any time?",
+    answer:
+      "Yes. You can downgrade or cancel your Pro subscription at any time with a single click. There are no long-term contracts or cancellation fees.",
   },
 ];
 
