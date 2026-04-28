@@ -1,12 +1,41 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 export function LandingHero() {
   return (
-    <div className="w-full space-y-6">
-      <h1 className="mx-auto max-w-[18ch] text-3xl font-semibold leading-[1.02] tracking-tight text-white md:max-w-[14ch] md:text-7xl">
-        Let AI Manage Your Portfolio
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+      className="w-full space-y-8"
+    >
+      {/* Eyebrow */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/5 px-5 py-2 backdrop-blur"
+      >
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+        <span className="text-xs font-bold text-white/60 tracking-[0.2em] uppercase">Claude Opus 4.7 — Max</span>
+      </motion.div>
+
+      <h1 className="mx-auto max-w-[16ch] text-[clamp(2.8rem,7vw,5.5rem)] font-bold leading-[1.0] tracking-tight text-white">
+        Let AI Manage{" "}
+        <span className="relative inline-block">
+          <span className="relative z-10">Your Portfolio</span>
+          <span
+            className="absolute inset-x-0 bottom-1 h-[0.15em] rounded-full bg-gradient-to-r from-cyan-400/60 via-white/60 to-violet-400/60 blur-[2px]"
+            aria-hidden
+          />
+        </span>
       </h1>
-      <p className="mx-auto max-w-3xl text-lg text-white/75 md:text-3xl">
-      Your portfolio keeps working, even when you don’t.
+
+      <p className="mx-auto max-w-2xl text-lg leading-relaxed text-white/55 md:text-xl">
+        Aura AI continuously analyzes markets, manages risk, and executes trades — 
+        so your portfolio keeps working even when you don't.
       </p>
-    </div>
+    </motion.div>
   );
 }

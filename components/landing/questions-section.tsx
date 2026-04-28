@@ -21,7 +21,7 @@ const questions: QuestionItem[] = [
   {
     question: "How does automated trading work?",
     answer:
-      "You set your preferences and strategy boundaries, then Aura continuously evaluates market conditions and executes trades automatically.",
+      "Aura AI leverages the Claude Opus 4.7 model, utilizing advanced artificial intelligence specifically trained in the domains of investment and cryptocurrency. The system continuously analyzes real-time news and live market data streams, autonomously executing trades based on its assessments, with the objective of optimizing performance in line with your targeted returns.",
   },
   {
     question: "Can I withdraw funds instantly?",
@@ -62,11 +62,10 @@ export function QuestionsSection() {
           return (
             <article
               key={item.question}
-              className={`rounded-3xl border px-6 py-5 text-left backdrop-blur-sm transition-colors ${
-                isOpen
+              className={`rounded-3xl border px-6 py-5 text-left backdrop-blur-sm transition-colors ${isOpen
                   ? "border-white/30 bg-gradient-to-r from-[#1d2030]/95 to-[#1a1c22]/95"
                   : "border-white/12 bg-[#171922]/88"
-              }`}
+                }`}
             >
               <button
                 type="button"
@@ -75,18 +74,16 @@ export function QuestionsSection() {
               >
                 <span className="text-xl font-medium text-white md:text-3xl">{item.question}</span>
                 <span
-                  className={`text-2xl leading-none transition-transform duration-300 ${
-                    isOpen ? "rotate-45 text-white" : "rotate-0 text-white/75"
-                  }`}
+                  className={`text-2xl leading-none transition-transform duration-300 ${isOpen ? "rotate-45 text-white" : "rotate-0 text-white/75"
+                    }`}
                 >
                   +
                 </span>
               </button>
 
               <div
-                className={`grid overflow-hidden transition-all duration-300 ease-in-out ${
-                  isOpen ? "mt-3 grid-rows-[1fr] opacity-100" : "mt-0 grid-rows-[0fr] opacity-0"
-                }`}
+                className={`grid overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "mt-3 grid-rows-[1fr] opacity-100" : "mt-0 grid-rows-[0fr] opacity-0"
+                  }`}
               >
                 <div className="overflow-hidden">
                   <p className="max-w-5xl text-base text-white/65 md:text-xl">{item.answer}</p>

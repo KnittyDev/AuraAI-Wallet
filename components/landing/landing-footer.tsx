@@ -4,15 +4,27 @@ import auralogo from "@/app/auralogo.png";
 const footerColumns = [
   {
     title: "Product",
-    links: ["Features", "Pricing", "FAQ"],
+    links: [
+      { name: "Features", href: "/#features" },
+      { name: "Pricing", href: "/#pricing" },
+      { name: "FAQ", href: "/#faq" },
+    ],
   },
   {
     title: "Company",
-    links: ["About", "Contact", "Careers"],
+    links: [
+      { name: "About", href: "#" },
+      { name: "Contact", href: "#" },
+      { name: "Careers", href: "#" },
+    ],
   },
   {
     title: "Legal",
-    links: ["Privacy", "Terms", "Security"],
+    links: [
+      { name: "Privacy", href: "#" },
+      { name: "Terms", href: "#" },
+      { name: "Security", href: "#" },
+    ],
   },
 ];
 
@@ -41,9 +53,9 @@ export function LandingFooter() {
             </h3>
             <ul className="space-y-2 text-sm text-white/65">
               {column.links.map((link) => (
-                <li key={link}>
-                  <a href="#" className="transition hover:text-white">
-                    {link}
+                <li key={link.name}>
+                  <a href={link.href} className="transition hover:text-white">
+                    {link.name}
                   </a>
                 </li>
               ))}

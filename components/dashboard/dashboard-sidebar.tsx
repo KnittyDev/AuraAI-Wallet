@@ -19,7 +19,7 @@ const navItems: NavItem[] = [
   { label: "Market Data", href: "/dashboard/market-data", icon: LuChartBar },
   { label: "Investments", href: "/dashboard/investments", icon: LuWallet },
   { label: "Deposit", href: "/dashboard/deposit", icon: LuPlus },
-  { label: "Transactions", href: "#", icon: LuWaypoints },
+  { label: "Transactions", href: "/dashboard/transactions", icon: LuWaypoints },
   { label: "Performance", href: "#", icon: LuChartBar },
   { label: "Settings", href: "#", icon: LuSettings },
 ];
