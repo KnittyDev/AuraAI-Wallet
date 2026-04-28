@@ -48,6 +48,11 @@ const questions: QuestionItem[] = [
     answer:
       "Yes. You can downgrade or cancel your Pro subscription at any time with a single click. There are no long-term contracts or cancellation fees.",
   },
+  {
+    question: "Why is there a monthly subscription fee?",
+    answer:
+      "Operating a 24/7 autonomous AI requires significant compute resources. Your subscription directly covers the high cost of Claude Opus 4.7 tokens (which Aura 'burns' as it analyzes data), high-frequency market data streams, and the secure cloud infrastructure required to execute trades with millisecond latency across global markets.",
+  },
 ];
 
 export function QuestionsSection() {

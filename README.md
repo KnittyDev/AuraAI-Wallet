@@ -1,43 +1,66 @@
-# Aura Wallet Landing
+# Aura AI Wallet — Next-Gen Portfolio Intelligence
 
-A modern Next.js landing page for Aura Wallet with a dark glass UI, aurora background, pricing tiers, feature showcase, results panel, FAQ section, and auth screens.
+A premium, AI-native autonomous trading platform built with **Next.js 15** and **Claude Opus 4.7**. Aura manages your crypto portfolio 24/7, executing strategies with millisecond latency and institutional-grade risk controls.
 
-## Preview
+## 💎 Design & Preview
 
-![Aura Wallet Full Page](app/fullpage.jpeg)
+Aura features a high-end **Glassmorphism UI** with smooth **Framer Motion** animations, custom **Aurora Backgrounds**, and a consistent monochromatic design language.
 
-## Tech Stack
+![Aura Wallet Preview](app/newfullpage.jpeg)
 
-- Next.js (App Router)
-- React
-- TypeScript
-- Tailwind CSS v4
+## 🚀 Key Features
 
-## Available Pages
+### 🧠 Claude Opus 4.7 — Max
+Powered by the most advanced AI models specifically trained on financial data. Aura analyzes news, on-chain signals, and social sentiment to execute trades autonomously.
 
-- `/` - Landing page
-- `/login` - Login screen
-- `/register` - Register screen
+### 📊 Professional Dashboard
+- **Investments Overview**: Real-time asset allocation tracking with animated distribution charts.
+- **Active Strategies**: Live view of AI-managed positions (Long/Short) with real-time P&L.
+- **Recent Activity**: Comprehensive transaction logs with categorized AI operations.
 
-## Run Locally
+### ⚡ Neural Onboarding
+A multi-step, AI-guided onboarding flow that calculates risk profiles and expected returns through a "Neural Optimization" loading state with real-time telemetry.
 
-```bash
-npm install
-npm run dev
-```
+### 🔐 Secure Deposits & QR System
+- **Multi-Network Support**: Support for BTC, ETH, SOL, and USDT across various networks.
+- **Dynamic QR Codes**: Secure, logo-integrated QR generation for wallet addresses using `qrcode.react`.
+- **Monochrome Asset Icons**: Curated monochromatic icons for a premium, clean look.
 
-Open [http://localhost:3000](http://localhost:3000).
+### 📰 Editorial Case Studies
+Dynamic, editorial-style case studies featuring real-world investment firms (Grayscale, BlockTower, Pantera) with detailed performance metrics and strategic insights.
 
-## Project Structure
+## 🛠 Tech Stack
 
-- `app/page.tsx` - Main landing page composition
-- `components/landing/*` - Landing page sections/components
-- `components/auth/*` - Login and register UI components
-- `app/globals.css` - Global styles and visual theme
+- **Framework**: [Next.js 15 (App Router)](https://nextjs.org/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **AI Engine**: [Anthropic Claude Opus 4.7](https://www.anthropic.com/)
+- **Icons**: [Lucide React](https://lucide.dev/) & [Simple Icons](https://simpleicons.org/)
 
-## Scripts
+## 🏁 Getting Started
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
+1. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+
+2. **Run Development Server**:
+   ```bash
+   npm run dev
+   ```
+
+3. **Visit Localhost**:
+   Open [http://localhost:3000](http://localhost:3000).
+
+## 📁 Project Structure
+
+- `app/dashboard/` - Core application logic and private views.
+- `app/studycase/` - Dynamic case study detail pages.
+- `components/dashboard/` - Specialized UI components for the trading interface.
+- `components/landing/` - High-conversion marketing sections and landing UI.
+- `lib/` - Shared data, types, and utility functions.
+
+---
+
+© 2024 Aura AI. Built for the future of autonomous finance.
