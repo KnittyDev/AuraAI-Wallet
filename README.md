@@ -8,23 +8,20 @@ Aura features a high-end **Glassmorphism UI** with smooth **Framer Motion** anim
 
 ![Aura Wallet Preview](app/newfullpage.jpeg)
 
-## 🚀 Key Features
-
-### 🧠 Claude Opus 4.7 — Max
-Powered by the most advanced AI models specifically trained on financial data. Aura analyzes news, on-chain signals, and social sentiment to execute trades autonomously.
-
 ### 📊 Professional Dashboard
+- **Performance Analytics**: High-fidelity charts showing Aura AI vs Market benchmarks, monthly returns, and key risk metrics (ROI, Drawdown, Win Rate).
+- **Market Data & News**: Real-time TradingView charts integrated with a global financial and political news feed (Google News RSS).
 - **Investments Overview**: Real-time asset allocation tracking with animated distribution charts.
 - **Active Strategies**: Live view of AI-managed positions (Long/Short) with real-time P&L.
-- **Recent Activity**: Comprehensive transaction logs with categorized AI operations.
 
 ### ⚡ Neural Onboarding
 A multi-step, AI-guided onboarding flow that calculates risk profiles and expected returns through a "Neural Optimization" loading state with real-time telemetry.
 
-### 🔐 Secure Deposits & QR System
-- **Multi-Network Support**: Support for BTC, ETH, SOL, and USDT across various networks.
+### 🔐 Secure Deposits (OxaPay)
+- **White-Label Integration**: Fully integrated OxaPay Merchant API for seamless crypto deposits without external redirects.
+- **Multi-Network Support**: Support for BTC, ETH, SOL, and USDT across various networks (TRC20, ERC20, BEP20).
 - **Dynamic QR Codes**: Secure, logo-integrated QR generation for wallet addresses using `qrcode.react`.
-- **Monochrome Asset Icons**: Curated monochromatic icons for a premium, clean look.
+- **Webhook Verification**: Production-ready webhook listener with HMAC SHA512 signature verification for secure transaction confirmation.
 
 ### 📰 Editorial Case Studies
 Dynamic, editorial-style case studies featuring real-world investment firms (Grayscale, BlockTower, Pantera) with detailed performance metrics and strategic insights.
@@ -35,8 +32,11 @@ Dynamic, editorial-style case studies featuring real-world investment firms (Gra
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
 - **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
 - **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Charts**: [Recharts](https://recharts.org/) for high-performance data visualization.
 - **AI Engine**: [Anthropic Claude Opus 4.7](https://www.anthropic.com/)
+- **Payment Gateway**: [OxaPay Merchant API](https://oxapay.com/)
 - **Icons**: [Lucide React](https://lucide.dev/) & [Simple Icons](https://simpleicons.org/)
+
 
 ## 🏁 Getting Started
 

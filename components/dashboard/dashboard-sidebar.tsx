@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
+
 import {
   LuChartBar,
   LuLayoutDashboard,
@@ -32,10 +34,15 @@ type DashboardSidebarProps = {
 };
 
 export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
+
   return (
     <aside className="relative z-20 w-full border-r border-white/10 bg-black/55 p-5 backdrop-blur-sm lg:flex lg:min-h-screen lg:w-72 lg:flex-col lg:p-6">
       <div className="flex-1">
-        <h2 className="mb-5 text-lg font-semibold text-white">Aura Dashboard</h2>
+        <div className="mb-8 flex items-center gap-2.5">
+          <Image src="/auralogo.png" alt="Aura Logo" width={32} height={32} className="rounded-lg shadow-lg" />
+          <h2 className="text-xl font-bold tracking-tight text-white">Aura</h2>
+        </div>
+
         <nav className="space-y-2">
           {navItems.map((item) => {
             const Icon = item.icon;
