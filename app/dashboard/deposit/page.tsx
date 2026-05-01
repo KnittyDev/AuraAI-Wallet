@@ -90,7 +90,8 @@ export default function DepositPage() {
         body: JSON.stringify({ 
           amount: Number(amount), 
           currency: "USD",
-          network: selectedNetwork.id
+          network: selectedNetwork.id,
+          asset: selectedAsset.code
         }),
       });
 
