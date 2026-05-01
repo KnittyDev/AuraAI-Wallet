@@ -93,7 +93,11 @@ export default function DepositPage() {
           amount: Number(amount), 
           currency: "USD",
           network: selectedNetwork.id,
+<<<<<<< HEAD
           assetId: selectedAsset.id
+=======
+          asset: selectedAsset.code
+>>>>>>> 4ce937868a97105bf2167952274c4d20ee675ecb
         }),
       });
 

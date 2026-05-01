@@ -1,5 +1,11 @@
 import { NextResponse } from "next/server";
 
+/**
+ * OxaPay White-Label API Integration
+ * Endpoint: https://api.oxapay.com/merchants/request/whitelabel
+ * Documentation: https://oxapay.com/docs/merchant/white-label
+ */
+
 export async function POST(req: Request) {
   try {
     const { amount, currency = "USD", network, assetId } = await req.json();
@@ -55,19 +61,20 @@ export async function POST(req: Request) {
 
     const data = await response.json();
 
-    if (data.result !== 100) {
+    if (data.result === 100 || data.status === 1 || data.message === "success") {
+      return NextResponse.json({ 
+        status: "success",
+        address: data.address,
+        expectedAmount: data.payAmount,
+        orderId: data.trackId || data.orderId || orderId,
+        currency: data.payCurrency || payCurrency
+      });
+    } else {
+      console.error("OxaPay API Error:", data);
       return NextResponse.json({ 
         error: data.message || "Failed to generate OxaPay payment" 
       }, { status: 400 });
     }
-
-    return NextResponse.json({ 
-      status: "success",
-      address: data.address,
-      expectedAmount: data.payAmount,
-      orderId: data.trackId, // Using trackId as orderId for tracking
-      currency: data.payCurrency
-    });
 
   } catch (error) {
     console.error("OxaPay Deposit API error:", error);
@@ -77,4 +84,3 @@ export async function POST(req: Request) {
     );
   }
 }
-
