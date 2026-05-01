@@ -55,8 +55,9 @@ export async function POST(req: Request) {
         payCurrency: payCurrency,
         network: oxaNetwork,
         orderId: orderId,
-        // callbackUrl: "https://your-site.com/api/callback/oxapay",
+        callbackUrl: "https://aura-ai-wallet.vercel.app/api/webhooks/oxapay",
       }),
+
     });
 
     const data = await response.json();
