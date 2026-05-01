@@ -8,7 +8,9 @@ import {
   LuWallet,
   LuWaypoints,
   LuPlus,
+  LuSparkles,
 } from "react-icons/lu";
+
 
 import { SiTether } from "react-icons/si";
 
@@ -25,9 +27,11 @@ const navItems: NavItem[] = [
   { label: "Deposit", href: "/dashboard/deposit", icon: LuPlus },
   { label: "Transactions", href: "/dashboard/transactions", icon: LuWaypoints },
   { label: "Performance", href: "/dashboard/performance", icon: LuChartBar },
+  { label: "Ask AI", href: "/dashboard/ask-ai", icon: LuSparkles },
 
   { label: "Settings", href: "#", icon: LuSettings },
 ];
+
 
 type DashboardSidebarProps = {
   currentPath: string;
