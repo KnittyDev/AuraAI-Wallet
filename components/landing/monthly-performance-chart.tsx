@@ -56,10 +56,12 @@ export function MonthlyPerformanceChart() {
               color: "#fff",
             }}
             labelStyle={{ color: "rgba(255,255,255,0.8)" }}
-            formatter={(value: number, name: string) => [
-              `$${Math.round(value).toLocaleString()}`,
-              name,
+            formatter={(value: any, name: any) => [
+              `$${Math.round(Number(value) || 0).toLocaleString()}`,
+              name || "",
             ]}
+
+
           />
           <Bar
             dataKey="profitUsd"

@@ -44,8 +44,9 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } },
+  visible: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 300, damping: 24 } },
 };
+
 
 export default function DepositPage() {
   const [selectedAsset, setSelectedAsset] = useState(ASSETS[0]);
@@ -59,6 +60,7 @@ export default function DepositPage() {
     address: string;
     expectedAmount: string;
     orderId: string;
+    currency?: string;
   } | null>(null);
 
   const handleAssetChange = (asset: typeof ASSETS[0]) => {
@@ -90,7 +92,8 @@ export default function DepositPage() {
         body: JSON.stringify({ 
           amount: Number(amount), 
           currency: "USD",
-          network: selectedNetwork.id
+          network: selectedNetwork.id,
+          assetId: selectedAsset.id
         }),
       });
 
@@ -101,6 +104,7 @@ export default function DepositPage() {
           address: data.address,
           expectedAmount: data.expectedAmount,
           orderId: data.orderId,
+          currency: data.currency
         });
       } else {
         setError(data.error || "Failed to generate deposit address.");
@@ -111,6 +115,7 @@ export default function DepositPage() {
       setIsLoading(false);
     }
   };
+
 
   return (
     <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-hidden">
@@ -339,7 +344,8 @@ export default function DepositPage() {
                       <div className="w-full max-w-md">
                         <div className="flex justify-between items-center px-2 mb-2">
                           <p className="text-[10px] font-bold tracking-widest text-white/30 uppercase">Amount to Send</p>
-                          <p className="text-sm font-bold text-white">{depositData.expectedAmount} {selectedAsset.code}</p>
+                          <p className="text-sm font-bold text-white">{depositData.expectedAmount} {depositData.currency || selectedAsset.code}</p>
+
                         </div>
                         <div className="relative group mb-6">
                           <div className={`absolute -inset-0.5 rounded-2xl blur opacity-20 group-hover:opacity-50 transition duration-500 ${selectedAsset.glow.replace("shadow-", "bg-")}`} />

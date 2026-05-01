@@ -46,9 +46,11 @@ export async function POST(request: Request) {
               controller.enqueue(encoder.encode(content));
             }
 
-            if (chunk.usage?.reasoningTokens) {
-              reasoningTokens = chunk.usage.reasoningTokens;
+            const usage = chunk.usage as any;
+            if (usage?.reasoning_tokens || usage?.reasoningTokens) {
+              reasoningTokens = usage.reasoning_tokens || usage.reasoningTokens;
             }
+
           }
 
           if (typeof reasoningTokens === "number") {
