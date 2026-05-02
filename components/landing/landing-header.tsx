@@ -25,12 +25,13 @@ export function LandingHeader() {
       </div>
 
       <div className="flex items-center gap-2">
-        <button
-          type="button"
+        <Link
+          href="/contact-sales"
           className="rounded-full border border-white/20 bg-white/5 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
         >
           Contact sales
-        </button>
+        </Link>
+
         <Link
           href="/login"
           className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-black transition hover:bg-white/85"
