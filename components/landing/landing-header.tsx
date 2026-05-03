@@ -21,15 +21,15 @@ export function LandingHeader() {
             priority
           />
         </Link>
-        
+
         <nav className="hidden lg:flex items-center gap-6">
           <Link href="/#pricing" className="text-sm font-medium text-white/50 hover:text-white transition-colors">Pricing</Link>
           <Link href="/#features" className="text-sm font-medium text-white/50 hover:text-white transition-colors">Features</Link>
           <Link href="/#results" className="text-sm font-medium text-white/50 hover:text-white transition-colors">Results</Link>
           <Link href="/#case-studies" className="text-sm font-medium text-white/50 hover:text-white transition-colors">Case Studies</Link>
-          
+
           {/* Resources Mega Menu Trigger */}
-          <div 
+          <div
             className="relative"
             onMouseEnter={() => setIsResourcesOpen(true)}
             onMouseLeave={() => setIsResourcesOpen(false)}
@@ -120,6 +120,8 @@ export function LandingHeader() {
           Try Now
         </Link>
       </div>
+
+
     </header>
   );
 }

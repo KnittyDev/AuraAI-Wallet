@@ -27,12 +27,15 @@ export function PromptCard() {
           Start for Free
           <LuArrowUpRight className="h-4 w-4" />
         </Link>
-        <Link
-          href="/login"
+        <a
+          href="https://calendly.com/auraai/30min"
+          target="_blank"
+          rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 py-4 text-sm font-bold text-white backdrop-blur transition hover:bg-white/10"
         >
-          Sign In
-        </Link>
+          Let's Talk
+        </a>
+
       </div>
 
       {/* Stats Row */}

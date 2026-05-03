@@ -9,7 +9,9 @@ import {
   LuWaypoints,
   LuPlus,
   LuSparkles,
+  LuLogOut,
 } from "react-icons/lu";
+
 
 
 import { SiTether } from "react-icons/si";
@@ -67,6 +69,14 @@ export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
               </Link>
             );
           })}
+          
+          <Link
+            href="/"
+            className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-white/40 hover:bg-red-500/10 hover:text-red-400 transition"
+          >
+            <LuLogOut className="h-4 w-4" />
+            <span>Logout</span>
+          </Link>
         </nav>
       </div>
 
@@ -84,6 +94,7 @@ export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
         </div>
       </div>
     </aside>
+
   );
 }
 
