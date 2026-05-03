@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform, animate } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, animate, AnimatePresence } from "framer-motion";
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
 import { AuroraBackground } from "@/components/landing/aurora-background";
 import { 
@@ -10,11 +10,19 @@ import {
   LuHistory, 
   LuSettings,
   LuTrendingUp,
-  LuShieldCheck
+  LuShieldCheck,
+  LuCreditCard,
+  LuCheck,
+  LuX
 } from "react-icons/lu";
+
+
 import { SiBitcoin, SiEthereum, SiSolana, SiTether } from "react-icons/si";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import auraLogo from "@/app/auralogo.png";
+
 
 
 const INITIAL_ASSETS = [
@@ -33,6 +41,10 @@ const TRANSACTIONS = [
 export default function WalletPage() {
   const [prices, setPrices] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [isPreOrdered, setIsPreOrdered] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+
 
   useEffect(() => {
     const fetchPrices = async () => {
@@ -129,7 +141,6 @@ export default function WalletPage() {
               animate={{ opacity: 1, scale: 1 }}
               className="lg:col-span-12 rounded-[2.5rem] border border-white/10 bg-white/[0.02] p-8 md:p-10 backdrop-blur-xl relative overflow-hidden group"
             >
-
               <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
                 <LuShieldCheck className="h-48 w-48 text-white rotate-12" />
               </div>
@@ -150,7 +161,6 @@ export default function WalletPage() {
                     +8.4%
                   </span>
                 </div>
-
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   <div>
@@ -177,61 +187,124 @@ export default function WalletPage() {
               </div>
             </motion.div>
 
+            {/* Assets & Promo Row */}
+            <div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
+              {/* Assets List */}
+              <div className="lg:col-span-8">
+                <div className="flex items-center justify-between mb-6 px-2">
+                  <h3 className="text-xl font-semibold text-white">Asset Breakdown</h3>
+                  <button className="text-white/40 hover:text-white transition-colors">
+                    <LuSettings className="h-5 w-5" />
+                  </button>
+                </div>
 
-
-
-            {/* Assets List */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="lg:col-span-12"
-            >
-              <div className="flex items-center justify-between mb-6 px-2">
-                <h3 className="text-xl font-semibold text-white">Asset Breakdown</h3>
-                <button className="text-white/40 hover:text-white transition-colors">
-                  <LuSettings className="h-5 w-5" />
-                </button>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {assetsWithPrices.map((asset, i) => (
+                    <motion.div
+                      key={asset.symbol}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      className="rounded-3xl border border-white/5 bg-white/[0.03] p-6 hover:bg-white/[0.06] transition-all cursor-pointer group"
+                    >
+                      <div className="flex items-center justify-between mb-6">
+                        <div className={`h-12 w-12 rounded-2xl bg-black flex items-center justify-center border border-white/10 group-hover:border-white/20 transition-colors`}>
+                          <asset.icon className={`h-6 w-6 ${asset.color}`} />
+                        </div>
+                        <span className={`text-[10px] font-bold px-2 py-1 rounded-lg ${
+                          Number(asset.change) >= 0 ? "bg-emerald-400/10 text-emerald-400" : "bg-red-400/10 text-red-400"
+                        }`}>
+                          {Number(asset.change) >= 0 ? "+" : ""}{asset.change}%
+                        </span>
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-medium text-white/50 mb-1">{asset.name}</h4>
+                        <div className="flex items-baseline gap-2">
+                          <p className="text-2xl font-semibold text-white">{asset.balance}</p>
+                          <span className="text-xs font-bold text-white/20">{asset.symbol}</span>
+                        </div>
+                        <div className="flex items-center justify-between mt-1">
+                          <p className="text-sm text-white/40">
+                            ${new Intl.NumberFormat("en-US").format(asset.value)}
+                          </p>
+                          <p className="text-[10px] text-white/20 font-mono">
+                            ${asset.price.toLocaleString()}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {assetsWithPrices.map((asset, i) => (
-                  <motion.div
-                    key={asset.symbol}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    className="rounded-3xl border border-white/5 bg-white/[0.03] p-6 hover:bg-white/[0.06] transition-all cursor-pointer group"
-                  >
+              {/* Crypto Card Promo */}
+              <div className="lg:col-span-4">
+                <div className="flex items-center justify-between mb-6 px-2">
+                  <h3 className="text-xl font-semibold text-white">Special Offer</h3>
+                </div>
+                <motion.div 
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className="rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-white/[0.05] to-transparent p-8 backdrop-blur-xl relative overflow-hidden flex flex-col justify-between h-full min-h-[400px]"
+                >
+                  <div className="relative z-10">
                     <div className="flex items-center justify-between mb-6">
-                      <div className={`h-12 w-12 rounded-2xl bg-black flex items-center justify-center border border-white/10 group-hover:border-white/20 transition-colors`}>
-                        <asset.icon className={`h-6 w-6 ${asset.color}`} />
+                      <div className="h-10 w-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/20">
+                        <LuCreditCard className="h-5 w-5 text-white" />
                       </div>
-                      <span className={`text-[10px] font-bold px-2 py-1 rounded-lg ${
-                        Number(asset.change) >= 0 ? "bg-emerald-400/10 text-emerald-400" : "bg-red-400/10 text-red-400"
-                      }`}>
-                        {Number(asset.change) >= 0 ? "+" : ""}{asset.change}%
-                      </span>
+                      <span className="text-[9px] font-bold tracking-widest text-white/20 uppercase border border-white/10 px-2 py-1 rounded-full">Coming Soon</span>
                     </div>
-                    <div>
-                      <h4 className="text-sm font-medium text-white/50 mb-1">{asset.name}</h4>
-                      <div className="flex items-baseline gap-2">
-                        <p className="text-2xl font-semibold text-white">{asset.balance}</p>
-                        <span className="text-xs font-bold text-white/20">{asset.symbol}</span>
-                      </div>
-                      <div className="flex items-center justify-between mt-1">
-                        <p className="text-sm text-white/40">
-                          ${new Intl.NumberFormat("en-US").format(asset.value)}
-                        </p>
-                        <p className="text-[10px] text-white/20 font-mono">
-                          ${asset.price.toLocaleString()}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
+                    <h3 className="text-2xl font-bold text-white mb-2 leading-tight">Aura Elite <br />Crypto Bank Card</h3>
+                    <p className="text-sm text-white/50 leading-relaxed mb-6">Spend your crypto anywhere in the world. 0% fees, 3% cashback.</p>
+                    
+                    {/* Physical Card Mockup */}
+                    <div className="relative w-full aspect-[1.586/1] mb-8 group cursor-pointer">
+                      <div className="absolute inset-0 bg-gradient-to-br from-zinc-800 to-black rounded-2xl border border-white/10 shadow-2xl flex flex-col justify-between p-6 transition-transform group-hover:rotate-[-2deg] group-hover:scale-[1.02]">
+                          <div className="flex justify-between items-start">
+                            <div className="flex items-center gap-2">
+                               <Image src={auraLogo} alt="Aura Logo" width={24} height={24} className="rounded-md" />
+                               <span className="text-[10px] font-bold tracking-widest text-white/90 uppercase">Aura</span>
+                            </div>
+                            <div className="text-right">
+                              <p className="text-[8px] font-bold tracking-widest text-white/40 uppercase">Elite</p>
+                            </div>
+                          </div>
 
+                          <div className="space-y-4">
+                            <p className="text-lg font-mono tracking-widest text-white/80">•••• •••• •••• 8842</p>
+                            <div className="flex justify-between items-end">
+                              <p className="text-[10px] font-medium tracking-widest text-white/40 uppercase">Aura Platinum</p>
+                              <div className="flex -space-x-2">
+                                  <div className="h-6 w-6 rounded-full bg-red-500/80" />
+                                  <div className="h-6 w-6 rounded-full bg-orange-500/80" />
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => setShowModal(true)}
+                    disabled={isPreOrdered}
+                    className={`w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${
+                      isPreOrdered 
+                      ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400" 
+                      : "bg-white text-black hover:bg-white/90 active:scale-95"
+                    }`}
+                  >
+                    {isPreOrdered ? (
+                      <>
+                        <LuCheck className="h-4 w-4" />
+                        Elite Card Reserved
+                      </>
+                    ) : (
+                      <>Pre-order Card</>
+                    )}
+                  </button>
+                </motion.div>
+              </div>
+            </div>
 
             {/* Recent Activity */}
             <motion.div 
@@ -300,6 +373,78 @@ export default function WalletPage() {
           </div>
         </div>
       </section>
+
+      {/* Pre-order Modal */}
+      <AnimatePresence>
+        {showModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowModal(false)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-md"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-lg rounded-[2.5rem] border border-white/10 bg-zinc-900 p-8 md:p-12 shadow-2xl overflow-hidden"
+            >
+              {/* Modal Background Detail */}
+              <div className="absolute -top-24 -right-24 h-64 w-64 bg-emerald-500/10 blur-[80px] rounded-full" />
+              
+              <button 
+                onClick={() => setShowModal(false)}
+                className="absolute top-8 right-8 text-white/20 hover:text-white transition-colors"
+              >
+                <LuX className="h-6 w-6" />
+              </button>
+
+              <div className="relative z-10 text-center">
+                <div className="h-16 w-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-6">
+                  <LuCreditCard className="h-8 w-8 text-white" />
+                </div>
+                
+                <h2 className="text-3xl font-bold text-white mb-4">Reserve Your Aura Elite Card</h2>
+                <p className="text-white/50 text-sm leading-relaxed mb-10">
+                  Be among the first to experience institutional spending. Join the priority waitlist for the Aura Elite Crypto Bank Card.
+                </p>
+
+                {/* Card Preview Small */}
+                <div className="bg-black/40 rounded-3xl p-6 border border-white/5 mb-10">
+                   <div className="flex items-center gap-4 text-left">
+                      <div className="h-12 w-16 bg-zinc-800 rounded-lg border border-white/10 relative overflow-hidden">
+                         <div className="absolute top-2 left-2 h-2 w-3 bg-amber-500/50 rounded-sm" />
+                         <div className="absolute bottom-2 right-2 flex -space-x-1">
+                            <div className="h-3 w-3 rounded-full bg-red-500/40" />
+                            <div className="h-3 w-3 rounded-full bg-orange-500/40" />
+                         </div>
+                      </div>
+                      <div>
+                         <p className="text-white font-bold text-sm">Aura Elite Platinum</p>
+                         <p className="text-white/30 text-[10px] uppercase tracking-widest">Priority Status: Active</p>
+                      </div>
+                   </div>
+                </div>
+
+                <div className="space-y-4">
+                  <button
+                    onClick={() => {
+                      setIsPreOrdered(true);
+                      setShowModal(false);
+                    }}
+                    className="w-full py-5 rounded-2xl bg-white text-black font-bold hover:bg-white/90 transition-all active:scale-[0.98]"
+                  >
+                    Confirm Pre-order
+                  </button>
+                  <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] font-bold">No hidden fees • Instant activation upon release</p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }
