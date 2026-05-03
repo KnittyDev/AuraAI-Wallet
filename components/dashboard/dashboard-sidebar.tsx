@@ -31,8 +31,8 @@ const navItems: NavItem[] = [
   { label: "My Wallet", href: "/dashboard/wallet", icon: LuWallet },
   { label: "Market Data", href: "/dashboard/market-data", icon: LuChartBar },
   { label: "Investments", href: "/dashboard/investments", icon: LuTrendingUp },
-  { label: "Deposit", href: "/dashboard/deposit", icon: LuPlus },
   { label: "Transactions", href: "/dashboard/transactions", icon: LuWaypoints },
+
 
   { label: "Performance", href: "/dashboard/performance", icon: LuActivity },
 
@@ -50,7 +50,8 @@ type DashboardSidebarProps = {
 export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
 
   return (
-    <aside className="relative z-20 w-full border-r border-white/10 bg-black/55 p-5 backdrop-blur-sm lg:flex lg:min-h-screen lg:w-72 lg:flex-col lg:p-6">
+    <aside className="relative z-20 w-full border-r border-white/10 bg-black/55 p-5 backdrop-blur-sm lg:flex lg:h-screen lg:w-72 lg:flex-col lg:p-6 lg:sticky lg:top-0">
+
       <div className="flex-1">
         <div className="mb-8 flex items-center gap-2.5">
           <Image src="/auralogo.png" alt="Aura Logo" width={32} height={32} className="rounded-lg shadow-lg" />
@@ -88,8 +89,11 @@ export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
         </nav>
       </div>
 
-      <div className="mt-8 lg:mt-auto">
+      <div className="lg:mt-auto mt-10 mb-6">
+
+
         <div className="flex items-center gap-3 rounded-2xl border border-emerald-300/25 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 px-4 py-3 shadow-[0_10px_30px_rgba(16,185,129,0.15)]">
+
           <div className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-emerald-300/30 bg-emerald-500/15 text-emerald-200">
             <SiTether className="h-4 w-4" />
           </div>

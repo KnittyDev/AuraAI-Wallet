@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, animate } from "framer-motion";
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
 import { AuroraBackground } from "@/components/landing/aurora-background";
 import { 
@@ -14,7 +14,8 @@ import {
 } from "react-icons/lu";
 import { SiBitcoin, SiEthereum, SiSolana, SiTether } from "react-icons/si";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+
 
 const INITIAL_ASSETS = [
   { id: "bitcoin", name: "Bitcoin", symbol: "BTC", balance: 0.42, icon: SiBitcoin, color: "text-white/60" },
@@ -66,6 +67,23 @@ export default function WalletPage() {
 
   const totalBalance = assetsWithPrices.reduce((acc, asset) => acc + asset.value, 0);
 
+  // Animation for the balance counter
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, (latest) => 
+    new Intl.NumberFormat("en-US", { 
+      minimumFractionDigits: 2, 
+      maximumFractionDigits: 2 
+    }).format(latest)
+  );
+
+  useEffect(() => {
+    if (!loading && totalBalance > 0) {
+      const controls = animate(count, totalBalance, { duration: 1.5, ease: "easeOut" });
+      return controls.stop;
+    }
+  }, [loading, totalBalance, count]);
+
+
   return (
     <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-hidden">
       <AuroraBackground />
@@ -96,10 +114,11 @@ export default function WalletPage() {
                 <LuArrowDownLeft className="h-4 w-4" />
                 Deposit
               </Link>
-              <button className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-white font-bold text-sm hover:bg-white/10 transition-all">
+              <Link href="/dashboard/withdraw" className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-white font-bold text-sm hover:bg-white/10 transition-all">
                 <LuArrowUpRight className="h-4 w-4" />
                 Withdraw
-              </button>
+              </Link>
+
             </div>
           </motion.header>
 
@@ -108,8 +127,9 @@ export default function WalletPage() {
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="lg:col-span-8 rounded-[2.5rem] border border-white/10 bg-white/[0.02] p-8 md:p-10 backdrop-blur-xl relative overflow-hidden group"
+              className="lg:col-span-12 rounded-[2.5rem] border border-white/10 bg-white/[0.02] p-8 md:p-10 backdrop-blur-xl relative overflow-hidden group"
             >
+
               <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
                 <LuShieldCheck className="h-48 w-48 text-white rotate-12" />
               </div>
@@ -122,14 +142,15 @@ export default function WalletPage() {
                 </div>
 
                 <div className="flex items-baseline gap-4 mb-8">
-                  <h2 className="text-6xl font-medium tracking-tight text-white">
-                    ${new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(totalBalance)}
-                  </h2>
+                  <motion.h2 className="text-6xl font-medium tracking-tight text-white">
+                    $<motion.span>{rounded}</motion.span>
+                  </motion.h2>
                   <span className="flex items-center gap-1 text-emerald-400 text-sm font-bold bg-emerald-400/10 px-2 py-0.5 rounded-lg">
                     <LuTrendingUp className="h-3 w-3" />
                     +8.4%
                   </span>
                 </div>
+
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   <div>
@@ -156,27 +177,8 @@ export default function WalletPage() {
               </div>
             </motion.div>
 
-            {/* Quick Actions */}
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="lg:col-span-4 flex flex-col gap-4"
-            >
-              <div className="flex-1 rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-cyan-500/10 to-transparent p-8 backdrop-blur-md">
-                <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-4">AI Insight</p>
-                <p className="text-sm leading-relaxed text-white/70">
-                  Real-time market analysis active. 
-                  {assetsWithPrices[2].change > "10" ? (
-                    <>Your Solana position has increased significantly. Aura AI recommends a partial rebalance.</>
-                  ) : (
-                    <>Portfolio optimization in progress. Current allocations are within institutional risk parameters.</>
-                  )}
-                </p>
-                <button className="mt-6 w-full py-3 rounded-xl bg-white/10 border border-white/20 text-white text-xs font-bold uppercase tracking-widest hover:bg-white/20 transition-all">
-                  Optimize Now
-                </button>
-              </div>
-            </motion.div>
+
+
 
             {/* Assets List */}
             <motion.div 
