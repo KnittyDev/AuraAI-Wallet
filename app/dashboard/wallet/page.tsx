@@ -296,10 +296,10 @@ export default function WalletPage() {
                     {isPreOrdered ? (
                       <>
                         <LuCheck className="h-4 w-4" />
-                        Elite Card Reserved
+                        Reminder Set
                       </>
                     ) : (
-                      <>Pre-order Card</>
+                      <>Remind Me</>
                     )}
                   </button>
                 </motion.div>
@@ -406,7 +406,7 @@ export default function WalletPage() {
                   <LuCreditCard className="h-8 w-8 text-white" />
                 </div>
                 
-                <h2 className="text-3xl font-bold text-white mb-4">Reserve Your Aura Elite Card</h2>
+                <h2 className="text-3xl font-bold text-white mb-4">Get Card Launch Updates</h2>
                 <p className="text-white/50 text-sm leading-relaxed mb-10">
                   Be among the first to experience institutional spending. Join the priority waitlist for the Aura Elite Crypto Bank Card.
                 </p>
@@ -436,7 +436,7 @@ export default function WalletPage() {
                     }}
                     className="w-full py-5 rounded-2xl bg-white text-black font-bold hover:bg-white/90 transition-all active:scale-[0.98]"
                   >
-                    Confirm Pre-order
+                    Remind Me
                   </button>
                   <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] font-bold">No hidden fees • Instant activation upon release</p>
                 </div>
