@@ -17,11 +17,12 @@ import { SiTether, SiBitcoin, SiEthereum, SiSolana } from "react-icons/si";
 import { QRCodeSVG } from "qrcode.react";
 
 const ASSETS = [
-  { id: "usdt", name: "Tether", code: "USDT", icon: SiTether, color: "text-[#26A17B]", bgHover: "hover:bg-[#26A17B]/10", borderActive: "border-[#26A17B]/50", glow: "shadow-[0_0_30px_rgba(38,161,123,0.3)]" },
-  { id: "btc", name: "Bitcoin", code: "BTC", icon: SiBitcoin, color: "text-[#F7931A]", bgHover: "hover:bg-[#F7931A]/10", borderActive: "border-[#F7931A]/50", glow: "shadow-[0_0_30px_rgba(247,147,26,0.3)]" },
-  { id: "eth", name: "Ethereum", code: "ETH", icon: SiEthereum, color: "text-[#627EEA]", bgHover: "hover:bg-[#627EEA]/10", borderActive: "border-[#627EEA]/50", glow: "shadow-[0_0_30px_rgba(98,126,234,0.3)]" },
-  { id: "sol", name: "Solana", code: "SOL", icon: SiSolana, color: "text-[#14F195]", bgHover: "hover:bg-[#14F195]/10", borderActive: "border-[#14F195]/50", glow: "shadow-[0_0_30px_rgba(20,241,149,0.3)]" },
+  { id: "usdt", name: "Tether", code: "USDT", icon: SiTether, color: "text-white/60", bgHover: "hover:bg-white/5", borderActive: "border-white/50", glow: "shadow-[0_0_30px_rgba(255,255,255,0.1)]" },
+  { id: "btc", name: "Bitcoin", code: "BTC", icon: SiBitcoin, color: "text-white/60", bgHover: "hover:bg-white/5", borderActive: "border-white/50", glow: "shadow-[0_0_30px_rgba(255,255,255,0.1)]" },
+  { id: "eth", name: "Ethereum", code: "ETH", icon: SiEthereum, color: "text-white/60", bgHover: "hover:bg-white/5", borderActive: "border-white/50", glow: "shadow-[0_0_30px_rgba(255,255,255,0.1)]" },
+  { id: "sol", name: "Solana", code: "SOL", icon: SiSolana, color: "text-white/60", bgHover: "hover:bg-white/5", borderActive: "border-white/50", glow: "shadow-[0_0_30px_rgba(255,255,255,0.1)]" },
 ];
+
 
 const NETWORKS: Record<string, { id: string; name: string; fee: string; time: string }[]> = {
   usdt: [
@@ -232,7 +233,7 @@ export default function DepositPage() {
                 <div className="absolute top-0 right-0 p-8 opacity-20 pointer-events-none">
                   <LuShieldCheck className="h-48 w-48 text-white/10 rotate-12" />
                 </div>
-                <div className={`absolute -inset-20 bg-gradient-to-r from-transparent via-white/5 to-transparent blur-3xl rounded-full transition-opacity duration-1000 ${selectedAsset.glow.replace("shadow", "bg")}`} style={{ opacity: 0.1 }} />
+                <div className={`absolute -inset-20 bg-gradient-to-r from-transparent via-white/10 to-transparent blur-3xl rounded-full transition-opacity duration-1000 bg-white/5`} style={{ opacity: 0.1 }} />
 
                 <div className="relative z-10 flex flex-col items-center">
                   {!depositData ? (
@@ -246,7 +247,7 @@ export default function DepositPage() {
                         <div className="space-y-2">
                           <label className="text-sm font-medium text-white/60">Amount in USD</label>
                           <div className="relative group">
-                            <div className={`absolute -inset-0.5 rounded-2xl blur opacity-20 group-hover:opacity-50 transition duration-500 ${selectedAsset.glow.replace("shadow-", "bg-")}`} />
+                            <div className="absolute -inset-0.5 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500 bg-white" />
                             <div className="relative flex items-center px-4 py-1 rounded-2xl border border-white/20 bg-black/60 backdrop-blur-md">
                               <span className="text-white/40 text-xl font-medium">$</span>
                               <input
@@ -261,6 +262,7 @@ export default function DepositPage() {
                           </div>
                           {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
                         </div>
+
 
                         <div className="p-5 rounded-2xl border border-white/5 bg-white/[0.03] backdrop-blur-sm space-y-4">
                           <div className="flex justify-between items-center text-sm">
@@ -322,7 +324,7 @@ export default function DepositPage() {
                       </div>
 
                       <div className="relative mb-8 group">
-                        <div className={`absolute -inset-4 rounded-[40px] blur-xl opacity-30 group-hover:opacity-60 transition-opacity duration-500 ${selectedAsset.glow.replace("shadow-", "shadow-")}`} />
+                        <div className="absolute -inset-4 rounded-[40px] blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500 bg-white" />
                         <div className="relative p-6 rounded-3xl bg-white flex items-center justify-center w-[240px] h-[240px] shadow-2xl transform transition-transform group-hover:scale-105 duration-300">
                           <QRCodeSVG
                             value={depositData.address}
@@ -348,12 +350,13 @@ export default function DepositPage() {
 
                         </div>
                         <div className="relative group mb-6">
-                          <div className={`absolute -inset-0.5 rounded-2xl blur opacity-20 group-hover:opacity-50 transition duration-500 ${selectedAsset.glow.replace("shadow-", "bg-")}`} />
+                          <div className="absolute -inset-0.5 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500 bg-white" />
                           <div className="relative flex items-center gap-4 p-5 rounded-2xl border border-white/20 bg-black/60 backdrop-blur-md">
                             <div className="flex-1 min-w-0">
                               <p className="text-[9px] font-bold tracking-widest text-white/30 uppercase mb-1">Deposit Address</p>
                               <p className="text-sm font-mono text-white truncate">{depositData.address}</p>
                             </div>
+
                             <button 
                               onClick={copyAddress}
                               className={`flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 active:scale-95 shrink-0 ${
