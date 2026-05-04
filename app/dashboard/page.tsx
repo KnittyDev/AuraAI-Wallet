@@ -3,7 +3,7 @@
 import { DashboardHoldingsTable } from "@/components/dashboard/dashboard-holdings-table";
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
 import { DashboardStatCard } from "@/components/dashboard/dashboard-stat-card";
-import { LuPlus, LuLoader } from "react-icons/lu";
+import { LuPlus, LuLoader, LuWallet, LuArrowUpRight } from "react-icons/lu";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
@@ -33,18 +33,21 @@ export default function DashboardPage() {
   const [prices, setPrices] = useState<Record<string, number>>({});
   const [changes, setChanges] = useState<Record<string, number>>({});
   const [availableUSDT, setAvailableUSDT] = useState(0);
+  const [totalProfit, setTotalProfit] = useState(0);
+  const [profit24h, setProfit24h] = useState(0);
+  const [profitsMap, setProfitsMap] = useState<Record<string, number>>({});
+  const [profits24hMap, setProfits24hMap] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
-  const [totalInvested, setTotalInvested] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      // Fetch balances, investments and prices in parallel
-      const [balanceRes, investmentRes, priceRes] = await Promise.all([
+      const [balanceRes, investmentRes, profitRes, priceRes] = await Promise.all([
         supabase.from('balances').select('amount').eq('user_id', user.id).eq('asset_code', 'USDT').single(),
         supabase.from('investments').select('*').eq('user_id', user.id).eq('status', 'active'),
+        supabase.from('ai_actions').select('investment_id, profit_usd, created_at').eq('user_id', user.id),
         fetch('/api/prices')
           .then(res => res.json())
           .catch(() => ({
@@ -78,14 +81,45 @@ export default function DashboardPage() {
 
       if (!investmentRes.error && investmentRes.data) {
         setInvestments(investmentRes.data);
-        const total = investmentRes.data.reduce((acc, curr) => acc + Number(curr.amount), 0);
-        setTotalInvested(total);
+      }
+
+      if (!profitRes.error && profitRes.data) {
+        const total = profitRes.data.reduce((acc, p) => acc + Number(p.profit_usd || 0), 0);
+        setTotalProfit(total);
+
+        // Map profits by investment_id
+        const pMap: Record<string, number> = {};
+        profitRes.data.forEach(p => {
+          if (p.investment_id) {
+            pMap[p.investment_id] = (pMap[p.investment_id] || 0) + Number(p.profit_usd || 0);
+          }
+        });
+        setProfitsMap(pMap);
+
+        const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
+        const t24hActions = profitRes.data.filter(p => new Date(p.created_at) > yesterday);
+        
+        // Overall 24h profit
+        const t24h = t24hActions.reduce((acc, p) => acc + Number(p.profit_usd || 0), 0);
+        setProfit24h(t24h);
+
+        // Per-investment 24h profit
+        const p24Map: Record<string, number> = {};
+        t24hActions.forEach(p => {
+          if (p.investment_id) {
+            p24Map[p.investment_id] = (p24Map[p.investment_id] || 0) + Number(p.profit_usd || 0);
+          }
+        });
+        setProfits24hMap(p24Map);
       }
       setLoading(false);
     }
 
     fetchData();
   }, []);
+
+  const totalInvested = investments.reduce((acc, inv) => acc + Number(inv.amount), 0);
+  const profitPercentage24h = totalInvested > 0 ? (profit24h / totalInvested) * 100 : 0;
 
   if (loading) {
     return (
@@ -137,12 +171,14 @@ export default function DashboardPage() {
             <DashboardStatCard
               title="Total capital invested"
               value={`$${totalInvested.toLocaleString(undefined, { maximumFractionDigits: 2 })}`}
-              note="+0.0% from last month"
+              note={`${profitPercentage24h >= 0 ? "+" : ""}${profitPercentage24h.toFixed(2)}% (24h yield)`}
+              trend={profitPercentage24h >= 0 ? "up" : "down"}
             />
             <DashboardStatCard
-              title="Monthly profit"
-              value="$0.00"
-              note="Aura AI strategy projection"
+              title="Net Profit"
+              value={`$${totalProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+              note="All-time AuraAI earnings"
+              trend={totalProfit >= 0 ? "up" : "down"}
             />
             <DashboardStatCard
               title="Available USDT"
@@ -151,7 +187,13 @@ export default function DashboardPage() {
             />
           </div>
 
-          <DashboardHoldingsTable investments={investments} prices={prices} changes={changes} />
+          <DashboardHoldingsTable 
+            investments={investments} 
+            prices={prices} 
+            changes={changes} 
+            profits={profitsMap} 
+            profits24h={profits24hMap} 
+          />
         </section>
       </div>
     </main>

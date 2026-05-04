@@ -90,7 +90,7 @@ export default function InvestmentsPage() {
 
   const stats = [
     { label: "Total Capital", value: `$${totalCapital.toLocaleString()}`, note: "Invested in strategies", up: true },
-    { label: "Total Net Profit", value: `$${totalProfit.toLocaleString(undefined, { minimumFractionDigits: 2 })}`, note: "Realized earnings", up: totalProfit >= 0 },
+    { label: "Total Net Profit", value: `$${totalProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, note: "Realized earnings", up: totalProfit >= 0 },
     { label: "Active Strategies", value: activeCount.toString(), note: "Currently managed by AI", up: true },
     { label: "AI Engine", value: "AuraAI", note: "Online & Scanning", up: true },
   ];
@@ -183,7 +183,7 @@ export default function InvestmentsPage() {
                       <td className="px-8 py-5 font-mono text-sm text-white/80">${Number(inv.amount).toLocaleString()}</td>
                       <td className="px-8 py-5">
                         <span className={`font-mono text-sm font-bold ${profits[inv.id] >= 0 ? "text-emerald-400" : "text-red-400"}`}>
-                          {profits[inv.id] >= 0 ? "+" : ""}{Number(profits[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })} USDT
+                          {profits[inv.id] >= 0 ? "+" : ""}{Number(profits[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT
                         </span>
                       </td>
                       <td className="px-8 py-5">
