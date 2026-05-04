@@ -1,4 +1,5 @@
 import { AuroraBackground } from "@/components/landing/aurora-background";
+import { BrandMarquee } from "@/components/landing/brand-marquee";
 import { CaseStudiesSection } from "@/components/landing/case-studies-section";
 import { FeatureShowcaseSection } from "@/components/landing/feature-showcase-section";
 import { LandingHeader } from "@/components/landing/landing-header";
@@ -26,6 +27,7 @@ export default function Home() {
         <section className="mx-auto mt-16 flex w-full max-w-6xl flex-1 flex-col items-center text-center md:mt-20">
           <LandingHero />
           <PromptCard />
+          <BrandMarquee />
           <div id="pricing" className="w-full">
             <PricingSection />
           </div>

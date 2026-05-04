@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { LuArrowUpRight } from "react-icons/lu";
 
 export function LandingHero() {
   return (
@@ -36,6 +38,25 @@ export function LandingHero() {
         Aura AI continuously analyzes markets, manages risk, and executes trades — 
         so your portfolio keeps working even when you don't.
       </p>
+
+      {/* Hero CTA Buttons */}
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
+        <Link
+          href="/register"
+          className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-bold text-black shadow-[0_0_40px_rgba(255,255,255,0.15)] transition hover:bg-white/90 hover:scale-105 active:scale-95"
+        >
+          Start for Free
+          <LuArrowUpRight className="h-4 w-4" />
+        </Link>
+        <a
+          href="https://calendly.com/auraai/30min"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 py-4 text-sm font-bold text-white backdrop-blur transition hover:bg-white/10"
+        >
+          Let's Talk
+        </a>
+      </div>
     </motion.div>
   );
 }
