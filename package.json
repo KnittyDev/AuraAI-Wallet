@@ -12,6 +12,7 @@
     "@firecms/neat": "^0.8.0",
     "@openrouter/sdk": "^0.12.21",
     "@paper-design/shaders-react": "^0.0.76",
+    "@supabase/supabase-js": "^2.105.3",
     "framer-motion": "^12.38.0",
     "lightweight-charts": "^5.2.0",
     "lucide-react": "^1.11.0",

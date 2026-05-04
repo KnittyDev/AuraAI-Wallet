@@ -29,13 +29,13 @@ interface Transaction {
 }
 
 const MOCK_TRANSACTIONS: Transaction[] = [
-  { id: "1", type: "Deposit", asset: "USDT", amount: "+12,000.00", status: "Completed", date: "2024-04-27 14:30", txId: "0x742...f44e" },
-  { id: "2", type: "Trade", asset: "BTC", amount: "0.24500", status: "Completed", date: "2024-04-26 09:15", txId: "0x891...a12c" },
-  { id: "3", type: "Profit", asset: "USDT", amount: "+450.25", status: "Completed", date: "2024-04-25 23:50", txId: "Internal" },
-  { id: "4", type: "Withdrawal", asset: "ETH", amount: "-1.20000", status: "Pending", date: "2024-04-25 11:20", txId: "0x452...b992" },
-  { id: "5", type: "Rebalance", asset: "SOL/ETH", amount: "Re-weighted", status: "Completed", date: "2024-04-24 18:45", txId: "Internal" },
-  { id: "6", type: "Deposit", asset: "SOL", amount: "+50.00", status: "Completed", date: "2024-04-23 16:10", txId: "4j3W...r6r" },
-  { id: "7", type: "Trade", asset: "ETH", amount: "2.50000", status: "Failed", date: "2024-04-22 08:30", txId: "0x112...c441" },
+  { id: "1", type: "Deposit", asset: "USDT", amount: "+12,000.00", status: "Completed", date: "2026-05-04 14:30", txId: "0x742...f44e" },
+  { id: "2", type: "Trade", asset: "BTC", amount: "0.24500", status: "Completed", date: "2026-05-04 09:15", txId: "0x891...a12c" },
+  { id: "3", type: "Profit", asset: "USDT", amount: "+450.25", status: "Completed", date: "2026-05-03 23:50", txId: "Internal" },
+  { id: "4", type: "Withdrawal", asset: "ETH", amount: "-1.20000", status: "Pending", date: "2026-05-03 11:20", txId: "0x452...b992" },
+  { id: "5", type: "Rebalance", asset: "SOL/ETH", amount: "Re-weighted", status: "Completed", date: "2026-05-02 18:45", txId: "Internal" },
+  { id: "6", type: "Deposit", asset: "SOL", amount: "+50.00", status: "Completed", date: "2026-05-01 16:10", txId: "4j3W...r6r" },
+  { id: "7", type: "Trade", asset: "ETH", amount: "2.50000", status: "Failed", date: "2026-04-30 08:30", txId: "0x112...c441" },
 ];
 
 const TYPE_ICONS: Record<TransactionType, any> = {

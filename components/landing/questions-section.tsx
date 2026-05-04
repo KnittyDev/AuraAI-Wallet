@@ -53,6 +53,11 @@ const questions: QuestionItem[] = [
     answer:
       "Operating a 24/7 autonomous AI requires significant compute resources. Your subscription directly covers the high cost of Claude Opus 4.7 tokens (which Aura 'burns' as it analyzes data), high-frequency market data streams, and the secure cloud infrastructure required to execute trades with millisecond latency across global markets.",
   },
+  {
+    question: "Is manual approval required for deposits or withdrawals?",
+    answer:
+      "Absolutely not. When you create an account, your crypto wallets are automatically generated. Deposits and withdrawals are handled automatically by the system and the blockchain exclusively through these dedicated wallets, ensuring a seamless and fully autonomous experience.",
+  },
 ];
 
 export function QuestionsSection() {

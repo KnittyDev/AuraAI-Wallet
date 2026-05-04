@@ -10,7 +10,44 @@ import Image from "next/image";
 
 import auralogo from "@/app/auralogo.png";
 
+import { supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
 export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+    } else {
+      router.push("/dashboard");
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+  };
+
   return (
     <div className="relative min-h-screen bg-[#0A0A0A] text-white flex flex-col overflow-hidden">
       {/* Sticky Navigation */}
@@ -42,7 +79,10 @@ export default function LoginPage() {
             <div className="space-y-4">
               {/* Login Card */}
               <div className="rounded-[2.5rem] border border-white/5 bg-white/[0.02] p-8 backdrop-blur-xl">
-                <button className="w-full flex items-center justify-center gap-3 bg-black border border-white/10 rounded-2xl py-3.5 hover:bg-white/5 transition-all group">
+                <button 
+                  onClick={handleGoogleLogin}
+                  className="w-full flex items-center justify-center gap-3 bg-black border border-white/10 rounded-2xl py-3.5 hover:bg-white/5 transition-all group"
+                >
                   <FcGoogle className="h-5 w-5" />
                   <span className="text-sm font-semibold">Continue with Google</span>
                 </button>
@@ -54,26 +94,52 @@ export default function LoginPage() {
                   <span className="relative bg-[#0F0F0F] px-4 text-[10px] font-bold uppercase tracking-widest text-white/20">OR</span>
                 </div>
 
-                <div className="space-y-4">
-                  <input 
-                    type="email" 
-                    placeholder="Enter your email"
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-3.5 px-5 text-sm focus:outline-none focus:border-white/20 transition-all placeholder:text-white/20"
-                  />
-                  <Link
-                    href="/dashboard"
-                    className="w-full flex items-center justify-center bg-white text-black rounded-2xl py-3.5 text-sm font-bold hover:bg-white/90 transition-all"
+                <form onSubmit={handleLogin} className="space-y-4">
+                  <div>
+                    <input 
+                      type="email" 
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-3.5 px-5 text-sm focus:outline-none focus:border-white/20 transition-all placeholder:text-white/20"
+                    />
+                  </div>
+                  <div>
+                    <input 
+                      type="password" 
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-3.5 px-5 text-sm focus:outline-none focus:border-white/20 transition-all placeholder:text-white/20"
+                    />
+                  </div>
+
+                  {error && <p className="text-red-400 text-xs px-1">{error}</p>}
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full flex items-center justify-center bg-white text-black rounded-2xl py-3.5 text-sm font-bold hover:bg-white/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Continue with email
-                  </Link>
-                </div>
+                    {loading ? "Signing in..." : "Continue with email"}
+                  </button>
+                </form>
 
                 <p className="mt-6 text-center text-[10px] text-white/30">
                   By continuing, you acknowledge Aura's <Link href="/privacy" className="underline hover:text-white transition-colors">Privacy Policy</Link>.
                 </p>
               </div>
 
-              <button className="w-full flex items-center justify-center gap-2 py-4 text-white/30 hover:text-white transition-all text-xs font-bold uppercase tracking-widest">
+              <p className="mt-8 text-center text-sm text-white/50">
+                Don&apos;t have an account?{" "}
+                <Link href="/register" className="text-white font-bold hover:underline underline-offset-4 transition-all">
+                  Create one
+                </Link>
+              </p>
+
+              <button className="w-full flex items-center justify-center gap-2 py-4 text-white/30 hover:text-white transition-all text-xs font-bold uppercase tracking-widest mt-4">
                 <LuMonitor className="h-4 w-4" />
                 Download desktop app
               </button>
