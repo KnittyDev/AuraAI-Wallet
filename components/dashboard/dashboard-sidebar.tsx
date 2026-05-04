@@ -1,5 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 import {
   LuChartBar,
@@ -7,16 +11,11 @@ import {
   LuSettings,
   LuWallet,
   LuWaypoints,
-  LuPlus,
   LuSparkles,
   LuLogOut,
   LuTrendingUp,
   LuActivity,
 } from "react-icons/lu";
-
-
-
-
 
 import { SiTether } from "react-icons/si";
 
@@ -32,26 +31,56 @@ const navItems: NavItem[] = [
   { label: "Market Data", href: "/dashboard/market-data", icon: LuChartBar },
   { label: "Investments", href: "/dashboard/investments", icon: LuTrendingUp },
   { label: "Transactions", href: "/dashboard/transactions", icon: LuWaypoints },
-
-
   { label: "Performance", href: "/dashboard/performance", icon: LuActivity },
-
-
   { label: "Ask AI", href: "/dashboard/ask-ai", icon: LuSparkles },
-
   { label: "Settings", href: "#", icon: LuSettings },
 ];
-
 
 type DashboardSidebarProps = {
   currentPath: string;
 };
 
 export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
+  const [totalBalance, setTotalBalance] = useState(0);
+
+  useEffect(() => {
+    async function fetchTotalBalance() {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const [balanceRes, priceRes] = await Promise.all([
+          supabase.from('balances').select('asset_code, amount').eq('user_id', user.id),
+          fetch('/api/prices').then(res => res.json())
+        ]);
+
+        if (!balanceRes.error && balanceRes.data) {
+          const prices: Record<string, number> = {
+            BTC: priceRes.bitcoin?.usd || 0,
+            ETH: priceRes.ethereum?.usd || 0,
+            SOL: priceRes.solana?.usd || 0,
+            USDT: priceRes.tether?.usd || 1,
+          };
+
+          const total = balanceRes.data.reduce((acc, curr) => {
+            const price = prices[curr.asset_code] || 0;
+            return acc + (Number(curr.amount) * price);
+          }, 0);
+
+          setTotalBalance(total);
+        }
+      } catch (error) {
+        console.error("Sidebar balance fetch error:", error);
+      }
+    }
+
+    fetchTotalBalance();
+    const interval = setInterval(fetchTotalBalance, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <aside className="relative z-20 w-full border-r border-white/10 bg-black/55 p-5 backdrop-blur-sm lg:flex lg:h-screen lg:w-72 lg:flex-col lg:p-6 lg:sticky lg:top-0">
-
       <div className="flex-1">
         <div className="mb-8 flex items-center gap-2.5">
           <Image src="/auralogo.png" alt="Aura Logo" width={32} height={32} className="rounded-lg shadow-lg" />
@@ -90,23 +119,20 @@ export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
       </div>
 
       <div className="lg:mt-auto mt-10 mb-6">
-
-
         <div className="flex items-center gap-3 rounded-2xl border border-emerald-300/25 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 px-4 py-3 shadow-[0_10px_30px_rgba(16,185,129,0.15)]">
-
           <div className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-emerald-300/30 bg-emerald-500/15 text-emerald-200">
             <SiTether className="h-4 w-4" />
           </div>
           <div className="leading-tight">
             <p className="text-[10px] uppercase tracking-wide text-emerald-200/60">
-              Available Balance
+              Total Net Worth
             </p>
-            <p className="text-sm font-semibold text-emerald-100">4,120 USDT</p>
+            <p className="text-sm font-semibold text-emerald-100">
+              {totalBalance.toLocaleString(undefined, { maximumFractionDigits: 2 })} USDT
+            </p>
           </div>
         </div>
       </div>
     </aside>
-
   );
 }
-

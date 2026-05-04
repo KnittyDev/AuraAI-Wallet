@@ -3,32 +3,49 @@
 import { DashboardHoldingsTable } from "@/components/dashboard/dashboard-holdings-table";
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
 import { DashboardStatCard } from "@/components/dashboard/dashboard-stat-card";
-import { LuArrowUpRight, LuWallet, LuPlus, LuLoader } from "react-icons/lu";
+import { LuPlus, LuLoader } from "react-icons/lu";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 
-interface Balance {
+interface Investment {
+  id: string;
   asset_code: string;
   amount: number;
+  risk_profile: string;
+  duration_days: number;
+  status: string;
+}
+
+interface AiAction {
+  id: string;
+  asset_code: string;
+  action_type: 'long' | 'short';
+  entry_price: number;
+  exit_price?: number;
+  profit_usd?: number;
+  status: 'open' | 'closed';
+  created_at: string;
 }
 
 export default function DashboardPage() {
-  const [balances, setBalances] = useState<Balance[]>([]);
+  const [investments, setInvestments] = useState<Investment[]>([]);
   const [prices, setPrices] = useState<Record<string, number>>({});
   const [changes, setChanges] = useState<Record<string, number>>({});
+  const [availableUSDT, setAvailableUSDT] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [totalValue, setTotalValue] = useState(0);
+  const [totalInvested, setTotalInvested] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      // Fetch balances and prices in parallel
-      const [balanceRes, priceRes] = await Promise.all([
-        supabase.from('balances').select('asset_code, amount').eq('user_id', user.id),
-        fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,tether&vs_currencies=usd&include_24hr_change=true')
+      // Fetch balances, investments and prices in parallel
+      const [balanceRes, investmentRes, priceRes] = await Promise.all([
+        supabase.from('balances').select('amount').eq('user_id', user.id).eq('asset_code', 'USDT').single(),
+        supabase.from('investments').select('*').eq('user_id', user.id).eq('status', 'active'),
+        fetch('/api/prices')
           .then(res => res.json())
           .catch(() => ({
             bitcoin: { usd: 65000, usd_24h_change: 0 },
@@ -56,14 +73,13 @@ export default function DashboardPage() {
       setChanges(fetchedChanges);
 
       if (!balanceRes.error && balanceRes.data) {
-        setBalances(balanceRes.data);
-        
-        const calculatedValue = balanceRes.data.reduce((acc, curr) => {
-          const price = fetchedPrices[curr.asset_code] || 0;
-          return acc + (curr.amount * price);
-        }, 0);
+        setAvailableUSDT(Number(balanceRes.data.amount));
+      }
 
-        setTotalValue(calculatedValue);
+      if (!investmentRes.error && investmentRes.data) {
+        setInvestments(investmentRes.data);
+        const total = investmentRes.data.reduce((acc, curr) => acc + Number(curr.amount), 0);
+        setTotalInvested(total);
       }
       setLoading(false);
     }
@@ -78,8 +94,6 @@ export default function DashboardPage() {
       </div>
     );
   }
-
-  const availableUSDT = balances.find(b => b.asset_code === 'USDT')?.amount || 0;
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -121,8 +135,8 @@ export default function DashboardPage() {
 
           <div className="grid gap-4 md:grid-cols-3">
             <DashboardStatCard
-              title="Total portfolio value"
-              value={`$${totalValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}`}
+              title="Total capital invested"
+              value={`$${totalInvested.toLocaleString(undefined, { maximumFractionDigits: 2 })}`}
               note="+0.0% from last month"
             />
             <DashboardStatCard
@@ -131,13 +145,13 @@ export default function DashboardPage() {
               note="Aura AI strategy projection"
             />
             <DashboardStatCard
-              title="Available balance"
+              title="Available USDT"
               value={`$${availableUSDT.toLocaleString(undefined, { maximumFractionDigits: 2 })}`}
               note="Ready for new positions"
             />
           </div>
 
-          <DashboardHoldingsTable balances={balances} prices={prices} changes={changes} />
+          <DashboardHoldingsTable investments={investments} prices={prices} changes={changes} />
         </section>
       </div>
     </main>

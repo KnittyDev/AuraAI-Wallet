@@ -1,39 +1,104 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
+import { AiActionLog } from "@/components/dashboard/ai-action-log";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { LuPlus, LuArrowUpRight, LuArrowDownRight } from "react-icons/lu";
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
 import { AuroraBackground } from "@/components/landing/aurora-background";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { LuArrowUpRight, LuArrowDownRight, LuTrendingUp, LuWallet, LuShield, LuZap, LuPlus } from "react-icons/lu";
-import { SiBitcoin, SiEthereum, SiSolana, SiTether } from "react-icons/si";
 
-const stats = [
-  { label: "Total Capital", value: "$67,820", note: "+6.4% this month", up: true },
-  { label: "Open Positions", value: "12", note: "9 long / 3 short", up: true },
-  { label: "Monthly Profit", value: "$3,350", note: "Aura AI Strategy", up: true },
-  { label: "Best Asset", value: "BTC", note: "+11.2% this month", up: true },
-];
+interface Investment {
+  id: string;
+  asset_code: string;
+  amount: number;
+  risk_profile: string;
+  duration_days: number;
+  status: string;
+  created_at: string;
+}
 
-const allocations = [
-  { name: "Core Holdings", ratio: 58, note: "BTC + ETH long-term", icon: LuShield, color: "from-white/30 to-white/10" },
-  { name: "Growth Bucket", ratio: 24, note: "SOL, AI and high-beta tokens", icon: LuTrendingUp, color: "from-white/20 to-white/5" },
-  { name: "Stable Reserve", ratio: 18, note: "USDT liquidity for entries", icon: LuZap, color: "from-white/15 to-white/5" },
-];
-
-const holdings = [
-  { asset: "Bitcoin", code: "BTC", amount: "0.44", value: "$28,600", change: "+5.3%", allocation: 42, up: true, icon: SiBitcoin },
-  { asset: "Ethereum", code: "ETH", amount: "6.12", value: "$18,740", change: "+3.8%", allocation: 28, up: true, icon: SiEthereum },
-  { asset: "Solana", code: "SOL", amount: "210", value: "$7,980", change: "-1.2%", allocation: 12, up: false, icon: SiSolana },
-  { asset: "Tether", code: "USDT", amount: "12,500", value: "$12,500", change: "0.0%", allocation: 18, up: true, icon: SiTether },
-];
-
-const activeStrategies = [
-  { id: "#AUR-4421", asset: "BTC", type: "Long", entry: "$61,200", pnl: "+$1,840", pnlPct: "+7.1%", status: "Active", up: true },
-  { id: "#AUR-4380", asset: "ETH", type: "Long", entry: "$2,850", pnl: "+$320", pnlPct: "+3.1%", status: "Active", up: true },
-  { id: "#AUR-4312", asset: "SOL", type: "Short", entry: "$145", pnl: "-$90", pnlPct: "-1.2%", status: "Watching", up: false },
-];
+interface AiAction {
+  id: string;
+  asset_code: string;
+  action_type: 'long' | 'short';
+  entry_price: number;
+  exit_price?: number;
+  profit_usd?: number;
+  status: 'open' | 'closed';
+  created_at: string;
+}
 
 export default function InvestmentsPage() {
+  const [investments, setInvestments] = useState<Investment[]>([]);
+  const [profits, setProfits] = useState<Record<string, number>>({});
+  const [prices, setPrices] = useState<Record<string, number>>({});
+  const [loading, setLoading] = useState(true);
+  const [selectedInvId, setSelectedInvId] = useState<string | null>(null);
+  const [selectedLogs, setSelectedLogs] = useState<AiAction[]>([]);
+  const [loadingLogs, setLoadingLogs] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const [invRes, profitRes, priceRes] = await Promise.all([
+        supabase.from('investments').select('*').eq('user_id', user.id),
+        supabase.from('ai_actions').select('investment_id, profit_usd').eq('user_id', user.id),
+        fetch('/api/prices').then(res => res.json())
+      ]);
+
+      if (!invRes.error) setInvestments(invRes.data);
+
+      if (!profitRes.error && profitRes.data) {
+        const profitMap: Record<string, number> = {};
+        profitRes.data.forEach(p => {
+          profitMap[p.investment_id] = (profitMap[p.investment_id] || 0) + Number(p.profit_usd || 0);
+        });
+        setProfits(profitMap);
+      }
+
+      setPrices({
+        BTC: priceRes.bitcoin?.usd || 0,
+        ETH: priceRes.ethereum?.usd || 0,
+        SOL: priceRes.solana?.usd || 0,
+        USDT: 1
+      });
+      setLoading(false);
+    }
+    fetchData();
+  }, []);
+
+  const fetchLogs = async (invId: string) => {
+    setSelectedInvId(invId);
+    setLoadingLogs(true);
+    const { data, error } = await supabase
+      .from('ai_actions')
+      .select('*')
+      .eq('investment_id', invId)
+      .order('created_at', { ascending: false });
+
+    if (!error) setSelectedLogs(data);
+    setLoadingLogs(false);
+  };
+
+  const totalCapital = investments.reduce((acc, inv) => acc + Number(inv.amount), 0);
+  const totalProfit = Object.values(profits).reduce((acc, p) => acc + p, 0);
+  const activeCount = investments.filter(inv => inv.status === 'active').length;
+
+  const stats = [
+    { label: "Total Capital", value: `$${totalCapital.toLocaleString()}`, note: "Invested in strategies", up: true },
+    { label: "Total Net Profit", value: `$${totalProfit.toLocaleString(undefined, { minimumFractionDigits: 2 })}`, note: "Realized earnings", up: totalProfit >= 0 },
+    { label: "Active Strategies", value: activeCount.toString(), note: "Currently managed by AI", up: true },
+    { label: "AI Engine", value: "AuraAI", note: "Online & Scanning", up: true },
+  ];
+
+  if (loading) {
+    return <div className="min-h-screen bg-black flex items-center justify-center text-white/20">Loading...</div>;
+  }
+
   return (
     <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-hidden">
       <AuroraBackground />
@@ -70,17 +135,12 @@ export default function InvestmentsPage() {
               >
                 <p className="text-[10px] font-bold tracking-widest text-white/30 uppercase mb-3">{stat.label}</p>
                 <p className="text-3xl font-bold tracking-tight text-white mb-2">{stat.value}</p>
-                <p className={`text-xs font-medium flex items-center gap-1 ${stat.up ? "text-emerald-400" : "text-red-400"}`}>
-                  {stat.up ? <LuArrowUpRight className="h-3 w-3" /> : <LuArrowDownRight className="h-3 w-3" />}
+                <p className="text-xs font-medium flex items-center gap-1 text-emerald-400">
                   {stat.note}
                 </p>
               </motion.div>
             ))}
           </div>
-
-
-
-
 
           {/* Active Strategies */}
           <div className="rounded-[32px] border border-white/10 bg-black/40 backdrop-blur-xl overflow-hidden">
@@ -91,57 +151,62 @@ export default function InvestmentsPage() {
               </div>
               <span className="flex items-center gap-2 text-xs text-emerald-400 font-bold">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                Live
+                Live Engine
               </span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
                   <tr className="border-b border-white/5 bg-white/[0.01]">
-                    <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">ID</th>
                     <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Asset</th>
-                    <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Type</th>
-                    <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Entry</th>
-                    <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">P&L</th>
-                    <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Status</th>
+                    <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Capital</th>
+                    <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Net Profit</th>
+                    <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Risk</th>
+                    <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
-                  {activeStrategies.map((s, i) => (
+                  {investments.map((inv, i) => (
                     <motion.tr
-                      key={s.id}
+                      key={inv.id}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.2 + i * 0.07 }}
                       className="hover:bg-white/[0.02] transition-colors"
                     >
                       <td className="px-8 py-5">
-                        <span className="font-mono text-xs text-white/40">{s.id}</span>
+                        <div className="flex items-center gap-3">
+                          <span className="text-white font-bold">{inv.asset_code}</span>
+                          <span className="text-[10px] text-white/20 font-mono tracking-tighter">#{inv.id.slice(0, 8)}</span>
+                        </div>
                       </td>
-                      <td className="px-8 py-5 font-semibold text-white">{s.asset}</td>
+                      <td className="px-8 py-5 font-mono text-sm text-white/80">${Number(inv.amount).toLocaleString()}</td>
+                      <td className="px-8 py-5">
+                        <span className={`font-mono text-sm font-bold ${profits[inv.id] >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+                          {profits[inv.id] >= 0 ? "+" : ""}{Number(profits[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })} USDT
+                        </span>
+                      </td>
                       <td className="px-8 py-5">
                         <span className={`px-3 py-1 rounded-full text-[10px] font-bold border ${
-                          s.type === "Long"
+                          inv.risk_profile === "Aggressive"
+                            ? "text-red-400 bg-red-400/10 border-red-400/20"
+                            : inv.risk_profile === "Growth"
                             ? "text-emerald-400 bg-emerald-400/10 border-emerald-400/20"
-                            : "text-red-400 bg-red-400/10 border-red-400/20"
+                            : "text-blue-400 bg-blue-400/10 border-blue-400/20"
                         }`}>
-                          {s.type}
+                          {inv.risk_profile}
                         </span>
                       </td>
-                      <td className="px-8 py-5 font-mono text-sm text-white/80">{s.entry}</td>
-                      <td className="px-8 py-5">
-                        <p className={`font-semibold ${s.up ? "text-emerald-400" : "text-red-400"}`}>{s.pnl}</p>
-                        <p className={`text-xs ${s.up ? "text-emerald-400/60" : "text-red-400/60"}`}>{s.pnlPct}</p>
-                      </td>
-                      <td className="px-8 py-5">
-                        <span className={`inline-flex items-center gap-2 text-xs font-bold ${
-                          s.status === "Active" ? "text-emerald-400" : "text-amber-400"
-                        }`}>
-                          <span className={`h-1.5 w-1.5 rounded-full animate-pulse ${
-                            s.status === "Active" ? "bg-emerald-400" : "bg-amber-400"
-                          }`} />
-                          {s.status}
-                        </span>
+                      <td className="px-8 py-5 text-right">
+                        <button
+                          onClick={() => fetchLogs(inv.id)}
+                          className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${selectedInvId === inv.id
+                              ? "bg-white text-black"
+                              : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"
+                            }`}
+                        >
+                          {selectedInvId === inv.id ? "Viewing Logs" : "View Logs"}
+                        </button>
                       </td>
                     </motion.tr>
                   ))}
@@ -150,6 +215,34 @@ export default function InvestmentsPage() {
             </div>
           </div>
 
+          {/* Selected Strategy Logs */}
+          <AnimatePresence>
+            {selectedInvId && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                className="space-y-6"
+              >
+                <div className="flex items-center justify-between px-2">
+                  <h2 className="text-xl font-bold text-white">Strategy Execution Feed</h2>
+                  <button
+                    onClick={() => setSelectedInvId(null)}
+                    className="text-[10px] font-bold text-white/20 hover:text-white uppercase tracking-widest"
+                  >
+                    Close Feed
+                  </button>
+                </div>
+                {loadingLogs ? (
+                  <div className="h-64 flex items-center justify-center border border-white/5 rounded-[32px] bg-black/20 italic text-white/20">
+                    Accessing AuraAI neural link...
+                  </div>
+                ) : (
+                  <AiActionLog actions={selectedLogs} />
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </section>
     </main>

@@ -8,6 +8,7 @@ import { AuroraBackground } from "@/components/landing/aurora-background";
 import { SiBinance, SiBitcoin, SiEthereum, SiSolana, SiTether } from "react-icons/si";
 import Image from "next/image";
 import auraLogo from "@/app/auralogo.png";
+import { supabase } from "@/lib/supabase";
 
 const cryptoOptions = [
   {
@@ -135,7 +136,7 @@ export default function NewInvestmentPage() {
     transition: { duration: 0.22, ease: "easeOut" as const },
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (step === 3 && Number(amount) < 150) {
       setError("Minimum investment amount is 150€.");
       return;
@@ -143,12 +144,10 @@ export default function NewInvestmentPage() {
 
     setError(null);
 
-
     if (!isLastStep) {
       setStep((prev) => Math.min(prev + 1, TOTAL_STEPS));
       return;
     }
-
 
     if (isCreatingPlan || planReady) return;
 
@@ -156,18 +155,77 @@ export default function NewInvestmentPage() {
     setPlanReady(false);
     setPlanStage(0);
 
-    const stageCount = planStages.length;
-    const stageDurationMs = 1400;
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        setError("You must be logged in to create an investment plan.");
+        setIsCreatingPlan(false);
+        return;
+      }
 
-    for (let i = 1; i < stageCount; i += 1) {
-      setTimeout(() => setPlanStage(i), i * stageDurationMs);
-    }
+      // Check balance
+      const { data: balanceData, error: balanceError } = await supabase
+        .from('balances')
+        .select('amount')
+        .eq('user_id', user.id)
+        .eq('asset_code', 'USDT')
+        .single();
 
-    setTimeout(() => {
+      if (balanceError || !balanceData || Number(balanceData.amount) < Number(amount)) {
+        setError("Insufficient USDT balance. Please deposit more funds.");
+        setIsCreatingPlan(false);
+        return;
+      }
+
+      // Create investment
+      const { error: investmentError } = await supabase
+        .from('investments')
+        .insert({
+          user_id: user.id,
+          asset_code: crypto,
+          amount: Number(amount),
+          risk_profile: risk,
+          duration_days: Number(days),
+          goal: goal,
+          experience_level: experience,
+          profit_action: profitAction,
+          notes: notes,
+        });
+
+      if (investmentError) {
+        throw investmentError;
+      }
+
+      // Deduct balance
+      const { error: deductError } = await supabase
+        .from('balances')
+        .update({ amount: Number(balanceData.amount) - Number(amount) })
+        .eq('user_id', user.id)
+        .eq('asset_code', 'USDT');
+
+      if (deductError) {
+        throw deductError;
+      }
+
+      // Start animation
+      const stageCount = planStages.length;
+      const stageDurationMs = 1400;
+
+      for (let i = 1; i < stageCount; i += 1) {
+        setTimeout(() => setPlanStage(i), i * stageDurationMs);
+      }
+
+      setTimeout(() => {
+        setIsCreatingPlan(false);
+        setPlanReady(true);
+        setPlanStage(stageCount - 1);
+      }, stageCount * stageDurationMs);
+
+    } catch (err: any) {
+      console.error("Investment creation error:", err);
+      setError(err.message || "An unexpected error occurred. Please try again.");
       setIsCreatingPlan(false);
-      setPlanReady(true);
-      setPlanStage(stageCount - 1);
-    }, stageCount * stageDurationMs);
+    }
   };
 
   return (
@@ -285,7 +343,7 @@ export default function NewInvestmentPage() {
                       <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">Step 02</p>
                       <h2 className="text-4xl font-bold tracking-tight text-white mb-4">Select Your Risk Profile</h2>
                       <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/50">
-                        Define the operational boundaries for the AETHER neural engine. <br className="hidden md:block" />
+                        Define the operational boundaries for the AuraAI neural engine. <br className="hidden md:block" />
                         Your selection calibrates volatility tolerance and target yield velocity.
                       </p>
                     </div>
@@ -597,6 +655,15 @@ export default function NewInvestmentPage() {
                     </div>
 
                     <div className="mx-auto max-w-3xl space-y-4">
+                      {error && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          className="rounded-xl bg-red-500/10 border border-red-500/20 p-4 text-xs font-bold text-red-400 uppercase tracking-widest text-center"
+                        >
+                          {error}
+                        </motion.div>
+                      )}
                       {/* Core Parameters Card */}
                       <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02]">
                         <div className="border-b border-white/5 bg-white/[0.02] px-6 py-3">

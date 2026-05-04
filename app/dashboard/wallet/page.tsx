@@ -2,6 +2,7 @@
 
 import { motion, useMotionValue, useSpring, useTransform, animate, AnimatePresence } from "framer-motion";
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
+import { supabase } from "@/lib/supabase";
 import { AuroraBackground } from "@/components/landing/aurora-background";
 import { 
   LuWallet, 
@@ -39,38 +40,53 @@ const TRANSACTIONS = [
 ];
 
 export default function WalletPage() {
+  const [balances, setBalances] = useState<any[]>([]);
   const [prices, setPrices] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isPreOrdered, setIsPreOrdered] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-
-
   useEffect(() => {
-    const fetchPrices = async () => {
+    const fetchData = async () => {
       try {
-        const res = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,tether&vs_currencies=usd&include_24hr_change=true"
-        );
-        const data = await res.json();
-        setPrices(data);
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const [balanceRes, priceRes] = await Promise.all([
+          supabase.from('balances').select('*').eq('user_id', user.id),
+          fetch("/api/prices").then(res => res.json())
+        ]);
+
+        if (!balanceRes.error) {
+          setBalances(balanceRes.data);
+        }
+        setPrices(priceRes);
       } catch (error) {
-        console.error("Failed to fetch prices:", error);
+        console.error("Failed to fetch wallet data:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPrices();
-    const interval = setInterval(fetchPrices, 30000); // Update every 30s
+    fetchData();
+    const interval = setInterval(fetchData, 30000); // Update every 30s
     return () => clearInterval(interval);
   }, []);
 
-  const assetsWithPrices = INITIAL_ASSETS.map((asset) => {
+  const assetsWithPrices = [
+    { id: "bitcoin", name: "Bitcoin", symbol: "BTC", icon: SiBitcoin, color: "text-white/60" },
+    { id: "ethereum", name: "Ethereum", symbol: "ETH", icon: SiEthereum, color: "text-white/60" },
+    { id: "solana", name: "Solana", symbol: "SOL", icon: SiSolana, color: "text-white/60" },
+    { id: "tether", name: "Tether", symbol: "USDT", icon: SiTether, color: "text-white/60" },
+  ].map((asset) => {
+    const balanceItem = balances.find(b => b.asset_code === asset.symbol);
+    const balance = balanceItem ? Number(balanceItem.amount) : 0;
     const priceData = prices?.[asset.id];
-    const usdValue = priceData ? asset.balance * priceData.usd : 0;
+    const usdValue = priceData ? balance * priceData.usd : 0;
+    
     return {
       ...asset,
+      balance,
       price: priceData?.usd || 0,
       change: priceData?.usd_24h_change?.toFixed(2) || "0.00",
       value: usdValue,
