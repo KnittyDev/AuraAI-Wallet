@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
-import { LuArrowRight, LuMonitor, LuPlus, LuFileText, LuChartBar, LuZap, LuMessageSquare, LuShieldCheck } from "react-icons/lu";
+import { LuMonitor } from "react-icons/lu";
 import { LandingHeader } from "@/components/landing/landing-header";
 import Link from "next/link";
 import Image from "next/image";
@@ -94,51 +94,18 @@ export default function LoginPage() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="relative w-full max-w-2xl px-12"
         >
-          {/* Main Visual Card */}
-          <div className="rounded-[3rem] border border-white/10 bg-white shadow-2xl overflow-hidden aspect-[4/3] flex flex-col p-12">
-             <div className="absolute inset-0 opacity-[0.1]" 
-                 style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-             
-             {/* Mock Actions Grid */}
-             <div className="relative z-10 grid grid-cols-3 gap-4 mb-8">
-               {[
-                 { icon: LuFileText, label: "Market Report" },
-                 { icon: LuChartBar, label: "Crunch Alpha" },
-                 { icon: LuZap, label: "Auto-Balance" },
-
-                 { icon: LuShieldCheck, label: "Risk Audit" },
-                 { icon: LuMessageSquare, label: "Ask Aura AI" },
-                 { icon: LuPlus, label: "New Strategy" }
-               ].map((action, i) => (
-                 <div key={i} className="flex items-center gap-3 p-4 rounded-2xl border border-black/5 bg-gray-50/50 transition hover:shadow-md cursor-pointer group">
-                   <div className="h-10 w-10 rounded-xl bg-white border border-black/5 flex items-center justify-center text-black/40 group-hover:text-cyan-500 transition-colors">
-                     <action.icon className="h-5 w-5" />
-                   </div>
-                   <span className="text-[10px] font-bold uppercase tracking-tight text-black/60">{action.label}</span>
-                 </div>
-               ))}
-             </div>
-
-             {/* Mock Chat Input Area */}
-             <div className="relative mt-auto">
-               <div className="rounded-3xl border border-black/5 bg-gray-50 p-6">
-                 <p className="text-sm font-medium text-black/80 mb-6">
-                   Summarize the current SOL/USDT trend into a strategy.
-                 </p>
-                 
-                 <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black/5 border border-black/10 text-black/60 text-[10px] font-bold">
-                       <LuFileText className="h-3 w-3" />
-                       SOL_ANALYSIS.PDF
-                       <LuPlus className="h-3 w-3 ml-1" />
-                    </div>
-                    
-                    <button className="flex items-center gap-2 px-5 py-2 rounded-xl bg-[#C85C40] text-white text-xs font-bold transition hover:bg-[#B04B32]">
-                       Let's go <LuArrowRight className="h-4 w-4" />
-                    </button>
-                 </div>
-               </div>
-             </div>
+          {/* Main Visual Card - Product Showcase GIF */}
+          <div className="rounded-[3rem] border border-white/10 bg-[#111] shadow-2xl overflow-hidden aspect-[4/3] relative group">
+            <Image 
+              src="/login-visual.gif" 
+              alt="Aura AI Product Showcase" 
+              fill 
+              className="object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+              unoptimized // Important for GIFs
+            />
+            
+            {/* Subtle Overlay to match brand */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
           </div>
 
           {/* Decorative Floaters */}

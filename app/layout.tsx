@@ -16,7 +16,10 @@ export const metadata: Metadata = {
   title: "Aura AI - Autonomous Portfolio Intelligence",
   description: "Next-generation AI-driven investment platform for autonomous portfolio management and real-time market intelligence.",
   icons: {
-    icon: "/auralogo.png",
+    icon: [
+      { url: "/auralogo.png", sizes: "32x32", type: "image/png" },
+      { url: "/auralogo.png", sizes: "16x16", type: "image/png" },
+    ],
     shortcut: "/auralogo.png",
     apple: "/auralogo.png",
   },

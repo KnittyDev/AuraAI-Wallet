@@ -14,12 +14,12 @@ const plans: PricingPlan[] = [
     description:
       "A limited but powerful automated portfolio experience for new users.",
     features: [
+      "Opus 4.6 AI Model",
       "5 automated trades per day",
       "1 managed portfolio",
       "Basic weekly performance reports",
       "Basic buy/sell suggestions",
       "Automated flow using general strategies",
-      "Trade management powered by Opus 4.6",
       "1 withdrawal every 3 days",
       "And more",
     ],
@@ -27,10 +27,12 @@ const plans: PricingPlan[] = [
   },
   {
     name: "Pro",
-    price: "$15",
+    price: "$15 / 3 months",
     description:
-      "Full autonomous mode: AI opens and manages trades 24/7 while you track the results.",
+      "Full autonomous mode: AI manages trades 24/7. Billed every 3 months.",
     features: [
+      "Opus 4.7 Max AI Model",
+      "Capital Protection: 15% Loss Recovery",
       "Unlimited automated trades",
       "Unlimited portfolio management",
       "Instant withdrawals",
@@ -112,7 +114,9 @@ export function PricingSection() {
                       />
                     </svg>
                   </span>
-                  <span>{feature}</span>
+                  <span className={feature.includes("Capital Protection") ? "font-bold text-emerald-400" : ""}>
+                    {feature}
+                  </span>
                 </li>
               ))}
             </ul>
