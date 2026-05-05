@@ -41,6 +41,7 @@ const TRANSACTIONS = [
 
 export default function WalletPage() {
   const [balances, setBalances] = useState<any[]>([]);
+  const [transactions, setTransactions] = useState<any[]>([]);
   const [prices, setPrices] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isPreOrdered, setIsPreOrdered] = useState(false);
@@ -52,13 +53,17 @@ export default function WalletPage() {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return;
 
-        const [balanceRes, priceRes] = await Promise.all([
+        const [balanceRes, priceRes, transactionRes] = await Promise.all([
           supabase.from('balances').select('*').eq('user_id', user.id),
-          fetch("/api/prices").then(res => res.json())
+          fetch("/api/prices").then(res => res.json()),
+          supabase.from('transactions').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(10)
         ]);
 
         if (!balanceRes.error) {
           setBalances(balanceRes.data);
+        }
+        if (!transactionRes.error) {
+          setTransactions(transactionRes.data);
         }
         setPrices(priceRes);
       } catch (error) {
@@ -350,17 +355,17 @@ export default function WalletPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/5">
-                    {TRANSACTIONS.map((tx) => (
+                    {transactions.map((tx) => (
                       <tr key={tx.id} className="hover:bg-white/[0.02] transition-colors group">
                         <td className="px-8 py-5">
                           <div className="flex items-center gap-3">
                             <div className={`h-8 w-8 rounded-lg flex items-center justify-center ${
-                              tx.type === "deposit" ? "bg-emerald-400/10 text-emerald-400" : "bg-red-400/10 text-red-400"
+                              tx.type === "Deposit" || tx.type === "Profit" ? "bg-emerald-400/10 text-emerald-400" : "bg-red-400/10 text-red-400"
                             }`}>
-                              {tx.type === "deposit" ? <LuArrowDownLeft className="h-4 w-4" /> : <LuArrowUpRight className="h-4 w-4" />}
+                              {tx.type === "Deposit" || tx.type === "Profit" ? <LuArrowDownLeft className="h-4 w-4" /> : <LuArrowUpRight className="h-4 w-4" />}
                             </div>
                             <span className="text-sm font-medium text-white group-hover:translate-x-1 transition-transform">
-                              {tx.type === "deposit" ? "Deposit" : "Withdrawal"}
+                              {tx.type}
                             </span>
                           </div>
                         </td>
@@ -369,10 +374,14 @@ export default function WalletPage() {
                         </td>
                         <td className="px-8 py-5">
                           <span className={`text-sm font-mono font-bold ${
-                            tx.type === "deposit" ? "text-emerald-400" : "text-white"
-                          }`}>{tx.amount}</span>
+                            Number(tx.amount) > 0 ? "text-emerald-400" : "text-white"
+                          }`}>
+                            {Number(tx.amount) > 0 ? "+" : ""}{Number(tx.amount).toLocaleString()}
+                          </span>
                         </td>
-                        <td className="px-8 py-5 text-sm text-white/40">{tx.date}</td>
+                        <td className="px-8 py-5 text-sm text-white/40">
+                          {new Date(tx.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                        </td>
                         <td className="px-8 py-5 text-right">
                           <span className={`text-[9px] font-bold px-2 py-1 rounded-md uppercase tracking-widest ${
                             tx.status === "Completed" ? "bg-emerald-400/10 text-emerald-400" : "bg-white/5 text-white/40"
@@ -382,6 +391,13 @@ export default function WalletPage() {
                         </td>
                       </tr>
                     ))}
+                    {transactions.length === 0 && (
+                      <tr>
+                        <td colSpan={5} className="px-8 py-12 text-center text-white/20 italic">
+                          No recent activity found.
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>

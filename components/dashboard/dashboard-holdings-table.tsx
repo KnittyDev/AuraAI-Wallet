@@ -27,9 +27,8 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
     const assetInfo = ASSET_MAP[inv.asset_code] || { name: inv.asset_code, icon: SiTether };
     const price = prices[inv.asset_code] || 1;
     
-    const assetAmount = Number(inv.amount) / price;
-    const value = assetAmount * price;
     const netProfit = profits[inv.id] || 0;
+    const value = Number(inv.amount) + netProfit;
     const netProfit24h = profits24h[inv.id] || 0;
     const yield24h = Number(inv.amount) > 0 ? (netProfit24h / Number(inv.amount)) * 100 : 0;
 
@@ -38,12 +37,13 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
       asset: assetInfo.name,
       symbol: inv.asset_code,
       initialCapital: `$${Number(inv.amount).toLocaleString()}`,
-      amount: `${assetAmount.toLocaleString(undefined, { maximumFractionDigits: 6 })} ${inv.asset_code}`,
-      value: `$${value.toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
+      amount: `${(Number(inv.amount) / price).toLocaleString(undefined, { maximumFractionDigits: 6 })} ${inv.asset_code}`,
+      value: `$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
       profit: netProfit,
       yield24h: `${yield24h >= 0 ? "+" : ""}${yield24h.toFixed(2)}%`,
       icon: assetInfo.icon,
       risk: inv.risk_profile,
+      duration: `${inv.duration_days} Days`,
     };
   });
 
@@ -59,6 +59,7 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
             <tr>
               <th className="pb-4 font-bold">Strategy Asset</th>
               <th className="pb-4 font-bold text-center">Risk</th>
+              <th className="pb-4 font-bold text-center">Plan</th>
               <th className="pb-4 font-bold">Initial Capital</th>
               <th className="pb-4 font-bold">Asset Vol.</th>
               <th className="pb-4 font-bold">Current Value</th>
@@ -89,6 +90,9 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
                     }`}>
                       {row.risk}
                     </span>
+                  </td>
+                  <td className="py-4 text-center">
+                    <span className="text-xs font-medium text-white/40">{row.duration}</span>
                   </td>
                   <td className="py-4 font-mono text-white/60">{row.initialCapital}</td>
                   <td className="py-4 text-white/40 font-mono text-xs">{row.amount}</td>

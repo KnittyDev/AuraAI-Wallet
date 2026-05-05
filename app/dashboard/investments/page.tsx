@@ -78,7 +78,8 @@ export default function InvestmentsPage() {
       .from('ai_actions')
       .select('*')
       .eq('investment_id', invId)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
+      .limit(25);
 
     if (!error) setSelectedLogs(data);
     setLoadingLogs(false);
@@ -161,6 +162,7 @@ export default function InvestmentsPage() {
                     <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Asset</th>
                     <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Capital</th>
                     <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Net Profit</th>
+                    <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Duration</th>
                     <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Risk</th>
                     <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase text-right">Actions</th>
                   </tr>
@@ -185,6 +187,9 @@ export default function InvestmentsPage() {
                         <span className={`font-mono text-sm font-bold ${profits[inv.id] >= 0 ? "text-emerald-400" : "text-red-400"}`}>
                           {profits[inv.id] >= 0 ? "+" : ""}{Number(profits[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT
                         </span>
+                      </td>
+                      <td className="px-8 py-5">
+                        <span className="text-xs font-medium text-white/60">{inv.duration_days} Days</span>
                       </td>
                       <td className="px-8 py-5">
                         <span className={`px-3 py-1 rounded-full text-[10px] font-bold border ${

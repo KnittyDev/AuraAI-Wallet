@@ -15,6 +15,7 @@ import {
 
 import { SiTether, SiBitcoin, SiEthereum, SiSolana } from "react-icons/si";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase";
 
 const ASSETS = [
   { id: "bitcoin", name: "Bitcoin", symbol: "BTC", icon: SiBitcoin, balance: 0.42 },
@@ -35,6 +36,7 @@ const NETWORKS: Record<string, { id: string; name: string; fee: string; time: st
 };
 
 export default function WithdrawPage() {
+  const [balances, setBalances] = useState<Record<string, number>>({ USDT: 0, BTC: 0, ETH: 0, SOL: 0 });
   const [selectedAsset, setSelectedAsset] = useState(ASSETS[3]); // Default to USDT
   const [selectedNetwork, setSelectedNetwork] = useState(NETWORKS[selectedAsset.id][0]);
   const [address, setAddress] = useState("");
@@ -42,6 +44,27 @@ export default function WithdrawPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchBalances() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('balances')
+        .select('asset_code, amount')
+        .eq('user_id', user.id);
+
+      if (data) {
+        const balMap: Record<string, number> = { USDT: 0, BTC: 0, ETH: 0, SOL: 0 };
+        data.forEach(b => {
+          balMap[b.asset_code] = Number(b.amount);
+        });
+        setBalances(balMap);
+      }
+    }
+    fetchBalances();
+  }, []);
 
   const handleAssetChange = (asset: typeof ASSETS[0]) => {
     setSelectedAsset(asset);
@@ -58,7 +81,9 @@ export default function WithdrawPage() {
       setError("Please enter a valid amount.");
       return;
     }
-    if (Number(amount) > selectedAsset.balance) {
+    
+    const currentBalance = balances[selectedAsset.symbol] || 0;
+    if (Number(amount) > currentBalance) {
       setError("Insufficient balance.");
       return;
     }
@@ -66,11 +91,41 @@ export default function WithdrawPage() {
     setError(null);
     setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("User not found");
+
+      // 1. Deduct from balances
+      const { error: balanceError } = await supabase
+        .from('balances')
+        .update({ amount: currentBalance - Number(amount) })
+        .eq('user_id', user.id)
+        .eq('asset_code', selectedAsset.symbol);
+
+      if (balanceError) throw balanceError;
+
+      // 2. Insert Pending Transaction
+      const { error: transactionError } = await supabase
+        .from('transactions')
+        .insert({
+          user_id: user.id,
+          type: 'Withdrawal',
+          asset: selectedAsset.symbol,
+          amount: -Number(amount),
+          status: 'Pending',
+          address: address,
+          network: selectedNetwork.name,
+          tx_id: `0x${Math.random().toString(16).substring(2, 10)}${Math.random().toString(16).substring(2, 10)}${Math.random().toString(16).substring(2, 10)}` // Realistic hash
+        });
+
+      if (transactionError) throw transactionError;
+
       setIsSuccess(true);
-    }, 2000);
+    } catch (err: any) {
+      setError(err.message || "An error occurred while processing withdrawal.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (isSuccess) {
@@ -198,10 +253,10 @@ export default function WithdrawPage() {
                   <div className="flex justify-between items-center mb-4">
                     <label className="text-[10px] font-bold tracking-widest text-white/40 uppercase">4. Amount</label>
                     <button 
-                      onClick={() => setAmount(selectedAsset.balance.toString())}
+                      onClick={() => setAmount((balances[selectedAsset.symbol] || 0).toString())}
                       className="text-[10px] font-bold text-cyan-400 hover:text-cyan-300 transition-colors uppercase tracking-widest"
                     >
-                      Max: {selectedAsset.balance} {selectedAsset.symbol}
+                      Max: {balances[selectedAsset.symbol] || 0} {selectedAsset.symbol}
                     </button>
                   </div>
                   <div className="relative">

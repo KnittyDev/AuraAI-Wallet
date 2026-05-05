@@ -177,8 +177,8 @@ export default function NewInvestmentPage() {
         return;
       }
 
-      // Create investment
-      const { error: investmentError } = await supabase
+      // Create investment and get the returned data (including the ID)
+      const { data: newInvestment, error: investmentError } = await supabase
         .from('investments')
         .insert({
           user_id: user.id,
@@ -190,7 +190,9 @@ export default function NewInvestmentPage() {
           experience_level: experience,
           profit_action: profitAction,
           notes: notes,
-        });
+        })
+        .select()
+        .single();
 
       if (investmentError) {
         throw investmentError;
@@ -205,6 +207,25 @@ export default function NewInvestmentPage() {
 
       if (deductError) {
         throw deductError;
+      }
+
+      // Add transaction log with the short ID of the investment
+      const shortId = newInvestment.id.slice(0, 8);
+      const { error: transactionError } = await supabase
+        .from('transactions')
+        .insert({
+          user_id: user.id,
+          type: 'Investment',
+          asset: 'USDT',
+          amount: -Number(amount),
+          status: 'Completed',
+          tx_id: `INV-${shortId}-${crypto}`
+        });
+
+      if (transactionError) {
+        console.error("Transaction logging error:", transactionError);
+        // We don't throw here to avoid breaking the main flow if just logging fails, 
+        // but ideally we should track this.
       }
 
       // Start animation

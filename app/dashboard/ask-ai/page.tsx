@@ -15,22 +15,56 @@ import {
 } from "react-icons/lu";
 
 import Image from "next/image";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { supabase } from "@/lib/supabase";
 
 type Message = {
-  role: "user" | "assistant";
+  role: "user" | "assistant" | "system";
   content: string;
 };
 
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-
 export default function AskAIPage() {
   const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", content: "Hello! I am Aura, your AI investment assistant. How can I help you with your portfolio or market analysis today?" }
+    { role: "assistant", content: "Hello! I am Aura, your AI investment assistant. I've analyzed your current portfolio and I'm ready to help. How can I assist you today?" }
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [userData, setUserData] = useState<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    async function fetchUserData() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const [balanceRes, invRes, profitRes] = await Promise.all([
+        supabase.from('balances').select('*').eq('user_id', user.id).eq('asset_code', 'USDT').single(),
+        supabase.from('investments').select('*').eq('user_id', user.id).eq('status', 'active'),
+        supabase.from('ai_actions').select('*').eq('user_id', user.id)
+      ]);
+
+      const allActions = profitRes.data || [];
+      const totalProfit = allActions.reduce((acc, p) => acc + Number(p.profit_usd || 0), 0) || 0;
+      
+      const stats = {
+        openLongs: allActions.filter(a => a.status === 'open' && a.action_type === 'long').length,
+        openShorts: allActions.filter(a => a.status === 'open' && a.action_type === 'short').length,
+        closedLongs: allActions.filter(a => a.status === 'closed' && a.action_type === 'long').length,
+        closedShorts: allActions.filter(a => a.status === 'closed' && a.action_type === 'short').length,
+        totalTrades: allActions.length
+      };
+
+      setUserData({
+        availableUSDT: balanceRes.data?.amount || 0,
+        investments: invRes.data || [],
+        totalProfit: totalProfit.toFixed(2),
+        tradeStats: stats,
+        lastUpdated: new Date().toISOString()
+      });
+    }
+    fetchUserData();
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -48,11 +82,31 @@ export default function AskAIPage() {
     setInput("");
     setIsLoading(true);
 
+    // Prepare context for the AI
+    const context = userData ? `
+    USER DATA CONTEXT:
+    - Available Balance: ${userData.availableUSDT} USDT
+    - Total Realized Profit: ${userData.totalProfit} USDT
+    - Active Investments: ${userData?.investments?.map((inv: any) => 
+      `${inv.asset_code}: $${inv.amount} (${inv.risk_profile} risk)`
+    ).join(", ") || "None"}
+    - Trade Statistics:
+      * Total Trades: ${userData?.tradeStats?.totalTrades || 0}
+      * Open Positions: ${userData?.tradeStats?.openLongs || 0} Long, ${userData?.tradeStats?.openShorts || 0} Short
+      * Closed Positions: ${userData?.tradeStats?.closedLongs || 0} Long, ${userData?.tradeStats?.closedShorts || 0} Short
+    ` : "";
+
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: [...messages, userMessage] }),
+        body: JSON.stringify({ 
+          messages: [
+            { role: "system", content: `You are AuraAI, a premium investment assistant. Use the following user data to answer questions accurately: ${context}` },
+            ...messages, 
+            userMessage
+          ] 
+        }),
       });
 
       const data = await response.json();

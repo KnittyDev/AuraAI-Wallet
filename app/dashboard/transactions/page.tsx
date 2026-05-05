@@ -1,8 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
 import { AuroraBackground } from "@/components/landing/aurora-background";
-import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   LuArrowUpRight, 
@@ -10,33 +11,26 @@ import {
   LuRefreshCw, 
   LuSearch, 
   LuFilter,
-  LuExternalLink,
   LuTrendingUp,
-  LuWallet
+  LuWallet,
+  LuLoader,
+  LuExternalLink
 } from "react-icons/lu";
 
 type TransactionStatus = "Completed" | "Pending" | "Failed";
-type TransactionType = "Deposit" | "Withdrawal" | "Trade" | "Profit" | "Rebalance";
+type TransactionType = "Deposit" | "Withdrawal" | "Trade" | "Profit" | "Rebalance" | "Investment";
 
 interface Transaction {
   id: string;
   type: TransactionType;
   asset: string;
-  amount: string;
+  amount: number;
   status: TransactionStatus;
   date: string;
   txId: string;
+  address?: string;
+  network?: string;
 }
-
-const MOCK_TRANSACTIONS: Transaction[] = [
-  { id: "1", type: "Deposit", asset: "USDT", amount: "+12,000.00", status: "Completed", date: "2026-05-04 14:30", txId: "0x742...f44e" },
-  { id: "2", type: "Trade", asset: "BTC", amount: "0.24500", status: "Completed", date: "2026-05-04 09:15", txId: "0x891...a12c" },
-  { id: "3", type: "Profit", asset: "USDT", amount: "+450.25", status: "Completed", date: "2026-05-03 23:50", txId: "Internal" },
-  { id: "4", type: "Withdrawal", asset: "ETH", amount: "-1.20000", status: "Pending", date: "2026-05-03 11:20", txId: "0x452...b992" },
-  { id: "5", type: "Rebalance", asset: "SOL/ETH", amount: "Re-weighted", status: "Completed", date: "2026-05-02 18:45", txId: "Internal" },
-  { id: "6", type: "Deposit", asset: "SOL", amount: "+50.00", status: "Completed", date: "2026-05-01 16:10", txId: "4j3W...r6r" },
-  { id: "7", type: "Trade", asset: "ETH", amount: "2.50000", status: "Failed", date: "2026-04-30 08:30", txId: "0x112...c441" },
-];
 
 const TYPE_ICONS: Record<TransactionType, any> = {
   Deposit: LuArrowDownLeft,
@@ -44,6 +38,7 @@ const TYPE_ICONS: Record<TransactionType, any> = {
   Trade: LuRefreshCw,
   Profit: LuTrendingUp,
   Rebalance: LuRefreshCw,
+  Investment: LuWallet,
 };
 
 const STATUS_COLORS: Record<TransactionStatus, string> = {
@@ -52,11 +47,67 @@ const STATUS_COLORS: Record<TransactionStatus, string> = {
   Failed: "text-red-400 bg-red-400/10 border-red-400/20",
 };
 
+const getExplorerUrl = (tx: Transaction) => {
+  if (!tx.address) return "#";
+  const address = tx.address;
+  const network = tx.network?.toLowerCase() || "";
+
+  if (tx.asset === "BTC") return `https://www.blockchain.com/explorer/addresses/btc/${address}`;
+  if (tx.asset === "ETH") return `https://etherscan.io/address/${address}`;
+  if (tx.asset === "SOL") return `https://solscan.io/account/${address}`;
+  
+  // USDT Networks
+  if (network.includes("erc20")) return `https://etherscan.io/address/${address}`;
+  if (network.includes("trc20")) return `https://tronscan.org/#/address/${address}`;
+  if (network.includes("bep20")) return `https://bscscan.com/address/${address}`;
+  if (network.includes("polygon")) return `https://polygonscan.com/address/${address}`;
+  if (network.includes("solana")) return `https://solscan.io/account/${address}`;
+
+  return `https://etherscan.io/address/${address}`; // Default
+};
+
 export default function TransactionsPage() {
   const [filter, setFilter] = useState<"All" | TransactionType>("All");
   const [search, setSearch] = useState("");
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredTransactions = MOCK_TRANSACTIONS.filter(tx => {
+  useEffect(() => {
+    async function fetchTransactions() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('transactions')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+
+      if (data) {
+        const formatted: Transaction[] = data.map(tx => {
+          const d = new Date(tx.created_at);
+          const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+          
+          return {
+            id: tx.id,
+            type: tx.type as TransactionType,
+            asset: tx.asset,
+            amount: Number(tx.amount),
+            status: tx.status as TransactionStatus,
+            date: dateStr,
+            txId: tx.tx_id || "N/A",
+            address: tx.address,
+            network: tx.network,
+          };
+        });
+        setTransactions(formatted);
+      }
+      setLoading(false);
+    }
+    fetchTransactions();
+  }, []);
+
+  const filteredTransactions = transactions.filter(tx => {
     const matchesFilter = filter === "All" || tx.type === filter;
     const matchesSearch = tx.asset.toLowerCase().includes(search.toLowerCase()) || tx.txId.toLowerCase().includes(search.toLowerCase());
     return matchesFilter && matchesSearch;
@@ -97,7 +148,7 @@ export default function TransactionsPage() {
 
           {/* Type Filters */}
           <div className="flex items-center gap-2 mb-8 overflow-x-auto pb-2 scrollbar-hide">
-            {["All", "Deposit", "Withdrawal", "Trade", "Profit", "Rebalance"].map((type) => (
+            {["All", "Deposit", "Withdrawal", "Trade", "Profit", "Rebalance", "Investment"].map((type) => (
               <button
                 key={type}
                 onClick={() => setFilter(type as any)}
@@ -113,22 +164,28 @@ export default function TransactionsPage() {
           </div>
 
           {/* Transactions Table */}
-          <div className="rounded-[32px] border border-white/10 bg-black/40 backdrop-blur-xl overflow-hidden shadow-2xl">
-            <div className="overflow-x-auto">
+          <div className="rounded-[32px] border border-white/10 bg-white/[0.02] backdrop-blur-xl overflow-hidden">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-white/5 bg-white/[0.02]">
-                    <th className="px-6 py-5 text-[10px] font-bold tracking-widest text-white/30 uppercase">Transaction</th>
-                    <th className="px-6 py-5 text-[10px] font-bold tracking-widest text-white/30 uppercase">Amount</th>
-                    <th className="px-6 py-5 text-[10px] font-bold tracking-widest text-white/30 uppercase">Date</th>
-                    <th className="px-6 py-5 text-[10px] font-bold tracking-widest text-white/30 uppercase">Status</th>
-                    <th className="px-6 py-5 text-[10px] font-bold tracking-widest text-white/30 uppercase text-right">TxID</th>
+                  <tr className="border-b border-white/5 bg-white/[0.01]">
+                    <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Activity</th>
+                    <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Amount</th>
+                    <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Date</th>
+                    <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Status</th>
+                    <th className="px-6 py-5 text-right text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Hash</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   <AnimatePresence mode="popLayout">
-                    {filteredTransactions.map((tx) => {
-                      const Icon = TYPE_ICONS[tx.type];
+                    {loading ? (
+                      <tr>
+                        <td colSpan={5} className="py-20 text-center">
+                          <LuLoader className="h-8 w-8 animate-spin text-white/20 mx-auto" />
+                        </td>
+                      </tr>
+                    ) : filteredTransactions.map((tx) => {
+                      const Icon = TYPE_ICONS[tx.type] || LuRefreshCw;
+                      const isPositive = tx.amount > 0;
                       return (
                         <motion.tr 
                           key={tx.id}
@@ -144,17 +201,23 @@ export default function TransactionsPage() {
                                 <Icon className="h-5 w-5" />
                               </div>
                               <div>
-                                <p className="font-semibold text-white">{tx.type}</p>
+                                <p className="font-semibold text-white">
+                                  {tx.type}
+                                  {tx.type === "Investment" && tx.txId.includes("_") && (
+                                    <span className="ml-2 text-xs font-normal text-white/40">
+                                      ({tx.txId.split("_")[1]})
+                                    </span>
+                                  )}
+                                </p>
                                 <p className="text-xs text-white/40">{tx.asset}</p>
                               </div>
                             </div>
                           </td>
                           <td className="px-6 py-5">
                             <p className={`font-mono text-sm ${
-                              tx.amount.startsWith("+") ? "text-emerald-400" : 
-                              tx.amount.startsWith("-") ? "text-red-400" : "text-white"
+                              isPositive ? "text-emerald-400" : "text-red-400"
                             }`}>
-                              {tx.amount}
+                              {isPositive ? "+" : ""}{tx.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                             </p>
                             <p className="text-[10px] text-white/20 mt-1 uppercase tracking-widest">{tx.asset}</p>
                           </td>
@@ -164,14 +227,19 @@ export default function TransactionsPage() {
                           </td>
                           <td className="px-6 py-5">
                             <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold border ${STATUS_COLORS[tx.status]}`}>
-                              {tx.status}
+                              {tx.status === 'Pending' ? 'Processing' : tx.status}
                             </span>
                           </td>
                           <td className="px-6 py-5 text-right">
-                            <button className="inline-flex items-center gap-1.5 text-xs text-white/40 hover:text-white transition">
-                              <span className="font-mono">{tx.txId}</span>
+                            <a 
+                              href={getExplorerUrl(tx)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 text-xs text-white/40 hover:text-cyan-400 transition"
+                            >
+                              <span className="font-mono">{tx.txId.slice(0, 10)}...</span>
                               <LuExternalLink className="h-3 w-3" />
-                            </button>
+                            </a>
                           </td>
                         </motion.tr>
                       );
@@ -180,7 +248,7 @@ export default function TransactionsPage() {
                 </tbody>
               </table>
               
-              {filteredTransactions.length === 0 && (
+              {!loading && filteredTransactions.length === 0 && (
                 <div className="py-20 text-center">
                   <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-white/5 mb-4">
                     <LuSearch className="h-8 w-8 text-white/20" />
@@ -189,7 +257,6 @@ export default function TransactionsPage() {
                   <p className="text-sm text-white/40 mt-1">Try adjusting your filters or search term.</p>
                 </div>
               )}
-            </div>
             
             <div className="px-6 py-5 border-t border-white/5 bg-white/[0.01] flex items-center justify-between">
               <p className="text-xs text-white/30 font-medium">Showing {filteredTransactions.length} results</p>
