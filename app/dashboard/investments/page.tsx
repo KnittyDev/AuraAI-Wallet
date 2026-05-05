@@ -93,7 +93,7 @@ export default function InvestmentsPage() {
     { label: "Total Capital", value: `$${totalCapital.toLocaleString()}`, note: "Invested in strategies", up: true },
     { label: "Total Net Profit", value: `$${totalProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, note: "Realized earnings", up: totalProfit >= 0 },
     { label: "Active Strategies", value: activeCount.toString(), note: "Currently managed by AI", up: true },
-    { label: "AI Engine", value: "AuraAI", note: "Online & Scanning", up: true },
+    { label: "AI Engine", value: "Claude Opus 4.7", note: "Online & Scanning", up: true },
   ];
 
   if (loading) {
@@ -115,13 +115,22 @@ export default function InvestmentsPage() {
               <h1 className="text-4xl font-bold tracking-tight text-white mb-2">Investments</h1>
               <p className="text-white/50">Live overview of your portfolio, allocations, and AI-managed positions.</p>
             </div>
-            <Link
-              href="/dashboard/new-investment"
-              className="inline-flex items-center gap-2 self-start rounded-full bg-white px-5 py-3 text-sm font-bold text-black transition hover:bg-white/90"
-            >
-              <LuPlus className="h-4 w-4" />
-              New Investment
-            </Link>
+            <div className="flex flex-wrap items-center gap-3">
+              <Link
+                href="/dashboard/deposit"
+                className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+              >
+                <LuArrowUpRight className="h-4 w-4" />
+                Deposit
+              </Link>
+              <Link
+                href="/dashboard/new-investment"
+                className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-bold text-black transition hover:bg-white/90"
+              >
+                <LuPlus className="h-4 w-4" />
+                New Investment
+              </Link>
+            </div>
           </header>
 
           {/* Stat Cards */}
@@ -192,13 +201,12 @@ export default function InvestmentsPage() {
                         <span className="text-xs font-medium text-white/60">{inv.duration_days} Days</span>
                       </td>
                       <td className="px-8 py-5">
-                        <span className={`px-3 py-1 rounded-full text-[10px] font-bold border ${
-                          inv.risk_profile === "Aggressive"
+                        <span className={`px-3 py-1 rounded-full text-[10px] font-bold border ${inv.risk_profile === "Aggressive"
                             ? "text-red-400 bg-red-400/10 border-red-400/20"
                             : inv.risk_profile === "Growth"
-                            ? "text-emerald-400 bg-emerald-400/10 border-emerald-400/20"
-                            : "text-blue-400 bg-blue-400/10 border-blue-400/20"
-                        }`}>
+                              ? "text-emerald-400 bg-emerald-400/10 border-emerald-400/20"
+                              : "text-blue-400 bg-blue-400/10 border-blue-400/20"
+                          }`}>
                           {inv.risk_profile}
                         </span>
                       </td>
@@ -206,8 +214,8 @@ export default function InvestmentsPage() {
                         <button
                           onClick={() => fetchLogs(inv.id)}
                           className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${selectedInvId === inv.id
-                              ? "bg-white text-black"
-                              : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"
+                            ? "bg-white text-black"
+                            : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"
                             }`}
                         >
                           {selectedInvId === inv.id ? "Viewing Logs" : "View Logs"}

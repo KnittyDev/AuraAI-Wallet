@@ -33,7 +33,7 @@ const navItems: NavItem[] = [
   { label: "Transactions", href: "/dashboard/transactions", icon: LuWaypoints },
   { label: "Performance", href: "/dashboard/performance", icon: LuActivity },
   { label: "Ask AI", href: "/dashboard/ask-ai", icon: LuSparkles },
-  { label: "Settings", href: "#", icon: LuSettings },
+  { label: "Settings", href: "/dashboard/settings", icon: LuSettings },
 ];
 
 type DashboardSidebarProps = {

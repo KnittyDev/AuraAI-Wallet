@@ -107,10 +107,6 @@ export function AiActionLog({ actions }: AiActionLogProps) {
 
       <div className="mt-6 pt-6 border-t border-white/5 flex items-center justify-between text-[9px] font-bold text-white/20 uppercase tracking-[0.2em]">
         <span>Engine Version: 2.4.0-AuraAI with Claude Opus 4.7 Max</span>
-        <span className="flex items-center gap-2">
-          <div className="h-1 w-1 rounded-full bg-emerald-500" />
-          Neural Link Stable
-        </span>
       </div>
     </section>
   );

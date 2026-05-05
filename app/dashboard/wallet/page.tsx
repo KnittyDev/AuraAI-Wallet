@@ -4,17 +4,18 @@ import { motion, useMotionValue, useSpring, useTransform, animate, AnimatePresen
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
 import { supabase } from "@/lib/supabase";
 import { AuroraBackground } from "@/components/landing/aurora-background";
-import { 
-  LuWallet, 
-  LuArrowUpRight, 
-  LuArrowDownLeft, 
-  LuHistory, 
+import {
+  LuWallet,
+  LuArrowUpRight,
+  LuArrowDownLeft,
+  LuHistory,
   LuSettings,
   LuTrendingUp,
   LuShieldCheck,
   LuCreditCard,
   LuCheck,
-  LuX
+  LuX,
+  LuRefreshCw
 } from "react-icons/lu";
 
 
@@ -88,7 +89,7 @@ export default function WalletPage() {
     const balance = balanceItem ? Number(balanceItem.amount) : 0;
     const priceData = prices?.[asset.id];
     const usdValue = priceData ? balance * priceData.usd : 0;
-    
+
     return {
       ...asset,
       balance,
@@ -102,10 +103,10 @@ export default function WalletPage() {
 
   // Animation for the balance counter
   const count = useMotionValue(0);
-  const rounded = useTransform(count, (latest) => 
-    new Intl.NumberFormat("en-US", { 
-      minimumFractionDigits: 2, 
-      maximumFractionDigits: 2 
+  const rounded = useTransform(count, (latest) =>
+    new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
     }).format(latest)
   );
 
@@ -121,13 +122,13 @@ export default function WalletPage() {
     <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-hidden">
       <AuroraBackground />
       <div className="landing-grid-overlay" />
-      
+
       <DashboardSidebar currentPath="/dashboard/wallet" />
 
       <section className="relative z-10 flex-1 px-6 py-8 md:px-10 overflow-y-auto">
         <div className="mx-auto max-w-6xl">
           {/* Header */}
-          <motion.header 
+          <motion.header
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6"
@@ -157,7 +158,7 @@ export default function WalletPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Balance Card */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               className="lg:col-span-12 rounded-[2.5rem] border border-white/10 bg-white/[0.02] p-8 md:p-10 backdrop-blur-xl relative overflow-hidden group"
@@ -165,12 +166,11 @@ export default function WalletPage() {
               <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
                 <LuShieldCheck className="h-48 w-48 text-white rotate-12" />
               </div>
-              
+
               <div className="relative z-10">
                 <div className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-4 flex items-center gap-2">
                   Total Net Worth
                   {loading && <div className="h-2 w-2 rounded-full bg-cyan-500 animate-pulse" />}
-                  {!loading && <span className="text-[8px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-500">Live</span>}
                 </div>
 
                 <div className="flex items-baseline gap-4 mb-8">
@@ -214,9 +214,13 @@ export default function WalletPage() {
               <div className="lg:col-span-8">
                 <div className="flex items-center justify-between mb-6 px-2">
                   <h3 className="text-xl font-semibold text-white">Asset Breakdown</h3>
-                  <button className="text-white/40 hover:text-white transition-colors">
-                    <LuSettings className="h-5 w-5" />
-                  </button>
+                  <Link 
+                    href="/dashboard/convert" 
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 text-white/70 hover:text-white hover:bg-white/10 transition-all text-xs font-bold uppercase tracking-widest"
+                  >
+                    <LuRefreshCw className="h-3.5 w-3.5" />
+                    Convert Assets
+                  </Link>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -232,9 +236,8 @@ export default function WalletPage() {
                         <div className={`h-12 w-12 rounded-2xl bg-black flex items-center justify-center border border-white/10 group-hover:border-white/20 transition-colors`}>
                           <asset.icon className={`h-6 w-6 ${asset.color}`} />
                         </div>
-                        <span className={`text-[10px] font-bold px-2 py-1 rounded-lg ${
-                          Number(asset.change) >= 0 ? "bg-emerald-400/10 text-emerald-400" : "bg-red-400/10 text-red-400"
-                        }`}>
+                        <span className={`text-[10px] font-bold px-2 py-1 rounded-lg ${Number(asset.change) >= 0 ? "bg-emerald-400/10 text-emerald-400" : "bg-red-400/10 text-red-400"
+                          }`}>
                           {Number(asset.change) >= 0 ? "+" : ""}{asset.change}%
                         </span>
                       </div>
@@ -263,7 +266,7 @@ export default function WalletPage() {
                 <div className="flex items-center justify-between mb-6 px-2">
                   <h3 className="text-xl font-semibold text-white">Special Offer</h3>
                 </div>
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   className="rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-white/[0.05] to-transparent p-8 backdrop-blur-xl relative overflow-hidden flex flex-col justify-between h-full min-h-[400px]"
@@ -277,30 +280,30 @@ export default function WalletPage() {
                     </div>
                     <h3 className="text-2xl font-bold text-white mb-2 leading-tight">Aura Elite <br />Crypto Bank Card</h3>
                     <p className="text-sm text-white/50 leading-relaxed mb-6">Spend your crypto anywhere in the world. 0% fees, 3% cashback.</p>
-                    
+
                     {/* Physical Card Mockup */}
                     <div className="relative w-full aspect-[1.586/1] mb-8 group cursor-pointer">
                       <div className="absolute inset-0 bg-gradient-to-br from-zinc-800 to-black rounded-2xl border border-white/10 shadow-2xl flex flex-col justify-between p-6 transition-transform group-hover:rotate-[-2deg] group-hover:scale-[1.02]">
-                          <div className="flex justify-between items-start">
-                            <div className="flex items-center gap-2">
-                               <Image src={auraLogo} alt="Aura Logo" width={24} height={24} className="rounded-md" />
-                               <span className="text-[10px] font-bold tracking-widest text-white/90 uppercase">Aura</span>
-                            </div>
-                            <div className="text-right">
-                              <p className="text-[8px] font-bold tracking-widest text-white/40 uppercase">Elite</p>
-                            </div>
+                        <div className="flex justify-between items-start">
+                          <div className="flex items-center gap-2">
+                            <Image src={auraLogo} alt="Aura Logo" width={24} height={24} className="rounded-md" />
+                            <span className="text-[10px] font-bold tracking-widest text-white/90 uppercase">Aura</span>
                           </div>
+                          <div className="text-right">
+                            <p className="text-[8px] font-bold tracking-widest text-white/40 uppercase">Elite</p>
+                          </div>
+                        </div>
 
-                          <div className="space-y-4">
-                            <p className="text-lg font-mono tracking-widest text-white/80">•••• •••• •••• 8842</p>
-                            <div className="flex justify-between items-end">
-                              <p className="text-[10px] font-medium tracking-widest text-white/40 uppercase">Aura Platinum</p>
-                              <div className="flex -space-x-2">
-                                  <div className="h-6 w-6 rounded-full bg-red-500/80" />
-                                  <div className="h-6 w-6 rounded-full bg-orange-500/80" />
-                              </div>
+                        <div className="space-y-4">
+                          <p className="text-lg font-mono tracking-widest text-white/80">•••• •••• •••• 8842</p>
+                          <div className="flex justify-between items-end">
+                            <p className="text-[10px] font-medium tracking-widest text-white/40 uppercase">Aura Platinum</p>
+                            <div className="flex -space-x-2">
+                              <div className="h-6 w-6 rounded-full bg-red-500/80" />
+                              <div className="h-6 w-6 rounded-full bg-orange-500/80" />
                             </div>
                           </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -308,11 +311,10 @@ export default function WalletPage() {
                   <button
                     onClick={() => setShowModal(true)}
                     disabled={isPreOrdered}
-                    className={`w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${
-                      isPreOrdered 
-                      ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400" 
-                      : "bg-white text-black hover:bg-white/90 active:scale-95"
-                    }`}
+                    className={`w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${isPreOrdered
+                        ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
+                        : "bg-white text-black hover:bg-white/90 active:scale-95"
+                      }`}
                   >
                     {isPreOrdered ? (
                       <>
@@ -328,7 +330,7 @@ export default function WalletPage() {
             </div>
 
             {/* Recent Activity */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="lg:col-span-12"
@@ -359,9 +361,8 @@ export default function WalletPage() {
                       <tr key={tx.id} className="hover:bg-white/[0.02] transition-colors group">
                         <td className="px-8 py-5">
                           <div className="flex items-center gap-3">
-                            <div className={`h-8 w-8 rounded-lg flex items-center justify-center ${
-                              tx.type === "Deposit" || tx.type === "Profit" ? "bg-emerald-400/10 text-emerald-400" : "bg-red-400/10 text-red-400"
-                            }`}>
+                            <div className={`h-8 w-8 rounded-lg flex items-center justify-center ${tx.type === "Deposit" || tx.type === "Profit" ? "bg-emerald-400/10 text-emerald-400" : "bg-red-400/10 text-red-400"
+                              }`}>
                               {tx.type === "Deposit" || tx.type === "Profit" ? <LuArrowDownLeft className="h-4 w-4" /> : <LuArrowUpRight className="h-4 w-4" />}
                             </div>
                             <span className="text-sm font-medium text-white group-hover:translate-x-1 transition-transform">
@@ -373,9 +374,8 @@ export default function WalletPage() {
                           <span className="text-sm text-white/70">{tx.asset}</span>
                         </td>
                         <td className="px-8 py-5">
-                          <span className={`text-sm font-mono font-bold ${
-                            Number(tx.amount) > 0 ? "text-emerald-400" : "text-white"
-                          }`}>
+                          <span className={`text-sm font-mono font-bold ${Number(tx.amount) > 0 ? "text-emerald-400" : "text-white"
+                            }`}>
                             {Number(tx.amount) > 0 ? "+" : ""}{Number(tx.amount).toLocaleString()}
                           </span>
                         </td>
@@ -383,9 +383,8 @@ export default function WalletPage() {
                           {new Date(tx.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                         </td>
                         <td className="px-8 py-5 text-right">
-                          <span className={`text-[9px] font-bold px-2 py-1 rounded-md uppercase tracking-widest ${
-                            tx.status === "Completed" ? "bg-emerald-400/10 text-emerald-400" : "bg-white/5 text-white/40"
-                          }`}>
+                          <span className={`text-[9px] font-bold px-2 py-1 rounded-md uppercase tracking-widest ${tx.status === "Completed" ? "bg-emerald-400/10 text-emerald-400" : "bg-white/5 text-white/40"
+                            }`}>
                             {tx.status}
                           </span>
                         </td>
@@ -425,8 +424,8 @@ export default function WalletPage() {
             >
               {/* Modal Background Detail */}
               <div className="absolute -top-24 -right-24 h-64 w-64 bg-emerald-500/10 blur-[80px] rounded-full" />
-              
-              <button 
+
+              <button
                 onClick={() => setShowModal(false)}
                 className="absolute top-8 right-8 text-white/20 hover:text-white transition-colors"
               >
@@ -437,7 +436,7 @@ export default function WalletPage() {
                 <div className="h-16 w-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-6">
                   <LuCreditCard className="h-8 w-8 text-white" />
                 </div>
-                
+
                 <h2 className="text-3xl font-bold text-white mb-4">Get Card Launch Updates</h2>
                 <p className="text-white/50 text-sm leading-relaxed mb-10">
                   Be among the first to experience institutional spending. Join the priority waitlist for the Aura Elite Crypto Bank Card.
@@ -445,19 +444,19 @@ export default function WalletPage() {
 
                 {/* Card Preview Small */}
                 <div className="bg-black/40 rounded-3xl p-6 border border-white/5 mb-10">
-                   <div className="flex items-center gap-4 text-left">
-                      <div className="h-12 w-16 bg-zinc-800 rounded-lg border border-white/10 relative overflow-hidden">
-                         <div className="absolute top-2 left-2 h-2 w-3 bg-amber-500/50 rounded-sm" />
-                         <div className="absolute bottom-2 right-2 flex -space-x-1">
-                            <div className="h-3 w-3 rounded-full bg-red-500/40" />
-                            <div className="h-3 w-3 rounded-full bg-orange-500/40" />
-                         </div>
+                  <div className="flex items-center gap-4 text-left">
+                    <div className="h-12 w-16 bg-zinc-800 rounded-lg border border-white/10 relative overflow-hidden">
+                      <div className="absolute top-2 left-2 h-2 w-3 bg-amber-500/50 rounded-sm" />
+                      <div className="absolute bottom-2 right-2 flex -space-x-1">
+                        <div className="h-3 w-3 rounded-full bg-red-500/40" />
+                        <div className="h-3 w-3 rounded-full bg-orange-500/40" />
                       </div>
-                      <div>
-                         <p className="text-white font-bold text-sm">Aura Elite Platinum</p>
-                         <p className="text-white/30 text-[10px] uppercase tracking-widest">Priority Status: Active</p>
-                      </div>
-                   </div>
+                    </div>
+                    <div>
+                      <p className="text-white font-bold text-sm">Aura Elite Platinum</p>
+                      <p className="text-white/30 text-[10px] uppercase tracking-widest">Priority Status: Active</p>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="space-y-4">
