@@ -5,6 +5,7 @@ import Image from "next/image";
 import auraLogo from "@/app/auralogo.png";
 import { LuArrowLeft, LuArrowUpRight } from "react-icons/lu";
 import { LandingFooter } from "@/components/landing/landing-footer";
+import { PerformanceLog } from "@/components/case-study/performance-log";
 
 export async function generateStaticParams() {
   return caseStudies.map((cs) => ({ id: cs.id }));
@@ -85,6 +86,9 @@ export default async function CaseStudyPage({
           ))}
         </div>
 
+        {/* Monthly Performance Log */}
+        <PerformanceLog performance={(study as any).monthlyPerformance} />
+
         {/* Divider */}
         <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent mb-20" />
 
@@ -128,7 +132,7 @@ export default async function CaseStudyPage({
             </Link>
           </div>
         </div>
-        
+
         <LandingFooter />
       </main>
     </div>

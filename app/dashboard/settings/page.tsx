@@ -17,8 +17,12 @@ import {
   LuWallet,
   LuChevronRight,
   LuKey,
-  LuArrowUpRight
+  LuArrowUpRight,
+  LuX,
+  LuEye,
+  LuEyeOff
 } from "react-icons/lu";
+import { supabase } from "@/lib/supabase";
 import { useState } from "react";
 
 interface SettingCardProps {
@@ -79,6 +83,43 @@ export default function SettingsPage() {
 
   const toggleSetting = (key: keyof typeof settings) => {
     setSettings(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<{ type: "success" | "error", text: string } | null>(null);
+
+  const calculateStrength = (pass: string) => {
+    let score = 0;
+    if (pass.length > 6) score++;
+    if (pass.length > 10) score++;
+    if (/[A-Z]/.test(pass) && /[a-z]/.test(pass)) score++;
+    if (/[0-9]/.test(pass) || /[^A-Za-z0-9]/.test(pass)) score++;
+    return score || 1;
+  };
+
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      setMessage({ type: "error", text: "New passwords do not match." });
+      return;
+    }
+
+    setLoading(true);
+    setMessage(null);
+
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+
+    if (error) {
+      setMessage({ type: "error", text: error.message });
+    } else {
+      setMessage({ type: "success", text: "Master password updated successfully." });
+      setTimeout(() => setShowPasswordModal(false), 2000);
+    }
+    setLoading(false);
   };
 
   return (
@@ -177,7 +218,10 @@ export default function SettingsPage() {
                         <p className="text-xs text-white/30">Last updated 14 days ago. High complexity active.</p>
                       </div>
                     </div>
-                    <button className="flex items-center gap-2 text-[10px] font-bold text-white/40 uppercase tracking-widest hover:text-white transition-colors">
+                    <button 
+                      onClick={() => setShowPasswordModal(true)}
+                      className="flex items-center gap-2 text-[10px] font-bold text-white/40 uppercase tracking-widest hover:text-white transition-colors"
+                    >
                       Change <LuChevronRight className="h-4 w-4" />
                     </button>
                   </div>
@@ -229,6 +273,107 @@ export default function SettingsPage() {
 
         </div>
       </section>
+      {/* Password Change Modal */}
+      {showPasswordModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="absolute inset-0 bg-black/80 backdrop-blur-md"
+            onClick={() => !loading && setShowPasswordModal(false)}
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            className="relative w-full max-w-lg rounded-[2.5rem] border border-white/10 bg-zinc-900 p-8 md:p-12 shadow-2xl overflow-hidden"
+          >
+            <div className="absolute -top-24 -right-24 h-64 w-64 bg-cyan-500/10 blur-[80px] rounded-full" />
+            
+            <button 
+              onClick={() => setShowPasswordModal(false)}
+              className="absolute top-8 right-8 text-white/20 hover:text-white transition-colors"
+            >
+              <LuX className="h-6 w-6" />
+            </button>
+
+            <div className="relative z-10">
+              <div className="h-16 w-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
+                <LuKey className="h-8 w-8 text-white" />
+              </div>
+
+              <h2 className="text-3xl font-bold text-white mb-2">Update Password</h2>
+              <p className="text-white/40 text-sm mb-8">Secure your account with a new master key.</p>
+
+              <form onSubmit={handleChangePassword} className="space-y-6">
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest px-1 block mb-2">New Password</label>
+                    <input
+                      type="password"
+                      required
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="w-full bg-black/50 border border-white/5 rounded-2xl px-6 py-4 text-white outline-none focus:border-cyan-500/50 transition-all"
+                      placeholder="••••••••"
+                    />
+                    
+                    {/* Strength Meter */}
+                    {newPassword && (
+                      <div className="mt-3 px-1 space-y-2">
+                        <div className="flex gap-1 h-1">
+                          {[...Array(4)].map((_, i) => (
+                            <div
+                              key={i}
+                              className={`h-full flex-1 rounded-full transition-all duration-500 ${
+                                i < calculateStrength(newPassword)
+                                  ? calculateStrength(newPassword) <= 2 ? "bg-red-500" : calculateStrength(newPassword) === 3 ? "bg-yellow-500" : "bg-emerald-500"
+                                  : "bg-white/5"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                        <p className={`text-[10px] font-bold uppercase tracking-widest ${
+                          calculateStrength(newPassword) <= 2 ? "text-red-500" : calculateStrength(newPassword) === 3 ? "text-yellow-500" : "text-emerald-500"
+                        }`}>
+                          {calculateStrength(newPassword) <= 2 ? "Weak Password" : calculateStrength(newPassword) === 3 ? "Moderate Strength" : "Highly Secure"}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest px-1 block mb-2">Confirm New Password</label>
+                    <input
+                      type="password"
+                      required
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="w-full bg-black/50 border border-white/5 rounded-2xl px-6 py-4 text-white outline-none focus:border-cyan-500/50 transition-all"
+                      placeholder="••••••••"
+                    />
+                  </div>
+                </div>
+
+                {message && (
+                  <div className={`p-4 rounded-2xl text-xs font-bold ${
+                    message.type === "success" ? "bg-emerald-400/10 text-emerald-400 border border-emerald-400/20" : "bg-red-400/10 text-red-400 border border-red-400/20"
+                  }`}>
+                    {message.text}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-5 rounded-2xl bg-white text-black font-bold hover:bg-white/90 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? "Updating Master Key..." : "Confirm Update"}
+                </button>
+              </form>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </main>
   );
 }

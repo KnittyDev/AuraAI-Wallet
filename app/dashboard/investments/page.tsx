@@ -99,13 +99,23 @@ export default function InvestmentsPage() {
     // Header
     doc.setFillColor(10, 10, 10);
     doc.rect(0, 0, pageWidth, 40, 'F');
+    
+    try {
+      const logoUrl = '/auralogo.png'; 
+      doc.addImage(logoUrl, 'PNG', 14, 10, 10, 10);
+    } catch (e) {
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(20);
+      doc.text('AURA', 14, 18);
+    }
+
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(20);
-    doc.text('AURA', 14, 18);
+    doc.setFontSize(10);
+    doc.text('AURA TERMINAL', 28, 17);
     doc.setFontSize(8);
     doc.setTextColor(180, 180, 180);
-    doc.text('Investment Strategy Report', 14, 26);
-    doc.text(`Generated: ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`, 14, 33);
+    doc.text('Investment Strategy Report', 28, 24);
+    doc.text(`Generated: ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`, 28, 30);
 
     // Investment Summary
     doc.setTextColor(50, 50, 50);
@@ -130,11 +140,20 @@ export default function InvestmentsPage() {
       ]]
     });
 
+    // Protection Disclaimer
+    const disclaimerY = (doc as any).lastAutoTable?.finalY || 75;
+    doc.setFontSize(8);
+    doc.setTextColor(120, 120, 120);
+    doc.setFont("helvetica", "italic");
+    doc.text('Note: In the event of an overall strategy loss, 15% of the loss will be reimbursed to the user', 14, disclaimerY + 10);
+    doc.text('as part of the Aura Protection Program.', 14, disclaimerY + 14);
+    doc.setFont("helvetica", "normal");
+
     // Execution Log
-    const tableEndY = (doc as any).lastAutoTable?.finalY || 90;
+    const tableEndY = disclaimerY + 20;
     doc.setFontSize(12);
     doc.setTextColor(50, 50, 50);
-    doc.text('Execution Log', 14, tableEndY + 14);
+    doc.text('Execution Log', 14, tableEndY + 10);
 
     const logRows = selectedLogs.map(log => [
       new Date(log.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
@@ -422,7 +441,7 @@ export default function InvestmentsPage() {
                 <div className="space-y-4 mb-10">
                   <div className="flex justify-between items-center py-3 border-b border-white/5">
                     <span className="text-sm text-white/40">Capital Allocation</span>
-                    <span className="text-sm font-bold text-white">${Number(infoModalInvestment.amount).toLocaleString()} {infoModalInvestment.asset_code}</span>
+                    <span className="text-sm font-bold text-white">${Number(infoModalInvestment.amount).toLocaleString()} USDT</span>
                   </div>
                   <div className="flex justify-between items-center py-3 border-b border-white/5">
                     <span className="text-sm text-white/40">Risk Profile</span>
