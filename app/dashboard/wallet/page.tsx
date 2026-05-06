@@ -45,8 +45,7 @@ export default function WalletPage() {
   const [transactions, setTransactions] = useState<any[]>([]);
   const [prices, setPrices] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [isPreOrdered, setIsPreOrdered] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -305,23 +304,13 @@ export default function WalletPage() {
                     </div>
                   </div>
 
-                  <button
-                    onClick={() => setShowModal(true)}
-                    disabled={isPreOrdered}
-                    className={`w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${isPreOrdered
-                        ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
-                        : "bg-white text-black hover:bg-white/90 active:scale-95"
-                      }`}
+                  <Link
+                    href="/dashboard/card"
+                    className="w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 bg-white text-black hover:bg-white/90 active:scale-95 group"
                   >
-                    {isPreOrdered ? (
-                      <>
-                        <LuCheck className="h-4 w-4" />
-                        Reminder Set
-                      </>
-                    ) : (
-                      <>Remind Me</>
-                    )}
-                  </button>
+                    Discover the Card
+                    <LuArrowUpRight className="h-4 w-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </Link>
                 </motion.div>
               </div>
             </div>
@@ -402,77 +391,7 @@ export default function WalletPage() {
         </div>
       </section>
 
-      {/* Pre-order Modal */}
-      <AnimatePresence>
-        {showModal && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowModal(false)}
-              className="absolute inset-0 bg-black/80 backdrop-blur-md"
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-lg rounded-[2.5rem] border border-white/10 bg-zinc-900 p-8 md:p-12 shadow-2xl overflow-hidden"
-            >
-              {/* Modal Background Detail */}
-              <div className="absolute -top-24 -right-24 h-64 w-64 bg-emerald-500/10 blur-[80px] rounded-full" />
 
-              <button
-                onClick={() => setShowModal(false)}
-                className="absolute top-8 right-8 text-white/20 hover:text-white transition-colors"
-              >
-                <LuX className="h-6 w-6" />
-              </button>
-
-              <div className="relative z-10 text-center">
-                <div className="h-16 w-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-6">
-                  <LuCreditCard className="h-8 w-8 text-white" />
-                </div>
-
-                <h2 className="text-3xl font-bold text-white mb-4">Get Card Launch Updates</h2>
-                <p className="text-white/50 text-sm leading-relaxed mb-10">
-                  Be among the first to experience institutional spending. Join the priority waitlist for the Aura Elite Crypto Bank Card.
-                </p>
-
-                {/* Card Preview Small */}
-                <div className="bg-black/40 rounded-3xl p-6 border border-white/5 mb-10">
-                  <div className="flex items-center gap-4 text-left">
-                    <div className="h-12 w-16 bg-zinc-800 rounded-lg border border-white/10 relative overflow-hidden">
-                      <div className="absolute top-2 left-2 h-2 w-3 bg-amber-500/50 rounded-sm" />
-                      <div className="absolute bottom-2 right-2 flex -space-x-1">
-                        <div className="h-3 w-3 rounded-full bg-red-500/40" />
-                        <div className="h-3 w-3 rounded-full bg-orange-500/40" />
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-white font-bold text-sm">Aura Elite Platinum</p>
-                      <p className="text-white/30 text-[10px] uppercase tracking-widest">Priority Status: Active</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <button
-                    onClick={() => {
-                      setIsPreOrdered(true);
-                      setShowModal(false);
-                    }}
-                    className="w-full py-5 rounded-2xl bg-white text-black font-bold hover:bg-white/90 transition-all active:scale-[0.98]"
-                  >
-                    Remind Me
-                  </button>
-                  <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] font-bold">No hidden fees • Instant activation upon release</p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </main>
   );
 }

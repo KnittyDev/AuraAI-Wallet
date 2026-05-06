@@ -22,6 +22,15 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const calculateStrength = (pass: string) => {
+    let score = 0;
+    if (pass.length > 6) score++;
+    if (pass.length > 10) score++;
+    if (/[A-Z]/.test(pass) && /[a-z]/.test(pass)) score++;
+    if (/[0-9]/.test(pass) || /[^A-Za-z0-9]/.test(pass)) score++;
+    return score || 1;
+  };
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -164,7 +173,7 @@ export default function RegisterPage() {
                         className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-3.5 px-5 text-sm focus:outline-none focus:border-white/20 transition-all placeholder:text-white/20"
                       />
                     </div>
-                    <div>
+                    <div className="space-y-2">
                       <input
                         type="password"
                         placeholder="Create a password"
@@ -173,6 +182,43 @@ export default function RegisterPage() {
                         required
                         className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-3.5 px-5 text-sm focus:outline-none focus:border-white/20 transition-all placeholder:text-white/20"
                       />
+                      
+                      {/* Password Strength Indicator */}
+                      {password.length > 0 && (
+                        <motion.div 
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="px-1 space-y-2"
+                        >
+                          <div className="flex gap-1.5 h-1">
+                            {[1, 2, 3, 4].map((level) => {
+                              const strength = calculateStrength(password);
+                              return (
+                                <div 
+                                  key={level}
+                                  className={`flex-1 rounded-full transition-all duration-500 ${
+                                    level <= strength 
+                                      ? strength === 1 ? 'bg-red-500' :
+                                        strength === 2 ? 'bg-orange-500' :
+                                        strength === 3 ? 'bg-yellow-500' : 'bg-emerald-500'
+                                      : 'bg-white/5'
+                                  }`}
+                                />
+                              );
+                            })}
+                          </div>
+                          <p className={`text-[9px] font-bold uppercase tracking-widest ${
+                            calculateStrength(password) === 1 ? 'text-red-500/60' :
+                            calculateStrength(password) === 2 ? 'text-orange-500/60' :
+                            calculateStrength(password) === 3 ? 'text-yellow-500/60' : 'text-emerald-500/60'
+                          }`}>
+                            {calculateStrength(password) === 1 && "Weak Password"}
+                            {calculateStrength(password) === 2 && "Fair Security"}
+                            {calculateStrength(password) === 3 && "Good Password"}
+                            {calculateStrength(password) === 4 && "Strong / Secure"}
+                          </p>
+                        </motion.div>
+                      )}
                     </div>
 
                     {error && <p className="text-red-400 text-xs px-1">{error}</p>}

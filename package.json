@@ -14,6 +14,8 @@
     "@paper-design/shaders-react": "^0.0.76",
     "@supabase/supabase-js": "^2.105.3",
     "framer-motion": "^12.38.0",
+    "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.7",
     "lightweight-charts": "^5.2.0",
     "lucide-react": "^1.11.0",
     "next": "16.2.4",

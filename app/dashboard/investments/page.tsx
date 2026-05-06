@@ -5,7 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { AiActionLog } from "@/components/dashboard/ai-action-log";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { LuPlus, LuArrowUpRight, LuArrowDownRight } from "react-icons/lu";
+import { LuPlus, LuArrowUpRight, LuArrowDownRight, LuDownload, LuInfo, LuX, LuCalendar, LuClock, LuActivity } from "react-icons/lu";
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
 import { AuroraBackground } from "@/components/landing/aurora-background";
 
@@ -38,6 +38,7 @@ export default function InvestmentsPage() {
   const [selectedInvId, setSelectedInvId] = useState<string | null>(null);
   const [selectedLogs, setSelectedLogs] = useState<AiAction[]>([]);
   const [loadingLogs, setLoadingLogs] = useState(false);
+  const [infoModalInvestment, setInfoModalInvestment] = useState<Investment | null>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -83,6 +84,87 @@ export default function InvestmentsPage() {
 
     if (!error) setSelectedLogs(data);
     setLoadingLogs(false);
+  };
+
+  const downloadPDF = async () => {
+    const { default: jsPDF } = await import('jspdf');
+    const autoTable = (await import('jspdf-autotable')).default;
+
+    const inv = investments.find(i => i.id === selectedInvId);
+    if (!inv) return;
+
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+
+    // Header
+    doc.setFillColor(10, 10, 10);
+    doc.rect(0, 0, pageWidth, 40, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(20);
+    doc.text('AURA', 14, 18);
+    doc.setFontSize(8);
+    doc.setTextColor(180, 180, 180);
+    doc.text('Investment Strategy Report', 14, 26);
+    doc.text(`Generated: ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`, 14, 33);
+
+    // Investment Summary
+    doc.setTextColor(50, 50, 50);
+    doc.setFontSize(12);
+    doc.text('Strategy Summary', 14, 52);
+
+    const invProfit = profits[inv.id] || 0;
+
+    autoTable(doc, {
+      startY: 58,
+      theme: 'grid',
+      headStyles: { fillColor: [30, 30, 30], textColor: [255, 255, 255], fontSize: 8 },
+      bodyStyles: { fontSize: 9 },
+      head: [['Asset', 'Capital', 'Net Profit', 'Duration', 'Risk Profile', 'Status']],
+      body: [[
+        inv.asset_code,
+        `$${Number(inv.amount).toLocaleString()}`,
+        `${invProfit >= 0 ? '+' : ''}${invProfit.toFixed(2)} USDT`,
+        `${inv.duration_days} Days`,
+        inv.risk_profile,
+        inv.status
+      ]]
+    });
+
+    // Execution Log
+    const tableEndY = (doc as any).lastAutoTable?.finalY || 90;
+    doc.setFontSize(12);
+    doc.setTextColor(50, 50, 50);
+    doc.text('Execution Log', 14, tableEndY + 14);
+
+    const logRows = selectedLogs.map(log => [
+      new Date(log.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+      log.action_type.toUpperCase(),
+      log.asset_code,
+      `$${log.entry_price.toLocaleString()}`,
+      log.exit_price ? `$${log.exit_price.toLocaleString()}` : '—',
+      log.profit_usd != null ? `${log.profit_usd >= 0 ? '+' : ''}${log.profit_usd.toFixed(2)}` : '—',
+      log.status
+    ]);
+
+    autoTable(doc, {
+      startY: tableEndY + 20,
+      theme: 'striped',
+      headStyles: { fillColor: [30, 30, 30], textColor: [255, 255, 255], fontSize: 7 },
+      bodyStyles: { fontSize: 7 },
+      head: [['Date', 'Type', 'Asset', 'Entry', 'Exit', 'P&L', 'Status']],
+      body: logRows
+    });
+
+    // Footer
+    const pageCount = doc.getNumberOfPages();
+    for (let p = 1; p <= pageCount; p++) {
+      doc.setPage(p);
+      doc.setFontSize(7);
+      doc.setTextColor(160, 160, 160);
+      doc.text(`Aura Investment Terminal  •  Page ${p}/${pageCount}`, pageWidth / 2, doc.internal.pageSize.getHeight() - 8, { align: 'center' });
+    }
+
+    doc.save(`aura-strategy-${inv.asset_code}-${inv.id.slice(0, 8)}.pdf`);
   };
 
   const totalCapital = investments.reduce((acc, inv) => acc + Number(inv.amount), 0);
@@ -210,15 +292,24 @@ export default function InvestmentsPage() {
                         </span>
                       </td>
                       <td className="px-8 py-5 text-right">
-                        <button
-                          onClick={() => fetchLogs(inv.id)}
-                          className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${selectedInvId === inv.id
-                            ? "bg-white text-black"
-                            : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"
-                            }`}
-                        >
-                          {selectedInvId === inv.id ? "Viewing Logs" : "View Logs"}
-                        </button>
+                        <div className="flex items-center justify-end gap-2">
+                          <button
+                            onClick={() => setInfoModalInvestment(inv)}
+                            className="p-2 rounded-xl bg-white/5 text-white/40 hover:text-white hover:bg-white/10 transition-all"
+                            title="Strategy Details"
+                          >
+                            <LuInfo className="h-4 w-4" />
+                          </button>
+                          <button
+                            onClick={() => fetchLogs(inv.id)}
+                            className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${selectedInvId === inv.id
+                              ? "bg-white text-black"
+                              : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white"
+                              }`}
+                          >
+                            {selectedInvId === inv.id ? "Viewing Logs" : "View Logs"}
+                          </button>
+                        </div>
                       </td>
                     </motion.tr>
                   ))}
@@ -238,12 +329,21 @@ export default function InvestmentsPage() {
               >
                 <div className="flex items-center justify-between px-2">
                   <h2 className="text-xl font-bold text-white">Strategy Execution Feed</h2>
-                  <button
-                    onClick={() => setSelectedInvId(null)}
-                    className="text-[10px] font-bold text-white/20 hover:text-white uppercase tracking-widest"
-                  >
-                    Close Feed
-                  </button>
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={downloadPDF}
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 text-white/50 hover:text-white hover:bg-white/10 transition-all text-[10px] font-bold uppercase tracking-widest"
+                    >
+                      <LuDownload className="h-3.5 w-3.5" />
+                      Export PDF
+                    </button>
+                    <button
+                      onClick={() => setSelectedInvId(null)}
+                      className="text-[10px] font-bold text-white/20 hover:text-white uppercase tracking-widest"
+                    >
+                      Close Feed
+                    </button>
+                  </div>
                 </div>
                 {loadingLogs ? (
                   <div className="h-64 flex items-center justify-center border border-white/5 rounded-[32px] bg-black/20 italic text-white/20">
@@ -257,6 +357,103 @@ export default function InvestmentsPage() {
           </AnimatePresence>
         </div>
       </section>
+
+      {/* Info Modal */}
+      <AnimatePresence>
+        {infoModalInvestment && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setInfoModalInvestment(null)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-md"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-lg rounded-[2.5rem] border border-white/10 bg-zinc-900 p-8 md:p-10 shadow-2xl overflow-hidden"
+            >
+              <div className="absolute -top-24 -right-24 h-64 w-64 bg-emerald-500/10 blur-[80px] rounded-full" />
+              
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-3">
+                    <div className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
+                      <LuActivity className="h-6 w-6 text-emerald-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-white">Strategy Details</h3>
+                      <p className="text-[10px] font-mono text-white/30 uppercase tracking-widest">ID: {infoModalInvestment.id.slice(0, 12)}</p>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => setInfoModalInvestment(null)}
+                    className="p-2 rounded-full hover:bg-white/10 text-white/20 hover:text-white transition-all"
+                  >
+                    <LuX className="h-5 w-5" />
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div className="p-5 rounded-3xl bg-white/[0.03] border border-white/5">
+                    <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-2 flex items-center gap-2">
+                      <LuCalendar className="h-3 w-3" /> Start Date
+                    </p>
+                    <p className="text-sm font-medium text-white">
+                      {new Date(infoModalInvestment.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                    </p>
+                  </div>
+                  <div className="p-5 rounded-3xl bg-white/[0.03] border border-white/5">
+                    <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-2 flex items-center gap-2">
+                      <LuClock className="h-3 w-3" /> Maturity Date
+                    </p>
+                    <p className="text-sm font-medium text-white">
+                      {(() => {
+                        const date = new Date(infoModalInvestment.created_at);
+                        date.setDate(date.getDate() + infoModalInvestment.duration_days);
+                        return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                      })()}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-4 mb-10">
+                  <div className="flex justify-between items-center py-3 border-b border-white/5">
+                    <span className="text-sm text-white/40">Capital Allocation</span>
+                    <span className="text-sm font-bold text-white">${Number(infoModalInvestment.amount).toLocaleString()} {infoModalInvestment.asset_code}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-3 border-b border-white/5">
+                    <span className="text-sm text-white/40">Risk Profile</span>
+                    <span className={`text-[10px] font-bold px-3 py-1 rounded-full border ${
+                      infoModalInvestment.risk_profile === "Aggressive" ? "text-red-400 border-red-400/20 bg-red-400/5" :
+                      infoModalInvestment.risk_profile === "Growth" ? "text-emerald-400 border-emerald-400/20 bg-emerald-400/5" :
+                      "text-blue-400 border-blue-400/20 bg-blue-400/5"
+                    }`}>
+                      {infoModalInvestment.risk_profile.toUpperCase()}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center py-3 border-b border-white/5">
+                    <span className="text-sm text-white/40">Execution Status</span>
+                    <span className="text-sm font-bold text-emerald-400 flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      {infoModalInvestment.status.toUpperCase()}
+                    </span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => setInfoModalInvestment(null)}
+                  className="w-full py-4 rounded-2xl bg-white text-black font-bold hover:bg-white/90 transition-all active:scale-[0.98]"
+                >
+                  Understood
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }
