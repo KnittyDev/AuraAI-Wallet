@@ -17,7 +17,6 @@ import {
   LuWallet,
   LuChevronRight,
   LuKey,
-  LuMonitor,
   LuArrowUpRight
 } from "react-icons/lu";
 import { useState } from "react";
@@ -109,10 +108,6 @@ export default function SettingsPage() {
               <div>
                 <h1 className="text-3xl font-bold tracking-tight text-white mb-1">Account Control</h1>
                 <p className="text-white/40 text-sm font-medium">Manage your neural identities and preferences.</p>
-                <div className="mt-4 flex items-center gap-2">
-                  <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 uppercase tracking-widest">Aura Elite</span>
-                  <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-white/5 text-white/40 border border-white/10 uppercase tracking-widest">Verified Account</span>
-                </div>
               </div>
             </div>
 
@@ -226,31 +221,6 @@ export default function SettingsPage() {
                       <option>Turkish (TR)</option>
                       <option>German (DE)</option>
                     </select>
-                  </div>
-                </div>
-
-                {/* Sessions Pod */}
-                <div className="p-8 rounded-[2.5rem] border border-white/5 bg-white/[0.01] space-y-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-sm font-bold text-white">Active Sessions</h4>
-                    <LuMonitor className="h-4 w-4 text-white/20" />
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-xs text-white/80 font-medium">Desktop - Chrome</p>
-                        <p className="text-[10px] text-white/20 uppercase tracking-widest">Istanbul, TR • Current</p>
-                      </div>
-                      <div className="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
-                    </div>
-                    <div className="flex items-center justify-between opacity-50">
-                      <div>
-                        <p className="text-xs text-white/80 font-medium">iPhone 15 Pro</p>
-                        <p className="text-[10px] text-white/20 uppercase tracking-widest">London, UK • 2h ago</p>
-                      </div>
-                      <button className="text-[9px] font-bold text-white/30 hover:text-red-400 uppercase tracking-widest">Revoke</button>
-                    </div>
                   </div>
                 </div>
               </div>

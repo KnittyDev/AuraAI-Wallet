@@ -1,73 +1,215 @@
-const cards = [
+"use client";
+
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { LuShieldCheck, LuSparkles, LuMoon, LuZap, LuArrowUpRight, LuTrendingUp } from "react-icons/lu";
+
+const FEATURES = [
   {
     title: "Easy to use",
-    description:
-    "Even if you have no knowledge of trading, cryptocurrency, or stock market, the Aura Opus 4.7 model handles all your trades fully autonomously!",
-    span: "md:col-span-2",
-    height: "min-h-[260px]",
+    description: "Even if you have no knowledge of trading, cryptocurrency, or stock market, the Aura Opus 4.7 model handles all your trades fully autonomously!",
+    type: "prediction",
+    button: "Start Trading"
   },
   {
     title: "Trade with AI",
-    description:
-      "Use model-powered portfolio ideas and instantly convert them into actionable trade logic.",
-    span: "md:col-span-1",
-    height: "min-h-[260px]",
+    description: "Use model-powered portfolio ideas and instantly convert them into actionable trade logic with a single prompt.",
+    type: "ai",
+    button: "Generate Strategy"
   },
   {
     title: "Let it run while you sleep",
-    description:
-      "While you sleep, Aura autonomously executes trades based on your configured strategy and provides real-time profit notifications via SMS and email.",
-    span: "md:col-span-2",
-    height: "min-h-[300px]",
+    description: "While you sleep, Aura autonomously executes trades based on your configured strategy and provides real-time notifications.",
+    type: "sleep",
+    button: "Automate Now"
   },
   {
     title: "Low Risk High Returns",
-    description:
-      "Aura monitors market risk and automatically adjusts or pauses trading to protect your capital.",
-    span: "md:col-span-1",
-    height: "min-h-[300px]",
-  },
+    description: "Aura monitors market risk and automatically adjusts or pauses trading to protect your capital and maximize yield.",
+    type: "risk",
+    button: "View Performance"
+  }
 ];
 
 export function FeatureShowcaseSection() {
+  const [position, setPosition] = useState<"yes" | "no">("yes");
+
   return (
-    <section
-      className="mt-16 w-full max-w-6xl"
-      style={{ contentVisibility: "auto", containIntrinsicSize: "1px 980px" }}
-    >
-      <div className="mb-6 text-center">
-        <h2 className="text-2xl font-semibold text-white md:text-4xl">
-          Powerful Features
-        </h2>
-        <p className="mt-2 text-sm text-white/65 md:text-base">
-          Everything you need to build, automate, and scale your portfolio workflows.
-        </p>
-      </div>
+    <section className="mt-32 w-full max-w-6xl mx-auto px-4 space-y-32 mb-32">
+      {FEATURES.map((feature, idx) => {
+        const isEven = idx % 2 === 0;
+        
+        return (
+          <div key={feature.title} className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Content Side */}
+            <motion.div 
+              initial={{ opacity: 0, x: isEven ? -30 : 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className={`text-left space-y-8 ${!isEven ? "lg:order-2" : ""}`}
+            >
+              <div className="space-y-4">
+                <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white leading-tight">
+                  {feature.title}
+                </h2>
+                <p className="text-lg text-white/50 leading-relaxed max-w-md">
+                  {feature.description}
+                </p>
+              </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        {cards.map((card) => (
-          <article
-            key={card.title}
-            className={`relative overflow-hidden rounded-3xl border border-white/15 bg-black/55 p-6 text-left backdrop-blur-sm ${card.span} ${card.height}`}
-          >
-            <div
-              className="pointer-events-none absolute inset-0 opacity-40"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle at center, rgba(255,255,255,0.08) 1px, transparent 1px)",
-                backgroundSize: "12px 12px",
-              }}
-            />
-            <div className="pointer-events-none absolute -left-20 top-6 h-52 w-52 rounded-full bg-cyan-400/14 blur-2xl" />
-            <div className="pointer-events-none absolute -right-20 bottom-0 h-56 w-56 rounded-full bg-violet-400/14 blur-2xl" />
+              <button className="px-8 py-3 rounded-full bg-black border border-white/20 text-white font-bold text-sm hover:bg-white hover:text-black transition-all duration-300">
+                {feature.button}
+              </button>
+            </motion.div>
 
-            <div className="relative z-10 mt-20">
-              <h3 className="text-3xl font-semibold tracking-tight text-white">{card.title}</h3>
-              <p className="mt-3 max-w-md text-lg text-white/75">{card.description}</p>
-            </div>
-          </article>
-        ))}
-      </div>
+            {/* Interactive UI Side */}
+            <motion.div
+              initial={{ opacity: 0, x: isEven ? 30 : -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className={`relative ${!isEven ? "lg:order-1" : ""}`}
+            >
+              <div className="aspect-[4/3] w-full max-w-[500px] mx-auto rounded-[2.5rem] p-8 md:p-12 flex flex-col items-center justify-center relative shadow-2xl border border-white/10 bg-white/[0.02] backdrop-blur-3xl overflow-hidden">
+                
+                {/* Specific UI for each feature type */}
+                {feature.type === 'prediction' && (
+                  <div className="w-full space-y-6">
+                    <div className="bg-white/5 rounded-[2rem] p-8 border border-white/5 relative overflow-hidden group">
+                      <div className="relative z-10 space-y-8">
+                        <div className="flex items-center justify-between">
+                          <div className="space-y-1">
+                            <p className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em]">System Status</p>
+                            <h4 className="text-xl font-bold text-white">Autonomous Trading</h4>
+                          </div>
+                          {/* Premium Toggle Switch */}
+                          <div 
+                            onClick={() => setPosition(position === 'yes' ? 'no' : 'yes')}
+                            className={`w-14 h-8 rounded-full p-1 cursor-pointer transition-colors duration-500 ${position === 'yes' ? 'bg-emerald-500' : 'bg-white/10'}`}
+                          >
+                            <motion.div 
+                              animate={{ x: position === 'yes' ? 24 : 0 }}
+                              className="w-6 h-6 bg-white rounded-full shadow-lg"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-4">
+                          <div className="flex items-center gap-3">
+                            <div className={`h-2 w-2 rounded-full ${position === 'yes' ? 'bg-emerald-500 animate-pulse' : 'bg-white/20'}`} />
+                            <span className={`text-xs font-bold uppercase tracking-widest ${position === 'yes' ? 'text-emerald-400' : 'text-white/30'}`}>
+                              {position === 'yes' ? 'Model: Active' : 'Model: Standby'}
+                            </span>
+                          </div>
+                          
+                          <div className="space-y-2">
+                            <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                              <motion.div 
+                                animate={{ x: position === 'yes' ? ["-100%", "100%"] : "-100%" }}
+                                transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+                                className="h-full w-1/3 bg-gradient-to-r from-transparent via-emerald-400/20 to-transparent"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white rounded-[2rem] p-6 shadow-2xl flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-xl bg-black flex items-center justify-center text-white">
+                          <LuTrendingUp size={20} />
+                        </div>
+                        <div>
+                          <p className="text-black font-bold text-sm">Total Profit</p>
+                          <p className="text-black/40 text-[10px] uppercase font-bold tracking-widest">Global Live</p>
+                        </div>
+                      </div>
+                      <span className="text-2xl font-bold text-emerald-600">+$12,450.00</span>
+                    </div>
+                  </div>
+                )}
+
+                {feature.type === 'ai' && (
+                  <div className="w-full space-y-6">
+                    <div className="flex items-center gap-3 bg-white/5 rounded-2xl p-4 border border-white/5">
+                      <div className="h-10 w-10 rounded-xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
+                        <LuSparkles className="text-emerald-400 h-5 w-5" />
+                      </div>
+                      <div className="flex-1 space-y-1.5">
+                        <div className="h-1.5 w-full bg-white/10 rounded-full" />
+                        <div className="h-1.5 w-2/3 bg-white/5 rounded-full" />
+                      </div>
+                    </div>
+                    <div className="bg-white rounded-[2rem] p-6 space-y-4 shadow-2xl">
+                      <div className="flex items-center justify-between">
+                        <span className="text-black font-bold text-sm tracking-tight">Growth Strategy</span>
+                        <div className="h-2 w-2 rounded-full bg-emerald-500" />
+                      </div>
+                      <div className="space-y-2">
+                        <div className="h-2 w-full bg-black/5 rounded-full" />
+                        <div className="h-2 w-3/4 bg-black/5 rounded-full" />
+                      </div>
+                      <div className="pt-4 flex justify-between items-end">
+                        <span className="text-2xl font-bold text-black">+24.5%</span>
+                        <div className="h-8 w-8 rounded-full bg-black flex items-center justify-center text-white"><LuArrowUpRight size={14} /></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {feature.type === 'sleep' && (
+                  <div className="w-full relative">
+                    <div className="bg-white rounded-[2rem] p-8 space-y-6 shadow-2xl">
+                      <div className="flex items-center gap-4 mb-2">
+                        <div className="h-10 w-10 rounded-full bg-black flex items-center justify-center text-white text-xs font-bold border border-white/10">A</div>
+                        <div className="flex-1">
+                          <p className="text-black font-bold text-sm tracking-tight">Execution Success</p>
+                          <p className="text-black/40 text-[10px] font-bold uppercase tracking-widest">Aura Autonomous Mode</p>
+                        </div>
+                        <LuMoon className="text-emerald-500 h-5 w-5" />
+                      </div>
+                      <div className="bg-black/5 rounded-2xl p-5 flex justify-between items-center border border-black/5">
+                        <span className="text-black/60 text-sm font-medium">Profit realized</span>
+                        <span className="text-emerald-600 font-bold text-lg">+$420.00</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {feature.type === 'risk' && (
+                  <div className="w-full space-y-4">
+                    <div className="bg-emerald-500/5 rounded-2xl p-4 border border-emerald-500/10 flex items-center gap-3">
+                      <LuShieldCheck className="text-emerald-400 h-5 w-5" />
+                      <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Risk Guard Active</span>
+                    </div>
+                    <div className="bg-white rounded-[2rem] p-6 space-y-6 shadow-2xl">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <p className="text-black/40 text-[10px] font-bold uppercase tracking-widest">System Stability</p>
+                          <p className="text-4xl font-bold text-black tracking-tighter">99.9%</p>
+                        </div>
+                        <div className="h-10 w-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                          <LuTrendingUp className="text-emerald-600 h-6 w-6" />
+                        </div>
+                      </div>
+                      <div className="h-16 w-full flex items-end p-2 gap-1.5">
+                        {[40, 70, 45, 90, 65, 80, 100, 85, 95].map((h, i) => (
+                          <div key={i} className="flex-1 bg-emerald-500/20 rounded-t-sm" style={{ height: `${h}%` }} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+              </div>
+
+              {/* Subtle Neutral Glows */}
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-emerald-500/10 blur-[100px] rounded-full pointer-events-none" />
+              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-white/5 blur-[100px] rounded-full pointer-events-none" />
+            </motion.div>
+          </div>
+        );
+      })}
     </section>
   );
 }

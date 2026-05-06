@@ -156,7 +156,6 @@ export default function InvestmentsPage() {
           <div className="rounded-[32px] border border-white/10 bg-black/40 backdrop-blur-xl overflow-hidden">
             <div className="border-b border-white/5 px-8 py-6 flex items-center justify-between">
               <div>
-                <p className="text-[10px] font-bold tracking-widest text-white/30 uppercase mb-1">Aura AI</p>
                 <h2 className="text-2xl font-bold text-white">Active Strategies</h2>
               </div>
               <span className="flex items-center gap-2 text-xs text-emerald-400 font-bold">

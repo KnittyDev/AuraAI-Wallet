@@ -200,10 +200,7 @@ export default function WalletPage() {
                     <p className="text-[9px] font-bold tracking-widest text-white/30 uppercase mb-2">24h P&L</p>
                     <p className="text-xl font-semibold text-emerald-400">+$2,140</p>
                   </div>
-                  <div>
-                    <p className="text-[9px] font-bold tracking-widest text-white/30 uppercase mb-2">Security</p>
-                    <p className="text-sm font-bold text-cyan-400 uppercase tracking-widest">Enforced</p>
-                  </div>
+                  <div />
                 </div>
               </div>
             </motion.div>

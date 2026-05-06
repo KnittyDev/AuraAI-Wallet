@@ -46,6 +46,7 @@ export default function PerformancePage() {
   const [investments, setInvestments] = useState<any[]>([]);
   const [actions, setActions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [timeRange, setTimeRange] = useState("ALL");
 
   useEffect(() => {
     async function fetchData() {
@@ -57,37 +58,77 @@ export default function PerformancePage() {
         supabase.from('ai_actions').select('*').eq('user_id', user.id).order('created_at', { ascending: true })
       ]);
 
-      if (!invRes.error) setInvestments(invRes.error ? [] : invRes.data);
-      if (!actRes.error) setActions(actRes.error ? [] : actRes.data);
+      if (!invRes.error) setInvestments(invRes.data || []);
+      if (!actRes.error) setActions(actRes.data || []);
       setLoading(false);
     }
     fetchData();
   }, []);
 
-  // 1. Process Stats
+  // Filter actions based on selected time range
+  const getFilteredActions = () => {
+    const now = new Date();
+    const closed = actions.filter(a => a.status === 'closed');
+    
+    if (timeRange === "ALL") return closed;
+    
+    const cutoff = new Date();
+    if (timeRange === "24H") cutoff.setHours(now.getHours() - 24);
+    if (timeRange === "1W") cutoff.setDate(now.getDate() - 7);
+    if (timeRange === "1M") cutoff.setMonth(now.getMonth() - 1);
+    if (timeRange === "1Y") cutoff.setFullYear(now.getFullYear() - 1);
+    
+    return closed.filter(a => new Date(a.created_at) >= cutoff);
+  };
+
+  const filteredActions = getFilteredActions();
+
+  // 1. Process Stats (Dynamic based on filter)
   const totalInvested = investments.reduce((acc, inv) => acc + Number(inv.amount), 0);
-  const closedActions = actions.filter(a => a.status === 'closed');
-  const totalProfit = closedActions.reduce((acc, a) => acc + Number(a.profit_usd || 0), 0);
-  const winRate = closedActions.length > 0 
-    ? (closedActions.filter(a => Number(a.profit_usd) > 0).length / closedActions.length) * 100 
+  const filteredProfit = filteredActions.reduce((acc, a) => acc + Number(a.profit_usd || 0), 0);
+  const totalProfitAllTime = actions.filter(a => a.status === 'closed').reduce((acc, a) => acc + Number(a.profit_usd || 0), 0);
+  
+  const winRate = filteredActions.length > 0 
+    ? (filteredActions.filter(a => Number(a.profit_usd) > 0).length / filteredActions.length) * 100 
     : 0;
   
-  const totalReturnPercent = totalInvested > 0 ? (totalProfit / totalInvested) * 100 : 0;
+  const returnPercent = totalInvested > 0 ? (filteredProfit / totalInvested) * 100 : 0;
   
   // 2. Process Performance History (Cumulative)
+  // We calculate the cumulative starting from the initial capital
   let runningBalance = totalInvested;
-  const performanceHistory = actions.filter(a => a.status === 'closed').map(a => {
-    runningBalance += Number(a.profit_usd || 0);
+  
+  // To show the trend correctly for the selected range, we should find the balance at the start of the range
+  const allClosed = actions.filter(a => a.status === 'closed');
+  const cutoffDate = timeRange === "ALL" ? new Date(0) : (() => {
+    const d = new Date();
+    if (timeRange === "24H") d.setHours(d.getHours() - 24);
+    if (timeRange === "1W") d.setDate(d.getDate() - 7);
+    if (timeRange === "1M") d.setMonth(d.getMonth() - 1);
+    if (timeRange === "1Y") d.setFullYear(d.getFullYear() - 1);
+    return d;
+  })();
+
+  const actionsBeforeRange = allClosed.filter(a => new Date(a.created_at) < cutoffDate);
+  let startingBalanceForRange = totalInvested + actionsBeforeRange.reduce((acc, a) => acc + Number(a.profit_usd || 0), 0);
+  
+  let tempRunning = startingBalanceForRange;
+  const performanceHistory = filteredActions.map(a => {
+    tempRunning += Number(a.profit_usd || 0);
     return {
-      date: new Date(a.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
-      aura: Number(runningBalance.toFixed(2)),
-      market: Number((totalInvested * (1 + (Math.random() * 0.08))).toFixed(2))
+      date: new Date(a.created_at).toLocaleDateString(undefined, 
+        timeRange === "24H" 
+          ? { hour: '2-digit', minute: '2-digit' } 
+          : { month: 'short', day: 'numeric' }
+      ),
+      aura: Number(tempRunning.toFixed(2)),
+      market: Number((startingBalanceForRange * (1 + ((Math.random() - 0.4) * 0.02))).toFixed(2))
     };
-  }).slice(-30);
+  });
 
   // 3. Process Monthly Returns
   const monthlyData: Record<string, number> = {};
-  closedActions.forEach(a => {
+  filteredActions.forEach(a => {
     const month = new Date(a.created_at).toLocaleDateString(undefined, { month: 'short' });
     monthlyData[month] = (monthlyData[month] || 0) + Number(a.profit_usd || 0);
   });
@@ -99,17 +140,17 @@ export default function PerformancePage() {
 
   // 4. Identify Best Asset
   const assetProfits: Record<string, number> = {};
-  closedActions.forEach(a => {
+  filteredActions.forEach(a => {
     assetProfits[a.asset_code] = (assetProfits[a.asset_code] || 0) + Number(a.profit_usd || 0);
   });
   const bestAssetEntry = Object.entries(assetProfits).sort((a, b) => b[1] - a[1])[0];
   const bestAsset = bestAssetEntry ? bestAssetEntry[0] : "N/A";
 
   const statsList = [
-    { label: "Total Return", value: `${totalReturnPercent >= 0 ? "+" : ""}${totalReturnPercent.toFixed(1)}%`, icon: LuTrendingUp, color: "text-emerald-400", trend: "All-time" },
-    { label: "Total Profit", value: `$${totalProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, icon: LuCalendar, color: "text-cyan-400", trend: "Realized" },
-    { label: "Avg. Profit/Trade", value: `$${(totalProfit / (closedActions.length || 1)).toFixed(2)}`, icon: LuArrowUpRight, color: "text-white/70", trend: "Optimized" },
-    { label: "Win Rate", value: `${winRate.toFixed(1)}%`, icon: LuTarget, color: "text-amber-400", trend: `${closedActions.length} trades` },
+    { label: "Range Return", value: `${returnPercent >= 0 ? "+" : ""}${returnPercent.toFixed(1)}%`, icon: LuTrendingUp, color: "text-emerald-400", trend: timeRange },
+    { label: "Range Profit", value: `$${filteredProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, icon: LuCalendar, color: "text-cyan-400", trend: "Realized" },
+    { label: "Trades", value: filteredActions.length.toString(), icon: LuArrowUpRight, color: "text-white/70", trend: "Execution" },
+    { label: "Win Rate", value: `${winRate.toFixed(1)}%`, icon: LuTarget, color: "text-amber-400", trend: "Success" },
   ];
 
   if (loading) {
@@ -145,10 +186,11 @@ export default function PerformancePage() {
             </div>
 
             <div className="flex gap-2 p-1 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
-              {["1W", "1M", "3M", "1Y", "ALL"].map((p) => (
+              {["24H", "1W", "1M", "1Y", "ALL"].map((p) => (
                 <button 
                   key={p} 
-                  className={`px-4 py-1.5 rounded-lg text-xs font-bold transition ${p === "1Y" ? "bg-white text-black" : "text-white/40 hover:text-white"}`}
+                  onClick={() => setTimeRange(p)}
+                  className={`px-4 py-1.5 rounded-lg text-xs font-bold transition ${timeRange === p ? "bg-white text-black shadow-lg" : "text-white/40 hover:text-white"}`}
                 >
                   {p}
                 </button>
@@ -205,49 +247,59 @@ export default function PerformancePage() {
               </div>
 
               <div className="h-[350px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={performanceHistory}>
-                    <defs>
-                      <linearGradient id="auraGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.3}/>
-                        <stop offset="95%" stopColor="#22d3ee" stopOpacity={0}/>
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid stroke="rgba(255,255,255,0.05)" vertical={false} />
-                    <XAxis 
-                      dataKey="date" 
-                      axisLine={false} 
-                      tickLine={false} 
-                      tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 12 }}
-                      dy={10}
-                    />
-                    <YAxis 
-                      hide
-                      domain={['dataMin - 1000', 'dataMax + 1000']}
-                    />
-                    <Tooltip 
-                      formatter={(value: any) => [`$${Number(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, "Value"]}
-                      contentStyle={{ backgroundColor: "#000", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "16px" }}
-                      itemStyle={{ fontSize: "12px" }}
-                    />
-                    <Area 
-                      type="monotone" 
-                      dataKey="market" 
-                      stroke="rgba(255,255,255,0.1)" 
-                      fill="transparent" 
-                      strokeWidth={2}
-                      strokeDasharray="5 5"
-                    />
-                    <Area 
-                      type="monotone" 
-                      dataKey="aura" 
-                      stroke="#22d3ee" 
-                      fillOpacity={1} 
-                      fill="url(#auraGradient)" 
-                      strokeWidth={3}
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
+                {performanceHistory.length > 0 ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={performanceHistory}>
+                      <defs>
+                        <linearGradient id="auraGradient" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.3}/>
+                          <stop offset="95%" stopColor="#22d3ee" stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid stroke="rgba(255,255,255,0.05)" vertical={false} />
+                      <XAxis 
+                        dataKey="date" 
+                        axisLine={false} 
+                        tickLine={false} 
+                        tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 12 }}
+                        dy={10}
+                        interval={Math.floor(performanceHistory.length / 7)}
+                      />
+                      <YAxis 
+                        hide
+                        domain={['dataMin - 100', 'dataMax + 100']}
+                      />
+                      <Tooltip 
+                        formatter={(value: any) => [`$${Number(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, "Value"]}
+                        contentStyle={{ backgroundColor: "#000", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "16px" }}
+                        itemStyle={{ fontSize: "12px" }}
+                      />
+                      <Area 
+                        type="monotone" 
+                        dataKey="market" 
+                        stroke="rgba(255,255,255,0.1)" 
+                        fill="transparent" 
+                        strokeWidth={2}
+                        strokeDasharray="5 5"
+                        animationDuration={1500}
+                      />
+                      <Area 
+                        type="monotone" 
+                        dataKey="aura" 
+                        stroke="#22d3ee" 
+                        fillOpacity={1} 
+                        fill="url(#auraGradient)" 
+                        strokeWidth={3}
+                        animationDuration={1500}
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="h-full flex flex-col items-center justify-center text-white/20 space-y-4">
+                    <LuChartLine className="h-12 w-12 opacity-50" />
+                    <p className="text-sm font-medium">No activity recorded for the selected period</p>
+                  </div>
+                )}
               </div>
             </motion.div>
 

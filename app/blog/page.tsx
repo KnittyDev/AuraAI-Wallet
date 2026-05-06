@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { LandingHeader } from "@/components/landing/landing-header";
 import { AuroraBackground } from "@/components/landing/aurora-background";
 import { LandingFooter } from "@/components/landing/landing-footer";
-import { LuSearch, LuCalendar, LuClock, LuArrowRight, LuTag } from "react-icons/lu";
+import { LuCalendar, LuClock, LuArrowRight, LuTag } from "react-icons/lu";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -103,16 +103,6 @@ export default function BlogPage() {
             <p className="text-lg text-white/50 leading-relaxed">
               In-depth analysis, technical research, and strategic insights from the forefront of autonomous finance.
             </p>
-            
-            {/* Search Bar */}
-            <div className="mt-10 w-full relative group">
-              <LuSearch className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-white/30 group-focus-within:text-white/60 transition-colors" />
-              <input 
-                type="text" 
-                placeholder="Search articles, categories, or authors..."
-                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-14 pr-6 text-sm focus:outline-none focus:border-white/20 transition-all backdrop-blur-sm"
-              />
-            </div>
           </motion.div>
         </section>
 
