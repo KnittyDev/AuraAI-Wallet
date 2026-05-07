@@ -83,8 +83,34 @@ export default function SettingsPage() {
     autoReinvest: true,
   });
 
-  const toggleSetting = (key: keyof typeof settings) => {
-    setSettings(prev => ({ ...prev, [key]: !prev[key] }));
+  useEffect(() => {
+    async function loadNotificationSettings() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      const { data } = await supabase.from("profiles").select("notify_trade_open, notify_trade_close").eq("id", user.id).single();
+      if (data) {
+        setSettings(prev => ({
+          ...prev,
+          notifyTradeOpen: data.notify_trade_open ?? true,
+          notifyTradeClose: data.notify_trade_close ?? true,
+        }));
+      }
+    }
+    loadNotificationSettings();
+  }, []);
+
+  const toggleSetting = async (key: keyof typeof settings) => {
+    const newValue = !settings[key];
+    setSettings(prev => ({ ...prev, [key]: newValue }));
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    if (key === 'notifyTradeOpen') {
+      await supabase.from("profiles").update({ notify_trade_open: newValue }).eq("id", user.id);
+    } else if (key === 'notifyTradeClose') {
+      await supabase.from("profiles").update({ notify_trade_close: newValue }).eq("id", user.id);
+    }
   };
 
   const [showPasswordModal, setShowPasswordModal] = useState(false);

@@ -24,7 +24,7 @@ const footerColumns = [
     links: [
       { name: "Privacy", href: "/privacy" },
       { name: "Terms", href: "/terms" },
-      { name: "Security", href: "#" },
+      { name: "System Status", href: "/status" },
     ],
 
   },
