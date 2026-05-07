@@ -89,7 +89,7 @@ button * {
 }
 
 .landing-grid-overlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background-image:
     radial-gradient(circle at center, rgba(255, 255, 255, 0.09) 1px, transparent 1px),

@@ -17,8 +17,9 @@ export default function Home() {
       <div className="landing-grid-overlay" />
 
       {/* Sticky Navigation */}
-      <div className="sticky top-0 z-50 w-full border-b border-white/5 bg-black/20 backdrop-blur-xl">
-        <div className="mx-auto max-w-7xl px-6 md:px-10">
+      <div className="sticky top-0 z-50 w-full">
+        <div className="absolute inset-0 border-b border-white/5 bg-black/20 backdrop-blur-xl -z-10 pointer-events-none" />
+        <div className="mx-auto max-w-7xl px-6 md:px-10 relative">
           <LandingHeader />
         </div>
       </div>
