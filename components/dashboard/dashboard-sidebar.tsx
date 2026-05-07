@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
 
 import {
   LuChartBar,
@@ -44,8 +45,18 @@ type DashboardSidebarProps = {
 };
 
 export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
+  const router = useRouter();
   const [totalBalance, setTotalBalance] = useState(0);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      router.push("/");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   useEffect(() => {
     async function fetchTotalBalance() {
@@ -147,13 +158,13 @@ export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
               );
             })}
             
-            <Link
-              href="/"
-              className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-white/40 hover:bg-red-500/10 hover:text-red-400 transition"
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-white/40 hover:bg-red-500/10 hover:text-red-400 transition"
             >
               <LuLogOut className="h-4 w-4" />
               <span>Logout</span>
-            </Link>
+            </button>
           </nav>
         </div>
 

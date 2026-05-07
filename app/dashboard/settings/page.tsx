@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
 import { AuroraBackground } from "@/components/landing/aurora-background";
 import {
@@ -20,10 +20,12 @@ import {
   LuArrowUpRight,
   LuX,
   LuEye,
-  LuEyeOff
+  LuEyeOff,
+  LuShieldCheck,
+  LuCopy
 } from "react-icons/lu";
 import { supabase } from "@/lib/supabase";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface SettingCardProps {
   label: string;
@@ -91,6 +93,102 @@ export default function SettingsPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error", text: string } | null>(null);
+
+  // ── 2FA State ──
+  const [show2FAModal, setShow2FAModal] = useState(false);
+  const [totpEnabled, setTotpEnabled] = useState(false);
+  const [totpQR, setTotpQR] = useState("");
+  const [totpSecret, setTotpSecret] = useState("");
+  const [totpCode, setTotpCode] = useState("");
+  const [totpStep, setTotpStep] = useState<"scan" | "verify" | "done">("scan");
+  const [totpLoading, setTotpLoading] = useState(false);
+  const [totpError, setTotpError] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [secretCopied, setSecretCopied] = useState(false);
+
+  useEffect(() => {
+    async function load2FAStatus() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      setUserId(user.id);
+      setUserEmail(user.email ?? null);
+
+      const { data } = await supabase
+        .from("profiles")
+        .select("totp_enabled")
+        .eq("id", user.id)
+        .single();
+      if (data?.totp_enabled) setTotpEnabled(true);
+    }
+    load2FAStatus();
+  }, []);
+
+  const handle2FASetup = async () => {
+    if (!userId) return;
+    setTotpLoading(true);
+    setTotpError(null);
+    setTotpStep("scan");
+    setTotpCode("");
+
+    const res = await fetch("/api/auth/totp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "setup", user_id: userId, email: userEmail }),
+    });
+    const data = await res.json();
+
+    if (data.qr) {
+      setTotpQR(data.qr);
+      setTotpSecret(data.secret);
+      setShow2FAModal(true);
+    } else {
+      setTotpError(data.error || "Setup failed.");
+    }
+    setTotpLoading(false);
+  };
+
+  const handle2FAVerify = async () => {
+    if (!userId || totpCode.length !== 6) return;
+    setTotpLoading(true);
+    setTotpError(null);
+
+    const res = await fetch("/api/auth/totp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "verify", user_id: userId, token: totpCode }),
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      setTotpEnabled(true);
+      setTotpStep("done");
+    } else {
+      setTotpError(data.error || "Invalid code.");
+    }
+    setTotpLoading(false);
+  };
+
+  const handle2FADisable = async () => {
+    if (!userId) return;
+    setTotpLoading(true);
+
+    await fetch("/api/auth/totp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "disable", user_id: userId }),
+    });
+
+    setTotpEnabled(false);
+    setShow2FAModal(false);
+    setTotpLoading(false);
+  };
+
+  const copySecret = () => {
+    navigator.clipboard.writeText(totpSecret);
+    setSecretCopied(true);
+    setTimeout(() => setSecretCopied(false), 2000);
+  };
 
   const calculateStrength = (pass: string) => {
     let score = 0;
@@ -228,19 +326,49 @@ export default function SettingsPage() {
 
                   <div className="p-8 rounded-[2.5rem] border border-white/5 bg-white/[0.01] flex items-center justify-between group hover:bg-white/[0.03] transition-all">
                     <div className="flex items-center gap-6">
-                      <div className="h-14 w-14 rounded-2xl bg-orange-500/10 text-orange-400 flex items-center justify-center border border-orange-500/20">
-                        <LuSmartphone className="h-6 w-6" />
+                      <div className={`h-14 w-14 rounded-2xl flex items-center justify-center border ${
+                        totpEnabled
+                          ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                          : "bg-orange-500/10 text-orange-400 border-orange-500/20"
+                      }`}>
+                        {totpEnabled ? <LuShieldCheck className="h-6 w-6" /> : <LuSmartphone className="h-6 w-6" />}
                       </div>
                       <div>
                         <h4 className="text-white font-bold mb-1">Two-Factor Authentication</h4>
-                        <p className="text-xs text-white/30">Enhance security with Google Authenticator or Authy.</p>
+                        <p className="text-xs text-white/30">
+                          {totpEnabled
+                            ? "Active — Your account is protected with TOTP verification."
+                            : "Enhance security with Google Authenticator or Authy."
+                          }
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
-                      <span className="text-[10px] font-bold text-orange-400 uppercase tracking-widest">Recommended</span>
-                      <button className="px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
-                        Setup
-                      </button>
+                      {totpEnabled ? (
+                        <>
+                          <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-2">
+                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            Protected
+                          </span>
+                          <button
+                            onClick={() => setShow2FAModal(true)}
+                            className="px-5 py-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 font-bold text-[10px] uppercase tracking-widest hover:bg-red-500/20 transition-all"
+                          >
+                            Disable
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <span className="text-[10px] font-bold text-orange-400 uppercase tracking-widest">Recommended</span>
+                          <button
+                            onClick={handle2FASetup}
+                            disabled={totpLoading}
+                            className="px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all disabled:opacity-50"
+                          >
+                            {totpLoading ? "Loading..." : "Setup"}
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -374,6 +502,169 @@ export default function SettingsPage() {
           </motion.div>
         </div>
       )}
+
+      {/* ── 2FA Setup / Disable Modal ── */}
+      <AnimatePresence>
+        {show2FAModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/80 backdrop-blur-md"
+              onClick={() => !totpLoading && setShow2FAModal(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-md rounded-[2.5rem] border border-white/10 bg-zinc-900 p-8 md:p-10 shadow-2xl overflow-hidden"
+            >
+              <div className="absolute -top-24 -right-24 h-64 w-64 bg-cyan-500/10 blur-[80px] rounded-full" />
+              <div className="absolute -bottom-24 -left-24 h-64 w-64 bg-purple-500/10 blur-[80px] rounded-full" />
+
+              <button
+                onClick={() => setShow2FAModal(false)}
+                className="absolute top-6 right-6 text-white/20 hover:text-white transition-colors z-20"
+              >
+                <LuX className="h-5 w-5" />
+              </button>
+
+              <div className="relative z-10">
+                {/* ── If 2FA is currently enabled → show disable view ── */}
+                {totpEnabled && totpStep !== "done" ? (
+                  <div className="text-center space-y-6">
+                    <div className="mx-auto h-16 w-16 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+                      <LuShieldCheck className="h-8 w-8 text-red-400" />
+                    </div>
+                    <h2 className="text-2xl font-bold text-white">Disable 2FA</h2>
+                    <p className="text-sm text-white/40 max-w-xs mx-auto">
+                      This will remove the TOTP requirement from your account. You can re-enable it anytime.
+                    </p>
+                    <button
+                      onClick={handle2FADisable}
+                      disabled={totpLoading}
+                      className="w-full py-4 rounded-2xl bg-red-500 text-white font-bold hover:bg-red-600 transition-all active:scale-[0.98] disabled:opacity-50"
+                    >
+                      {totpLoading ? "Disabling..." : "Confirm Disable 2FA"}
+                    </button>
+                  </div>
+                ) : totpStep === "done" ? (
+                  /* ── Success State ── */
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="text-center space-y-6 py-4"
+                  >
+                    <div className="mx-auto h-20 w-20 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+                      <LuShieldCheck className="h-10 w-10 text-emerald-400" />
+                    </div>
+                    <h2 className="text-2xl font-bold text-white">2FA Activated</h2>
+                    <p className="text-sm text-white/40 max-w-xs mx-auto">
+                      Your account is now protected with Two-Factor Authentication.
+                      A TOTP code will be required on every login.
+                    </p>
+                    <button
+                      onClick={() => setShow2FAModal(false)}
+                      className="w-full py-4 rounded-2xl bg-white text-black font-bold hover:bg-white/90 transition-all active:scale-[0.98]"
+                    >
+                      Done
+                    </button>
+                  </motion.div>
+                ) : totpStep === "scan" ? (
+                  /* ── Step 1: Scan QR Code ── */
+                  <div className="space-y-6">
+                    <div>
+                      <h2 className="text-2xl font-bold text-white mb-2">Setup Authenticator</h2>
+                      <p className="text-sm text-white/40">
+                        Scan the QR code below with Google Authenticator, Authy, or any TOTP app.
+                      </p>
+                    </div>
+
+                    <div className="flex justify-center">
+                      <div className="p-4 rounded-3xl bg-white/[0.03] border border-white/10">
+                        {totpQR && (
+                          <img src={totpQR} alt="TOTP QR Code" className="w-56 h-56" />
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Manual entry secret */}
+                    <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5">
+                      <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-2">Manual Entry Key</p>
+                      <div className="flex items-center justify-between gap-2">
+                        <code className="text-xs font-mono text-white/60 break-all leading-relaxed">{totpSecret}</code>
+                        <button
+                          onClick={copySecret}
+                          className="shrink-0 p-2 rounded-xl bg-white/5 text-white/40 hover:text-white hover:bg-white/10 transition-all"
+                        >
+                          {secretCopied ? <LuCheck className="h-4 w-4 text-emerald-400" /> : <LuCopy className="h-4 w-4" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => setTotpStep("verify")}
+                      className="w-full py-4 rounded-2xl bg-white text-black font-bold hover:bg-white/90 transition-all active:scale-[0.98]"
+                    >
+                      I&apos;ve Scanned It → Next
+                    </button>
+                  </div>
+                ) : (
+                  /* ── Step 2: Enter verification code ── */
+                  <div className="space-y-6">
+                    <div>
+                      <h2 className="text-2xl font-bold text-white mb-2">Enter Verification Code</h2>
+                      <p className="text-sm text-white/40">
+                        Enter the 6-digit code from your authenticator app to confirm setup.
+                      </p>
+                    </div>
+
+                    <div className="flex justify-center">
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={6}
+                        value={totpCode}
+                        onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                        placeholder="000000"
+                        className="w-64 text-center text-4xl font-mono font-bold tracking-[0.5em] bg-white/[0.03] border border-white/10 rounded-2xl py-5 text-white outline-none focus:border-cyan-500/50 transition-all placeholder:text-white/10"
+                        autoFocus
+                      />
+                    </div>
+
+                    <p className="text-[10px] text-center text-white/20 font-medium">
+                      Code refreshes every 30 seconds
+                    </p>
+
+                    {totpError && (
+                      <div className="p-4 rounded-2xl text-xs font-bold bg-red-400/10 text-red-400 border border-red-400/20 text-center">
+                        {totpError}
+                      </div>
+                    )}
+
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => setTotpStep("scan")}
+                        className="flex-1 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 transition-all"
+                      >
+                        Back
+                      </button>
+                      <button
+                        onClick={handle2FAVerify}
+                        disabled={totpLoading || totpCode.length !== 6}
+                        className="flex-1 py-4 rounded-2xl bg-white text-black font-bold hover:bg-white/90 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {totpLoading ? "Verifying..." : "Verify & Enable"}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

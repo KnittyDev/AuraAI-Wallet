@@ -6,6 +6,8 @@ interface DashboardHoldingsTableProps {
     id: string; 
     asset_code: string; 
     amount: number; 
+    asset_amount?: number;
+    entry_price?: number;
     risk_profile: string; 
     duration_days: number; 
   }[];
@@ -32,12 +34,16 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
     const netProfit24h = profits24h[inv.id] || 0;
     const yield24h = Number(inv.amount) > 0 ? (netProfit24h / Number(inv.amount)) * 100 : 0;
 
+    const assetQuantity = inv.asset_amount 
+      ? `${inv.asset_amount.toFixed(6)} ${inv.asset_code}`
+      : `${(Number(inv.amount) / price).toLocaleString(undefined, { maximumFractionDigits: 6 })} ${inv.asset_code}`;
+
     return {
       id: inv.id,
       asset: assetInfo.name,
       symbol: inv.asset_code,
       initialCapital: `$${Number(inv.amount).toLocaleString()}`,
-      amount: `${(Number(inv.amount) / price).toLocaleString(undefined, { maximumFractionDigits: 6 })} ${inv.asset_code}`,
+      assetAmount: assetQuantity,
       value: `$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
       profit: netProfit,
       yield24h: `${yield24h >= 0 ? "+" : ""}${yield24h.toFixed(2)}%`,
@@ -94,8 +100,15 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
                   <td className="py-4 text-center">
                     <span className="text-xs font-medium text-white/40">{row.duration}</span>
                   </td>
-                  <td className="py-4 font-mono text-white/60">{row.initialCapital}</td>
-                  <td className="py-4 text-white/40 font-mono text-xs">{row.amount}</td>
+                  <td className="py-4">
+                    <div className="flex flex-col">
+                      <span className="font-mono text-white/80 leading-tight">{row.initialCapital}</span>
+                      {row.symbol !== 'USDT' && (
+                        <span className="text-[10px] text-white/30 font-mono">{row.assetAmount}</span>
+                      )}
+                    </div>
+                  </td>
+                  <td className="py-4 text-white/40 font-mono text-xs">{row.assetAmount}</td>
                   <td className="py-4 font-bold text-white">{row.value}</td>
                   <td className={`py-4 font-mono font-bold ${row.profit >= 0 ? "text-emerald-400" : "text-red-400"}`}>
                     {row.profit >= 0 ? "+" : ""}{row.profit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT

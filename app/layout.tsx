@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
@@ -22,6 +22,15 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   title: "Aura AI - Autonomous Portfolio Intelligence",
   description: "Next-generation AI-driven investment platform for autonomous portfolio management and real-time market intelligence.",
+  applicationName: "Aura AI Terminal",
+  appleWebApp: {
+    capable: true,
+    title: "Aura AI",
+    statusBarStyle: "default",
+  },
+  formatDetection: {
+    telephone: false,
+  },
   icons: {
     icon: [
       { url: "/auralogo.png", sizes: "32x32", type: "image/png" },
@@ -30,6 +39,14 @@ export const metadata: Metadata = {
     shortcut: "/auralogo.png",
     apple: "/auralogo.png",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0A0A0A",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 

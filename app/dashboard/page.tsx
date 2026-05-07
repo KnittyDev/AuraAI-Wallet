@@ -12,6 +12,8 @@ interface Investment {
   id: string;
   asset_code: string;
   amount: number;
+  asset_amount?: number;
+  entry_price?: number;
   risk_profile: string;
   duration_days: number;
   status: string;

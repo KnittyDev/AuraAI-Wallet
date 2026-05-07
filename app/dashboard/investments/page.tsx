@@ -13,6 +13,8 @@ interface Investment {
   id: string;
   asset_code: string;
   amount: number;
+  asset_amount?: number;
+  entry_price?: number;
   risk_profile: string;
   duration_days: number;
   status: string;
@@ -129,10 +131,11 @@ export default function InvestmentsPage() {
       theme: 'grid',
       headStyles: { fillColor: [30, 30, 30], textColor: [255, 255, 255], fontSize: 8 },
       bodyStyles: { fontSize: 9 },
-      head: [['Asset', 'Capital', 'Net Profit', 'Duration', 'Risk Profile', 'Status']],
+      head: [['Asset', 'Capital', 'Asset Quantity', 'Net Profit', 'Duration', 'Risk Profile', 'Status']],
       body: [[
         inv.asset_code,
         `$${Number(inv.amount).toLocaleString()}`,
+        inv.asset_amount ? `${inv.asset_amount.toFixed(6)} ${inv.asset_code}` : '—',
         `${invProfit >= 0 ? '+' : ''}${invProfit.toFixed(2)} USDT`,
         `${inv.duration_days} Days`,
         inv.risk_profile,
@@ -291,7 +294,14 @@ export default function InvestmentsPage() {
                           <span className="text-[10px] text-white/20 font-mono tracking-tighter">#{inv.id.slice(0, 8)}</span>
                         </div>
                       </td>
-                      <td className="px-8 py-5 font-mono text-sm text-white/80">${Number(inv.amount).toLocaleString()}</td>
+                      <td className="px-8 py-5 font-mono text-sm">
+                        <div className="flex flex-col">
+                          <span className="text-white/80">${Number(inv.amount).toLocaleString()}</span>
+                          {inv.asset_amount && inv.asset_code !== 'USDT' && (
+                            <span className="text-[10px] text-white/30">{inv.asset_amount.toFixed(6)} {inv.asset_code}</span>
+                          )}
+                        </div>
+                      </td>
                       <td className="px-8 py-5">
                         <span className={`font-mono text-sm font-bold ${profits[inv.id] >= 0 ? "text-emerald-400" : "text-red-400"}`}>
                           {profits[inv.id] >= 0 ? "+" : ""}{Number(profits[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT
@@ -441,8 +451,19 @@ export default function InvestmentsPage() {
                 <div className="space-y-4 mb-10">
                   <div className="flex justify-between items-center py-3 border-b border-white/5">
                     <span className="text-sm text-white/40">Capital Allocation</span>
-                    <span className="text-sm font-bold text-white">${Number(infoModalInvestment.amount).toLocaleString()} USDT</span>
+                    <div className="text-right">
+                      <p className="text-sm font-bold text-white">${Number(infoModalInvestment.amount).toLocaleString()} USDT</p>
+                      {infoModalInvestment.asset_amount && infoModalInvestment.asset_code !== 'USDT' && (
+                        <p className="text-[10px] text-white/30">{infoModalInvestment.asset_amount.toFixed(8)} {infoModalInvestment.asset_code}</p>
+                      )}
+                    </div>
                   </div>
+                  {infoModalInvestment.entry_price && infoModalInvestment.asset_code !== 'USDT' && (
+                    <div className="flex justify-between items-center py-3 border-b border-white/5">
+                      <span className="text-sm text-white/40">Entry Price</span>
+                      <span className="text-sm font-bold text-white">${infoModalInvestment.entry_price.toLocaleString()}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between items-center py-3 border-b border-white/5">
                     <span className="text-sm text-white/40">Risk Profile</span>
                     <span className={`text-[10px] font-bold px-3 py-1 rounded-full border ${
