@@ -18,6 +18,7 @@ import {
   LuActivity,
   LuMenu,
   LuX,
+  LuShieldAlert,
 } from "react-icons/lu";
 
 import { SiTether } from "react-icons/si";
@@ -48,6 +49,7 @@ export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
   const router = useRouter();
   const [totalBalance, setTotalBalance] = useState(0);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -59,6 +61,14 @@ export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
   };
 
   useEffect(() => {
+    async function fetchRole() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      const { data } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+      if (data?.role === 'admin') setIsAdmin(true);
+    }
+    fetchRole();
+
     async function fetchTotalBalance() {
       try {
         const { data: { user } } = await supabase.auth.getUser();
@@ -158,9 +168,22 @@ export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
               );
             })}
             
+            {isAdmin && (
+              <div className="pt-2 mt-2 border-t border-white/5">
+                <Link
+                  href="/admin"
+                  onClick={() => setIsMobileOpen(false)}
+                  className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm font-semibold text-red-400 hover:bg-red-500/10 hover:text-red-300 transition"
+                >
+                  <LuShieldAlert className="h-4 w-4" />
+                  <span>Admin Panel</span>
+                </Link>
+              </div>
+            )}
+            
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-white/40 hover:bg-red-500/10 hover:text-red-400 transition"
+              className="w-full flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-white/40 hover:bg-white/5 hover:text-white transition mt-2"
             >
               <LuLogOut className="h-4 w-4" />
               <span>Logout</span>

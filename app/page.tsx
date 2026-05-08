@@ -1,4 +1,5 @@
 import { AuroraBackground } from "@/components/landing/aurora-background";
+import { AIBenchmarkSection } from "@/components/landing/ai-benchmark-section";
 import { BrandMarquee } from "@/components/landing/brand-marquee";
 import { CaseStudiesSection } from "@/components/landing/case-studies-section";
 import { FeatureShowcaseSection } from "@/components/landing/feature-showcase-section";
@@ -37,6 +38,9 @@ export default function Home() {
           </div>
           <div id="results" className="w-full">
             <RealResultsSection />
+          </div>
+          <div id="benchmark" className="w-full">
+            <AIBenchmarkSection />
           </div>
           <div id="case-studies" className="w-full">
             <CaseStudiesSection />

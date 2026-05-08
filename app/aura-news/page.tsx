@@ -6,6 +6,7 @@ import { LandingHeader } from "@/components/landing/landing-header";
 import { AuroraBackground } from "@/components/landing/aurora-background";
 import { LandingFooter } from "@/components/landing/landing-footer";
 import { LuClock, LuExternalLink, LuNewspaper } from "react-icons/lu";
+import Link from "next/link";
 
 type NewsItem = {
   id: string;
@@ -17,62 +18,40 @@ type NewsItem = {
   published_on: number;
 };
 
-const AURA_OFFICIAL_NEWS: NewsItem[] = [
-  {
-    id: "aura-1",
-    title: "Aura Neural Engine V2: Achieving 99.8% Predictive Accuracy in Volatile Markets",
-    url: "#",
-    source: "Aura Core Team",
-    body: "We are proud to announce the rollout of our updated neural engine. This version introduces advanced transformer models specifically tuned for Layer 1 asset volatility.",
-    imageurl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
-    published_on: Math.floor(Date.now() / 1000) - 86400 * 2
-  },
-  {
-    id: "aura-2",
-    title: "Institutional Custody Partnership with Grayscale & Goldman Sachs",
-    url: "#",
-    source: "Press Release",
-    body: "Aura has finalized a multi-year partnership to provide institutional-grade custody solutions for high-net-worth clients and hedge funds.",
-    imageurl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800",
-    published_on: Math.floor(Date.now() / 1000) - 86400 * 5
-  },
-  {
-    id: "aura-3",
-    title: "Security Audit Complete: Zero Critical Vulnerabilities Found by Trail of Bits",
-    url: "#",
-    source: "Security",
-    body: "Our latest smart contract and infrastructure audit has been completed successfully, reinforcing our commitment to bank-grade security for all users.",
-    imageurl: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800",
-    published_on: Math.floor(Date.now() / 1000) - 86400 * 12
-  },
-  {
-    id: "aura-4",
-    title: "Aura AI Wallet Mobile App Beta Now Live for Institutional Partners",
-    url: "#",
-    source: "Product Update",
-    body: "The wait is almost over. We've launched the closed beta of the Aura Mobile app, featuring real-time AI trade execution and portfolio analytics.",
-    imageurl: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=800",
-    published_on: Math.floor(Date.now() / 1000) - 86400 * 18
-  },
-  {
-    id: "aura-5",
-    title: "New Asset Listing: SOL/USDT Autonomous Strategy Now Operational",
-    url: "#",
-    source: "Market Operations",
-    body: "Following successful stress tests, we've enabled full autonomous trading for Solana (SOL), allowing users to capture high-throughput growth seamlessly.",
-    imageurl: "https://images.unsplash.com/photo-1622790698141-94e30457ef12?auto=format&fit=crop&q=80&w=800",
-    published_on: Math.floor(Date.now() / 1000) - 86400 * 25
-  }
-];
+import { supabase } from "@/lib/supabase";
 
 export default function AuraNewsPage() {
+  const [news, setNews] = useState<NewsItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 800);
-    return () => clearTimeout(timer);
+    async function fetchNews() {
+      try {
+        const { data: auraNews, error } = await supabase
+          .from('news')
+          .select('*')
+          .eq('category', 'Aura Official')
+          .order('published_at', { ascending: false });
+
+        if (!error && auraNews) {
+          const mappedNews = auraNews.map((item: any) => ({
+            id: item.id,
+            title: item.title,
+            url: item.external_url || "#",
+            source: item.source,
+            body: item.body,
+            imageurl: item.image_url || `https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800`,
+            published_on: Math.floor(new Date(item.published_at).getTime() / 1000)
+          }));
+          setNews(mappedNews);
+        }
+      } catch (error) {
+        console.error("Failed to fetch official news:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchNews();
   }, []);
 
   const formatDate = (timestamp: number) => {
@@ -119,51 +98,52 @@ export default function AuraNewsPage() {
             ))
           ) : (
             <AnimatePresence mode="popLayout">
-              {AURA_OFFICIAL_NEWS.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  layout
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="group relative flex flex-col overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.02] transition-all hover:border-white/20 hover:bg-white/[0.04] backdrop-blur-sm h-full"
-                >
-                  <div className="relative h-56 w-full overflow-hidden">
-                    <img 
-                      src={item.imageurl} 
-                      alt={item.title}
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-100"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-                  </div>
-                  
-                  <div className="p-8 flex flex-col flex-1">
-                    <div className="flex items-center justify-between mb-6">
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">
-                        {item.source}
-                      </span>
-                      <span className="text-[10px] font-medium text-white/20">{formatDate(item.published_on)}</span>
+              {news.map((item, index) => (
+                <Link key={item.id} href={`/aura-news/${item.id}`}>
+                  <motion.div
+                    layout
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="group relative flex flex-col overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.02] transition-all hover:border-white/20 hover:bg-white/[0.04] backdrop-blur-sm h-full"
+                  >
+                    <div className="relative h-56 w-full overflow-hidden">
+                      <img 
+                        src={item.imageurl} 
+                        alt={item.title}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-100"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
                     </div>
                     
-                    <h3 className="mb-4 text-xl font-bold leading-tight text-white group-hover:text-cyan-400 transition-colors">
-                      {item.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-white/40 mb-8 line-clamp-3">
-                      {item.body}
-                    </p>
-                    
-                    <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-white/20 group-hover:text-white transition-colors cursor-pointer">
-                      <span>Full Release</span>
-                      <LuExternalLink className="h-3 w-3" />
+                    <div className="p-8 flex flex-col flex-1">
+                      <div className="flex items-center justify-between mb-6">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">
+                          {item.source}
+                        </span>
+                        <span className="text-[10px] font-medium text-white/20">{formatDate(item.published_on)}</span>
+                      </div>
+                      
+                      <h3 className="mb-4 text-xl font-bold leading-tight text-white group-hover:text-cyan-400 transition-colors">
+                        {item.title}
+                      </h3>
+                      <p className="text-sm leading-relaxed text-white/40 mb-8 line-clamp-3">
+                        {item.body}
+                      </p>
+                      
+                      <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-white/20 group-hover:text-white transition-colors cursor-pointer">
+                        <span>Full Release</span>
+                        <LuExternalLink className="h-3 w-3" />
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
+                  </motion.div>
+                </Link>
               ))}
             </AnimatePresence>
           )}
         </section>
 
-        {!isLoading && AURA_OFFICIAL_NEWS.length === 0 && (
+        {!isLoading && news.length === 0 && (
           <div className="py-32 text-center">
             <LuNewspaper className="h-12 w-12 text-white/10 mx-auto mb-4" />
             <h3 className="text-xl font-semibold mb-2">No updates found</h3>

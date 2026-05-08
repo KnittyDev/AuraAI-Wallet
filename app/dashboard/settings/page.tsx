@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
 import { AuroraBackground } from "@/components/landing/aurora-background";
+import Link from "next/link";
 import {
   LuSettings,
   LuBell,
@@ -22,7 +23,8 @@ import {
   LuEye,
   LuEyeOff,
   LuShieldCheck,
-  LuCopy
+  LuCopy,
+  LuLifeBuoy
 } from "react-icons/lu";
 import { supabase } from "@/lib/supabase";
 import { useState, useEffect } from "react";
@@ -276,9 +278,16 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            <button className="relative z-10 px-8 py-4 rounded-2xl bg-white text-black font-bold text-xs uppercase tracking-widest hover:scale-105 transition-all active:scale-95 shadow-[0_10px_40px_rgba(255,255,255,0.2)]">
-              Export Profile Data
-            </button>
+            <div className="flex flex-col sm:flex-row gap-4 relative z-10">
+              <Link href="/dashboard/settings/support">
+                <button className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold text-xs uppercase tracking-widest hover:bg-white/10 transition-all active:scale-95">
+                  Support Center
+                </button>
+              </Link>
+              <button className="px-8 py-4 rounded-2xl bg-white text-black font-bold text-xs uppercase tracking-widest hover:scale-105 transition-all active:scale-95 shadow-[0_10px_40px_rgba(255,255,255,0.2)]">
+                Export Profile Data
+              </button>
+            </div>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-24">
@@ -421,6 +430,8 @@ export default function SettingsPage() {
                     </select>
                   </div>
                 </div>
+
+
               </div>
             </div>
           </div>

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LuNewspaper, LuExternalLink, LuClock } from "react-icons/lu";
 import Image from "next/image";
+import Link from "next/link";
+import { supabase } from "@/lib/supabase";
 
 type NewsItem = {
   id: string;
@@ -22,36 +24,44 @@ export function MarketNews() {
   useEffect(() => {
     async function fetchNews() {
       try {
-        // Fetching broad financial and political news from Google News via RSS2JSON
-        const query = encodeURIComponent("finance economy trump market");
-        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3D${query}%26hl%3Den-US%26gl%3DUS%26ceid%3DUS%3Aen`);
-        const data = await res.json();
-        
-        if (data.items && Array.isArray(data.items) && data.items.length > 0) {
-          // Mapping RSS structure to our NewsItem structure
-          const mappedNews = data.items.slice(0, 6).map((item: any) => {
-            // Try to extract image from description if enclosure is missing
-            const imgRegex = /<img[^>]+src="([^">]+)"/;
-            const match = item.description.match(imgRegex);
-            const extractedImg = match ? match[1] : null;
+        const { data: auraNews, error } = await supabase
+          .from('news')
+          .select('*')
+          .order('published_at', { ascending: false })
+          .limit(6);
 
-            return {
+        if (!error && auraNews && auraNews.length > 0) {
+          const mappedNews = auraNews.map((item: any) => ({
+            id: item.id,
+            title: item.title,
+            url: item.external_url || "#",
+            source: item.source,
+            body: item.body,
+            imageurl: item.image_url || `https://images.unsplash.com/photo-1611974714658-dd472454b6c8?auto=format&fit=crop&q=80&w=800`,
+            published_on: Math.floor(new Date(item.published_at).getTime() / 1000)
+          }));
+          setNews(mappedNews);
+        } else {
+          // Fallback to RSS if no news in DB
+          const query = encodeURIComponent("finance economy crypto");
+          const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3D${query}%26hl%3Den-US%26gl%3DUS%26ceid%3DUS%3Aen`);
+          const data = await res.json();
+          
+          if (data.items && Array.isArray(data.items)) {
+            const rssNews = data.items.slice(0, 6).map((item: any) => ({
               id: item.guid,
               title: item.title,
               url: item.link,
               source: item.author || "Global News",
               body: item.description.replace(/<[^>]*>?/gm, "").slice(0, 150) + "...",
-              imageurl: item.enclosure?.link || extractedImg || `https://images.unsplash.com/photo-1611974714658-dd472454b6c8?auto=format&fit=crop&q=80&w=800`,
+              imageurl: item.enclosure?.link || `https://images.unsplash.com/photo-1611974714658-dd472454b6c8?auto=format&fit=crop&q=80&w=800`,
               published_on: Math.floor(new Date(item.pubDate).getTime() / 1000)
-            };
-          });
-          setNews(mappedNews);
-        } else {
-          setNews(MOCK_NEWS);
+            }));
+            setNews(rssNews);
+          }
         }
       } catch (error) {
         console.error("Failed to fetch news:", error);
-        setNews(MOCK_NEWS);
       } finally {
         setIsLoading(false);
       }
@@ -146,16 +156,19 @@ const MOCK_NEWS: NewsItem[] = [
         ) : (
           <AnimatePresence>
             {news.map((item, index) => (
-              <motion.a
+              <Link
                 key={item.id}
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.02] p-6 transition-all hover:border-white/20 hover:bg-white/[0.05] backdrop-blur-sm min-h-[200px]"
+                href={item.url === "#" ? `/aura-news/${item.id}` : item.url}
+                target={item.url === "#" ? undefined : "_blank"}
+                rel={item.url === "#" ? undefined : "noopener noreferrer"}
+                className="block"
               >
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.02] p-6 transition-all hover:border-white/20 hover:bg-white/[0.05] backdrop-blur-sm min-h-[200px] h-full"
+                >
                 <div className="flex items-center justify-between mb-4">
                   <span className="rounded-lg bg-white/5 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white/60 border border-white/10">
                     {item.source}
@@ -179,7 +192,8 @@ const MOCK_NEWS: NewsItem[] = [
                     <LuExternalLink className="ml-1.5 h-3 w-3" />
                   </div>
                 </div>
-              </motion.a>
+              </motion.div>
+            </Link>
 
             ))}
           </AnimatePresence>
