@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { LuArrowUpRight, LuShield, LuTrendingUp, LuZap } from "react-icons/lu";
+import { supabase } from "@/lib/supabase";
+import { LuShield, LuTrendingUp, LuZap } from "react-icons/lu";
 
 const stats = [
   { icon: LuTrendingUp, value: "$2.4B+", label: "Assets Managed" },
@@ -11,6 +13,24 @@ const stats = [
 ];
 
 export function PromptCard() {
+  const [positionsToday, setPositionsToday] = useState<number | null>(null);
+
+  useEffect(() => {
+    async function fetchPositions() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const { count } = await supabase
+        .from("ai_actions")
+        .select("*", { count: 'exact', head: true })
+        .gte("created_at", today.toISOString());
+
+      setPositionsToday(count || 0);
+    }
+
+    fetchPositions();
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -39,7 +59,9 @@ export function PromptCard() {
           Aura AI is running live strategies
         </span>
         <span className="text-white/10">·</span>
-        <span className="text-[11px] text-white/20">12 positions opened today</span>
+        <span className="text-[11px] text-white/20">
+          {positionsToday !== null ? positionsToday.toLocaleString() : "..."} positions opened today
+        </span>
       </div>
     </motion.div>
   );

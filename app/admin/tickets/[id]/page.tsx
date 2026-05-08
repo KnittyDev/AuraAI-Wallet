@@ -14,7 +14,7 @@ import {
   LuCircleCheck, 
   LuTriangleAlert,
   LuLoaderCircle,
-  LuMoreVertical
+  LuEllipsisVertical
 } from "react-icons/lu";
 import { motion } from "framer-motion";
 
