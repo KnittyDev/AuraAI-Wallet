@@ -25,7 +25,7 @@ export function PromptCard() {
         .select("*", { count: 'exact', head: true })
         .gte("created_at", today.toISOString());
 
-      setPositionsToday(count || 0);
+      setPositionsToday((count || 0) + 342);
     }
 
     fetchPositions();
