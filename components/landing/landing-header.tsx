@@ -87,7 +87,7 @@ export function LandingHeader() {
                           Academy <LuExternalLink className="h-3 w-3 opacity-40" />
                         </Link>
                         <Link href="#" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Tutorials</Link>
-                        <Link href="#" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Use cases</Link>
+                        <Link href="/careers" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Careers</Link>
                       </div>
                     </div>
                   </div>

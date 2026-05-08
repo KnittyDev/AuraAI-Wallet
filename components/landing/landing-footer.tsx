@@ -16,7 +16,7 @@ const footerColumns = [
     links: [
       { name: "About", href: "#" },
       { name: "Contact", href: "#" },
-      { name: "Careers", href: "#" },
+      { name: "Careers", href: "/careers" },
     ],
   },
   {
@@ -74,11 +74,11 @@ export function LandingFooter() {
         <div className="flex flex-wrap items-center gap-6">
           {/* Binance Partnership */}
           <div className="flex items-center gap-3 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] transition-colors group cursor-default">
-            <Image 
-              src="/binance.svg" 
-              alt="Binance" 
-              width={80} 
-              height={16} 
+            <Image
+              src="/binance.svg"
+              alt="Binance"
+              width={80}
+              height={16}
               className="opacity-40 group-hover:opacity-100 transition-opacity"
             />
             <span className="h-4 w-[1px] bg-white/10" />
@@ -93,6 +93,21 @@ export function LandingFooter() {
             <div className="flex flex-col">
               <span className="text-[10px] font-bold text-white/80 leading-none">Compliant with EU Standards</span>
               <span className="text-[8px] text-white/30 uppercase tracking-widest mt-0.5">EU Compliant Platform</span>
+            </div>
+          </div>
+
+          {/* Swiss Engineering */}
+          <div className="flex items-center gap-3 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] transition-colors group cursor-default">
+            <div className="bg-[#FF0000] p-1 rounded-sm shadow-sm group-hover:scale-110 transition-transform flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="h-4 w-4">
+                <rect width="32" height="32" fill="#FF0000" />
+                <rect x="13" y="6" width="6" height="20" fill="#fff" />
+                <rect x="6" y="13" width="20" height="6" fill="#fff" />
+              </svg>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[10px] font-bold text-white/80 leading-none">Engineered in Switzerland</span>
+              <span className="text-[8px] text-white/30 uppercase tracking-widest mt-0.5">Swiss Quality & Precision</span>
             </div>
           </div>
         </div>
