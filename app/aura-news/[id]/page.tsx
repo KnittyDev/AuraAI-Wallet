@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabase";
 import { LandingHeader } from "@/components/landing/landing-header";
 import { LandingFooter } from "@/components/landing/landing-footer";
 import { AuroraBackground } from "@/components/landing/aurora-background";
-import { LuArrowLeft, LuClock, LuShare2, LuCalendar, LuTag } from "react-icons/lu";
+import { LuArrowLeft, LuClock, LuShare2, LuCalendar, LuTag, LuExternalLink } from "react-icons/lu";
 import Link from "next/link";
 
 interface NewsItem {
