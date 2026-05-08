@@ -23,6 +23,13 @@ A multi-step, AI-guided onboarding flow that calculates risk profiles and expect
 - **Dynamic QR Codes**: Secure, logo-integrated QR generation for wallet addresses using `qrcode.react`.
 - **Webhook Verification**: Production-ready webhook listener with HMAC SHA512 signature verification for secure transaction confirmation.
 
+### 🛡️ Admin Powerhouse (Admin Panel)
+A robust, role-based administrative interface for platform oversight and user management.
+- **Financial Analytics**: Real-time deposit volume tracking with chronological charts and automatic multi-asset conversion (BTC/ETH to USD).
+- **User Management**: Comprehensive control center to manage user roles, reset security credentials (passwords), and bypass 2FA/TOTP locks.
+- **Wallet Inspection**: Live view of any user's asset allocation and balances across all integrated networks.
+- **Security & RBAC**: Advanced database-level security with custom Supabase RLS policies and `is_admin()` functions for safe administrative access.
+
 ### 📰 Editorial Case Studies
 Dynamic, editorial-style case studies featuring real-world investment firms (Grayscale, BlockTower, Pantera) with detailed performance metrics and strategic insights.
 
@@ -56,7 +63,10 @@ Dynamic, editorial-style case studies featuring real-world investment firms (Gra
 ## 📁 Project Structure
 
 - `app/dashboard/` - Core application logic and private views.
+- `app/admin/` - Administrative control panel and user management.
+- `app/api/admin/` - Secure administrative backend endpoints.
 - `app/studycase/` - Dynamic case study detail pages.
+- `components/admin/` - Specialized UI components for the admin interface.
 - `components/dashboard/` - Specialized UI components for the trading interface.
 - `components/landing/` - High-conversion marketing sections and landing UI.
 - `lib/` - Shared data, types, and utility functions.
