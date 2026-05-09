@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 import { AiActionLog } from "@/components/dashboard/ai-action-log";
 import { motion, AnimatePresence } from "framer-motion";
@@ -41,6 +41,7 @@ export default function InvestmentsPage() {
   const [selectedLogs, setSelectedLogs] = useState<AiAction[]>([]);
   const [loadingLogs, setLoadingLogs] = useState(false);
   const [infoModalInvestment, setInfoModalInvestment] = useState<Investment | null>(null);
+  const logsSectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -84,7 +85,13 @@ export default function InvestmentsPage() {
       .order('created_at', { ascending: false })
       .limit(25);
 
-    if (!error) setSelectedLogs(data);
+    if (!error) {
+      setSelectedLogs(data);
+      // Smooth scroll to logs section
+      setTimeout(() => {
+        logsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
     setLoadingLogs(false);
   };
 
@@ -229,7 +236,7 @@ export default function InvestmentsPage() {
               </Link>
               <Link
                 href="/dashboard/new-investment"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-bold text-black transition hover:bg-white/90"
+                className="inline-flex items-center gap-2 rounded-full bg-white px-4 md:px-5 py-3 text-sm font-bold text-black transition hover:bg-white/90 whitespace-nowrap"
               >
                 <LuPlus className="h-4 w-4" />
                 New Investment
@@ -351,10 +358,11 @@ export default function InvestmentsPage() {
           <AnimatePresence>
             {selectedInvId && (
               <motion.div
+                ref={logsSectionRef}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
-                className="space-y-6"
+                className="space-y-6 pt-10"
               >
                 <div className="flex items-center justify-between px-2">
                   <h2 className="text-xl font-bold text-white">Strategy Execution Feed</h2>

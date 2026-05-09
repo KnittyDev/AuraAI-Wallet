@@ -164,8 +164,8 @@ export default function TransactionsPage() {
           </div>
 
           {/* Transactions Table */}
-          <div className="rounded-[32px] border border-white/10 bg-white/[0.02] backdrop-blur-xl overflow-hidden">
-              <table className="w-full text-left border-collapse">
+          <div className="rounded-[32px] border border-white/10 bg-white/[0.02] backdrop-blur-xl overflow-x-auto custom-scrollbar">
+              <table className="w-full text-left border-collapse min-w-[800px]">
                 <thead>
                   <tr className="border-b border-white/5 bg-white/[0.01]">
                     <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Activity</th>
