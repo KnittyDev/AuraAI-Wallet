@@ -77,7 +77,7 @@ export default function SettingsPage() {
   const [settings, setSettings] = useState({
     notifyTradeOpen: true,
     notifyTradeClose: true,
-    notifyInvestmentComplete: true,
+    notifyInvestmentMaturity: true,
     notifyDeposit: true,
     notifyWithdraw: true,
     twoFactor: false,
@@ -89,12 +89,13 @@ export default function SettingsPage() {
     async function loadNotificationSettings() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
-      const { data } = await supabase.from("profiles").select("notify_trade_open, notify_trade_close").eq("id", user.id).single();
+      const { data } = await supabase.from("profiles").select("notify_trade_open, notify_trade_close, notify_investment_maturity").eq("id", user.id).single();
       if (data) {
         setSettings(prev => ({
           ...prev,
           notifyTradeOpen: data.notify_trade_open ?? true,
           notifyTradeClose: data.notify_trade_close ?? true,
+          notifyInvestmentMaturity: data.notify_investment_maturity ?? true,
         }));
       }
     }
@@ -112,6 +113,8 @@ export default function SettingsPage() {
       await supabase.from("profiles").update({ notify_trade_open: newValue }).eq("id", user.id);
     } else if (key === 'notifyTradeClose') {
       await supabase.from("profiles").update({ notify_trade_close: newValue }).eq("id", user.id);
+    } else if (key === 'notifyInvestmentMaturity') {
+      await supabase.from("profiles").update({ notify_investment_maturity: newValue }).eq("id", user.id);
     }
   };
 
@@ -319,8 +322,8 @@ export default function SettingsPage() {
                 <SettingCard
                   label="Investment Maturity"
                   description="Notified when strategy duration ends and funds settle."
-                  enabled={settings.notifyInvestmentComplete}
-                  onToggle={() => toggleSetting('notifyInvestmentComplete')}
+                  enabled={settings.notifyInvestmentMaturity}
+                  onToggle={() => toggleSetting('notifyInvestmentMaturity')}
                   icon={LuCheck}
                   accentColor="blue"
                 />
