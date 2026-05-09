@@ -111,78 +111,111 @@ export default function TicketsListPage() {
             <input type="text" placeholder="Search for tickets..." className="bg-transparent border-none outline-none text-white placeholder:text-white/20 w-full text-sm" />
           </div>
 
-          {/* Ticket List Table */}
+          {/* Ticket List Container */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="overflow-hidden rounded-[2.5rem] border border-white/5 bg-white/[0.02] backdrop-blur-xl"
           >
-            <div className="overflow-x-auto">
-              {loading ? (
-                <div className="p-12 text-center text-white/20 font-bold uppercase tracking-widest text-xs">
-                  Syncing with Aura neural link...
-                </div>
-              ) : tickets.length === 0 ? (
-                <div className="p-12 text-center text-white/20 font-bold uppercase tracking-widest text-xs">
-                  No tickets found in your history.
-                </div>
-              ) : (
-                <table className="w-full text-left">
-                  <thead>
-                    <tr className="border-b border-white/5 bg-white/[0.02]">
-                      <th className="px-8 py-6 text-[10px] font-bold text-white/30 uppercase tracking-widest">ID</th>
-                      <th className="px-8 py-6 text-[10px] font-bold text-white/30 uppercase tracking-widest">Subject</th>
-                      <th className="px-8 py-6 text-[10px] font-bold text-white/30 uppercase tracking-widest">Category</th>
-                      <th className="px-8 py-6 text-[10px] font-bold text-white/30 uppercase tracking-widest">Status</th>
-                      <th className="px-8 py-6 text-[10px] font-bold text-white/30 uppercase tracking-widest text-right">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-white/5">
-                    {tickets.map((ticket, i) => (
-                      <tr key={i} className="hover:bg-white/[0.02] transition-colors group">
-                        <td className="px-8 py-6">
-                          <span className="text-[10px] font-mono text-white/40 uppercase">#{ticket.id.split("-")[0]}</span>
-                        </td>
-                        <td className="px-8 py-6">
-                          <div className="text-sm font-bold text-white">{ticket.subject}</div>
-                          <div className="text-[10px] text-white/20 mt-1">
-                            {new Date(ticket.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-                          </div>
-                        </td>
-                        <td className="px-8 py-6">
-                          <span className="text-xs text-white/60">{ticket.category}</span>
-                        </td>
-                        <td className="px-8 py-6">
-                          <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter ${
-                            ticket.status === 'Open' ? 'bg-white/10 text-white' : 
-                            ticket.status === 'Pending' ? 'bg-white/5 text-white/40' : 'bg-white/5 text-white/10'
-                          }`}>
-                            {ticket.status}
-                          </span>
-                        </td>
-                        <td className="px-8 py-6 text-right">
-                          <Link href={`/dashboard/settings/support/tickets/${ticket.id}`}>
-                            <button className="h-10 w-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-white/30 transition-all ml-auto">
-                              <LuChevronRight className="h-4 w-4" />
-                            </button>
-                          </Link>
-                        </td>
+            {loading ? (
+              <div className="p-12 text-center text-white/20 font-bold uppercase tracking-widest text-xs">
+                Syncing with Aura neural link...
+              </div>
+            ) : tickets.length === 0 ? (
+              <div className="p-12 text-center text-white/20 font-bold uppercase tracking-widest text-xs">
+                No tickets found in your history.
+              </div>
+            ) : (
+              <>
+                {/* Desktop View (Table) */}
+                <div className="hidden md:block">
+                  <table className="w-full text-left">
+                    <thead>
+                      <tr className="border-b border-white/5 bg-white/[0.02]">
+                        <th className="px-8 py-6 text-[10px] font-bold text-white/30 uppercase tracking-widest">ID</th>
+                        <th className="px-8 py-6 text-[10px] font-bold text-white/30 uppercase tracking-widest">Subject</th>
+                        <th className="px-8 py-6 text-[10px] font-bold text-white/30 uppercase tracking-widest">Category</th>
+                        <th className="px-8 py-6 text-[10px] font-bold text-white/30 uppercase tracking-widest">Status</th>
+                        <th className="px-8 py-6 text-[10px] font-bold text-white/30 uppercase tracking-widest text-right">Action</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
-            </div>
+                    </thead>
+                    <tbody className="divide-y divide-white/5">
+                      {tickets.map((ticket, i) => (
+                        <tr key={i} className="hover:bg-white/[0.04] transition-all group">
+                          <td className="px-8 py-6">
+                            <span className="text-[10px] font-mono text-white/40 uppercase">#{ticket.id.split("-")[0]}</span>
+                          </td>
+                          <td className="px-8 py-6">
+                            <div className="text-sm font-bold text-white group-hover:text-red-400 transition-colors">{ticket.subject}</div>
+                            <div className="text-[10px] text-white/20 mt-1">
+                              {new Date(ticket.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                            </div>
+                          </td>
+                          <td className="px-8 py-6">
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-white/40">{ticket.category}</span>
+                          </td>
+                          <td className="px-8 py-6">
+                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter border ${
+                              ticket.status === 'Open' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 
+                              ticket.status === 'Pending' ? 'bg-orange-500/10 border-orange-500/20 text-orange-400' : 
+                              'bg-white/5 border-white/5 text-white/20'
+                            }`}>
+                              {ticket.status}
+                            </span>
+                          </td>
+                          <td className="px-8 py-6 text-right">
+                            <Link href={`/dashboard/settings/support/tickets/${ticket.id}`}>
+                              <button className="h-10 w-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 hover:border-white/30 transition-all ml-auto">
+                                <LuChevronRight className="h-4 w-4" />
+                              </button>
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Mobile View (Cards) */}
+                <div className="md:hidden divide-y divide-white/5">
+                  {tickets.map((ticket, i) => (
+                    <Link 
+                      key={i} 
+                      href={`/dashboard/settings/support/tickets/${ticket.id}`}
+                      className="block p-6 hover:bg-white/[0.04] active:bg-white/[0.06] transition-all"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-[10px] font-mono text-white/20 uppercase tracking-tighter">#{ticket.id.split("-")[0]}</span>
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-tighter border ${
+                          ticket.status === 'Open' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 
+                          ticket.status === 'Pending' ? 'bg-orange-500/10 border-orange-500/20 text-orange-400' : 
+                          'bg-white/5 border-white/5 text-white/20'
+                        }`}>
+                          {ticket.status}
+                        </span>
+                      </div>
+                      <div className="text-sm font-bold text-white mb-2 leading-tight">{ticket.subject}</div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">{ticket.category}</span>
+                        <span className="text-[10px] text-white/20">
+                          {new Date(ticket.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                        </span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </>
+            )}
           </motion.div>
 
           {/* Empty State Help */}
-          <div className="mt-12 text-center p-12 rounded-[2.5rem] border border-dashed border-white/10">
-            <LuLifeBuoy className="h-12 w-12 text-white/10 mx-auto mb-4" />
-            <h3 className="text-white/60 font-bold mb-2">Can't find what you need?</h3>
-            <p className="text-xs text-white/30 mb-6">Our automated AI assistant handles 90% of requests in seconds.</p>
+          <div className="mt-12 text-center p-8 md:p-12 rounded-[2.5rem] border border-dashed border-white/10 bg-white/[0.01]">
+            <LuLifeBuoy className="h-10 w-10 md:h-12 md:w-12 text-white/10 mx-auto mb-4" />
+            <h3 className="text-white/60 font-bold mb-2">Can&apos;t find what you need?</h3>
+            <p className="text-[10px] md:text-xs text-white/30 mb-6 max-w-xs mx-auto">Our automated AI assistant handles 90% of requests in seconds.</p>
             <Link href="/dashboard/settings/support/ai-tutorial">
-              <button className="text-xs font-bold text-white hover:underline uppercase tracking-widest">Visit AI Help Center</button>
+              <button className="text-[10px] font-bold text-white hover:underline uppercase tracking-widest">Visit AI Help Center</button>
             </Link>
           </div>
 

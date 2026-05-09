@@ -75,6 +75,24 @@ export default function SupportCenterPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [openGuide, setOpenGuide] = useState<number | null>(null);
 
+  const filteredSelfService = selfServiceItems.filter(item => 
+    item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    item.desc.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const filteredFaqs = topQuestions.filter(item => 
+    item.q.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    item.a.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const filteredGuides = guideItems.filter(item => 
+    item.q.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    item.a.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Special check for "support" or "ticket" keywords to highlight the tickets section
+  const showTicketsCard = searchQuery.toLowerCase().includes("support") || searchQuery.toLowerCase().includes("ticket");
+
   return (
     <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-hidden">
       <AuroraBackground />
@@ -116,215 +134,258 @@ export default function SupportCenterPage() {
             </motion.div>
           </div>
 
-          {/* Self-Service Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="mb-16"
-          >
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">Self-Service</h2>
-              <button className="text-xs font-bold text-white/40 uppercase tracking-widest hover:text-white transition-colors flex items-center gap-1">
-                More <LuChevronRight className="h-4 w-4" />
-              </button>
-            </div>
+          <AnimatePresence mode="popLayout">
+            {/* Self-Service Section */}
+            {filteredSelfService.length > 0 && (
+              <motion.div
+                key="self-service"
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="mb-16"
+              >
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold text-white">Self-Service</h2>
+                </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {selfServiceItems.map((item, i) => (
-                <Link href={item.href} key={i} className="block">
-                  <div className="p-6 rounded-[2rem] border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-all cursor-pointer group relative overflow-hidden h-full">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 blur-[50px] rounded-full -mr-16 -mt-16 group-hover:bg-white/10 transition-colors" />
-                    <div className="relative z-10 flex items-start gap-4">
-                      <div className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40 group-hover:text-white group-hover:border-white/20 transition-colors shrink-0">
-                        <item.icon className="h-6 w-6" />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {filteredSelfService.map((item, i) => (
+                    <Link href={item.href} key={i} className="block">
+                      <div className="p-6 rounded-[2rem] border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-all cursor-pointer group relative overflow-hidden h-full">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 blur-[50px] rounded-full -mr-16 -mt-16 group-hover:bg-white/10 transition-colors" />
+                        <div className="relative z-10 flex items-start gap-4">
+                          <div className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40 group-hover:text-white group-hover:border-white/20 transition-colors shrink-0">
+                            <item.icon className="h-6 w-6" />
+                          </div>
+                          <div>
+                            <h3 className="text-white font-bold mb-1 group-hover:text-white transition-colors">{item.title}</h3>
+                            <p className="text-xs text-white/40">{item.desc}</p>
+                          </div>
+                        </div>
                       </div>
+                    </Link>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* FAQ Section */}
+            {(filteredFaqs.length > 0 || filteredGuides.length > 0) && (
+              <motion.div
+                key="faq-guides"
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="mb-16"
+              >
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold text-white">FAQ & Guides</h2>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* Left Column */}
+                  <div className="space-y-6">
+                    {/* Top Questions */}
+                    {filteredFaqs.length > 0 && (
+                      <div className="p-8 rounded-[2.5rem] border border-white/5 bg-white/[0.02] backdrop-blur-xl">
+                        <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-3">
+                          <LuLifeBuoy className="h-5 w-5 text-white/60" />
+                          Top Questions
+                        </h3>
+                        <div className="space-y-4">
+                          {filteredFaqs.map((item, i) => (
+                            <div key={i} className="border-b border-white/5 last:border-0 pb-4 last:pb-0">
+                              <button
+                                onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                                className="flex items-start gap-4 group w-full text-left"
+                              >
+                                <span className="flex items-center justify-center h-5 w-5 rounded bg-white/5 text-[10px] font-bold text-white/40 shrink-0 mt-0.5 group-hover:bg-white/10 transition-colors">
+                                  {i + 1}
+                                </span>
+                                <span className="text-sm text-white/70 group-hover:text-white transition-colors flex-1">
+                                  {item.q}
+                                </span>
+                                <LuChevronRight className={`h-4 w-4 text-white/20 transition-transform ${openFaq === i ? "rotate-90" : ""}`} />
+                              </button>
+                              <AnimatePresence>
+                                {openFaq === i && (
+                                  <motion.div
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: "auto", opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    className="overflow-hidden"
+                                  >
+                                    <p className="text-xs text-white/40 mt-3 ml-9 leading-relaxed">
+                                      {item.a}
+                                    </p>
+                                  </motion.div>
+                                )}
+                              </AnimatePresence>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Aura Wallet Guide */}
+                    {filteredGuides.length > 0 && (
+                      <div className="p-8 rounded-[2.5rem] border border-white/5 bg-white/[0.02] backdrop-blur-xl">
+                        <div className="flex items-center justify-between mb-6">
+                          <h3 className="text-lg font-bold text-white flex items-center gap-3">
+                            <LuBookOpen className="h-5 w-5 text-white/60" />
+                            Aura Wallet Guide
+                          </h3>
+                        </div>
+                        <div className="space-y-4">
+                          {filteredGuides.map((item, i) => (
+                            <div key={i} className="border-b border-white/5 last:border-0 pb-4 last:pb-0">
+                              <button
+                                onClick={() => setOpenGuide(openGuide === i ? null : i)}
+                                className="w-full text-left flex items-center justify-between group"
+                              >
+                                <span className="text-sm text-white/70 group-hover:text-white transition-colors">{item.q}</span>
+                                <LuChevronRight className={`h-4 w-4 text-white/20 transition-transform ${openGuide === i ? "rotate-90" : ""}`} />
+                              </button>
+                              <AnimatePresence>
+                                {openGuide === i && (
+                                  <motion.div
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: "auto", opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    className="overflow-hidden"
+                                  >
+                                    <p className="text-xs text-white/40 mt-3 leading-relaxed italic">
+                                      {item.a}
+                                    </p>
+                                  </motion.div>
+                                )}
+                              </AnimatePresence>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Right Column (Show if not searching or if search matches something related to security/AI) */}
+                  {(!searchQuery || searchQuery.toLowerCase().includes("security") || searchQuery.toLowerCase().includes("ai") || searchQuery.toLowerCase().includes("trading")) && (
+                    <div className="space-y-6">
+                      {/* Security & Verification */}
+                      <div className="p-8 rounded-[2.5rem] border border-white/5 bg-white/[0.02] backdrop-blur-xl">
+                        <div className="flex items-center justify-between mb-6">
+                          <h3 className="text-lg font-bold text-white flex items-center gap-3">
+                            <LuShieldCheck className="h-5 w-5 text-white/60" />
+                            Security & Verification
+                          </h3>
+                        </div>
+                        <div className="space-y-4">
+                          <div className="text-sm text-white/70 py-1 border-b border-white/5 pb-3">Identity verification ensures high-tier security and unlocks premium institutional limits.</div>
+                          <div className="text-sm text-white/70 py-1 border-b border-white/5 pb-3">Lost your 2FA? Use your master recovery key or contact support with KYC proof.</div>
+                          <div className="text-sm text-white/70 py-1 border-b border-white/5 pb-3">Enable anti-phishing codes in settings to verify every email from Aura.</div>
+                        </div>
+                      </div>
+
+                      {/* AI Trading Tutorial */}
+                      <Link href="/dashboard/settings/support/ai-tutorial" className="block">
+                        <div className="p-8 rounded-[2.5rem] border border-white/5 bg-white/[0.02] backdrop-blur-xl relative overflow-hidden group hover:bg-white/[0.05] transition-all">
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 blur-[50px] rounded-full -mr-10 -mt-10 group-hover:bg-white/10 transition-colors" />
+                          <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-3 relative z-10">
+                            <LuZap className="h-5 w-5 text-white/60" />
+                            AI Trading Tutorial
+                          </h3>
+                          <div className="space-y-4 relative z-10">
+                            <div className="text-sm text-white/70 py-1 border-b border-white/5 pb-3">Step 1: Deposit funds. Step 2: Choose a risk profile. Step 3: Aura handles the rest.</div>
+                            <div className="text-sm text-white/70 py-1 border-b border-white/5 pb-3">Aggressive: High reward, high volatility. Growth: Balanced long-term wealth.</div>
+                            <div className="flex items-center gap-2 text-sm font-bold text-white/60 hover:text-white transition-colors py-2 mt-2">
+                              View full tutorial <LuArrowRight className="h-4 w-4" />
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Need More Support Section */}
+            {(!searchQuery || showTicketsCard) && (
+              <motion.div
+                key="need-more-support"
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+              >
+                <h2 className="text-2xl font-bold text-white mb-6">Need More Support?</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                  {/* Chat Support */}
+                  <Link href="/dashboard/settings/support/tickets" className="block">
+                    <div className={`p-8 rounded-[2.5rem] border transition-all flex items-center justify-between group h-full ${
+                      showTicketsCard ? 'border-cyan-500/50 bg-cyan-500/5 ring-4 ring-cyan-500/10' : 'border-white/10 bg-white/[0.03] hover:bg-white/[0.05]'
+                    }`}>
                       <div>
-                        <h3 className="text-white font-bold mb-1 group-hover:text-white transition-colors">{item.title}</h3>
-                        <p className="text-xs text-white/40">{item.desc}</p>
+                        <h3 className="text-lg font-bold text-white mb-2">My Support Tickets</h3>
+                        <p className="text-sm text-white/40 max-w-[250px] mb-6">
+                          View your previous conversations or open a ticket to get help from our 24/7 team.
+                        </p>
+                        <div className="inline-flex items-center gap-2 text-xs font-bold text-white/40 uppercase tracking-widest group-hover:text-white transition-colors">
+                          View Tickets <LuArrowRight className="h-4 w-4" />
+                        </div>
+                      </div>
+                      <div className={`h-20 w-20 rounded-full flex items-center justify-center shrink-0 border transition-all group-hover:scale-110 ${
+                        showTicketsCard ? 'bg-cyan-500/20 border-cyan-500/30' : 'bg-white/5 border-white/10'
+                      }`}>
+                        <LuHeadphones className={`h-8 w-8 ${showTicketsCard ? 'text-cyan-400' : 'text-white/60'}`} />
                       </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* FAQ Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="mb-16"
-          >
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">FAQ & Guides</h2>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Left Column */}
-              <div className="space-y-6">
-                {/* Top Questions */}
-                <div className="p-8 rounded-[2.5rem] border border-white/5 bg-white/[0.02] backdrop-blur-xl">
-                  <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-3">
-                    <LuLifeBuoy className="h-5 w-5 text-white/60" />
-                    Top Questions
-                  </h3>
-                  <div className="space-y-4">
-                    {topQuestions.map((item, i) => (
-                      <div key={i} className="border-b border-white/5 last:border-0 pb-4 last:pb-0">
-                        <button
-                          onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                          className="flex items-start gap-4 group w-full text-left"
-                        >
-                          <span className="flex items-center justify-center h-5 w-5 rounded bg-white/5 text-[10px] font-bold text-white/40 shrink-0 mt-0.5 group-hover:bg-white/10 transition-colors">
-                            {i + 1}
-                          </span>
-                          <span className="text-sm text-white/70 group-hover:text-white transition-colors flex-1">
-                            {item.q}
-                          </span>
-                          <LuChevronRight className={`h-4 w-4 text-white/20 transition-transform ${openFaq === i ? "rotate-90" : ""}`} />
-                        </button>
-                        <AnimatePresence>
-                          {openFaq === i && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              className="overflow-hidden"
-                            >
-                              <p className="text-xs text-white/40 mt-3 ml-9 leading-relaxed">
-                                {item.a}
-                              </p>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Aura Wallet Guide */}
-                <div className="p-8 rounded-[2.5rem] border border-white/5 bg-white/[0.02] backdrop-blur-xl">
-                  <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-lg font-bold text-white flex items-center gap-3">
-                      <LuBookOpen className="h-5 w-5 text-white/60" />
-                      Aura Wallet Guide
-                    </h3>
-                  </div>
-                  <div className="space-y-4">
-                    {guideItems.map((item, i) => (
-                      <div key={i} className="border-b border-white/5 last:border-0 pb-4 last:pb-0">
-                        <button
-                          onClick={() => setOpenGuide(openGuide === i ? null : i)}
-                          className="w-full text-left flex items-center justify-between group"
-                        >
-                          <span className="text-sm text-white/70 group-hover:text-white transition-colors">{item.q}</span>
-                          <LuChevronRight className={`h-4 w-4 text-white/20 transition-transform ${openGuide === i ? "rotate-90" : ""}`} />
-                        </button>
-                        <AnimatePresence>
-                          {openGuide === i && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              className="overflow-hidden"
-                            >
-                              <p className="text-xs text-white/40 mt-3 leading-relaxed italic">
-                                {item.a}
-                              </p>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column */}
-              <div className="space-y-6">
-                {/* Security & Verification */}
-                <div className="p-8 rounded-[2.5rem] border border-white/5 bg-white/[0.02] backdrop-blur-xl">
-                  <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-lg font-bold text-white flex items-center gap-3">
-                      <LuShieldCheck className="h-5 w-5 text-white/60" />
-                      Security & Verification
-                    </h3>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="text-sm text-white/70 py-1 border-b border-white/5 pb-3">Identity verification ensures high-tier security and unlocks premium institutional limits.</div>
-                    <div className="text-sm text-white/70 py-1 border-b border-white/5 pb-3">Lost your 2FA? Use your master recovery key or contact support with KYC proof.</div>
-                    <div className="text-sm text-white/70 py-1 border-b border-white/5 pb-3">Enable anti-phishing codes in settings to verify every email from Aura.</div>
-                  </div>
-                </div>
-
-                {/* AI Trading Tutorial */}
-                <Link href="/dashboard/settings/support/ai-tutorial" className="block">
-                  <div className="p-8 rounded-[2.5rem] border border-white/5 bg-white/[0.02] backdrop-blur-xl relative overflow-hidden group hover:bg-white/[0.05] transition-all">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 blur-[50px] rounded-full -mr-10 -mt-10 group-hover:bg-white/10 transition-colors" />
-                    <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-3 relative z-10">
-                      <LuZap className="h-5 w-5 text-white/60" />
-                      AI Trading Tutorial
-                    </h3>
-                    <div className="space-y-4 relative z-10">
-                      <div className="text-sm text-white/70 py-1 border-b border-white/5 pb-3">Step 1: Deposit funds. Step 2: Choose a risk profile. Step 3: Aura handles the rest.</div>
-                      <div className="text-sm text-white/70 py-1 border-b border-white/5 pb-3">Aggressive: High reward, high volatility. Growth: Balanced long-term wealth.</div>
-                      <div className="flex items-center gap-2 text-sm font-bold text-white/60 hover:text-white transition-colors py-2 mt-2">
-                        View full tutorial <LuArrowRight className="h-4 w-4" />
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Need More Support Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <h2 className="text-2xl font-bold text-white mb-6">Need More Support?</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-              {/* Chat Support */}
-              <Link href="/dashboard/settings/support/tickets" className="block">
-                <div className="p-8 rounded-[2.5rem] border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] transition-all flex items-center justify-between group h-full">
-                  <div>
-                    <h3 className="text-lg font-bold text-white mb-2">My Support Tickets</h3>
-                    <p className="text-sm text-white/40 max-w-[250px] mb-6">
-                      View your previous conversations or open a ticket to get help from our 24/7 team.
-                    </p>
-                    <div className="inline-flex items-center gap-2 text-xs font-bold text-white/40 uppercase tracking-widest group-hover:text-white transition-colors">
-                      View Tickets <LuArrowRight className="h-4 w-4" />
-                    </div>
-                  </div>
-                  <div className="h-20 w-20 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10 group-hover:scale-110 transition-transform">
-                    <LuHeadphones className="h-8 w-8 text-white/60" />
-                  </div>
-                </div>
-              </Link>
-
-              {/* Product Feedback */}
-              <div className="p-8 rounded-[2.5rem] border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] transition-all flex items-center justify-between group">
-                <div>
-                  <h3 className="text-lg font-bold text-white mb-2">Product Feedback</h3>
-                  <p className="text-sm text-white/40 max-w-[250px] mb-6">
-                    Help us improve Aura Wallet. Share your ideas, suggestions, or bug reports.
-                  </p>
-                  <Link href="#" className="inline-flex items-center gap-2 text-xs font-bold text-white/40 uppercase tracking-widest hover:text-white transition-colors">
-                    Share Feedback <LuArrowRight className="h-4 w-4" />
                   </Link>
-                </div>
-                <div className="h-20 w-20 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10 group-hover:scale-110 transition-transform">
-                  <LuMessageSquare className="h-8 w-8 text-white/60" />
-                </div>
-              </div>
 
-            </div>
-          </motion.div>
+                  {/* Product Feedback */}
+                  <div className="p-8 rounded-[2.5rem] border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] transition-all flex items-center justify-between group">
+                    <div>
+                      <h3 className="text-lg font-bold text-white mb-2">Product Feedback</h3>
+                      <p className="text-sm text-white/40 max-w-[250px] mb-6">
+                        Help us improve Aura Wallet. Share your ideas, suggestions, or bug reports.
+                      </p>
+                      <Link href="#" className="inline-flex items-center gap-2 text-xs font-bold text-white/40 uppercase tracking-widest hover:text-white transition-colors">
+                        Share Feedback <LuArrowRight className="h-4 w-4" />
+                      </Link>
+                    </div>
+                    <div className="h-20 w-20 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10 group-hover:scale-110 transition-transform">
+                      <LuMessageSquare className="h-8 w-8 text-white/60" />
+                    </div>
+                  </div>
+
+                </div>
+              </motion.div>
+            )}
+
+            {/* Empty Search State */}
+            {searchQuery && filteredSelfService.length === 0 && filteredFaqs.length === 0 && filteredGuides.length === 0 && !showTicketsCard && (
+              <motion.div
+                key="empty-state"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-center py-24"
+              >
+                <div className="h-24 w-24 rounded-full bg-white/5 border border-dashed border-white/10 flex items-center justify-center mx-auto mb-6 text-white/10">
+                  <LuSearch className="h-10 w-10" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">No results for &quot;{searchQuery}&quot;</h3>
+                <p className="text-white/40 text-sm max-w-xs mx-auto mb-8">Try using different keywords or check out our FAQ categories below.</p>
+                <button 
+                  onClick={() => setSearchQuery("")}
+                  className="text-xs font-bold text-cyan-400 hover:text-cyan-300 uppercase tracking-widest transition-colors"
+                >
+                  Clear Search
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
         </div>
       </section>

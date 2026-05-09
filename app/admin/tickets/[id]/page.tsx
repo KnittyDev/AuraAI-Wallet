@@ -14,7 +14,10 @@ import {
   LuCircleCheck, 
   LuTriangleAlert,
   LuLoaderCircle,
-  LuEllipsisVertical
+  LuEllipsisVertical,
+  LuPaperclip,
+  LuDownload,
+  LuExternalLink
 } from "react-icons/lu";
 import { motion } from "framer-motion";
 
@@ -30,6 +33,7 @@ interface Ticket {
     full_name: string | null;
     username: string | null;
   } | null;
+  attachment_url: string | null;
 }
 
 interface Reply {
@@ -41,6 +45,7 @@ interface Reply {
   profiles: {
     full_name: string | null;
   } | null;
+  attachment_url: string | null;
 }
 
 export default function AdminTicketDetailPage() {
@@ -51,6 +56,8 @@ export default function AdminTicketDetailPage() {
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [replies, setReplies] = useState<Reply[]>([]);
   const [replyMessage, setReplyMessage] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState<string>("");
+  const [file, setFile] = useState<File | null>(null);
   const [isSending, setIsSending] = useState(false);
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
 
@@ -72,6 +79,9 @@ export default function AdminTicketDetailPage() {
           .single();
         
         setTicket(ticketData);
+        if (ticketData) {
+          setSelectedStatus(ticketData.status);
+        }
 
         // Fetch Replies
         const { data: repliesData } = await supabase
@@ -92,32 +102,53 @@ export default function AdminTicketDetailPage() {
 
   const handleSendReply = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!replyMessage.trim() || isSending) return;
+    if (!replyMessage.trim() || isSending || !ticket) return;
 
     setIsSending(true);
     const { data: { user } } = await supabase.auth.getUser();
 
-    const { data: newReply, error } = await supabase
-      .from("ticket_replies")
-      .insert({
-        ticket_id: id,
-        user_id: user?.id,
-        message: replyMessage,
-        is_admin_reply: true
-      })
-      .select("*, profiles:user_id(full_name)")
-      .single();
-
-    if (!error && newReply) {
-      setReplies([...replies, newReply]);
-      setReplyMessage("");
+    let uploaded_attachment_url = null;
+    if (file) {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${ticket.user_id}/${Math.random()}.${fileExt}`;
+      const { error: uploadError, data } = await supabase.storage
+        .from('support-attachments')
+        .upload(fileName, file);
       
-      // Auto-update status to Pending if it was Open
-      if (ticket?.status === 'Open') {
-        await updateTicketStatus('Pending');
+      if (!uploadError && data) {
+        uploaded_attachment_url = data.path;
       }
     }
-    setIsSending(false);
+
+    try {
+      const { data: newReply, error } = await supabase
+        .from("ticket_replies")
+        .insert({
+          ticket_id: id,
+          user_id: user?.id,
+          message: replyMessage,
+          is_admin_reply: true,
+          attachment_url: uploaded_attachment_url
+        })
+        .select("*, profiles:user_id(full_name)")
+        .single();
+
+      if (error) throw error;
+
+      if (newReply) {
+        setReplies([...replies, newReply]);
+        setReplyMessage("");
+        setFile(null);
+        
+        // Update ticket status if it changed or auto-update to Pending
+        const statusToUpdate = selectedStatus || (ticket.status === 'Open' ? 'Pending' : ticket.status);
+        await updateTicketStatus(statusToUpdate);
+      }
+    } catch (err: any) {
+      alert(err.message || "Failed to send reply");
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const updateTicketStatus = async (newStatus: string) => {
@@ -180,9 +211,9 @@ export default function AdminTicketDetailPage() {
               onChange={(e) => updateTicketStatus(e.target.value)}
               className="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-xs font-bold text-white/60 focus:outline-none focus:ring-2 focus:ring-white/10 appearance-none cursor-pointer hover:bg-white/10 transition-all"
             >
-              <option value="Open">Set Open</option>
-              <option value="Pending">Set Pending</option>
-              <option value="Closed">Set Closed</option>
+              <option value="Open" className="bg-[#121212] text-white">Set Open</option>
+              <option value="Pending" className="bg-[#121212] text-white">Set Pending</option>
+              <option value="Closed" className="bg-[#121212] text-white">Set Closed</option>
             </select>
           </div>
         </div>
@@ -202,7 +233,29 @@ export default function AdminTicketDetailPage() {
                   <p className="text-xs text-white/20">Initial Request • {new Date(ticket.created_at).toLocaleString()}</p>
                 </div>
               </div>
-              <p className="text-white/70 leading-relaxed whitespace-pre-wrap">{ticket.description}</p>
+              <p className="text-white/70 leading-relaxed whitespace-pre-wrap mb-6">{ticket.description}</p>
+              
+              {/* Ticket Attachment */}
+              {ticket.attachment_url && (
+                <div className="p-4 rounded-2xl bg-white/[0.05] border border-white/10 flex items-center justify-between group max-w-sm">
+                  <div className="flex items-center gap-3 overflow-hidden">
+                    <LuPaperclip className="h-4 w-4 text-white/60" />
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold">Attachment</span>
+                      <span className="text-xs text-white/80 truncate">User shared document</span>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={async () => {
+                      const { data } = await supabase.storage.from('support-attachments').createSignedUrl(ticket.attachment_url!, 60);
+                      if (data?.signedUrl) window.open(data.signedUrl, '_blank');
+                    }}
+                    className="h-9 w-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all"
+                  >
+                    <LuExternalLink className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Replies */}
@@ -222,7 +275,25 @@ export default function AdminTicketDetailPage() {
                     <p className="text-[10px] font-bold uppercase tracking-widest mb-2 opacity-40">
                       {reply.is_admin_reply ? 'Admin Support' : ticket.profiles?.full_name} • {new Date(reply.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </p>
-                    <p className="text-sm leading-relaxed whitespace-pre-wrap">{reply.message}</p>
+                    <p className="text-sm leading-relaxed whitespace-pre-wrap mb-3">{reply.message}</p>
+                    
+                    {reply.attachment_url && (
+                      <div className="p-3 rounded-xl bg-black/20 border border-white/5 flex items-center justify-between gap-4 group">
+                        <div className="flex items-center gap-2 overflow-hidden">
+                          <LuPaperclip className="h-3.5 w-3.5 text-white/40" />
+                          <span className="text-[10px] text-white/60 truncate">Attachment included</span>
+                        </div>
+                        <button 
+                          onClick={async () => {
+                            const { data } = await supabase.storage.from('support-attachments').createSignedUrl(reply.attachment_url!, 60);
+                            if (data?.signedUrl) window.open(data.signedUrl, '_blank');
+                          }}
+                          className="text-white/40 hover:text-white transition-colors"
+                        >
+                          <LuExternalLink className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               ))}
@@ -238,15 +309,39 @@ export default function AdminTicketDetailPage() {
               disabled={ticket.status === 'Closed' || isSending}
               value={replyMessage}
               onChange={(e) => setReplyMessage(e.target.value)}
-              className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-4 pl-6 pr-16 text-sm text-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500/30 transition-all min-h-[80px] max-h-[200px] disabled:opacity-30"
+              className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-4 pl-6 pr-32 text-sm text-white focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500/30 transition-all min-h-[80px] max-h-[200px] disabled:opacity-30"
             />
-            <button 
-              type="submit"
-              disabled={!replyMessage.trim() || isSending || ticket.status === 'Closed'}
-              className="absolute right-4 bottom-4 h-10 w-10 rounded-xl bg-red-500 text-white flex items-center justify-center hover:bg-red-600 disabled:bg-white/5 disabled:text-white/20 transition-all shadow-lg active:scale-95"
-            >
-              {isSending ? <LuLoaderCircle className="h-5 w-5 animate-spin" /> : <LuSend className="h-5 w-5" />}
-            </button>
+            <div className="absolute right-16 bottom-4 flex items-center gap-2">
+              <select
+                value={selectedStatus}
+                onChange={(e) => setSelectedStatus(e.target.value)}
+                className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-[10px] font-bold text-white/60 focus:outline-none hover:bg-white/10 transition-all cursor-pointer"
+              >
+                <option value="Open" className="bg-[#121212] text-white">Status: Open</option>
+                <option value="Pending" className="bg-[#121212] text-white">Status: Pending</option>
+                <option value="Closed" className="bg-[#121212] text-white">Status: Closed</option>
+              </select>
+
+              <label className={`h-10 px-3 rounded-xl border flex items-center gap-2 cursor-pointer transition-all ${
+                file ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-white/5 border-white/10 text-white/40 hover:text-white'
+              }`}>
+                <input 
+                  type="file" 
+                  className="hidden" 
+                  onChange={(e) => setFile(e.target.files?.[0] || null)}
+                />
+                <LuPaperclip className="h-5 w-5" />
+                {file && <span className="text-[10px] font-bold uppercase tracking-widest hidden md:block">Selected</span>}
+              </label>
+              
+              <button 
+                type="submit"
+                disabled={!replyMessage.trim() || isSending || ticket.status === 'Closed'}
+                className="h-10 w-10 rounded-xl bg-red-500 text-white flex items-center justify-center hover:bg-red-600 disabled:bg-white/5 disabled:text-white/20 transition-all shadow-lg active:scale-95"
+              >
+                {isSending ? <LuLoaderCircle className="h-5 w-5 animate-spin" /> : <LuSend className="h-5 w-5" />}
+              </button>
+            </div>
           </form>
         </div>
       </section>
