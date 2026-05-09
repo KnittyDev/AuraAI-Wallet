@@ -190,12 +190,12 @@ export default function WalletPage() {
                   {loading && <div className="h-2 w-2 rounded-full bg-cyan-500 animate-pulse" />}
                 </div>
 
-                <div className="flex items-baseline gap-4 mb-8">
-                  <motion.h2 className="text-6xl font-medium tracking-tight text-white">
+                <div className="flex flex-wrap items-baseline gap-3 md:gap-4 mb-8">
+                  <motion.h2 className="text-4xl sm:text-5xl md:text-6xl font-medium tracking-tight text-white break-words">
                     $<motion.span>{rounded}</motion.span>
                   </motion.h2>
-                  <span className={`flex items-center gap-1 text-sm font-bold px-2 py-0.5 rounded-lg ${totalChangePct >= 0 ? "text-emerald-400 bg-emerald-400/10" : "text-red-400 bg-red-400/10"}`}>
-                    {totalChangePct >= 0 ? <LuTrendingUp className="h-3 w-3" /> : <LuTrendingDown className="h-3 w-3" />}
+                  <span className={`flex items-center gap-1 text-xs md:text-sm font-bold px-2 py-0.5 rounded-lg whitespace-nowrap ${totalChangePct >= 0 ? "text-emerald-400 bg-emerald-400/10" : "text-red-400 bg-red-400/10"}`}>
+                    {totalChangePct >= 0 ? <LuTrendingUp className="h-3 w-3 shrink-0" /> : <LuTrendingDown className="h-3 w-3 shrink-0" />}
                     {totalChangePct >= 0 ? "+" : ""}{totalChangePct.toFixed(2)}%
                   </span>
                 </div>

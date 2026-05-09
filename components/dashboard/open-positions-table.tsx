@@ -99,68 +99,124 @@ export function OpenPositionsTable() {
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[860px] text-left text-sm">
-          <thead className="text-white/30 text-[10px] font-bold uppercase tracking-widest">
-            <tr>
-              <th className="pb-4 font-bold">Pair</th>
-              <th className="pb-4 font-bold">Side</th>
-              <th className="pb-4 font-bold">Entry Price</th>
-              <th className="pb-4 font-bold">Current Price</th>
-              <th className="pb-4 font-bold">Time</th>
-              <th className="pb-4 font-bold">PnL (%)</th>
-              <th className="pb-4 font-bold">Strategy Logic</th>
-            </tr>
-          </thead>
-          <tbody className="text-white/85">
-            {positions.length > 0 ? (
-              positions.map((pos) => {
-                const pnl = calculatePnL(pos);
-                const currentPrice = prices[pos.asset_code];
-                
-                return (
-                  <tr key={pos.id} className="border-t border-white/5 hover:bg-white/[0.02] transition-colors">
-                    <td className="py-4">
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-white">{pos.asset_code}/USDT</span>
-                        <span className="text-[9px] text-white/20 font-mono tracking-tighter">#{pos.id.slice(0, 8)}</span>
-                      </div>
-                    </td>
-                    <td className="py-4">
-                      <span
-                        className={`rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest ${pos.action_type === "long"
-                          ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
-                          : "bg-orange-500/20 text-orange-400 border border-orange-500/20"
-                          }`}
-                      >
-                        {pos.action_type}
-                      </span>
-                    </td>
-                    <td className="py-4 font-mono text-white/60">${Number(pos.entry_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-                    <td className="py-4 font-mono text-white/40">${currentPrice?.toLocaleString(undefined, { minimumFractionDigits: 2 }) || "---"}</td>
-                    <td className="py-4 text-white/40 text-xs">
+      {positions.length === 0 ? (
+        <div className="py-12 text-center text-white/20 italic font-medium border border-white/5 bg-white/[0.02] rounded-2xl">
+          Scanning for high-probability entries... <br />
+          <span className="text-[10px] opacity-40 uppercase tracking-widest mt-2 block font-bold">AuraAI is monitoring the markets</span>
+        </div>
+      ) : (
+        <>
+          {/* Desktop View (Table) */}
+          <div className="hidden md:block overflow-x-auto">
+            <table className="w-full min-w-[860px] text-left text-sm">
+              <thead className="text-white/30 text-[10px] font-bold uppercase tracking-widest border-b border-white/5">
+                <tr>
+                  <th className="pb-4 font-bold">Pair</th>
+                  <th className="pb-4 font-bold">Side</th>
+                  <th className="pb-4 font-bold">Entry Price</th>
+                  <th className="pb-4 font-bold">Current Price</th>
+                  <th className="pb-4 font-bold">Time</th>
+                  <th className="pb-4 font-bold">PnL (%)</th>
+                  <th className="pb-4 font-bold">Strategy Logic</th>
+                </tr>
+              </thead>
+              <tbody className="text-white/85 divide-y divide-white/5">
+                {positions.map((pos) => {
+                  const pnl = calculatePnL(pos);
+                  const currentPrice = prices[pos.asset_code];
+                  
+                  return (
+                    <tr key={pos.id} className="hover:bg-white/[0.02] transition-colors">
+                      <td className="py-4">
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-white">{pos.asset_code}/USDT</span>
+                          <span className="text-[9px] text-white/20 font-mono tracking-tighter">#{pos.id.slice(0, 8)}</span>
+                        </div>
+                      </td>
+                      <td className="py-4">
+                        <span
+                          className={`rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest ${pos.action_type === "long"
+                            ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                            : "bg-orange-500/10 text-orange-400 border border-orange-500/20"
+                            }`}
+                        >
+                          {pos.action_type}
+                        </span>
+                      </td>
+                      <td className="py-4 font-mono text-white/60">${Number(pos.entry_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                      <td className="py-4 font-mono text-white/40">${currentPrice?.toLocaleString(undefined, { minimumFractionDigits: 2 }) || "---"}</td>
+                      <td className="py-4 text-white/40 text-xs">
+                        {new Date(pos.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </td>
+                      <td className={`py-4 font-bold font-mono ${pnl && pnl >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
+                        {pnl !== null ? `${pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}%` : "---"}
+                      </td>
+                      <td className="py-4 text-white/30 text-xs italic">
+                        {pos.action_type === 'long' ? "Bullish trend divergence detected" : "Overbought rejection signal confirmed"}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile View (Cards) */}
+          <div className="md:hidden space-y-4">
+            {positions.map((pos) => {
+              const pnl = calculatePnL(pos);
+              const currentPrice = prices[pos.asset_code];
+
+              return (
+                <div key={pos.id} className="rounded-2xl border border-white/5 bg-white/[0.02] p-4 flex flex-col gap-4">
+                  {/* Card Header */}
+                  <div className="flex items-center justify-between border-b border-white/5 pb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-white">{pos.asset_code}/USDT</span>
+                      <span className="text-[9px] text-white/20 font-mono tracking-tighter">#{pos.id.slice(0, 8)}</span>
+                    </div>
+                    <span
+                      className={`rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest ${pos.action_type === "long"
+                        ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                        : "bg-orange-500/10 text-orange-400 border border-orange-500/20"
+                        }`}
+                    >
+                      {pos.action_type}
+                    </span>
+                  </div>
+                  
+                  {/* Price Info */}
+                  <div className="flex justify-between">
+                    <div className="flex flex-col">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-1">Entry Price</span>
+                      <span className="font-mono text-white/60 text-sm">${Number(pos.entry_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                    </div>
+                    <div className="flex flex-col text-right">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-1">Current Price</span>
+                      <span className="font-mono text-white/40 text-sm">${currentPrice?.toLocaleString(undefined, { minimumFractionDigits: 2 }) || "---"}</span>
+                    </div>
+                  </div>
+
+                  {/* PnL & Time */}
+                  <div className="flex justify-between items-center border-t border-white/5 pt-3">
+                    <div className="text-xs text-white/40">
                       {new Date(pos.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </td>
-                    <td className={`py-4 font-bold font-mono ${pnl && pnl >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
+                    </div>
+                    <div className={`font-bold font-mono text-lg ${pnl && pnl >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
                       {pnl !== null ? `${pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}%` : "---"}
-                    </td>
-                    <td className="py-4 text-white/30 text-xs italic">
-                      {pos.action_type === 'long' ? "Bullish trend divergence detected" : "Overbought rejection signal confirmed"}
-                    </td>
-                  </tr>
-                );
-              })
-            ) : (
-              <tr>
-                <td colSpan={7} className="py-12 text-center text-white/20 italic font-medium">
-                  Scanning for high-probability entries... <br />
-                  <span className="text-[10px] opacity-40 uppercase tracking-widest mt-2 block font-bold">AuraAI is monitoring the markets</span>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+                    </div>
+                  </div>
+
+                  {/* Strategy Logic */}
+                  <div className="text-[10px] text-white/30 italic text-center">
+                    Logic: {pos.action_type === 'long' ? "Bullish trend divergence detected" : "Overbought rejection signal confirmed"}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
     </section>
   );
 }
