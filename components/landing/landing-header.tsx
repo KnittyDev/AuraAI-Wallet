@@ -86,6 +86,7 @@ export function LandingHeader() {
                         <Link href="/academy" className="text-sm font-medium text-white/70 hover:text-white transition-colors flex items-center justify-between">
                           Academy <LuExternalLink className="h-3 w-3 opacity-40" />
                         </Link>
+                        <Link href="/dashboard/settings/support" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Support Center</Link>
                         <Link href="#" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Tutorials</Link>
                         <Link href="/careers" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Careers</Link>
                       </div>
@@ -165,6 +166,7 @@ export function LandingHeader() {
                 <h3 className="text-xs font-bold uppercase tracking-widest text-white/30">Resources</h3>
                 <Link href="/academy" onClick={() => setIsMobileMenuOpen(false)} className="block text-xl font-medium text-white/70">Academy</Link>
                 <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className="block text-xl font-medium text-white/70">Blog</Link>
+                <Link href="/dashboard/settings/support" onClick={() => setIsMobileMenuOpen(false)} className="block text-xl font-medium text-white/70">Support Center</Link>
                 <Link href="#" onClick={() => setIsMobileMenuOpen(false)} className="block text-xl font-medium text-white/70">Tutorials</Link>
               </div>
             </div>

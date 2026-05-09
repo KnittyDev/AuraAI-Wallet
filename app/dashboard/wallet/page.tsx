@@ -11,11 +11,12 @@ import {
   LuHistory,
   LuSettings,
   LuTrendingUp,
-  LuShieldCheck,
+  LuSparkles,
   LuCreditCard,
   LuCheck,
   LuX,
-  LuRefreshCw
+  LuRefreshCw,
+  LuTrendingDown
 } from "react-icons/lu";
 
 
@@ -43,9 +44,9 @@ const TRANSACTIONS = [
 export default function WalletPage() {
   const [balances, setBalances] = useState<any[]>([]);
   const [transactions, setTransactions] = useState<any[]>([]);
+  const [investments, setInvestments] = useState<any[]>([]);
   const [prices, setPrices] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,10 +54,11 @@ export default function WalletPage() {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return;
 
-        const [balanceRes, priceRes, transactionRes] = await Promise.all([
+        const [balanceRes, priceRes, transactionRes, investmentRes] = await Promise.all([
           supabase.from('balances').select('*').eq('user_id', user.id),
           fetch("/api/prices").then(res => res.json()),
-          supabase.from('transactions').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(10)
+          supabase.from('transactions').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(10),
+          supabase.from('investments').select('amount, status').eq('user_id', user.id)
         ]);
 
         if (!balanceRes.error) {
@@ -64,6 +66,9 @@ export default function WalletPage() {
         }
         if (!transactionRes.error) {
           setTransactions(transactionRes.data);
+        }
+        if (!investmentRes.error) {
+          setInvestments(investmentRes.data);
         }
         setPrices(priceRes);
       } catch (error) {
@@ -98,7 +103,19 @@ export default function WalletPage() {
     };
   });
 
-  const totalBalance = assetsWithPrices.reduce((acc, asset) => acc + asset.value, 0);
+  const availableBalance = assetsWithPrices.reduce((acc, asset) => acc + asset.value, 0);
+  const inStrategies = investments.filter(inv => inv.status === 'active').reduce((acc, inv) => acc + Number(inv.amount), 0);
+  const totalNetWorth = availableBalance + inStrategies;
+
+  // 24h P&L based on available assets
+  const pnl24h = assetsWithPrices.reduce((acc, asset) => {
+    const currentVal = asset.value;
+    const changePct = Number(asset.change);
+    const oldVal = currentVal / (1 + (changePct / 100));
+    return acc + (currentVal - oldVal);
+  }, 0);
+  
+  const totalChangePct = totalNetWorth > 0 ? (pnl24h / (totalNetWorth - pnl24h)) * 100 : 0;
 
   // Animation for the balance counter
   const count = useMotionValue(0);
@@ -110,21 +127,22 @@ export default function WalletPage() {
   );
 
   useEffect(() => {
-    if (!loading && totalBalance > 0) {
-      const controls = animate(count, totalBalance, { duration: 1.5, ease: "easeOut" });
+    if (!loading && totalNetWorth > 0) {
+      const controls = animate(count, totalNetWorth, { duration: 1.5, ease: "easeOut" });
       return controls.stop;
     }
-  }, [loading, totalBalance, count]);
+  }, [loading, totalNetWorth, count]);
 
 
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-hidden">
+    <main className="min-h-screen bg-black text-white">
       <AuroraBackground />
       <div className="landing-grid-overlay" />
 
-      <DashboardSidebar currentPath="/dashboard/wallet" />
+      <div className="flex min-h-screen w-full flex-col lg:flex-row relative z-10">
+        <DashboardSidebar currentPath="/dashboard/wallet" />
 
-      <section className="relative z-10 flex-1 px-6 py-8 md:px-10 overflow-y-auto">
+        <section className="flex-1 px-6 py-8 md:px-10">
         <div className="mx-auto max-w-6xl">
           {/* Header */}
           <motion.header
@@ -163,7 +181,7 @@ export default function WalletPage() {
               className="lg:col-span-12 rounded-[2.5rem] border border-white/10 bg-white/[0.02] p-8 md:p-10 backdrop-blur-xl relative overflow-hidden group"
             >
               <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-                <LuShieldCheck className="h-48 w-48 text-white rotate-12" />
+                <LuSparkles className="h-48 w-48 text-white rotate-12" />
               </div>
 
               <div className="relative z-10">
@@ -176,9 +194,9 @@ export default function WalletPage() {
                   <motion.h2 className="text-6xl font-medium tracking-tight text-white">
                     $<motion.span>{rounded}</motion.span>
                   </motion.h2>
-                  <span className="flex items-center gap-1 text-emerald-400 text-sm font-bold bg-emerald-400/10 px-2 py-0.5 rounded-lg">
-                    <LuTrendingUp className="h-3 w-3" />
-                    +8.4%
+                  <span className={`flex items-center gap-1 text-sm font-bold px-2 py-0.5 rounded-lg ${totalChangePct >= 0 ? "text-emerald-400 bg-emerald-400/10" : "text-red-400 bg-red-400/10"}`}>
+                    {totalChangePct >= 0 ? <LuTrendingUp className="h-3 w-3" /> : <LuTrendingDown className="h-3 w-3" />}
+                    {totalChangePct >= 0 ? "+" : ""}{totalChangePct.toFixed(2)}%
                   </span>
                 </div>
 
@@ -186,18 +204,14 @@ export default function WalletPage() {
                   <div>
                     <p className="text-[9px] font-bold tracking-widest text-white/30 uppercase mb-2">Available</p>
                     <p className="text-xl font-semibold text-white/90">
-                      ${new Intl.NumberFormat("en-US").format(totalBalance * 0.17)}
+                      ${new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(availableBalance)}
                     </p>
                   </div>
                   <div>
                     <p className="text-[9px] font-bold tracking-widest text-white/30 uppercase mb-2">In Strategies</p>
                     <p className="text-xl font-semibold text-white/90">
-                      ${new Intl.NumberFormat("en-US").format(totalBalance * 0.83)}
+                      ${new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(inStrategies)}
                     </p>
-                  </div>
-                  <div>
-                    <p className="text-[9px] font-bold tracking-widest text-white/30 uppercase mb-2">24h P&L</p>
-                    <p className="text-xl font-semibold text-emerald-400">+$2,140</p>
                   </div>
                   <div />
                 </div>
@@ -258,16 +272,16 @@ export default function WalletPage() {
               </div>
 
               {/* Crypto Card Promo */}
-              <div className="lg:col-span-4">
+              <div className="lg:col-span-4 flex flex-col">
                 <div className="flex items-center justify-between mb-6 px-2">
                   <h3 className="text-xl font-semibold text-white">Special Offer</h3>
                 </div>
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-white/[0.05] to-transparent p-8 backdrop-blur-xl relative overflow-hidden flex flex-col justify-between h-full min-h-[400px]"
+                  className="rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-white/[0.05] to-transparent p-6 md:p-8 backdrop-blur-xl relative overflow-hidden flex flex-col flex-1 gap-6"
                 >
-                  <div className="relative z-10">
+                  <div className="relative z-10 flex-1 flex flex-col">
                     <div className="flex items-center justify-between mb-6">
                       <div className="h-10 w-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/20">
                         <LuCreditCard className="h-5 w-5 text-white" />
@@ -278,7 +292,7 @@ export default function WalletPage() {
                     <p className="text-sm text-white/50 leading-relaxed mb-6">Spend your crypto anywhere in the world. 0% fees, 3% cashback.</p>
 
                     {/* Physical Card Mockup */}
-                    <div className="relative w-full aspect-[1.586/1] mb-8 group cursor-pointer">
+                    <div className="relative w-full aspect-[1.586/1] mb-8 group cursor-pointer mt-auto">
                       <div className="absolute inset-0 bg-gradient-to-br from-zinc-800 to-black rounded-2xl border border-white/10 shadow-2xl flex flex-col justify-between p-6 transition-transform group-hover:rotate-[-2deg] group-hover:scale-[1.02]">
                         <div className="flex justify-between items-start">
                           <div className="flex items-center gap-2">
@@ -306,7 +320,7 @@ export default function WalletPage() {
 
                   <Link
                     href="/dashboard/card"
-                    className="w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 bg-white text-black hover:bg-white/90 active:scale-95 group"
+                    className="w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 bg-white text-black hover:bg-white/90 active:scale-95 group mt-auto relative z-10"
                   >
                     Discover the Card
                     <LuArrowUpRight className="h-4 w-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -332,16 +346,55 @@ export default function WalletPage() {
               </div>
 
               <div className="rounded-[2.5rem] border border-white/5 bg-white/[0.01] overflow-hidden">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="border-b border-white/5 bg-white/[0.02]">
-                      <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">Transaction</th>
-                      <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">Asset</th>
-                      <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">Amount</th>
-                      <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">Date</th>
-                      <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest text-right">Status</th>
-                    </tr>
-                  </thead>
+                
+                {/* Mobile Card View */}
+                <div className="block md:hidden divide-y divide-white/5">
+                  {transactions.map((tx) => (
+                    <div key={`mobile-${tx.id}`} className="p-5 hover:bg-white/[0.02] transition-colors">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className={`h-10 w-10 rounded-xl flex items-center justify-center border border-white/5 shadow-md ${tx.type === "Deposit" || tx.type === "Profit" ? "bg-emerald-400/10 text-emerald-400" : "bg-red-400/10 text-red-400"}`}>
+                            {tx.type === "Deposit" || tx.type === "Profit" ? <LuArrowDownLeft className="h-5 w-5" /> : <LuArrowUpRight className="h-5 w-5" />}
+                          </div>
+                          <div>
+                            <p className="font-bold text-white text-sm">{tx.type}</p>
+                            <span className={`inline-flex mt-1 items-center px-2 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-widest ${tx.status === "Completed" ? "bg-emerald-400/10 text-emerald-400 border border-emerald-400/20" : "bg-white/5 text-white/40 border border-white/10"}`}>
+                              {tx.status}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className={`font-mono text-sm font-bold ${Number(tx.amount) > 0 ? "text-emerald-400" : "text-white"}`}>
+                            {Number(tx.amount) > 0 ? "+" : ""}{Number(tx.amount).toLocaleString()}
+                          </p>
+                          <p className="text-[10px] text-white/40 mt-1 font-bold uppercase tracking-widest">{tx.asset}</p>
+                        </div>
+                      </div>
+                      <div className="bg-white/[0.02] p-3 rounded-xl border border-white/5 flex items-center justify-between text-xs">
+                        <span className="text-white/30 uppercase tracking-widest font-bold text-[9px]">Date</span>
+                        <span className="text-white/80 font-medium">{new Date(tx.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                      </div>
+                    </div>
+                  ))}
+                  {transactions.length === 0 && (
+                    <div className="p-8 text-center text-white/20 italic text-sm">
+                      No recent activity found.
+                    </div>
+                  )}
+                </div>
+
+                {/* Desktop Table View */}
+                <div className="hidden md:block overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-white/5 bg-white/[0.02]">
+                        <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">Transaction</th>
+                        <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">Asset</th>
+                        <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">Amount</th>
+                        <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">Date</th>
+                        <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest text-right">Status</th>
+                      </tr>
+                    </thead>
                   <tbody className="divide-y divide-white/5">
                     {transactions.map((tx) => (
                       <tr key={tx.id} className="hover:bg-white/[0.02] transition-colors group">
@@ -384,14 +437,14 @@ export default function WalletPage() {
                       </tr>
                     )}
                   </tbody>
-                </table>
+                  </table>
+                </div>
               </div>
             </motion.div>
           </div>
         </div>
       </section>
-
-
-    </main>
+    </div>
+  </main>
   );
 }

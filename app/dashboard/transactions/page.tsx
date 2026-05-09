@@ -114,13 +114,14 @@ export default function TransactionsPage() {
   });
 
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-hidden">
+    <main className="min-h-screen bg-black text-white">
       <AuroraBackground />
       <div className="landing-grid-overlay" />
       
-      <DashboardSidebar currentPath="/dashboard/transactions" />
+      <div className="flex min-h-screen w-full flex-col lg:flex-row relative z-10">
+        <DashboardSidebar currentPath="/dashboard/transactions" />
 
-      <section className="relative z-10 flex-1 px-6 py-8 md:px-10 overflow-y-auto">
+        <section className="flex-1 px-6 py-8 md:px-10">
         <div className="mx-auto max-w-6xl">
           <header className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
@@ -164,7 +165,75 @@ export default function TransactionsPage() {
           </div>
 
           {/* Transactions Table */}
-          <div className="rounded-[32px] border border-white/10 bg-white/[0.02] backdrop-blur-xl overflow-x-auto custom-scrollbar">
+          <div className="rounded-[32px] border border-white/10 bg-white/[0.02] backdrop-blur-xl overflow-hidden custom-scrollbar">
+            
+            {/* Mobile Card View */}
+            <div className="block md:hidden divide-y divide-white/5">
+              <AnimatePresence mode="popLayout">
+                {loading ? (
+                  <div className="py-20 text-center">
+                    <LuLoader className="h-8 w-8 animate-spin text-white/20 mx-auto" />
+                  </div>
+                ) : filteredTransactions.map((tx) => {
+                  const Icon = TYPE_ICONS[tx.type] || LuRefreshCw;
+                  const isPositive = tx.amount > 0;
+                  return (
+                    <motion.div
+                      key={`mobile-${tx.id}`}
+                      layout
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      className="p-6 space-y-4 hover:bg-white/[0.03] transition-colors"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 text-white/60 border border-white/5`}>
+                            <Icon className="h-5 w-5" />
+                          </div>
+                          <div>
+                            <p className="font-bold text-white text-base">
+                              {tx.type}
+                            </p>
+                            <span className={`inline-flex mt-1 items-center px-2 py-0.5 rounded-full text-[9px] font-bold border ${STATUS_COLORS[tx.status]}`}>
+                              {tx.status === 'Pending' ? 'Processing' : tx.status}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className={`font-mono text-base font-bold ${isPositive ? "text-emerald-400" : "text-red-400"}`}>
+                            {isPositive ? "+" : ""}{tx.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </p>
+                          <p className="text-[10px] text-white/40 mt-0.5 uppercase tracking-widest font-bold">{tx.asset}</p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between text-sm bg-white/[0.02] p-4 rounded-2xl border border-white/5">
+                        <div className="flex flex-col">
+                          <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold mb-1">Date</span>
+                          <span className="text-white/80 text-xs font-medium">{tx.date}</span>
+                        </div>
+                        <div className="flex flex-col items-end">
+                          <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold mb-1">TxID / Hash</span>
+                          <a 
+                            href={getExplorerUrl(tx)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-xs text-white/60 hover:text-cyan-400 transition"
+                          >
+                            <span className="font-mono">{tx.txId.slice(0, 8)}...</span>
+                            <LuExternalLink className="h-3 w-3" />
+                          </a>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left border-collapse min-w-[800px]">
                 <thead>
                   <tr className="border-b border-white/5 bg-white/[0.01]">
@@ -247,6 +316,7 @@ export default function TransactionsPage() {
                   </AnimatePresence>
                 </tbody>
               </table>
+            </div>
               
               {!loading && filteredTransactions.length === 0 && (
                 <div className="py-20 text-center">
@@ -268,6 +338,7 @@ export default function TransactionsPage() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
+  </main>
   );
 }

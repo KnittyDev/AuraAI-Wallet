@@ -161,13 +161,14 @@ export default function PerformancePage() {
     );
   }
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-hidden">
+    <main className="min-h-screen bg-black text-white">
       <AuroraBackground />
       <div className="landing-grid-overlay" />
       
-      <DashboardSidebar currentPath="/dashboard/performance" />
+      <div className="flex min-h-screen w-full flex-col lg:flex-row relative z-10">
+        <DashboardSidebar currentPath="/dashboard/performance" />
 
-      <section className="relative z-10 flex-1 px-6 py-8 md:px-10 overflow-y-auto">
+        <section className="flex-1 px-6 py-8 md:px-10">
         <div className="mx-auto max-w-6xl">
           <motion.header 
             initial={{ opacity: 0, y: -20 }}
@@ -213,7 +214,7 @@ export default function PerformancePage() {
                   className="p-5 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-md"
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <div className={`p-2 rounded-xl bg-white/5 ${stat.color}`}>
+                    <div className="p-2 rounded-xl bg-white text-black shadow-xl shrink-0">
                       <stat.icon className="h-5 w-5" />
                     </div>
                     <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">{stat.trend}</span>
@@ -374,6 +375,7 @@ export default function PerformancePage() {
           </motion.div>
         </div>
       </section>
-    </main>
+    </div>
+  </main>
   );
 }

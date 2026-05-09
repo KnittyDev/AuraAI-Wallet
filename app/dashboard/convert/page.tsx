@@ -145,13 +145,14 @@ export default function ConvertPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-hidden">
+    <main className="min-h-screen bg-black text-white">
       <AuroraBackground />
       <div className="landing-grid-overlay" />
 
-      <DashboardSidebar currentPath="/dashboard/convert" />
+      <div className="flex min-h-screen w-full flex-col lg:flex-row relative z-10">
+        <DashboardSidebar currentPath="/dashboard/convert" />
 
-      <section className="relative z-10 flex-1 px-6 py-8 md:px-10 overflow-y-auto">
+        <section className="flex-1 px-6 py-8 md:px-10">
         <div className="mx-auto max-w-2xl">
           {/* Header */}
           <header className="mb-12">
@@ -299,6 +300,7 @@ export default function ConvertPage() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
+  </main>
   );
 }

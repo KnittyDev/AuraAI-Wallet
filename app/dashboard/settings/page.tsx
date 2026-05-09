@@ -137,6 +137,7 @@ export default function SettingsPage() {
   const [userId, setUserId] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [secretCopied, setSecretCopied] = useState(false);
+  const [exporting, setExporting] = useState(false);
 
   useEffect(() => {
     async function load2FAStatus() {
@@ -251,14 +252,141 @@ export default function SettingsPage() {
     setLoading(false);
   };
 
+  const handleExportData = async () => {
+    setExporting(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("User not found");
+
+      // 1. Fetch Profile and 2FA status
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+
+      // 2. Fetch Balances
+      const { data: balances } = await supabase
+        .from("balances")
+        .select("*")
+        .eq("user_id", user.id);
+
+      // 3. Fetch Recent AI Actions (Opened & Closed)
+      const { data: recentActions } = await supabase
+        .from("ai_actions")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(10);
+
+      // Dynamic imports for PDF
+      const { default: jsPDF } = await import("jspdf");
+      const autoTable = (await import("jspdf-autotable")).default;
+
+      const doc = new jsPDF();
+      const pageWidth = doc.internal.pageSize.getWidth();
+
+      // Header
+      doc.setFillColor(10, 10, 10);
+      doc.rect(0, 0, pageWidth, 40, "F");
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(22);
+      doc.text("AURA AI WALLET", 14, 20);
+      doc.setFontSize(10);
+      doc.text("USER PROFILE DATA EXPORT", 14, 30);
+      doc.text(`Generated: ${new Date().toLocaleString()}`, pageWidth - 14, 30, { align: "right" });
+
+      // Section: Account Overview
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(14);
+      doc.text("1. Account Overview", 14, 55);
+      
+      autoTable(doc, {
+        startY: 60,
+        head: [["Attribute", "Details"]],
+        body: [
+          ["Full Name", profile?.full_name || "N/A"],
+          ["Email", user.email || "N/A"],
+          ["Last Sign In", user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleString() : "N/A"],
+          ["Plan Type", profile?.plan?.toUpperCase() || "FREE"],
+          ["Two-Factor Auth", totpEnabled ? "ENABLED (Secure)" : "DISABLED (Action Required)"],
+          ["Account Created", new Date(user.created_at).toLocaleDateString()],
+        ],
+        theme: "striped",
+        headStyles: { fillColor: [30, 30, 30] }
+      });
+
+      // Section: Asset Balances
+      const balancesY = (doc as any).lastAutoTable.finalY + 15;
+      doc.text("2. Asset Balances", 14, balancesY);
+      
+      const balanceRows = (balances || []).map(b => [
+        b.asset_code,
+        Number(b.amount).toLocaleString(undefined, { minimumFractionDigits: 2 }),
+        "Wallet Asset"
+      ]);
+
+      autoTable(doc, {
+        startY: balancesY + 5,
+        head: [["Asset", "Amount", "Type"]],
+        body: balanceRows.length > 0 ? balanceRows : [["No assets found", "-", "-"]],
+        theme: "grid",
+        headStyles: { fillColor: [30, 30, 30] }
+      });
+
+      // Section: Recent AI Strategies
+      const actionsY = (doc as any).lastAutoTable.finalY + 15;
+      doc.text("3. Recent AI Trading Positions", 14, actionsY);
+
+      const actionRows = (recentActions || []).map(a => [
+        new Date(a.created_at).toLocaleDateString(),
+        a.asset_code,
+        a.action_type.toUpperCase(),
+        `$${Number(a.entry_price).toLocaleString()}`,
+        a.status.toUpperCase(),
+        a.profit_usd ? `${a.profit_usd >= 0 ? "+" : ""}${Number(a.profit_usd).toFixed(2)} USD` : "-"
+      ]);
+
+      autoTable(doc, {
+        startY: actionsY + 5,
+        head: [["Date", "Asset", "Type", "Entry Price", "Status", "P&L"]],
+        body: actionRows.length > 0 ? actionRows : [["No recent positions", "-", "-", "-", "-", "-"]],
+        theme: "striped",
+        headStyles: { fillColor: [30, 30, 30] }
+      });
+
+      // Footer
+      const totalPages = doc.getNumberOfPages();
+      for (let i = 1; i <= totalPages; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.setTextColor(150, 150, 150);
+        doc.text(
+          `This is an automated report from Aura AI Wallet. Page ${i} of ${totalPages}`,
+          pageWidth / 2,
+          doc.internal.pageSize.getHeight() - 10,
+          { align: "center" }
+        );
+      }
+
+      doc.save(`aura-profile-data-${new Date().getTime()}.pdf`);
+    } catch (err) {
+      console.error(err);
+      setMessage({ type: "error", text: "Failed to export profile data." });
+    } finally {
+      setExporting(false);
+    }
+  };
+
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-hidden">
+    <main className="min-h-screen bg-black text-white">
       <AuroraBackground />
       <div className="landing-grid-overlay" />
 
-      <DashboardSidebar currentPath="/dashboard/settings" />
+      <div className="flex min-h-screen w-full flex-col lg:flex-row relative z-10">
+        <DashboardSidebar currentPath="/dashboard/settings" />
 
-      <section className="relative z-10 flex-1 px-6 py-8 md:px-10 overflow-y-auto">
+        <section className="flex-1 px-6 py-8 md:px-10">
         <div className="mx-auto max-w-6xl">
 
           {/* Top Profile Header */}
@@ -269,8 +397,8 @@ export default function SettingsPage() {
           >
             <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.05),transparent)]" />
 
-            <div className="flex items-center gap-6 relative z-10">
-              <div className="h-24 w-24 rounded-[2rem] bg-gradient-to-br from-zinc-800 to-black p-0.5 border border-white/10">
+            <div className="flex items-center gap-6 relative z-10 w-full sm:w-auto">
+              <div className="h-24 w-24 rounded-[2rem] bg-gradient-to-br from-zinc-800 to-black p-0.5 border border-white/10 shrink-0">
                 <div className="h-full w-full rounded-[1.9rem] bg-black flex items-center justify-center overflow-hidden">
                   <LuUser className="h-10 w-10 text-white/20" />
                 </div>
@@ -287,8 +415,12 @@ export default function SettingsPage() {
                   Support Center
                 </button>
               </Link>
-              <button className="px-8 py-4 rounded-2xl bg-white text-black font-bold text-xs uppercase tracking-widest hover:scale-105 transition-all active:scale-95 shadow-[0_10px_40px_rgba(255,255,255,0.2)]">
-                Export Profile Data
+              <button 
+                onClick={handleExportData}
+                disabled={exporting}
+                className="px-8 py-4 rounded-2xl bg-white text-black font-bold text-xs uppercase tracking-widest hover:scale-105 transition-all active:scale-95 shadow-[0_10px_40px_rgba(255,255,255,0.2)] disabled:opacity-50"
+              >
+                {exporting ? "Exporting..." : "Export Profile Data"}
               </button>
             </div>
           </motion.div>
@@ -346,7 +478,7 @@ export default function SettingsPage() {
                 <div className="grid grid-cols-1 gap-4">
                   <div className="p-8 rounded-[2.5rem] border border-white/5 bg-white/[0.01] flex items-center justify-between group hover:bg-white/[0.03] transition-all">
                     <div className="flex items-center gap-6">
-                      <div className="h-14 w-14 rounded-2xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center border border-cyan-500/20">
+                      <div className="h-14 w-14 rounded-2xl bg-white text-black flex items-center justify-center border border-white shrink-0 shadow-2xl">
                         <LuKey className="h-6 w-6" />
                       </div>
                       <div>
@@ -362,18 +494,18 @@ export default function SettingsPage() {
                     </button>
                   </div>
 
-                  <div className="p-8 rounded-[2.5rem] border border-white/5 bg-white/[0.01] flex items-center justify-between group hover:bg-white/[0.03] transition-all">
+                  <div className="p-6 md:p-8 rounded-[2.5rem] border border-white/5 bg-white/[0.01] flex flex-col sm:flex-row sm:items-center justify-between gap-6 group hover:bg-white/[0.03] transition-all">
                     <div className="flex items-center gap-6">
-                      <div className={`h-14 w-14 rounded-2xl flex items-center justify-center border ${
+                      <div className={`h-14 w-14 rounded-2xl flex items-center justify-center border shrink-0 shadow-2xl ${
                         totpEnabled
-                          ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                          : "bg-orange-500/10 text-orange-400 border-orange-500/20"
+                          ? "bg-white text-black border-white"
+                          : "bg-white/5 text-white/20 border-white/10"
                       }`}>
                         {totpEnabled ? <LuShieldCheck className="h-6 w-6" /> : <LuSmartphone className="h-6 w-6" />}
                       </div>
                       <div>
                         <h4 className="text-white font-bold mb-1">Two-Factor Authentication</h4>
-                        <p className="text-xs text-white/30">
+                        <p className="text-xs text-white/30 leading-relaxed">
                           {totpEnabled
                             ? "Active — Your account is protected with TOTP verification."
                             : "Enhance security with Google Authenticator or Authy."
@@ -381,7 +513,7 @@ export default function SettingsPage() {
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center sm:justify-end gap-4 w-full sm:w-auto pt-4 sm:pt-0 border-t border-white/5 sm:border-none">
                       {totpEnabled ? (
                         <>
                           <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-2">
@@ -390,7 +522,7 @@ export default function SettingsPage() {
                           </span>
                           <button
                             onClick={() => setShow2FAModal(true)}
-                            className="px-5 py-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 font-bold text-[10px] uppercase tracking-widest hover:bg-red-500/20 transition-all"
+                            className="px-5 py-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 font-bold text-[10px] uppercase tracking-widest hover:bg-red-500/20 transition-all ml-auto sm:ml-0"
                           >
                             Disable
                           </button>
@@ -401,7 +533,7 @@ export default function SettingsPage() {
                           <button
                             onClick={handle2FASetup}
                             disabled={totpLoading}
-                            className="px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all disabled:opacity-50"
+                            className="px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all disabled:opacity-50 ml-auto sm:ml-0"
                           >
                             {totpLoading ? "Loading..." : "Setup"}
                           </button>
@@ -441,7 +573,8 @@ export default function SettingsPage() {
 
         </div>
       </section>
-      {/* Password Change Modal */}
+    </div>
+    {/* Password Change Modal */}
       {showPasswordModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
           <motion.div

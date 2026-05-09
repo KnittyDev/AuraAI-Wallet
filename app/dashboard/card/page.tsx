@@ -43,13 +43,14 @@ export default function CardPage() {
   const [isWaitlisted, setIsWaitlisted] = useState(false);
 
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-hidden">
+    <main className="min-h-screen bg-black text-white">
       <AuroraBackground />
       <div className="landing-grid-overlay" />
 
-      <DashboardSidebar currentPath="/dashboard/wallet" />
+      <div className="flex min-h-screen w-full flex-col lg:flex-row relative z-10">
+        <DashboardSidebar currentPath="/dashboard/wallet" />
 
-      <section className="relative z-10 flex-1 px-6 py-8 md:px-10 overflow-y-auto">
+        <section className="flex-1 px-6 py-8 md:px-10">
         <div className="mx-auto max-w-5xl">
           {/* Back Navigation */}
           <motion.div
@@ -339,6 +340,7 @@ export default function CardPage() {
           </motion.div>
         </div>
       </section>
-    </main>
+    </div>
+  </main>
   );
 }
