@@ -247,18 +247,20 @@ export default function InvestmentsPage() {
             </header>
 
             {/* Stat Cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
               {stats.map((stat, i) => (
                 <motion.div
                   key={stat.label}
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.07, duration: 0.4 }}
-                  className="rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-6"
+                  className="rounded-2xl md:rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-4 md:p-6 flex flex-col justify-between"
                 >
-                  <p className="text-[10px] font-bold tracking-widest text-white/30 uppercase mb-3">{stat.label}</p>
-                  <p className="text-3xl font-bold tracking-tight text-white mb-2">{stat.value}</p>
-                  <p className="text-xs font-medium flex items-center gap-1 text-emerald-400">
+                  <div>
+                    <p className="text-[9px] md:text-[10px] font-bold tracking-widest text-white/30 uppercase mb-2 md:mb-3 truncate">{stat.label}</p>
+                    <p className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-white mb-2 md:mb-2 truncate">{stat.value}</p>
+                  </div>
+                  <p className="text-[9px] md:text-xs font-medium text-emerald-400 leading-snug line-clamp-2">
                     {stat.note}
                   </p>
                 </motion.div>

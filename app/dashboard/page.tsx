@@ -169,7 +169,7 @@ export default function DashboardPage() {
             </div>
           </header>
 
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
             <DashboardStatCard
               title="Total capital invested"
               value={`$${totalInvested.toLocaleString(undefined, { maximumFractionDigits: 2 })}`}
