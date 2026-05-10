@@ -105,6 +105,7 @@ export default function WithdrawPage() {
       if (balanceError) throw balanceError;
 
       // 2. Insert Pending Transaction
+      const txHash = `0x${Math.random().toString(16).substring(2, 10)}${Math.random().toString(16).substring(2, 10)}${Math.random().toString(16).substring(2, 10)}`;
       const { error: transactionError } = await supabase
         .from('transactions')
         .insert({
@@ -112,13 +113,40 @@ export default function WithdrawPage() {
           type: 'Withdrawal',
           asset: selectedAsset.symbol,
           amount: -Number(amount),
-          status: 'Pending',
+          status: 'Processing',
           address: address,
           network: selectedNetwork.name,
-          tx_id: `0x${Math.random().toString(16).substring(2, 10)}${Math.random().toString(16).substring(2, 10)}${Math.random().toString(16).substring(2, 10)}` // Realistic hash
+          tx_id: txHash
         });
 
       if (transactionError) throw transactionError;
+
+      // 3. Send Email Notification
+      try {
+        // Fetch email from profiles table as requested
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('email')
+          .eq('id', user.id)
+          .single();
+
+        const emailToUse = profile?.email || user.email;
+
+        await fetch('/api/notifications/withdraw', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: emailToUse,
+            amount: amount,
+            asset: selectedAsset.symbol,
+            address: address,
+            network: selectedNetwork.name,
+            txId: txHash
+          })
+        });
+      } catch (emailErr) {
+        console.error("Failed to send notification email:", emailErr);
+      }
 
       setIsSuccess(true);
     } catch (err: any) {
@@ -149,7 +177,7 @@ export default function WithdrawPage() {
 
             <h2 className="text-3xl font-bold mb-2">Withdrawal Initiated</h2>
             <p className="text-white/50 mb-8">
-              Your request to withdraw {amount} {selectedAsset.symbol} is being processed. 
+              Your request to withdraw {amount} {selectedAsset.symbol} is currently in processing. 
               You will receive a notification once the transaction is confirmed on the network.
             </p>
             <div className="space-y-3">
