@@ -30,7 +30,7 @@ const NETWORKS: Record<string, { id: string; name: string; fee: string; time: st
     { id: "erc20", name: "ETH (ERC20)", fee: "12 USDT", time: "5 mins" },
     { id: "bep20", name: "BSC (BEP20)", fee: "0.8 USDT", time: "2 mins" },
   ],
-  bitcoin: [{ id: "btc", name: "Bitcoin", fee: "0.0004 BTC", time: "30 mins" }],
+  bitcoin: [{ id: "btc", name: "Bitcoin", fee: "FREE", time: "30 mins" }],
   ethereum: [{ id: "erc20", name: "Ethereum", fee: "0.003 ETH", time: "5 mins" }],
   solana: [{ id: "sol", name: "Solana", fee: "0.01 SOL", time: "1 min" }],
 };
@@ -370,8 +370,8 @@ export default function WithdrawPage() {
                     <div className="flex justify-between text-sm font-bold">
                       <span className="text-white">Receive Amount</span>
                       <span className="text-cyan-400">
-                        {amount && !isNaN(Number(amount)) 
-                          ? (Number(amount) - parseFloat(selectedNetwork.fee)).toFixed(selectedAsset.symbol === "BTC" ? 8 : 2) 
+                        {amount && selectedNetwork 
+                          ? (Number(amount) - (selectedNetwork.fee === "FREE" ? 0 : parseFloat(selectedNetwork.fee))).toFixed(selectedAsset.symbol === "BTC" ? 8 : 2) 
                           : "0.00"} {selectedAsset.symbol}
                       </span>
                     </div>

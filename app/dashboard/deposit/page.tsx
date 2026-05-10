@@ -30,7 +30,7 @@ const NETWORKS: Record<string, { id: string; name: string; fee: string; time: st
     { id: "erc20", name: "ETH (ERC20)", fee: "5 USDT", time: "5 mins" },
     { id: "bep20", name: "BSC (BEP20)", fee: "0.5 USDT", time: "2 mins" },
   ],
-  btc: [{ id: "btc", name: "Bitcoin", fee: "0.0005 BTC", time: "30 mins" }],
+  btc: [{ id: "btc", name: "Bitcoin", fee: "FREE", time: "30 mins" }],
   eth: [{ id: "erc20", name: "Ethereum", fee: "0.002 ETH", time: "5 mins" }],
   sol: [{ id: "sol", name: "Solana", fee: "0.01 SOL", time: "1 min" }],
 };

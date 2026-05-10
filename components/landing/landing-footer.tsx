@@ -82,7 +82,7 @@ export function LandingFooter() {
               className="opacity-40 group-hover:opacity-100 transition-opacity"
             />
             <span className="h-4 w-[1px] bg-white/10" />
-            <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">Verified Broker</span>
+            <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">Binance infrastructure</span>
           </div>
 
           {/* EU Compliance */}

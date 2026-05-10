@@ -236,35 +236,35 @@ export default function WalletPage() {
                   </Link>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3 md:gap-4">
                   {assetsWithPrices.map((asset, i) => (
                     <motion.div
                       key={asset.symbol}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.1 }}
-                      className="rounded-3xl border border-white/5 bg-white/[0.03] p-6 hover:bg-white/[0.06] transition-all cursor-pointer group"
+                      className="rounded-2xl md:rounded-3xl border border-white/5 bg-white/[0.03] p-4 md:p-6 hover:bg-white/[0.06] transition-all cursor-pointer group flex flex-col justify-between"
                     >
-                      <div className="flex items-center justify-between mb-6">
-                        <div className={`h-12 w-12 rounded-2xl bg-black flex items-center justify-center border border-white/10 group-hover:border-white/20 transition-colors`}>
-                          <asset.icon className={`h-6 w-6 ${asset.color}`} />
+                      <div className="flex items-start md:items-center justify-between mb-4 md:mb-6">
+                        <div className={`h-8 w-8 md:h-12 md:w-12 rounded-xl md:rounded-2xl bg-black flex items-center justify-center border border-white/10 group-hover:border-white/20 transition-colors shrink-0`}>
+                          <asset.icon className={`h-4 w-4 md:h-6 md:w-6 ${asset.color}`} />
                         </div>
-                        <span className={`text-[10px] font-bold px-2 py-1 rounded-lg ${Number(asset.change) >= 0 ? "bg-emerald-400/10 text-emerald-400" : "bg-red-400/10 text-red-400"
+                        <span className={`text-[8px] md:text-[10px] font-bold px-1.5 py-0.5 md:px-2 md:py-1 rounded-lg ${Number(asset.change) >= 0 ? "bg-emerald-400/10 text-emerald-400" : "bg-red-400/10 text-red-400"
                           }`}>
                           {Number(asset.change) >= 0 ? "+" : ""}{asset.change}%
                         </span>
                       </div>
                       <div>
-                        <h4 className="text-sm font-medium text-white/50 mb-1">{asset.name}</h4>
-                        <div className="flex items-baseline gap-2">
-                          <p className="text-2xl font-semibold text-white">{asset.balance}</p>
-                          <span className="text-xs font-bold text-white/20">{asset.symbol}</span>
+                        <h4 className="text-[10px] md:text-sm font-medium text-white/50 mb-0.5 md:mb-1 truncate">{asset.name}</h4>
+                        <div className="flex items-baseline gap-1 md:gap-2">
+                          <p className="text-lg sm:text-xl md:text-2xl font-semibold text-white truncate">{asset.balance}</p>
+                          <span className="text-[9px] md:text-xs font-bold text-white/20 shrink-0">{asset.symbol}</span>
                         </div>
-                        <div className="flex items-center justify-between mt-1">
-                          <p className="text-sm text-white/40">
+                        <div className="flex flex-col 2xl:flex-row 2xl:items-center justify-between mt-1 md:mt-2 gap-0.5">
+                          <p className="text-[10px] md:text-sm text-white/40 truncate">
                             ${new Intl.NumberFormat("en-US").format(asset.value)}
                           </p>
-                          <p className="text-[10px] text-white/20 font-mono">
+                          <p className="text-[8px] md:text-[10px] text-white/20 font-mono truncate">
                             ${asset.price.toLocaleString()}
                           </p>
                         </div>
