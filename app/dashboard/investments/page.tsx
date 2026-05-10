@@ -228,17 +228,17 @@ export default function InvestmentsPage() {
                 <h1 className="text-4xl font-bold tracking-tight text-white mb-2">Investments</h1>
                 <p className="text-white/50">Live overview of your portfolio, allocations, and AI-managed positions.</p>
               </div>
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
                 <Link
                   href="/dashboard/deposit"
-                  className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-white/5 border border-white/10 px-6 py-3 text-sm font-bold text-white transition hover:bg-white/10"
                 >
                   <LuArrowUpRight className="h-4 w-4" />
                   Deposit
                 </Link>
                 <Link
                   href="/dashboard/new-investment"
-                  className="inline-flex items-center gap-2 rounded-full bg-white px-4 md:px-5 py-3 text-sm font-bold text-black transition hover:bg-white/90 whitespace-nowrap"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-black transition hover:bg-white/90 whitespace-nowrap"
                 >
                   <LuPlus className="h-4 w-4" />
                   New Investment

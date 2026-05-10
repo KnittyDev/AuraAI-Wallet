@@ -91,7 +91,8 @@ export default function SupportCenterPage() {
   );
 
   // Special check for "support" or "ticket" keywords to highlight the tickets section
-  const showTicketsCard = searchQuery.toLowerCase().includes("support") || searchQuery.toLowerCase().includes("ticket");
+  const keywords = ["support", "ticket", "bilet", "yardım", "destek", "müşteri"];
+  const showTicketsCard = searchQuery.length > 1 && keywords.some(k => k.includes(searchQuery.toLowerCase()));
 
   return (
     <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-hidden">
