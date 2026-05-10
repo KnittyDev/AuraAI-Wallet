@@ -109,10 +109,11 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
                       </div>
                     </td>
                     <td className="py-4 text-center">
-                      <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold border uppercase tracking-widest ${
-                        row.risk === "Aggressive" ? "text-red-400 border-red-400/20 bg-red-400/5" :
-                        row.risk === "Growth" ? "text-emerald-400 border-emerald-400/20 bg-emerald-400/5" :
-                        "text-blue-400 border-blue-400/20 bg-blue-400/5"
+                      <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold border uppercase tracking-widest shadow-sm ${
+                        row.risk === "Aggressive" ? "text-red-400 border-red-500/20 bg-red-500/10" :
+                        row.risk === "Growth" ? "text-emerald-400 border-emerald-500/20 bg-emerald-500/10" :
+                        row.risk === "Balanced" ? "text-blue-400 border-blue-500/20 bg-blue-500/10" :
+                        "text-zinc-400 border-white/10 bg-white/5"
                       }`}>
                         {row.risk}
                       </span>
@@ -138,7 +139,10 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
                         row.yield24h.startsWith("-") ? "text-red-400" : "text-emerald-400"
                       }`}
                     >
-                      {row.yield24h}
+                      <div className="flex items-center justify-end gap-1.5">
+                        <span className={`h-1.5 w-1.5 rounded-full animate-pulse ${row.yield24h.startsWith("-") ? "bg-red-400" : "bg-emerald-400"}`} />
+                        {row.yield24h}
+                      </div>
                     </td>
                   </tr>
                 ))}

@@ -132,11 +132,11 @@ export default function DashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-black text-white overflow-x-hidden">
       <div className="flex min-h-screen w-full flex-col lg:flex-row">
         <DashboardSidebar currentPath="/dashboard" />
 
-        <section className="flex-1 space-y-4 px-6 py-8 md:px-10">
+        <section className="flex-1 space-y-4 px-6 py-8 md:px-10 lg:ml-72 min-w-0 max-w-[100vw]">
           <header className="rounded-3xl border border-white/15 bg-black/45 p-5 backdrop-blur-sm">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>

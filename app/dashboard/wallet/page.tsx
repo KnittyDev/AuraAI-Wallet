@@ -127,27 +127,30 @@ export default function WalletPage() {
   );
 
   useEffect(() => {
-    if (!loading && totalNetWorth > 0) {
-      const controls = animate(count, totalNetWorth, { duration: 1.5, ease: "easeOut" });
+    if (!loading && totalNetWorth >= 0) {
+      const controls = animate(count, totalNetWorth, { 
+        duration: 2, 
+        ease: [0.16, 1, 0.3, 1] // Custom ease for smoother start
+      });
       return controls.stop;
     }
   }, [loading, totalNetWorth, count]);
 
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-black text-white overflow-x-hidden">
       <AuroraBackground />
       <div className="landing-grid-overlay" />
 
       <div className="flex min-h-screen w-full flex-col lg:flex-row relative z-10">
         <DashboardSidebar currentPath="/dashboard/wallet" />
 
-        <section className="flex-1 px-6 py-8 md:px-10">
+        <section className="flex-1 px-6 py-8 md:px-10 lg:ml-72 min-w-0 max-w-[100vw]">
         <div className="mx-auto max-w-6xl">
           {/* Header */}
           <motion.header
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6"
           >
             <div>
@@ -157,7 +160,7 @@ export default function WalletPage() {
                 </div>
                 <h1 className="text-4xl font-bold tracking-tight text-white">My Wallet</h1>
               </div>
-              <p className="text-white/50 ml-13">Securely manage your assets and liquidity.</p>
+              <p className="text-white/50 ml-12">Securely manage your assets and liquidity.</p>
             </div>
 
             <div className="flex items-center gap-3">
@@ -176,8 +179,8 @@ export default function WalletPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Balance Card */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               className="lg:col-span-12 rounded-[2.5rem] border border-white/10 bg-white/[0.02] p-8 md:p-10 backdrop-blur-xl relative overflow-hidden group"
             >
               <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
@@ -191,7 +194,7 @@ export default function WalletPage() {
                 </div>
 
                 <div className="flex flex-wrap items-baseline gap-3 md:gap-4 mb-8">
-                  <motion.h2 className="text-4xl sm:text-5xl md:text-6xl font-medium tracking-tight text-white break-words">
+                  <motion.h2 className="text-4xl sm:text-5xl md:text-6xl font-medium tracking-tight text-white break-words tabular-nums">
                     $<motion.span>{rounded}</motion.span>
                   </motion.h2>
                   <span className={`flex items-center gap-1 text-xs md:text-sm font-bold px-2 py-0.5 rounded-lg whitespace-nowrap ${totalChangePct >= 0 ? "text-emerald-400 bg-emerald-400/10" : "text-red-400 bg-red-400/10"}`}>

@@ -145,14 +145,14 @@ export default function ConvertPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-black text-white overflow-x-hidden">
       <AuroraBackground />
       <div className="landing-grid-overlay" />
 
       <div className="flex min-h-screen w-full flex-col lg:flex-row relative z-10">
         <DashboardSidebar currentPath="/dashboard/convert" />
 
-        <section className="flex-1 px-6 py-8 md:px-10">
+        <section className="flex-1 px-6 py-8 md:px-10 lg:ml-72 min-w-0 max-w-[100vw]">
         <div className="mx-auto max-w-2xl">
           {/* Header */}
           <header className="mb-12">

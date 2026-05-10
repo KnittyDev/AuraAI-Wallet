@@ -38,8 +38,8 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 300, damping: 24 } },
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
 };
 
 export default function PerformancePage() {
@@ -161,18 +161,18 @@ export default function PerformancePage() {
     );
   }
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-black text-white overflow-x-hidden">
       <AuroraBackground />
       <div className="landing-grid-overlay" />
       
       <div className="flex min-h-screen w-full flex-col lg:flex-row relative z-10">
         <DashboardSidebar currentPath="/dashboard/performance" />
 
-        <section className="flex-1 px-6 py-8 md:px-10">
+        <section className="flex-1 px-6 py-8 md:px-10 lg:ml-72 min-w-0 max-w-[100vw]">
         <div className="mx-auto max-w-6xl">
           <motion.header 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             className="mb-10 flex flex-wrap items-end justify-between gap-6"
           >
             <div>
@@ -183,7 +183,7 @@ export default function PerformancePage() {
                 </div>
                 <h1 className="text-4xl font-bold tracking-tight text-white">Performance</h1>
               </div>
-              <p className="text-white/50 ml-13">Detailed analysis of your AI-driven returns.</p>
+              <p className="text-white/50 ml-12">Detailed analysis of your AI-driven returns.</p>
             </div>
 
             <div className="flex gap-2 p-1 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">

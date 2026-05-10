@@ -137,7 +137,7 @@ export default function WithdrawPage() {
       <div className="flex min-h-screen w-full flex-col lg:flex-row relative z-10">
         <DashboardSidebar currentPath="/dashboard/withdraw" />
         
-        <section className="flex-1 flex items-center justify-center p-6">
+        <section className="flex-1 flex items-center justify-center p-6 lg:ml-72 min-w-0 max-w-[100vw]">
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -175,7 +175,7 @@ export default function WithdrawPage() {
       <div className="flex min-h-screen w-full flex-col lg:flex-row relative z-10">
         <DashboardSidebar currentPath="/dashboard/withdraw" />
 
-        <section className="flex-1 px-6 py-8 md:px-10">
+        <section className="flex-1 px-6 py-8 md:px-10 lg:ml-72 min-w-0 max-w-[100vw]">
         <div className="mx-auto max-w-6xl">
           <motion.header 
             initial={{ opacity: 0, y: -20 }}

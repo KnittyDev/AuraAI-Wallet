@@ -78,13 +78,13 @@ export default function NewTicketPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-hidden">
+    <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-x-hidden">
       <AuroraBackground />
       <div className="landing-grid-overlay" />
 
       <DashboardSidebar currentPath="/dashboard/settings" />
 
-      <section className="relative z-10 flex-1 px-4 py-8 md:px-10 overflow-y-auto">
+      <section className="relative z-10 flex-1 px-4 py-8 md:px-10 overflow-y-auto lg:ml-72 min-w-0 max-w-[100vw]">
         <div className="mx-auto max-w-3xl pb-24">
           
           {/* Back Button */}

@@ -92,16 +92,16 @@ export default function SupportCenterPage() {
 
   // Special check for "support" or "ticket" keywords to highlight the tickets section
   const keywords = ["support", "ticket", "bilet", "yardım", "destek", "müşteri"];
-  const showTicketsCard = searchQuery.length > 1 && keywords.some(k => k.includes(searchQuery.toLowerCase()));
+  const showTicketsCard = searchQuery.length > 1 && keywords.some(k => searchQuery.toLowerCase().includes(k));
 
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-hidden">
+    <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-x-hidden">
       <AuroraBackground />
       <div className="landing-grid-overlay" />
 
       <DashboardSidebar currentPath="/dashboard/settings" />
 
-      <section className="relative z-10 flex-1 px-4 py-8 md:px-10 overflow-y-auto">
+      <section className="relative z-10 flex-1 px-4 py-8 md:px-10 overflow-y-auto lg:ml-72 min-w-0 max-w-[100vw]">
         <div className="mx-auto max-w-6xl pb-24">
 
           {/* Header & Search */}

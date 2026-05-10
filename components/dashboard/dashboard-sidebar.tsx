@@ -128,7 +128,7 @@ export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
       </AnimatePresence>
 
       <aside className={`
-        fixed inset-y-0 left-0 z-[55] w-72 transform border-r border-white/10 bg-black/80 p-6 backdrop-blur-2xl transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:h-screen lg:flex lg:flex-col lg:p-6 lg:sticky lg:top-0 lg:bg-black/55
+        fixed inset-y-0 left-0 z-[55] w-72 transform border-r border-white/10 bg-black/80 p-6 backdrop-blur-2xl transition-transform duration-300 ease-in-out lg:translate-x-0 lg:flex lg:flex-col lg:bg-black/55
         ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
       `}>
         <div className="flex-1">

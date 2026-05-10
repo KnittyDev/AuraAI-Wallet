@@ -131,13 +131,13 @@ export default function AskAIPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-hidden">
+    <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-x-hidden">
       <AuroraBackground />
       <div className="landing-grid-overlay" />
 
       <DashboardSidebar currentPath="/dashboard/ask-ai" />
 
-      <section className="relative z-10 flex-1 flex flex-col h-screen overflow-hidden">
+      <section className="relative z-10 flex-1 flex flex-col h-screen overflow-hidden lg:ml-72 min-w-0 max-w-[100vw]">
         {/* Header */}
         <header className="px-6 py-6 border-b border-white/10 bg-black/40 backdrop-blur-md flex items-center justify-between">
           <div className="flex items-center gap-3">
