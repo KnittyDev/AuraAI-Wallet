@@ -28,6 +28,8 @@ import {
 } from "react-icons/lu";
 import { supabase } from "@/lib/supabase";
 import { useState, useEffect } from "react";
+import Image from "next/image";
+import auraLogo from "@/app/auralogo.png";
 
 interface SettingCardProps {
   label: string;
@@ -289,11 +291,19 @@ export default function SettingsPage() {
       // Header
       doc.setFillColor(10, 10, 10);
       doc.rect(0, 0, pageWidth, 40, "F");
+      
+      // Add Logo
+      try {
+        doc.addImage(auraLogo.src, "PNG", 14, 10, 10, 10);
+      } catch (e) {
+        console.error("Logo add error:", e);
+      }
+
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(22);
-      doc.text("AURA AI WALLET", 14, 20);
+      doc.text("AURA AI WALLET", 28, 20);
       doc.setFontSize(10);
-      doc.text("USER PROFILE DATA EXPORT", 14, 30);
+      doc.text("USER PROFILE DATA EXPORT", 28, 30);
       doc.text(`Generated: ${new Date().toLocaleString()}`, pageWidth - 14, 30, { align: "right" });
 
       // Section: Account Overview
@@ -399,8 +409,8 @@ export default function SettingsPage() {
 
             <div className="flex items-center gap-6 relative z-10 w-full sm:w-auto">
               <div className="h-24 w-24 rounded-[2rem] bg-gradient-to-br from-zinc-800 to-black p-0.5 border border-white/10 shrink-0">
-                <div className="h-full w-full rounded-[1.9rem] bg-black flex items-center justify-center overflow-hidden">
-                  <LuUser className="h-10 w-10 text-white/20" />
+                <div className="h-full w-full rounded-[1.9rem] bg-black flex items-center justify-center overflow-hidden p-4">
+                  <Image src={auraLogo} alt="Aura Logo" className="w-full h-full object-contain opacity-80" />
                 </div>
               </div>
               <div>
