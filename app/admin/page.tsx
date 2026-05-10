@@ -48,12 +48,13 @@ export default function AdminDashboardPage() {
       if (profile?.role === "admin") {
         setIsAdmin(true);
 
-        // Fetch stats, transactions, and current prices
-        const [usersRes, ticketsRes, depositsRes, pricesRes] = await Promise.all([
+        // Fetch stats, transactions, current prices and all balances
+        const [usersRes, ticketsRes, depositsRes, pricesRes, balancesRes] = await Promise.all([
           supabase.from("profiles").select("*", { count: 'exact', head: true }),
           supabase.from("tickets").select("*", { count: 'exact', head: true }).neq("status", "Closed"),
           supabase.from("transactions").select("amount, asset, created_at").ilike("type", "deposit"),
-          fetch('/api/prices').then(res => res.json())
+          fetch('/api/prices').then(res => res.json()),
+          supabase.from("balances").select("amount, asset_code")
         ]);
 
         const prices: Record<string, number> = {
@@ -63,11 +64,18 @@ export default function AdminDashboardPage() {
           USDT: 1,
         };
 
+        // Calculate Total Volume (Sum of all balances converted to USDT)
+        let totalVolume = 0;
+        (balancesRes.data || []).forEach((bal) => {
+          const price = prices[bal.asset_code.toUpperCase()] || 1;
+          totalVolume += Number(bal.amount) * price;
+        });
+
         let totalDeps = 0;
         const grouped: Record<string, number> = {};
 
         (depositsRes.data || []).forEach((dep) => {
-          const price = prices[dep.asset.toUpperCase()] || 1; // Default to 1 if asset not found (fallback)
+          const price = prices[dep.asset.toUpperCase()] || 1; 
           const usdtValue = Number(dep.amount) * price;
           
           totalDeps += usdtValue;
@@ -87,7 +95,7 @@ export default function AdminDashboardPage() {
         setOverviewStats({
           users: usersRes.count || 0,
           activeTickets: ticketsRes.count || 0,
-          totalDeposits: totalDeps
+          totalDeposits: totalVolume // Rename this logic-wise to totalVolume for the UI card
         });
         setDepositData(chartData);
 

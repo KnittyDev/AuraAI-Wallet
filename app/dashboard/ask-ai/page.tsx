@@ -30,8 +30,21 @@ export default function AskAIPage() {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showDelayMessage, setShowDelayMessage] = useState(false);
   const [userData, setUserData] = useState<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isLoading) {
+      timer = setTimeout(() => {
+        setShowDelayMessage(true);
+      }, 3000);
+    } else {
+      setShowDelayMessage(false);
+    }
+    return () => clearTimeout(timer);
+  }, [isLoading]);
 
   useEffect(() => {
     async function fetchUserData() {
@@ -213,17 +226,31 @@ export default function AskAIPage() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="flex justify-start"
+                className="flex flex-col gap-2 justify-start"
               >
                 <div className="flex gap-3">
                   <div className="h-8 w-8 rounded-full bg-black overflow-hidden flex items-center justify-center animate-pulse">
                     <Image src="/auralogo.png" alt="Aura" width={32} height={32} />
                   </div>
-
-                  <div className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-2xl rounded-tl-none px-4 py-3 flex gap-1 items-center">
-                    <span className="w-1.5 h-1.5 bg-cyan-400/50 rounded-full animate-bounce [animation-delay:-0.3s]" />
-                    <span className="w-1.5 h-1.5 bg-cyan-400/50 rounded-full animate-bounce [animation-delay:-0.15s]" />
-                    <span className="w-1.5 h-1.5 bg-cyan-400/50 rounded-full animate-bounce" />
+                  <div className="flex flex-col gap-2">
+                    <div className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-2xl rounded-tl-none px-4 py-3 flex gap-1 items-center w-fit">
+                      <span className="w-1.5 h-1.5 bg-cyan-400/50 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                      <span className="w-1.5 h-1.5 bg-cyan-400/50 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                      <span className="w-1.5 h-1.5 bg-cyan-400/50 rounded-full animate-bounce" />
+                    </div>
+                    
+                    <AnimatePresence>
+                      {showDelayMessage && (
+                        <motion.p 
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0 }}
+                          className="text-[11px] text-white/40 italic font-medium ml-1"
+                        >
+                          Analyzing your data... please wait.
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </div>
               </motion.div>
