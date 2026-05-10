@@ -63,22 +63,6 @@ export function OpenPositionsTable() {
     return () => clearInterval(interval);
   }, []);
 
-  const calculatePnL = (pos: OpenPosition) => {
-    const currentPrice = prices[pos.asset_code];
-    if (!currentPrice) return null;
-
-    const entryPrice = Number(pos.entry_price);
-    let pnl = 0;
-
-    if (pos.action_type === 'long') {
-      pnl = ((currentPrice - entryPrice) / entryPrice) * 100;
-    } else {
-      pnl = ((entryPrice - currentPrice) / entryPrice) * 100;
-    }
-
-    return pnl;
-  };
-
   if (loading) {
     return (
       <section className="rounded-3xl border border-white/15 bg-black/45 p-12 backdrop-blur-sm flex flex-col items-center justify-center text-white/20">
@@ -116,13 +100,11 @@ export function OpenPositionsTable() {
                   <th className="pb-4 font-bold">Entry Price</th>
                   <th className="pb-4 font-bold">Current Price</th>
                   <th className="pb-4 font-bold">Time</th>
-                  <th className="pb-4 font-bold">PnL (%)</th>
                   <th className="pb-4 font-bold">Strategy Logic</th>
                 </tr>
               </thead>
               <tbody className="text-white/85 divide-y divide-white/5">
                 {positions.map((pos) => {
-                  const pnl = calculatePnL(pos);
                   const currentPrice = prices[pos.asset_code];
                   
                   return (
@@ -148,9 +130,6 @@ export function OpenPositionsTable() {
                       <td className="py-4 text-white/40 text-xs">
                         {new Date(pos.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </td>
-                      <td className={`py-4 font-bold font-mono ${pnl && pnl >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
-                        {pnl !== null ? `${pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}%` : "---"}
-                      </td>
                       <td className="py-4 text-white/30 text-xs italic">
                         {pos.action_type === 'long' ? "Bullish trend divergence detected" : "Overbought rejection signal confirmed"}
                       </td>
@@ -164,7 +143,6 @@ export function OpenPositionsTable() {
           {/* Mobile View (Cards) */}
           <div className="md:hidden space-y-4">
             {positions.map((pos) => {
-              const pnl = calculatePnL(pos);
               const currentPrice = prices[pos.asset_code];
 
               return (
@@ -197,19 +175,14 @@ export function OpenPositionsTable() {
                     </div>
                   </div>
 
-                  {/* PnL & Time */}
+                  {/* Time & Logic */}
                   <div className="flex justify-between items-center border-t border-white/5 pt-3">
                     <div className="text-xs text-white/40">
                       {new Date(pos.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
-                    <div className={`font-bold font-mono text-lg ${pnl && pnl >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
-                      {pnl !== null ? `${pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}%` : "---"}
+                    <div className="text-[10px] text-white/30 italic">
+                      {pos.action_type === 'long' ? "Bullish trend divergence" : "Overbought rejection"}
                     </div>
-                  </div>
-
-                  {/* Strategy Logic */}
-                  <div className="text-[10px] text-white/30 italic text-center">
-                    Logic: {pos.action_type === 'long' ? "Bullish trend divergence detected" : "Overbought rejection signal confirmed"}
                   </div>
                 </div>
               );

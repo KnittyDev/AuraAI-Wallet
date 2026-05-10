@@ -416,9 +416,14 @@ export default function NewInvestmentPage() {
                               <Icon className="h-6 w-6" />
                             </div>
 
-                            <h3 className={`mb-3 text-xl font-semibold ${isSelected ? "text-white" : "text-white/90"}`}>
+                            <h3 className={`mb-2 text-xl font-semibold ${isSelected ? "text-white" : "text-white/90"}`}>
                               {option.level}
                             </h3>
+
+                            <div className={`mb-4 inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-[10px] font-bold uppercase tracking-wider ${isSelected ? "bg-white/10 text-white" : "bg-white/5 text-white/40"}`}>
+                              <LuTrendingUp className="h-3 w-3" />
+                              Est. Monthly: {option.monthly}
+                            </div>
 
                             <p className="text-sm leading-relaxed text-white/40">
                               {option.description}
