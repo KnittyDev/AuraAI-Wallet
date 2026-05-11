@@ -35,6 +35,7 @@ interface AiAction {
 export default function InvestmentsPage() {
   const [investments, setInvestments] = useState<Investment[]>([]);
   const [profits, setProfits] = useState<Record<string, number>>({});
+  const [profits24h, setProfits24h] = useState<Record<string, number>>({});
   const [prices, setPrices] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
   const [selectedInvId, setSelectedInvId] = useState<string | null>(null);
@@ -50,7 +51,7 @@ export default function InvestmentsPage() {
 
       const [invRes, profitRes, priceRes] = await Promise.all([
         supabase.from('investments').select('*').eq('user_id', user.id),
-        supabase.from('ai_actions').select('investment_id, profit_usd').eq('user_id', user.id),
+        supabase.from('ai_actions').select('investment_id, profit_usd, created_at').eq('user_id', user.id),
         fetch('/api/prices').then(res => res.json())
       ]);
 
@@ -58,10 +59,18 @@ export default function InvestmentsPage() {
 
       if (!profitRes.error && profitRes.data) {
         const profitMap: Record<string, number> = {};
+        const p24Map: Record<string, number> = {};
+        const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
         profitRes.data.forEach(p => {
           profitMap[p.investment_id] = (profitMap[p.investment_id] || 0) + Number(p.profit_usd || 0);
+          
+          if (new Date(p.created_at) > yesterday) {
+            p24Map[p.investment_id] = (p24Map[p.investment_id] || 0) + Number(p.profit_usd || 0);
+          }
         });
         setProfits(profitMap);
+        setProfits24h(p24Map);
       }
 
       setPrices({
@@ -300,9 +309,17 @@ export default function InvestmentsPage() {
                           {inv.risk_profile}
                         </span>
                       </div>
-                      <span className={`font-mono text-sm font-bold ${profits[inv.id] >= 0 ? "text-emerald-400" : "text-red-400"}`}>
-                        {profits[inv.id] >= 0 ? "+" : ""}{Number(profits[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT
-                      </span>
+                      <div className="flex flex-col items-end">
+                        <span className={`font-mono text-sm font-bold ${profits[inv.id] >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+                          {profits[inv.id] >= 0 ? "+" : ""}{Number(profits[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT
+                        </span>
+                        <div className="flex items-center gap-1.5 mt-1">
+                          <span className={`h-1 w-1 rounded-full animate-pulse ${profits24h[inv.id] < 0 ? "bg-red-400" : "bg-emerald-400"}`} />
+                          <span className={`text-[10px] font-mono font-bold ${profits24h[inv.id] < 0 ? "text-red-400" : "text-emerald-400"}`}>
+                            24h: {profits24h[inv.id] >= 0 ? "+" : ""}{Number(profits24h[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ({((profits24h[inv.id] || 0) / Number(inv.amount) * 100).toFixed(2)}%)
+                          </span>
+                        </div>
+                      </div>
                     </div>
 
                     <div className="flex items-center justify-between text-sm bg-white/[0.02] p-4 rounded-2xl border border-white/5">
@@ -345,6 +362,7 @@ export default function InvestmentsPage() {
                       <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Asset</th>
                       <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Capital</th>
                       <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Net Profit</th>
+                      <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">24h AI P&L</th>
                       <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Duration</th>
                       <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Risk</th>
                       <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase text-right">Actions</th>
@@ -377,6 +395,19 @@ export default function InvestmentsPage() {
                           <span className={`font-mono text-sm font-bold ${profits[inv.id] >= 0 ? "text-emerald-400" : "text-red-400"}`}>
                             {profits[inv.id] >= 0 ? "+" : ""}{Number(profits[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT
                           </span>
+                        </td>
+                        <td className="px-8 py-5">
+                          <div className="flex flex-col gap-1">
+                            <div className="flex items-center gap-2">
+                              <span className={`h-1.5 w-1.5 rounded-full animate-pulse ${profits24h[inv.id] < 0 ? "bg-red-400" : "bg-emerald-400"}`} />
+                              <span className={`font-mono text-sm font-bold ${profits24h[inv.id] < 0 ? "text-red-400" : "text-emerald-400"}`}>
+                                {profits24h[inv.id] >= 0 ? "+" : ""}{Number(profits24h[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT
+                              </span>
+                            </div>
+                            <span className="text-[10px] text-white/30 ml-3.5">
+                              {profits24h[inv.id] >= 0 ? "+" : ""}{((profits24h[inv.id] || 0) / Number(inv.amount) * 100).toFixed(2)}% Yield
+                            </span>
+                          </div>
                         </td>
                         <td className="px-8 py-5">
                           <span className="text-xs font-medium text-white/60">{inv.duration_days} Days</span>

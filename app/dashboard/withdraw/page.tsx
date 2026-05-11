@@ -126,24 +126,27 @@ export default function WithdrawPage() {
         // Fetch email from profiles table as requested
         const { data: profile } = await supabase
           .from('profiles')
-          .select('email')
+          .select('email, notify_wallet_movements')
           .eq('id', user.id)
           .single();
 
         const emailToUse = profile?.email || user.email;
 
-        await fetch('/api/notifications/withdraw', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: emailToUse,
-            amount: amount,
-            asset: selectedAsset.symbol,
-            address: address,
-            network: selectedNetwork.name,
-            txId: txHash
-          })
-        });
+        // Only send if not explicitly disabled
+        if (profile?.notify_wallet_movements !== false) {
+          await fetch('/api/notifications/withdraw', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: emailToUse,
+              amount: amount,
+              asset: selectedAsset.symbol,
+              address: address,
+              network: selectedNetwork.name,
+              txId: txHash
+            })
+          });
+        }
       } catch (emailErr) {
         console.error("Failed to send notification email:", emailErr);
       }

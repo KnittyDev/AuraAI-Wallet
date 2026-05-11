@@ -52,6 +52,7 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
       currentAssetAmount,
       value: `$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
       profit: netProfit,
+      profit24h: netProfit24h,
       yield24h: `${yield24h >= 0 ? "+" : ""}${yield24h.toFixed(2)}%`,
       icon: assetInfo.icon,
       risk: inv.risk_profile,
@@ -139,9 +140,14 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
                         row.yield24h.startsWith("-") ? "text-red-400" : "text-emerald-400"
                       }`}
                     >
-                      <div className="flex items-center justify-end gap-1.5">
-                        <span className={`h-1.5 w-1.5 rounded-full animate-pulse ${row.yield24h.startsWith("-") ? "bg-red-400" : "bg-emerald-400"}`} />
-                        {row.yield24h}
+                      <div className="flex flex-col items-end gap-1">
+                        <div className="flex items-center gap-1.5">
+                          <span className={`h-1.5 w-1.5 rounded-full animate-pulse ${row.profit24h < 0 ? "bg-red-400" : "bg-emerald-400"}`} />
+                          <span className={row.profit24h < 0 ? "text-red-400" : "text-emerald-400"}>
+                            {row.profit24h >= 0 ? "+" : ""}{row.profit24h.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT
+                          </span>
+                        </div>
+                        <span className="text-[10px] text-white/30 font-normal">{row.yield24h}</span>
                       </div>
                     </td>
                   </tr>
@@ -202,9 +208,10 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
                   </div>
                   <div className="text-right">
                     <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-1">24h Yield</p>
-                    <p className={`font-mono font-bold text-lg ${row.yield24h.startsWith("-") ? "text-red-400" : "text-emerald-400"}`}>
-                      {row.yield24h}
+                    <p className={`font-mono font-bold text-lg ${row.profit24h < 0 ? "text-red-400" : "text-emerald-400"}`}>
+                      {row.profit24h >= 0 ? "+" : ""}{row.profit24h.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </p>
+                    <p className="text-[10px] text-white/30 font-mono">{row.yield24h}</p>
                   </div>
                 </div>
 

@@ -82,6 +82,7 @@ export default function SettingsPage() {
     notifyInvestmentMaturity: true,
     notifyDeposit: true,
     notifyWithdraw: true,
+    notifyWalletMovements: true,
     twoFactor: false,
     emailMarketing: false,
     autoReinvest: true,
@@ -91,13 +92,14 @@ export default function SettingsPage() {
     async function loadNotificationSettings() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
-      const { data } = await supabase.from("profiles").select("notify_trade_open, notify_trade_close, notify_investment_maturity").eq("id", user.id).single();
+      const { data } = await supabase.from("profiles").select("notify_trade_open, notify_trade_close, notify_investment_maturity, notify_wallet_movements").eq("id", user.id).single();
       if (data) {
         setSettings(prev => ({
           ...prev,
           notifyTradeOpen: data.notify_trade_open ?? true,
           notifyTradeClose: data.notify_trade_close ?? true,
           notifyInvestmentMaturity: data.notify_investment_maturity ?? true,
+          notifyWalletMovements: data.notify_wallet_movements ?? true,
         }));
       }
     }
@@ -117,6 +119,8 @@ export default function SettingsPage() {
       await supabase.from("profiles").update({ notify_trade_close: newValue }).eq("id", user.id);
     } else if (key === 'notifyInvestmentMaturity') {
       await supabase.from("profiles").update({ notify_investment_maturity: newValue }).eq("id", user.id);
+    } else if (key === 'notifyWalletMovements') {
+      await supabase.from("profiles").update({ notify_wallet_movements: newValue }).eq("id", user.id);
     }
   };
 
@@ -472,8 +476,8 @@ export default function SettingsPage() {
                 <SettingCard
                   label="Wallet Movements"
                   description="Confirmations for every deposit and withdrawal request."
-                  enabled={settings.notifyDeposit}
-                  onToggle={() => toggleSetting('notifyDeposit')}
+                  enabled={settings.notifyWalletMovements}
+                  onToggle={() => toggleSetting('notifyWalletMovements')}
                   icon={LuWallet}
                   accentColor="purple"
                 />
