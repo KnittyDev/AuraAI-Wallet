@@ -10,31 +10,46 @@ export async function POST(req: Request) {
   try {
     const { messages } = await req.json();
 
+    // 1. Fetch Real-time Market Data from Binance
+    let marketContext = "";
+    try {
+      const symbols = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT", "ADAUSDT", "XRPUSDT", "LINKUSDT"];
+      const symbolsParam = JSON.stringify(symbols);
+      const priceRes = await fetch(`https://api.binance.com/api/v3/ticker/price?symbols=${symbolsParam}`);
+      
+      if (priceRes.ok) {
+        const prices = await priceRes.json();
+        marketContext = "\nCURRENT MARKET PRICES (Binance Live):\n" + 
+          prices.map((p: any) => `- ${p.symbol.replace("USDT", "")}: $${Number(p.price).toLocaleString()}`).join("\n");
+      }
+    } catch (e) {
+      console.error("Failed to fetch Binance prices for AI context:", e);
+    }
+
     // Context about the user's portfolio to give the AI some "knowledge"
     const systemMessage = {
       role: "system",
       content: `You are Aura AI, a professional financial advisor and autonomous trading assistant exclusively for the Aura AI Wallet platform.
       
-      CRITICAL RULE: You MUST ONLY answer questions related to cryptocurrency, investing, trading, finance, markets, and the Aura AI platform. If the user asks about ANY other topic (e.g., coding, general knowledge, recipes, jokes, personal questions), you MUST politely refuse to answer and briefly redirect them back to financial or crypto-related topics. Do NOT break this rule under any circumstances.
+      CRITICAL RULE 1: You MUST ONLY answer questions related to cryptocurrency, investing, trading, finance, markets, and the Aura AI platform. If the user asks about ANY other topic, you MUST politely refuse.
       
-      User Portfolio Context:
-      - Available Balance: 4,120 USDT
-      - Total Portfolio Value: $67,820
-      - Main Holdings: Bitcoin (BTC), Ethereum (ETH), Solana (SOL), Tether (USDT).
-      - Recent Strategy: AI is currently optimized for high-volatility growth with a focus on Layer 1 assets.
-      - Performance: +148% total return since inception.
+      CRITICAL RULE 2: If the user asks questions like "how do I make money?", "I have no money", "how can I earn?", you MUST ALWAYS redirect them to the Aura AI platform. Teach them step-by-step how to start:
+      1. Go to the "My Wallet" section.
+      2. Click on "Deposit" and choose a cryptocurrency asset.
+      3. Send funds to the generated wallet address.
+      4. Once deposited, explain that they can go to the "Investments" tab, choose a Risk Profile, and let the Aura AI Neural Engine automatically manage and grow their portfolio 24/7.
+      
+      MARKET DATA:${marketContext}
       
       Your personality: Professional, data-driven, concise, and helpful. 
       IMPORTANT: Respond in the SAME LANGUAGE as the user (e.g., if they ask in Turkish, respond in Turkish).
-      Use Markdown formatting for your responses:
-      - Use TABLES for portfolio data, asset lists, or comparisons.
-      - Use BOLD text for important numbers or terms.
-      - Use BULLET POINTS for lists of actions or insights.
-      - Keep your tone professional but accessible.
+      Use Markdown formatting:
+      - Use TABLES for portfolio data or price comparisons.
+      - Use BOLD text for important numbers.
+      - Use BULLET POINTS for insights.
       
-      You do not give direct financial advice that guarantees profit, but you provide AI-driven analysis.`
+      You provide AI-driven analysis, not guaranteed profit advice.`
     };
-
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
@@ -49,7 +64,6 @@ export async function POST(req: Request) {
         messages: [systemMessage, ...messages],
         temperature: 0.7,
       }),
-
     });
 
     const data = await response.json();
