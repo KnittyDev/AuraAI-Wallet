@@ -2,14 +2,23 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LuChevronDown, LuExternalLink, LuBookOpen, LuCpu, LuUsers, LuZap } from "react-icons/lu";
 import auralogo from "@/app/auralogo.png";
+import { supabase } from "@/lib/supabase";
+import { User } from "@supabase/supabase-js";
 
 export function LandingHeader() {
   const [isResourcesOpen, setIsResourcesOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+    });
+  }, []);
 
   const navLinks = [
     { href: "/#pricing", label: "Pricing" },
@@ -109,10 +118,10 @@ export function LandingHeader() {
             Contact sales
           </Link>
           <Link
-            href="/login"
+            href={user ? "/dashboard" : "/login"}
             className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-black transition hover:bg-white/85"
           >
-            Try Now
+            {user ? "Dashboard" : "Try Now"}
           </Link>
         </div>
 
@@ -180,11 +189,11 @@ export function LandingHeader() {
                 Contact sales
               </Link>
               <Link
-                href="/login"
+                href={user ? "/dashboard" : "/login"}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="w-full rounded-2xl bg-white py-4 text-center text-lg font-semibold text-black"
               >
-                Try Now
+                {user ? "Dashboard" : "Try Now"}
               </Link>
             </div>
           </motion.div>

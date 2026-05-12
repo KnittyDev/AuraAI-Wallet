@@ -1,10 +1,21 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { LuArrowUpRight } from "react-icons/lu";
+import { supabase } from "@/lib/supabase";
+import { User } from "@supabase/supabase-js";
 
 export function LandingHero() {
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+    });
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -42,10 +53,10 @@ export function LandingHero() {
       {/* Hero CTA Buttons */}
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
         <Link
-          href="/register"
+          href={user ? "/dashboard" : "/register"}
           className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-bold text-black shadow-[0_0_40px_rgba(255,255,255,0.15)] transition hover:bg-white/90 hover:scale-105 active:scale-95"
         >
-          Start for Free
+          {user ? "Go to Dashboard" : "Start for Free"}
           <LuArrowUpRight className="h-4 w-4" />
         </Link>
         <a
