@@ -1,5 +1,12 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
+import { createClient } from "@supabase/supabase-js";
+
+// Use Service Role Key for administrative tasks in the webhook
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 export async function POST(req: Request) {
   try {
@@ -31,19 +38,80 @@ export async function POST(req: Request) {
     const data = JSON.parse(rawBody);
     console.log("OxaPay Webhook received:", data);
 
-    // Status 1 or 2 usually means success/paid
+    const transactionId = data.orderId;
+
+    // Status 1 or 2 means success/paid
     if (data.status === 1 || data.status === 2) {
-      console.log(`Payment successful for Order ID: ${data.orderId}, Amount: ${data.amount} ${data.currency}`);
+      console.log(`Payment successful for Order ID: ${transactionId}, Amount: ${data.amount} ${data.currency}`);
       
-      // TODO: Update your database here (e.g., credit user balance)
-      // Example: await db.transactions.update({ where: { orderId: data.orderId }, data: { status: 'PAID' } })
-    } else if (data.status === 3) {
-      console.log(`Payment expired for Order ID: ${data.orderId}`);
-    } else if (data.status === 6) {
-      console.log(`Payment partially paid for Order ID: ${data.orderId}`);
+      // 1. Fetch the transaction from our database
+      const { data: tx, error: txFetchError } = await supabaseAdmin
+        .from('transactions')
+        .select('*')
+        .eq('id', transactionId)
+        .single();
+
+      if (txFetchError || !tx) {
+        console.error("Transaction not found in database:", transactionId);
+        return new Response("Transaction Not Found", { status: 404 });
+      }
+
+      if (tx.status === 'Completed') {
+        return new Response("Already Processed", { status: 200 });
+      }
+
+      // 2. Update Transaction Status
+      const { error: txUpdateError } = await supabaseAdmin
+        .from('transactions')
+        .update({ 
+          status: 'Completed',
+          tx_id: data.txId || tx.tx_id,
+          amount: data.amount || tx.amount // Use actual paid amount if different
+        })
+        .eq('id', transactionId);
+
+      if (txUpdateError) {
+        console.error("Failed to update transaction status:", txUpdateError);
+        return new Response("Database Error", { status: 500 });
+      }
+
+      // 3. Update User Balance
+      const { data: balance, error: balanceFetchError } = await supabaseAdmin
+        .from('balances')
+        .select('*')
+        .eq('user_id', tx.user_id)
+        .eq('asset_code', tx.asset)
+        .single();
+
+      if (balance) {
+        // Increment existing balance
+        const newAmount = Number(balance.amount) + Number(data.amount || tx.amount);
+        await supabaseAdmin
+          .from('balances')
+          .update({ amount: newAmount, updated_at: new Date().toISOString() })
+          .eq('id', balance.id);
+      } else {
+        // Create new balance record
+        await supabaseAdmin
+          .from('balances')
+          .insert({
+            user_id: tx.user_id,
+            asset_code: tx.asset,
+            amount: Number(data.amount || tx.amount)
+          });
+      }
+
+      console.log(`Successfully credited ${data.amount || tx.amount} ${tx.asset} to user ${tx.user_id}`);
+
+    } else if (data.status === 3 || data.status === 7 || data.status === 8) {
+      // Payment expired or canceled
+      await supabaseAdmin
+        .from('transactions')
+        .update({ status: 'Failed' })
+        .eq('id', transactionId);
+      console.log(`Payment failed/expired for Order ID: ${transactionId}`);
     }
 
-    // OxaPay expects "ok" as the response body with status 200
     return new Response("ok", { status: 200 });
 
   } catch (error) {
