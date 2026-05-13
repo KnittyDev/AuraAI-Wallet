@@ -47,7 +47,7 @@ export default function DashboardPage() {
       if (!user) return;
 
       const [balanceRes, investmentRes, profitRes, priceRes] = await Promise.all([
-        supabase.from('balances').select('amount').eq('user_id', user.id).eq('asset_code', 'USDT').single(),
+        supabase.from('balances').select('amount').eq('user_id', user.id).eq('asset_code', 'USDT').maybeSingle(),
         supabase.from('investments').select('*').eq('user_id', user.id).eq('status', 'active'),
         supabase.from('ai_actions').select('investment_id, profit_usd, created_at').eq('user_id', user.id),
         fetch('/api/prices')

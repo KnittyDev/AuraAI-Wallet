@@ -169,7 +169,7 @@ export default function NewInvestmentPage() {
         .select('amount')
         .eq('user_id', user.id)
         .eq('asset_code', 'USDT')
-        .single();
+        .maybeSingle();
 
       if (balanceError || !balanceData || Number(balanceData.amount) < Number(amount)) {
         setError("Insufficient USDT balance. Please deposit more funds.");

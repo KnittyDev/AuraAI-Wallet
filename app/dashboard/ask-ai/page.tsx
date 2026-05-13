@@ -52,7 +52,7 @@ export default function AskAIPage() {
       if (!user) return;
 
       const [balanceRes, invRes, profitRes] = await Promise.all([
-        supabase.from('balances').select('*').eq('user_id', user.id).eq('asset_code', 'USDT').single(),
+        supabase.from('balances').select('*').eq('user_id', user.id).eq('asset_code', 'USDT').maybeSingle(),
         supabase.from('investments').select('*').eq('user_id', user.id).eq('status', 'active'),
         supabase.from('ai_actions').select('*').eq('user_id', user.id)
       ]);
