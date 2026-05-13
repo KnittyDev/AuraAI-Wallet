@@ -55,13 +55,15 @@ export async function POST(req: Request) {
     }
 
     // 1. Create a PENDING transaction in our database first
+    // We store the USD/USDT amount in price_amount
     const { data: tx, error: txError } = await supabase
       .from('transactions')
       .insert({
         user_id: user.id,
         type: 'Deposit',
         asset: assetId.toUpperCase(),
-        amount: Number(amount),
+        price_amount: Number(amount), // Store USD value separately
+        amount: 0, // Will be updated with actual crypto amount from NOWPayments
         status: 'Pending',
         network: network.toUpperCase()
       })
@@ -94,11 +96,13 @@ export async function POST(req: Request) {
 
     if (response.ok && data.pay_address) {
       // Update transaction with the address and track ID (payment_id) from NOWPayments
+      // Also update the initial expected amount of crypto
       await supabase
         .from('transactions')
         .update({ 
           address: data.pay_address,
-          tx_id: data.payment_id?.toString()
+          tx_id: data.payment_id?.toString(),
+          amount: data.pay_amount // Expected crypto amount
         })
         .eq('id', tx.id);
 

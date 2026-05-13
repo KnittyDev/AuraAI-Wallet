@@ -25,6 +25,7 @@ interface Transaction {
   type: TransactionType;
   asset: string;
   amount: number;
+  priceAmount?: number;
   status: TransactionStatus;
   date: string;
   txId: string;
@@ -68,9 +69,12 @@ const getExplorerUrl = (tx: Transaction) => {
 
 export default function TransactionsPage() {
   const [filter, setFilter] = useState<"All" | TransactionType>("All");
+  const [statusFilter, setStatusFilter] = useState<"All" | TransactionStatus>("All");
+  const [dateRange, setDateRange] = useState<"All" | "24h" | "7d" | "30d">("All");
   const [search, setSearch] = useState("");
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -93,6 +97,7 @@ export default function TransactionsPage() {
             type: tx.type as TransactionType,
             asset: tx.asset,
             amount: Number(tx.amount),
+            priceAmount: tx.price_amount ? Number(tx.price_amount) : undefined,
             status: tx.status as TransactionStatus,
             date: dateStr,
             txId: tx.tx_id || "N/A",
@@ -109,8 +114,22 @@ export default function TransactionsPage() {
 
   const filteredTransactions = transactions.filter(tx => {
     const matchesFilter = filter === "All" || tx.type === filter;
-    const matchesSearch = tx.asset.toLowerCase().includes(search.toLowerCase()) || tx.txId.toLowerCase().includes(search.toLowerCase());
-    return matchesFilter && matchesSearch;
+    const matchesStatus = statusFilter === "All" || tx.status === statusFilter;
+    
+    let matchesDate = true;
+    if (dateRange !== "All") {
+      const txDate = new Date(tx.date);
+      const now = new Date();
+      if (dateRange === "24h") matchesDate = txDate > new Date(now.getTime() - 24 * 60 * 60 * 1000);
+      else if (dateRange === "7d") matchesDate = txDate > new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      else if (dateRange === "30d") matchesDate = txDate > new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+    }
+
+    const matchesSearch = tx.asset.toLowerCase().includes(search.toLowerCase()) || 
+                         tx.txId.toLowerCase().includes(search.toLowerCase()) ||
+                         tx.type.toLowerCase().includes(search.toLowerCase());
+    
+    return matchesFilter && matchesStatus && matchesDate && matchesSearch;
   });
 
   return (
@@ -140,12 +159,84 @@ export default function TransactionsPage() {
                   className="bg-white/5 border border-white/10 rounded-2xl pl-11 pr-4 py-3 text-sm outline-none focus:border-white/20 transition-all w-full md:w-64"
                 />
               </div>
-              <button className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-white/10 rounded-2xl text-sm font-medium hover:bg-white/10 transition">
+              <button 
+                onClick={() => setShowFilters(!showFilters)}
+                className={`flex items-center gap-2 px-4 py-3 border rounded-2xl text-sm font-medium transition ${
+                  showFilters ? "bg-white text-black border-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10"
+                }`}
+              >
                 <LuFilter className="h-4 w-4" />
                 <span>Filters</span>
               </button>
             </div>
           </header>
+
+          <AnimatePresence>
+            {showFilters && (
+              <motion.div 
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                className="overflow-hidden mb-8"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6 bg-white/[0.03] border border-white/10 rounded-[32px] backdrop-blur-xl">
+                  <div>
+                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-3 block">Status</label>
+                    <div className="flex flex-wrap gap-2">
+                      {["All", "Completed", "Pending", "Failed"].map((s) => (
+                        <button
+                          key={s}
+                          onClick={() => setStatusFilter(s as any)}
+                          className={`px-4 py-2 rounded-xl text-xs font-bold transition ${
+                            statusFilter === s ? "bg-white/20 text-white" : "bg-white/5 text-white/40 hover:bg-white/10"
+                          }`}
+                        >
+                          {s}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-3 block">Date Range</label>
+                    <div className="flex flex-wrap gap-2">
+                      {[
+                        { id: "All", label: "All Time" },
+                        { id: "24h", label: "Last 24h" },
+                        { id: "7d", label: "Last 7d" },
+                        { id: "30d", label: "Last 30d" }
+                      ].map((d) => (
+                        <button
+                          key={d.id}
+                          onClick={() => setDateRange(d.id as any)}
+                          className={`px-4 py-2 rounded-xl text-xs font-bold transition ${
+                            dateRange === d.id ? "bg-white/20 text-white" : "bg-white/5 text-white/40 hover:bg-white/10"
+                          }`}
+                        >
+                          {d.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-3 block">Quick Actions</label>
+                    <button 
+                      onClick={() => {
+                        setFilter("All");
+                        setStatusFilter("All");
+                        setDateRange("All");
+                        setSearch("");
+                      }}
+                      className="w-full px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl text-xs font-bold transition"
+                    >
+                      Reset All Filters
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Type Filters */}
           <div className="flex items-center gap-2 mb-8 overflow-x-auto pb-2 scrollbar-hide">
@@ -176,7 +267,7 @@ export default function TransactionsPage() {
                   </div>
                 ) : filteredTransactions.map((tx) => {
                   const Icon = TYPE_ICONS[tx.type] || LuRefreshCw;
-                  const isPositive = tx.amount > 0;
+                  const isPositive = (tx.priceAmount && tx.priceAmount > 0) || tx.amount > 0;
                   return (
                     <motion.div
                       key={`mobile-${tx.id}`}
@@ -201,10 +292,20 @@ export default function TransactionsPage() {
                           </div>
                         </div>
                         <div className="text-right">
-                          <p className={`font-mono text-base font-bold ${isPositive ? "text-emerald-400" : "text-red-400"}`}>
-                            {isPositive ? "+" : ""}{tx.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          <p className={`font-mono text-base font-bold ${
+                            tx.status === 'Pending' ? 'text-amber-400' : (isPositive ? "text-emerald-400" : "text-red-400")
+                          }`}>
+                            {isPositive ? "+" : ""}{tx.priceAmount 
+                              ? tx.priceAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                              : tx.amount.toLocaleString(undefined, { minimumFractionDigits: tx.asset === 'USDT' ? 2 : 6, maximumFractionDigits: tx.asset === 'USDT' ? 2 : 8 })
+                            }
+                            <span className="text-[10px] ml-1 uppercase">{tx.priceAmount ? 'USDT' : tx.asset}</span>
                           </p>
-                          <p className="text-[10px] text-white/40 mt-0.5 uppercase tracking-widest font-bold">{tx.asset}</p>
+                          {tx.priceAmount && tx.asset !== 'USDT' && (
+                            <p className="text-[10px] text-white/40 mt-0.5 font-medium italic">
+                              ≈ {tx.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 8 })} {tx.asset}
+                            </p>
+                          )}
                         </div>
                       </div>
 
@@ -254,7 +355,7 @@ export default function TransactionsPage() {
                       </tr>
                     ) : filteredTransactions.map((tx) => {
                       const Icon = TYPE_ICONS[tx.type] || LuRefreshCw;
-                      const isPositive = tx.amount > 0;
+                      const isPositive = (tx.priceAmount && tx.priceAmount > 0) || tx.amount > 0;
                       return (
                         <motion.tr 
                           key={tx.id}
@@ -284,11 +385,19 @@ export default function TransactionsPage() {
                           </td>
                           <td className="px-6 py-5">
                             <p className={`font-mono text-sm ${
-                              isPositive ? "text-emerald-400" : "text-red-400"
+                              tx.status === 'Pending' ? 'text-amber-400' : (isPositive ? "text-emerald-400" : "text-red-400")
                             }`}>
-                              {isPositive ? "+" : ""}{tx.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                              {isPositive ? "+" : ""}{tx.priceAmount
+                                ? tx.priceAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                                : tx.amount.toLocaleString(undefined, { minimumFractionDigits: tx.asset === 'USDT' ? 2 : 6, maximumFractionDigits: tx.asset === 'USDT' ? 2 : 8 })
+                              }
+                              <span className="text-[10px] ml-1 uppercase">{tx.priceAmount ? 'USDT' : tx.asset}</span>
                             </p>
-                            <p className="text-[10px] text-white/20 mt-1 uppercase tracking-widest">{tx.asset}</p>
+                            {tx.priceAmount && tx.asset !== 'USDT' && (
+                              <p className="text-[10px] text-white/20 mt-1 italic">
+                                ≈ {tx.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 8 })} {tx.asset}
+                              </p>
+                            )}
                           </td>
                           <td className="px-6 py-5">
                             <p className="text-sm text-white/80">{tx.date.split(" ")[0]}</p>

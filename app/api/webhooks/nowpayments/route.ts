@@ -58,12 +58,15 @@ export async function POST(req: Request) {
         return new Response("Already Processed", { status: 200 });
       }
 
+      // Update transaction status and store the FINAL crypto amount received
+      const finalAmount = data.actually_paid || tx.amount;
+
       const { error: txUpdateError } = await supabaseAdmin
         .from('transactions')
         .update({ 
           status: 'Completed',
-          tx_id: data.actually_paid?.toString() ? data.payin_hash : tx.tx_id,
-          amount: data.actually_paid || tx.amount
+          tx_id: data.payin_hash || tx.tx_id,
+          amount: finalAmount 
         })
         .eq('id', transactionId);
 
@@ -72,6 +75,7 @@ export async function POST(req: Request) {
         return new Response("Database Error", { status: 500 });
       }
 
+      // Check balance and credit user
       const { data: balance, error: balanceFetchError } = await supabaseAdmin
         .from('balances')
         .select('*')
@@ -79,7 +83,7 @@ export async function POST(req: Request) {
         .eq('asset_code', tx.asset)
         .single();
 
-      const creditAmount = Number(data.actually_paid || tx.amount);
+      const creditAmount = Number(finalAmount);
 
       if (balance) {
         const newAmount = Number(balance.amount) + creditAmount;
