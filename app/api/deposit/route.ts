@@ -14,12 +14,14 @@ export async function POST(req: Request) {
     const authHeader = req.headers.get("Authorization");
     const token = authHeader?.replace("Bearer ", "");
 
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+    // Initialize Supabase client with the user's token to satisfy RLS
+    const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+      global: {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      },
+    });
 
-    // Authenticate user using the provided Bearer token
-    const { data: { user }, error: authError } = await (token 
-      ? supabase.auth.getUser(token) 
-      : supabase.auth.getUser());
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {
       console.error("Auth error:", authError);
@@ -58,7 +60,7 @@ export async function POST(req: Request) {
       .insert({
         user_id: user.id,
         type: 'Deposit',
-        asset: assetId.toUpperCase(), // Store "USDT", "BTC" etc for internal use
+        asset: assetId.toUpperCase(),
         amount: Number(amount),
         status: 'Pending',
         network: network.toUpperCase()
@@ -72,7 +74,6 @@ export async function POST(req: Request) {
     }
 
     // 2. Call NOWPayments API
-    // Doc: https://documenter.getpostman.com/view/11994236/TVe9S78T#67f94d97-8c43-4ccb-88a2-a9b039434771
     const response = await fetch("https://api.nowpayments.io/v1/payment", {
       method: "POST",
       headers: {
@@ -81,10 +82,10 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         price_amount: Number(amount),
-        price_currency: currency.toLowerCase(), // USD
+        price_currency: currency.toLowerCase(),
         pay_currency: payCurrency.toLowerCase(),
         ipn_callback_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://aura-ai-wallet.vercel.app'}/api/webhooks/nowpayments`,
-        order_id: tx.id, // Internal transaction UUID
+        order_id: tx.id,
         order_description: `Deposit ${amount} ${currency.toUpperCase()} via ${payCurrency.toUpperCase()}`,
       }),
     });
@@ -97,7 +98,7 @@ export async function POST(req: Request) {
         .from('transactions')
         .update({ 
           address: data.pay_address,
-          tx_id: data.payment_id?.toString() // Use NOWPayments payment_id as tx_id initially
+          tx_id: data.payment_id?.toString()
         })
         .eq('id', tx.id);
 

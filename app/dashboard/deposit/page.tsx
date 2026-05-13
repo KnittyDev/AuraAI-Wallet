@@ -15,6 +15,7 @@ import {
 } from "react-icons/lu";
 import { SiTether, SiBitcoin, SiEthereum, SiSolana } from "react-icons/si";
 import { QRCodeSVG } from "qrcode.react";
+import { supabase } from "@/lib/supabase";
 
 const ASSETS = [
   { id: "usdt", name: "Tether", code: "USDT", icon: SiTether, color: "text-white/60", bgHover: "hover:bg-white/5", borderActive: "border-white/50", glow: "shadow-[0_0_30px_rgba(255,255,255,0.1)]" },
@@ -105,7 +106,7 @@ export default function DepositPage() {
       });
 
       const data = await res.json();
-
+      
       if (res.ok && data.status === "success") {
         setDepositData({
           address: data.address,
@@ -114,10 +115,11 @@ export default function DepositPage() {
           currency: data.currency
         });
       } else {
-        setError(data.error || "Failed to generate deposit address.");
+        setError(data.error || "Failed to generate deposit address. Please check your configuration.");
       }
-    } catch (err) {
-      setError("An unexpected error occurred.");
+    } catch (err: any) {
+      console.error("Deposit error:", err);
+      setError(err.message || "An unexpected error occurred. Please try again later.");
     } finally {
       setIsLoading(false);
     }

@@ -3,15 +3,15 @@ import { createClient } from "@supabase/supabase-js";
 import * as OTPAuth from "otpauth";
 import QRCode from "qrcode";
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
 // POST /api/auth/totp
 // action: "setup" | "verify" | "disable" | "validate"
 export async function POST(req: NextRequest) {
   try {
+    const supabaseAdmin = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
+
     const body = await req.json();
     const { action, user_id, token } = body;
 
