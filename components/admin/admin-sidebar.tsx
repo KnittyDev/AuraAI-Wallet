@@ -16,7 +16,8 @@ import {
   LuMenu,
   LuX,
   LuShieldAlert,
-  LuArrowUpRight
+  LuArrowUpRight,
+  LuNewspaper
 } from "react-icons/lu";
 
 type NavItem = {
@@ -29,6 +30,7 @@ const navItems: NavItem[] = [
   { label: "Admin Overview", href: "/admin", icon: LuLayoutDashboard },
   { label: "Users", href: "/admin/users", icon: LuUsers },
   { label: "Withdrawals", href: "/admin/withdrawals", icon: LuArrowUpRight },
+  { label: "Market News", href: "/admin/news", icon: LuNewspaper },
   { label: "Support Tickets", href: "/admin/tickets", icon: LuLifeBuoy },
   { label: "System Settings", href: "/admin/settings", icon: LuSettings },
 ];
