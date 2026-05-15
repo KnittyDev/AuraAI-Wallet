@@ -14,8 +14,12 @@ import {
   LuTrendingUp,
   LuWallet,
   LuLoader,
-  LuExternalLink
+  LuExternalLink,
+  LuLock,
+  LuZap
 } from "react-icons/lu";
+
+import { PlanUpgradeModal } from "@/components/dashboard/plan-upgrade-modal";
 
 type TransactionStatus = "Completed" | "Pending" | "Failed";
 type TransactionType = "Deposit" | "Withdrawal" | "Trade" | "Profit" | "Rebalance" | "Investment";
@@ -75,6 +79,8 @@ export default function TransactionsPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
+  const [profile, setProfile] = useState<any>(null);
+  const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -88,6 +94,10 @@ export default function TransactionsPage() {
         .order('created_at', { ascending: false });
 
       if (data) {
+        // Fetch profile to check plan
+        const { data: profileData } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+        setProfile(profileData);
+
         const formatted: Transaction[] = data.map(tx => {
           const d = new Date(tx.created_at);
           const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
@@ -105,7 +115,14 @@ export default function TransactionsPage() {
             network: tx.network,
           };
         });
-        setTransactions(formatted);
+
+        // Filter based on plan
+        if (profileData?.plan === 'free') {
+          const restrictedTypes = ['Trade', 'Profit', 'Rebalance', 'Investment'];
+          setTransactions(formatted.filter(tx => !restrictedTypes.includes(tx.type)));
+        } else {
+          setTransactions(formatted);
+        }
       }
       setLoading(false);
     }
@@ -445,8 +462,36 @@ export default function TransactionsPage() {
               </div>
             </div>
           </div>
+
+          {profile?.plan === 'free' && (
+            <div className="mt-8 p-8 rounded-[2rem] border border-red-500/20 bg-red-500/[0.02] backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="flex items-center gap-4 text-center md:text-left">
+                <div className="h-12 w-12 rounded-2xl bg-red-500/10 flex items-center justify-center border border-red-500/20 shrink-0">
+                  <LuLock className="h-6 w-6 text-red-500" />
+                </div>
+                <div>
+                  <h4 className="text-lg font-bold text-white mb-1">Investment Logs Restricted</h4>
+                  <p className="text-sm text-white/40">Upgrade to Pro to view your automated AI trading history and profit distribution logs.</p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setIsUpgradeModalOpen(true)}
+                className="px-6 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white text-xs font-bold flex items-center gap-2 transition-all active:scale-95 whitespace-nowrap shadow-lg shadow-red-500/20"
+              >
+                <LuZap className="h-3.5 w-3.5" />
+                Unlock Pro
+              </button>
+            </div>
+          )}
         </div>
       </section>
+
+      <PlanUpgradeModal 
+        isOpen={isUpgradeModalOpen} 
+        onClose={() => setIsUpgradeModalOpen(false)}
+        title="Investment Logs"
+        description="Detailed insights into every trade. Pro members get a complete history of all AI activities, rebalances, and realized profits."
+      />
     </div>
   </main>
   );

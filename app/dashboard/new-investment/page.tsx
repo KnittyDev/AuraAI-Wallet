@@ -9,6 +9,8 @@ import { SiBinance, SiBitcoin, SiEthereum, SiSolana, SiTether } from "react-icon
 import Image from "next/image";
 import auraLogo from "@/app/auralogo.png";
 import { supabase } from "@/lib/supabase";
+import { PlanUpgradeModal } from "@/components/dashboard/plan-upgrade-modal";
+import { useEffect } from "react";
 
 const cryptoOptions = [
   {
@@ -119,6 +121,8 @@ export default function NewInvestmentPage() {
   const [planStage, setPlanStage] = useState(0);
   const [planReady, setPlanReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [profile, setProfile] = useState<any>(null);
+  const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
 
   const TOTAL_STEPS = 7;
 
@@ -129,6 +133,16 @@ export default function NewInvestmentPage() {
     { icon: LuShieldCheck, text: "Applying risk controls and position sizing..." },
     { icon: LuCircleCheck, text: "Your plan is ready. Positions are being prepared." },
   ];
+
+  useEffect(() => {
+    async function fetchProfile() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+      if (data) setProfile(data);
+    }
+    fetchProfile();
+  }, []);
   const stepAnimation = {
     initial: { opacity: 0, y: 12 },
     animate: { opacity: 1, y: 0 },
@@ -158,9 +172,25 @@ export default function NewInvestmentPage() {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        setError("You must be logged in to create an investment plan.");
         setIsCreatingPlan(false);
         return;
+      }
+
+      // Plan Restriction Check
+      if (profile?.plan === 'free') {
+        const today = new Date().toISOString().split('T')[0];
+        const lastPositionDate = profile.last_position_at ? new Date(profile.last_position_at).toISOString().split('T')[0] : null;
+        
+        let currentCount = profile.daily_positions_count || 0;
+        if (lastPositionDate !== today) {
+          currentCount = 0;
+        }
+
+        if (currentCount >= 1) {
+          setIsUpgradeModalOpen(true);
+          setIsCreatingPlan(false);
+          return;
+        }
       }
 
       // Check balance
@@ -171,7 +201,7 @@ export default function NewInvestmentPage() {
         .eq('asset_code', 'USDT')
         .maybeSingle();
 
-      if (balanceError || !balanceData || Number(balanceData.amount) < Number(amount)) {
+      if (balanceError || !balanceData || Number(balanceData?.amount || 0) < Number(amount)) {
         setError("Insufficient USDT balance. Please deposit more funds.");
         setIsCreatingPlan(false);
         return;
@@ -221,7 +251,7 @@ export default function NewInvestmentPage() {
       // Deduct balance
       const { error: deductError } = await supabase
         .from('balances')
-        .update({ amount: Number(balanceData.amount) - Number(amount) })
+        .update({ amount: Number(balanceData?.amount || 0) - Number(amount) })
         .eq('user_id', user.id)
         .eq('asset_code', 'USDT');
 
@@ -246,6 +276,20 @@ export default function NewInvestmentPage() {
         console.error("Transaction logging error:", transactionError);
         // We don't throw here to avoid breaking the main flow if just logging fails, 
         // but ideally we should track this.
+      }
+
+      // Update position count for free users
+      if (profile?.plan === 'free') {
+        const today = new Date().toISOString().split('T')[0];
+        const lastPositionDate = profile.last_position_at ? new Date(profile.last_position_at).toISOString().split('T')[0] : null;
+        const newCount = lastPositionDate === today ? (profile.daily_positions_count || 0) + 1 : 1;
+
+        await supabase.from('profiles').update({
+          daily_positions_count: newCount,
+          last_position_at: new Date().toISOString()
+        }).eq('id', profile.id);
+        
+        setProfile({ ...profile, daily_positions_count: newCount, last_position_at: new Date().toISOString() });
       }
 
       // Start animation
@@ -1023,6 +1067,12 @@ export default function NewInvestmentPage() {
           )}
         </AnimatePresence>
       </main>
+      <PlanUpgradeModal 
+        isOpen={isUpgradeModalOpen} 
+        onClose={() => setIsUpgradeModalOpen(false)}
+        title="Position Limit Reached"
+        description="Free users can open up to 1 automatic position per day. Upgrade to Pro for unlimited autonomous trading and real-time execution."
+      />
     </div>
   );
 }

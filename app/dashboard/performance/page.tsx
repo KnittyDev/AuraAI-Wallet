@@ -13,8 +13,12 @@ import {
   LuArrowDownRight,
   LuCalendar,
   LuTarget,
-  LuLoader
+  LuLoader,
+  LuLock,
+  LuZap
 } from "react-icons/lu";
+
+import { PlanUpgradeModal } from "@/components/dashboard/plan-upgrade-modal";
 
 import {
   Area,
@@ -47,19 +51,23 @@ export default function PerformancePage() {
   const [actions, setActions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [timeRange, setTimeRange] = useState("ALL");
+  const [profile, setProfile] = useState<any>(null);
+  const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      const [invRes, actRes] = await Promise.all([
+      const [invRes, actRes, profileRes] = await Promise.all([
         supabase.from('investments').select('*').eq('user_id', user.id),
-        supabase.from('ai_actions').select('*').eq('user_id', user.id).order('created_at', { ascending: true })
+        supabase.from('ai_actions').select('*').eq('user_id', user.id).order('created_at', { ascending: true }),
+        supabase.from('profiles').select('*').eq('id', user.id).single()
       ]);
 
       if (!invRes.error) setInvestments(invRes.data || []);
       if (!actRes.error) setActions(actRes.data || []);
+      if (profileRes.data) setProfile(profileRes.data);
       setLoading(false);
     }
     fetchData();
@@ -153,11 +161,39 @@ export default function PerformancePage() {
     { label: "Win Rate", value: `${winRate.toFixed(1)}%`, icon: LuTarget, color: "text-amber-400", trend: "Success" },
   ];
 
-  if (loading) {
+  if (profile?.plan === 'free') {
     return (
-      <div className="flex h-screen items-center justify-center bg-black">
-        <LuLoader className="h-8 w-8 animate-spin text-white/20" />
-      </div>
+      <main className="min-h-screen bg-black text-white relative flex overflow-hidden">
+        <AuroraBackground />
+        <div className="landing-grid-overlay" />
+        <DashboardSidebar currentPath="/dashboard/performance" />
+        
+        <section className="flex-1 flex flex-col items-center justify-center relative z-10 px-6 lg:ml-72">
+          <div className="max-w-md w-full p-10 rounded-[2.5rem] border border-white/10 bg-white/[0.02] backdrop-blur-xl text-center shadow-2xl">
+            <div className="mx-auto h-20 w-20 rounded-3xl bg-red-500/10 flex items-center justify-center border border-red-500/20 mb-8 transform rotate-12">
+              <LuLock className="h-8 w-8 text-red-500 -rotate-12" />
+            </div>
+            <h2 className="text-3xl font-bold text-white mb-4">Pro Feature</h2>
+            <p className="text-white/40 mb-10 leading-relaxed">
+              Performance analytics and advanced profit tracking are only available to Pro members.
+            </p>
+            <button 
+              onClick={() => setIsUpgradeModalOpen(true)}
+              className="w-full py-4 rounded-2xl bg-red-500 hover:bg-red-600 text-white font-bold flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-red-500/20"
+            >
+              <LuZap className="h-4 w-4" />
+              Upgrade to Pro
+            </button>
+          </div>
+        </section>
+
+        <PlanUpgradeModal 
+          isOpen={isUpgradeModalOpen} 
+          onClose={() => setIsUpgradeModalOpen(false)}
+          title="Performance Analytics"
+          description="Track your growth with precision. Pro members get access to detailed performance charts and historical data."
+        />
+      </main>
     );
   }
   return (

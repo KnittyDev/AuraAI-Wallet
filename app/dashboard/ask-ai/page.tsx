@@ -18,6 +18,7 @@ import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { supabase } from "@/lib/supabase";
+import { PlanUpgradeModal } from "@/components/dashboard/plan-upgrade-modal";
 
 type Message = {
   role: "user" | "assistant" | "system";
@@ -32,6 +33,8 @@ export default function AskAIPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showDelayMessage, setShowDelayMessage] = useState(false);
   const [userData, setUserData] = useState<any>(null);
+  const [profile, setProfile] = useState<any>(null);
+  const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -51,11 +54,16 @@ export default function AskAIPage() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      const [balanceRes, invRes, profitRes] = await Promise.all([
+      const [balanceRes, invRes, profitRes, profileRes] = await Promise.all([
         supabase.from('balances').select('*').eq('user_id', user.id).eq('asset_code', 'USDT').maybeSingle(),
         supabase.from('investments').select('*').eq('user_id', user.id).eq('status', 'active'),
-        supabase.from('ai_actions').select('*').eq('user_id', user.id)
+        supabase.from('ai_actions').select('*').eq('user_id', user.id),
+        supabase.from('profiles').select('*').eq('id', user.id).single()
       ]);
+
+      if (profileRes.data) {
+        setProfile(profileRes.data);
+      }
 
       const allActions = profitRes.data || [];
       const totalProfit = allActions.reduce((acc, p) => acc + Number(p.profit_usd || 0), 0) || 0;
@@ -89,6 +97,22 @@ export default function AskAIPage() {
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
+
+    // Plan Restriction Check
+    if (profile?.plan === 'free') {
+      const today = new Date().toISOString().split('T')[0];
+      const lastQuestionDate = profile.last_ai_question_at ? new Date(profile.last_ai_question_at).toISOString().split('T')[0] : null;
+      
+      let currentCount = profile.ai_questions_count || 0;
+      if (lastQuestionDate !== today) {
+        currentCount = 0;
+      }
+
+      if (currentCount >= 2) {
+        setIsUpgradeModalOpen(true);
+        return;
+      }
+    }
 
     const userMessage: Message = { role: "user", content: input };
     setMessages((prev) => [...prev, userMessage]);
@@ -125,6 +149,20 @@ export default function AskAIPage() {
       const data = await response.json();
       if (data.content) {
         setMessages((prev) => [...prev, { role: "assistant", content: data.content }]);
+        
+        // Update usage count
+        if (profile?.plan === 'free') {
+          const today = new Date().toISOString().split('T')[0];
+          const lastQuestionDate = profile.last_ai_question_at ? new Date(profile.last_ai_question_at).toISOString().split('T')[0] : null;
+          const newCount = lastQuestionDate === today ? (profile.ai_questions_count || 0) + 1 : 1;
+
+          await supabase.from('profiles').update({
+            ai_questions_count: newCount,
+            last_ai_question_at: new Date().toISOString()
+          }).eq('id', profile.id);
+
+          setProfile({ ...profile, ai_questions_count: newCount, last_ai_question_at: new Date().toISOString() });
+        }
       } else {
         throw new Error(data.error || "Failed to get response");
       }
@@ -302,6 +340,13 @@ export default function AskAIPage() {
           </div>
         </div>
       </section>
+
+      <PlanUpgradeModal 
+        isOpen={isUpgradeModalOpen} 
+        onClose={() => setIsUpgradeModalOpen(false)}
+        title="AI Limit Reached"
+        description="Free users can ask up to 2 questions per day. Upgrade to Pro for unlimited AI insights and real-time market analysis."
+      />
     </main>
   );
 }

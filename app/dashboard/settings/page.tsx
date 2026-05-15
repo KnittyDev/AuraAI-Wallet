@@ -88,11 +88,21 @@ export default function SettingsPage() {
     autoReinvest: true,
   });
 
+  const [profileData, setProfileData] = useState<{ plan: string; expiry: string | null }>({
+    plan: "free",
+    expiry: null
+  });
+
   useEffect(() => {
-    async function loadNotificationSettings() {
+    async function loadProfileData() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
-      const { data } = await supabase.from("profiles").select("notify_trade_open, notify_trade_close, notify_investment_maturity, notify_wallet_movements").eq("id", user.id).single();
+      const { data } = await supabase
+        .from("profiles")
+        .select("notify_trade_open, notify_trade_close, notify_investment_maturity, notify_wallet_movements, plan, subscription_period_end")
+        .eq("id", user.id)
+        .single();
+        
       if (data) {
         setSettings(prev => ({
           ...prev,
@@ -101,9 +111,13 @@ export default function SettingsPage() {
           notifyInvestmentMaturity: data.notify_investment_maturity ?? true,
           notifyWalletMovements: data.notify_wallet_movements ?? true,
         }));
+        setProfileData({
+          plan: data.plan || "free",
+          expiry: data.subscription_period_end || null
+        });
       }
     }
-    loadNotificationSettings();
+    loadProfileData();
   }, []);
 
   const toggleSetting = async (key: keyof typeof settings) => {
@@ -580,7 +594,55 @@ export default function SettingsPage() {
                   </div>
                 </div>
 
-
+                <div className="p-8 rounded-[2.5rem] border border-white/10 bg-white/[0.03] space-y-6">
+                  <div className="space-y-4">
+                    <label className="flex items-center gap-2 text-[10px] font-bold text-white/30 uppercase tracking-widest px-1">
+                      <LuCpu className="h-3 w-3" /> Active Membership
+                    </label>
+                    <div className="flex items-center justify-between p-4 rounded-2xl bg-black/40 border border-white/5">
+                      <div className="flex items-center gap-3">
+                        <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${
+                          profileData.plan === 'pro' ? 'bg-red-500/20 text-red-400' : 'bg-white/10 text-white/30'
+                        }`}>
+                          <LuZap className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-bold text-white capitalize">{profileData.plan} Plan</h4>
+                          <p className="text-[10px] text-white/30 font-medium tracking-tight">
+                            {profileData.plan === 'pro' ? 'Neural AI Priority' : 'Standard Identity'}
+                          </p>
+                        </div>
+                      </div>
+                      {profileData.plan === 'free' && (
+                        <Link href="/dashboard/investments">
+                          <button className="text-[9px] font-bold text-white uppercase tracking-widest px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                            Upgrade
+                          </button>
+                        </Link>
+                      )}
+                    </div>
+                    
+                    {profileData.plan !== 'free' && profileData.expiry && (
+                      <div className="px-1 space-y-2">
+                        <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider">
+                          <span className="text-white/30">Validity Period</span>
+                          <span className="text-emerald-400">Active</span>
+                        </div>
+                        <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                           {/* Simple mock progress bar for duration */}
+                           <motion.div 
+                             initial={{ width: 0 }}
+                             animate={{ width: "65%" }}
+                             className="h-full bg-emerald-500/50" 
+                           />
+                        </div>
+                        <p className="text-[10px] text-white/40 leading-relaxed">
+                          Your membership will expire on <span className="text-white font-bold">{new Date(profileData.expiry).toLocaleDateString()}</span>.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

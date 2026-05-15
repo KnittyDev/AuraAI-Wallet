@@ -5,11 +5,11 @@ import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  LuSearch, 
-  LuArrowDownLeft, 
-  LuClock, 
-  LuCircleCheck, 
+import {
+  LuSearch,
+  LuArrowDownLeft,
+  LuClock,
+  LuCircleCheck,
   LuCircleX,
   LuExternalLink,
   LuFilter,
@@ -48,7 +48,7 @@ export default function AdminDepositsPage() {
   useEffect(() => {
     async function checkAdminAndFetch() {
       const { data: { user } } = await supabase.auth.getUser();
-      
+
       if (!user) {
         router.push("/login");
         return;
@@ -107,7 +107,7 @@ export default function AdminDepositsPage() {
     if (isAdmin) fetchDeposits();
   }, [statusFilter]);
 
-  const filteredDeposits = deposits.filter(dep => 
+  const filteredDeposits = deposits.filter(dep =>
     dep.profiles?.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     dep.profiles?.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     dep.tx_id?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -145,7 +145,7 @@ export default function AdminDepositsPage() {
   return (
     <main className="min-h-screen bg-black text-white flex flex-col lg:flex-row relative overflow-hidden">
       <AdminSidebar currentPath="/admin/deposits" />
-      
+
       <section className="relative z-10 flex-1 p-8 overflow-y-auto">
         <div className="max-w-7xl mx-auto">
           <header className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -162,7 +162,7 @@ export default function AdminDepositsPage() {
             <div className="flex flex-wrap items-center gap-3">
               <div className="relative group">
                 <LuSearch className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20 group-focus-within:text-red-500 transition-colors" />
-                <input 
+                <input
                   type="text"
                   placeholder="Search user, hash or address..."
                   value={searchQuery}
@@ -176,11 +176,10 @@ export default function AdminDepositsPage() {
                   <button
                     key={status}
                     onClick={() => setStatusFilter(status)}
-                    className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${
-                      statusFilter === status 
-                        ? 'bg-red-500 text-white shadow-lg' 
+                    className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${statusFilter === status
+                        ? 'bg-red-500 text-white shadow-lg'
                         : 'text-white/40 hover:text-white hover:bg-white/5'
-                    }`}
+                      }`}
                   >
                     {status}
                   </button>
@@ -206,7 +205,7 @@ export default function AdminDepositsPage() {
                   {filteredDeposits.map((dep) => {
                     const StatusIcon = getStatusIcon(dep.status);
                     return (
-                      <motion.tr 
+                      <motion.tr
                         key={dep.id}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -274,7 +273,7 @@ export default function AdminDepositsPage() {
                   })}
                 </tbody>
               </table>
-              
+
               {filteredDeposits.length === 0 && (
                 <div className="py-20 flex flex-col items-center justify-center text-center">
                   <div className="h-16 w-16 rounded-3xl bg-white/5 flex items-center justify-center text-white/10 mb-4 border border-white/10">
