@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabase";
 import { LandingHeader } from "@/components/landing/landing-header";
 import { LandingFooter } from "@/components/landing/landing-footer";
 import { AuroraBackground } from "@/components/landing/aurora-background";
-import { LuArrowLeft, LuClock, LuShare2, LuCalendar, LuTag, LuExternalLink } from "react-icons/lu";
+import { LuArrowLeft, LuShare2, LuCalendar, LuTag, LuExternalLink } from "react-icons/lu";
 import Link from "next/link";
 
 interface NewsItem {
@@ -126,58 +126,33 @@ export default function NewsDetailPage() {
         </div>
 
         {/* Featured Image */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2 }}
-          className="relative aspect-video rounded-[2.5rem] overflow-hidden border border-white/10 mb-16 shadow-2xl"
-        >
-          <img 
-            src={news.image_url || 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200'} 
-            alt={news.title}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-        </motion.div>
+        {news.image_url && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 }}
+            className="relative aspect-video rounded-[2.5rem] overflow-hidden border border-white/10 mb-16 shadow-2xl"
+          >
+            <img 
+              src={news.image_url} 
+              alt={news.title}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+          </motion.div>
+        )}
 
         {/* Article Body */}
         <motion.article 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="prose prose-invert prose-cyan max-w-none"
+          className="prose prose-invert prose-cyan max-w-none mb-20"
         >
-          <div className="text-xl md:text-2xl text-white/80 leading-relaxed font-medium mb-12 border-l-4 border-cyan-500 pl-8 py-2 bg-white/5 rounded-r-2xl">
-            {news.body.split('.')[0]}.
-          </div>
-          
-          <div className="text-white/60 text-lg leading-relaxed space-y-8">
-            <p>
-              {news.body.split('.').slice(1).join('.')}
-            </p>
-            
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            </p>
-
-            <div className="p-8 rounded-3xl bg-white/[0.03] border border-white/10 my-12">
-              <h3 className="text-white font-bold text-xl mb-4">Official Statement</h3>
-              <p className="italic text-white/50">
-                &quot;The development of Aura AI represents a paradigm shift in how individual investors interact with global liquidity. Our neural models are designed to find signal where others see only noise.&quot;
-              </p>
-              <div className="mt-6 flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center font-bold text-cyan-400">A</div>
-                <div>
-                  <p className="text-sm font-bold text-white">Aura Engineering Team</p>
-                  <p className="text-[10px] uppercase tracking-widest text-white/30">Zurich, Switzerland</p>
-                </div>
-              </div>
-            </div>
-
-            <p>
-              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-            </p>
-          </div>
+          <div 
+            className="news-content text-white/70 text-lg leading-relaxed space-y-6"
+            dangerouslySetInnerHTML={{ __html: news.body }}
+          />
         </motion.article>
 
         {/* Footer Actions */}
@@ -188,7 +163,20 @@ export default function NewsDetailPage() {
           className="mt-20 pt-12 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6"
         >
           <div className="flex items-center gap-4">
-            <button className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-sm font-bold">
+            <button 
+              onClick={() => {
+                if (navigator.share) {
+                  navigator.share({
+                    title: news.title,
+                    url: window.location.href
+                  });
+                } else {
+                  navigator.clipboard.writeText(window.location.href);
+                  alert("Link copied to clipboard!");
+                }
+              }}
+              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-sm font-bold"
+            >
               <LuShare2 className="h-4 w-4" /> Share Article
             </button>
             {news.external_url && news.external_url !== '#' && (
@@ -215,6 +203,37 @@ export default function NewsDetailPage() {
       <div className="pb-20">
         <LandingFooter />
       </div>
+
+      <style jsx global>{`
+        .news-content h1, .news-content h2, .news-content h3 {
+          color: white;
+          font-weight: 700;
+          margin-top: 2rem;
+          margin-bottom: 1rem;
+        }
+        .news-content h1 { font-size: 2rem; }
+        .news-content h2 { font-size: 1.5rem; }
+        .news-content h3 { font-size: 1.25rem; }
+        .news-content p { margin-bottom: 1.5rem; }
+        .news-content ul, .news-content ol {
+          margin-bottom: 1.5rem;
+          padding-left: 1.5rem;
+        }
+        .news-content ul { list-style-type: disc; }
+        .news-content ol { list-style-type: decimal; }
+        .news-content li { margin-bottom: 0.5rem; }
+        .news-content a {
+          color: #22d3ee;
+          text-decoration: underline;
+        }
+        .news-content blockquote {
+          border-left: 4px solid #22d3ee;
+          padding-left: 1.5rem;
+          font-style: italic;
+          color: rgba(255, 255, 255, 0.5);
+          margin: 2rem 0;
+        }
+      `}</style>
     </div>
   );
 }

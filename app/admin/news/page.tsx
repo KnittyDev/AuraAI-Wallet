@@ -45,6 +45,7 @@ export default function AdminNewsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingArticle, setEditingArticle] = useState<NewsArticle | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -125,6 +126,7 @@ export default function AdminNewsPage() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (uploading) return;
     setIsSaving(true);
     try {
       const { data: { session } } = await supabase.auth.getSession();
@@ -146,6 +148,42 @@ export default function AdminNewsPage() {
       console.error("Save news error:", err);
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert("Please upload an image file.");
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+      const filePath = `articles/${fileName}`;
+
+      const { data, error } = await supabase.storage
+        .from('news-images')
+        .upload(filePath, file);
+
+      if (error) throw error;
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('news-images')
+        .getPublicUrl(filePath);
+
+      setFormData(prev => ({ ...prev, image_url: publicUrl }));
+    } catch (err: any) {
+      console.error("Upload error:", err);
+      alert(`Upload failed: ${err.message}`);
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -331,16 +369,64 @@ export default function AdminNewsPage() {
                     </div>
                   </div>
 
-                  <div>
-                    <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-2 block">Image URL</label>
-                    <div className="relative">
-                      <LuImage className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
-                      <input 
-                        value={formData.image_url}
-                        onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                        className="w-full bg-white/5 border border-white/10 rounded-2xl pl-13 pr-5 py-4 text-white outline-none focus:border-white/30 transition-all"
-                        placeholder="https://images.unsplash.com/..."
-                      />
+                  <div className="md:col-span-2">
+                    <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-2 block">Article Image</label>
+                    <div className="flex flex-col gap-4">
+                      {formData.image_url && (
+                        <div className="relative h-48 w-full rounded-2xl overflow-hidden border border-white/10 group">
+                          <img 
+                            src={formData.image_url} 
+                            alt="Preview" 
+                            className="w-full h-full object-cover"
+                          />
+                          <button 
+                            type="button"
+                            onClick={() => setFormData(prev => ({ ...prev, image_url: "" }))}
+                            className="absolute top-4 right-4 h-10 w-10 flex items-center justify-center rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <LuX className="h-5 w-5" />
+                          </button>
+                        </div>
+                      )}
+                      <div className="relative">
+                        <input 
+                          type="file"
+                          id="image-upload"
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                          className="hidden"
+                          disabled={uploading}
+                        />
+                        <label 
+                          htmlFor="image-upload"
+                          className={`flex items-center justify-center gap-3 w-full bg-white/5 border-2 border-dashed border-white/10 rounded-2xl px-5 py-8 text-white cursor-pointer hover:bg-white/10 hover:border-white/20 transition-all ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        >
+                          {uploading ? (
+                            <>
+                              <LuLoader className="h-6 w-6 animate-spin text-white/40" />
+                              <span className="text-sm font-medium text-white/40 tracking-wide uppercase">Uploading...</span>
+                            </>
+                          ) : (
+                            <>
+                              <LuImage className="h-6 w-6 text-white/40" />
+                              <div className="text-center">
+                                <span className="block text-sm font-bold mb-1">Click to upload image</span>
+                                <span className="block text-xs text-white/30">PNG, JPG, WEBP up to 5MB</span>
+                              </div>
+                            </>
+                          )}
+                        </label>
+                      </div>
+                      
+                      <div className="relative group">
+                        <LuLink className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
+                        <input 
+                          value={formData.image_url}
+                          onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                          className="w-full bg-white/5 border border-white/10 rounded-2xl pl-13 pr-5 py-4 text-white outline-none focus:border-white/30 transition-all"
+                          placeholder="Or paste image URL here..."
+                        />
+                      </div>
                     </div>
                   </div>
 
