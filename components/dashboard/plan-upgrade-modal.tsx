@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LuZap, LuCheck, LuX, LuLoader } from "react-icons/lu";
 import { supabase } from "@/lib/supabase";
@@ -15,8 +15,64 @@ interface PlanUpgradeModalProps {
 
 export function PlanUpgradeModal({ isOpen, onClose, title, description }: PlanUpgradeModalProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [step, setStep] = useState<"selection" | "confirm" | "insufficient" | "success">("selection");
+  const [step, setStep] = useState<"selection" | "confirm" | "insufficient" | "success" | "trial_confirm">("selection");
+  const [hasUsedTrial, setHasUsedTrial] = useState<boolean>(true);
   const router = useRouter();
+
+  useEffect(() => {
+    if (isOpen) {
+      const fetchProfile = async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+        const { data } = await supabase
+          .from("profiles")
+          .select("has_used_trial, plan")
+          .eq("id", user.id)
+          .single();
+        
+        if (data) {
+          setHasUsedTrial(data.has_used_trial ?? false);
+        }
+      };
+      fetchProfile();
+    }
+  }, [isOpen]);
+
+  const handleStartTrial = async () => {
+    setIsLoading(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        router.push("/login");
+        return;
+      }
+
+      const now = new Date();
+      const expiryDate = new Date(now.getTime() + (4 * 24 * 60 * 60 * 1000)); // Exactly 4 days
+
+      const { error: updateProfileError } = await supabase
+        .from('profiles')
+        .update({ 
+          plan: 'pro',
+          subscription_period_end: expiryDate.toISOString(),
+          subscription_status: 'active',
+          has_used_trial: true
+        })
+        .eq('id', user.id);
+
+      if (updateProfileError) throw updateProfileError;
+
+      setStep("success");
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch (error: any) {
+      console.error("Trial error:", error);
+      alert(error.message || "An unexpected error occurred while starting trial.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleUpgrade = async () => {
     setIsLoading(true);
@@ -54,18 +110,22 @@ export function PlanUpgradeModal({ isOpen, onClose, title, description }: PlanUp
       if (updateBalanceError) throw updateBalanceError;
 
       // 2. Update profile plan
-      const expiryDate = new Date();
-      expiryDate.setMonth(expiryDate.getMonth() + 3);
+      const now = new Date();
+      const expiryDate = new Date(now.getTime() + (90 * 24 * 60 * 60 * 1000)); // Exactly 90 days
 
       const { error: updateProfileError } = await supabase
         .from('profiles')
         .update({ 
           plan: 'pro',
-          subscription_period_end: expiryDate.toISOString()
+          subscription_period_end: expiryDate.toISOString(),
+          subscription_status: 'active'
         })
         .eq('id', user.id);
 
-      if (updateProfileError) throw updateProfileError;
+      if (updateProfileError) {
+        console.error("Profile update error:", updateProfileError);
+        throw updateProfileError;
+      }
 
       // 3. Log transaction
       await supabase.from('transactions').insert({
@@ -225,30 +285,78 @@ export function PlanUpgradeModal({ isOpen, onClose, title, description }: PlanUp
                             ))}
                           </ul>
 
-                          <div className="mt-auto">
-                            <button
-                              type="button"
-                              disabled={plan.disabled || isLoading}
-                              onClick={plan.action}
-                              className={`w-full rounded-lg py-2.5 text-[10px] md:text-xs font-bold tracking-widest uppercase transition-all duration-300 active:scale-[0.98] flex items-center justify-center gap-2 ${
-                                plan.highlighted
-                                  ? "bg-white text-black hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
-                                  : "border border-white/10 bg-white/5 text-white/40 cursor-default"
-                              }`}
-                            >
-                              {isLoading && plan.highlighted ? (
-                                <LuLoader className="h-3 w-3 animate-spin" />
-                              ) : plan.cta}
-                            </button>
-                            
-                            {plan.highlighted && !plan.disabled && (
-                              <p className="text-center mt-2 text-[8px] md:text-[9px] text-white/30 font-medium">
+                          {plan.highlighted && !plan.disabled && (
+                            <div className="flex flex-col gap-2 mt-auto pt-4">
+                              <button
+                                type="button"
+                                disabled={isLoading}
+                                onClick={plan.action}
+                                className="w-full rounded-lg py-2.5 bg-white text-black hover:bg-white/90 text-[10px] md:text-xs font-bold tracking-widest uppercase transition-all duration-300 active:scale-[0.98] flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                              >
+                                {isLoading ? <LuLoader className="h-3 w-3 animate-spin" /> : plan.cta}
+                              </button>
+                              
+                              {!hasUsedTrial && (
+                                <button
+                                  type="button"
+                                  disabled={isLoading}
+                                  onClick={() => setStep("trial_confirm")}
+                                  className="w-full rounded-lg py-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 text-[9px] md:text-[10px] font-bold tracking-widest uppercase transition-all duration-300"
+                                >
+                                  Start 4-Day Free Trial
+                                </button>
+                              )}
+
+                              <p className="text-center mt-1 text-[8px] md:text-[9px] text-white/30 font-medium">
                                 15 USDT will be deducted from your balance
                               </p>
-                            )}
-                          </div>
+                            </div>
+                          )}
+
+                          {!plan.highlighted && (
+                              <button
+                                type="button"
+                                disabled={plan.disabled}
+                                className="w-full rounded-lg py-2.5 border border-white/10 bg-white/5 text-white/40 text-[10px] md:text-xs font-bold tracking-widest uppercase cursor-default"
+                              >
+                                {plan.cta}
+                              </button>
+                          )}
                         </article>
                       ))}
+                    </div>
+                  </motion.div>
+                )}
+
+                {step === "trial_confirm" && (
+                  <motion.div
+                    key="trial_confirm"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 1.05 }}
+                    className="max-w-md mx-auto text-center py-4"
+                  >
+                    <div className="mx-auto h-16 w-16 rounded-[1.5rem] bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 mb-4 transform rotate-6 hover:rotate-0 transition-transform duration-500">
+                      <LuZap className="h-6 w-6 text-emerald-400 animate-pulse" />
+                    </div>
+                    <h2 className="text-2xl font-bold text-white mb-2">Activate Trial</h2>
+                    <p className="text-white/40 text-sm mb-6 leading-relaxed px-4">
+                      Get full access to all Pro features for <span className="text-emerald-400 font-bold">4 days</span>. No charges will be made. You can only use this once.
+                    </p>
+                    <div className="flex flex-col gap-3 px-2">
+                      <button
+                        onClick={handleStartTrial}
+                        disabled={isLoading}
+                        className="w-full py-3.5 rounded-xl bg-emerald-500 text-white font-bold text-sm tracking-widest uppercase hover:bg-emerald-600 transition-all flex items-center justify-center gap-2"
+                      >
+                        {isLoading ? <LuLoader className="h-4 w-4 animate-spin" /> : "Start My Free Trial"}
+                      </button>
+                      <button
+                        onClick={() => setStep("selection")}
+                        className="w-full py-3.5 rounded-xl border border-white/10 text-white/60 font-bold text-sm tracking-widest uppercase hover:bg-white/5 transition-all"
+                      >
+                        Go Back
+                      </button>
                     </div>
                   </motion.div>
                 )}
@@ -333,7 +441,6 @@ export function PlanUpgradeModal({ isOpen, onClose, title, description }: PlanUp
                     </p>
                   </motion.div>
                 )}
-
               </AnimatePresence>
 
               <div className="mt-4 flex flex-col items-center gap-2">
