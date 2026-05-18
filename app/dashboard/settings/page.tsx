@@ -626,13 +626,34 @@ export default function SettingsPage() {
                       <div className="px-1 space-y-2">
                         <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider">
                           <span className="text-white/30">Validity Period</span>
-                          <span className="text-emerald-400">Active</span>
+                          <span className="text-emerald-400 flex items-center gap-1.5">
+                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            {(() => {
+                              const expiry = new Date(profileData.expiry).getTime();
+                              const now = new Date().getTime();
+                              const diffMs = expiry - now;
+                              const diffDays = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+                              if (diffDays === 0) return "Expires Today";
+                              if (diffDays === 1) return "1 Day Left";
+                              return `${diffDays} Days Left`;
+                            })()}
+                          </span>
                         </div>
                         <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                           {/* Simple mock progress bar for duration */}
                            <motion.div 
                              initial={{ width: 0 }}
-                             animate={{ width: "65%" }}
+                             animate={{ 
+                               width: (() => {
+                                 const expiry = new Date(profileData.expiry).getTime();
+                                 const now = new Date().getTime();
+                                 const diffMs = expiry - now;
+                                 const diffDays = diffMs / (1000 * 60 * 60 * 24);
+                                 if (diffDays <= 0) return "0%";
+                                 const totalDays = diffDays > 4 ? 90 : 4;
+                                 const percentage = Math.min(100, Math.max(0, (diffDays / totalDays) * 100));
+                                 return `${percentage}%`;
+                               })()
+                             }}
                              className="h-full bg-emerald-500/50" 
                            />
                         </div>

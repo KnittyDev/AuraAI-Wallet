@@ -27,6 +27,8 @@ export function MarketNews() {
         const { data: auraNews, error } = await supabase
           .from('news')
           .select('*')
+          .eq('category', 'Market')
+          .not('source', 'ilike', '%Aura%')
           .order('published_at', { ascending: false })
           .limit(6);
 
