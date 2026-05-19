@@ -4,9 +4,9 @@ import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
 import { AuroraBackground } from "@/components/landing/aurora-background";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  LuArrowDown, 
-  LuInfo, 
+import {
+  LuArrowDown,
+  LuInfo,
   LuShieldCheck,
   LuCopy,
   LuCheck,
@@ -55,7 +55,7 @@ export default function DepositPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
-  
+
   const [depositData, setDepositData] = useState<{
     address: string;
     expectedAmount: string;
@@ -91,12 +91,12 @@ export default function DepositPage() {
 
       const res = await fetch("/api/deposit", {
         method: "POST",
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify({ 
-          amount: Number(amount), 
+        body: JSON.stringify({
+          amount: Number(amount),
           currency: "USD",
           network: selectedNetwork.id,
           assetId: selectedAsset.id
@@ -104,7 +104,7 @@ export default function DepositPage() {
       });
 
       const data = await res.json();
-      
+
       if (res.ok && data.status === "success") {
         setDepositData({
           address: data.address,
@@ -127,13 +127,13 @@ export default function DepositPage() {
     <main className="min-h-screen bg-black text-white overflow-x-hidden">
       <AuroraBackground />
       <div className="landing-grid-overlay" />
-      
+
       <div className="flex min-h-screen w-full flex-col lg:flex-row relative z-10">
         <DashboardSidebar currentPath="/dashboard/deposit" />
 
         <section className="flex-1 px-6 py-8 md:px-10 lg:ml-72 min-w-0 max-w-[100vw]">
           <div className="mx-auto max-w-6xl">
-            <motion.header 
+            <motion.header
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               className="mb-10"
@@ -147,7 +147,7 @@ export default function DepositPage() {
               <p className="text-white/50 ml-13">Fund your account securely.</p>
             </motion.header>
 
-            <motion.div 
+            <motion.div
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -171,15 +171,13 @@ export default function DepositPage() {
                           key={asset.id}
                           onClick={() => handleAssetChange(asset)}
                           disabled={!!depositData}
-                          className={`flex flex-col items-center gap-3 p-5 rounded-2xl border transition-all duration-300 ${
-                            isSelected 
-                            ? `bg-white/10 ${asset.borderActive} ${asset.glow}` 
-                            : `border-white/5 bg-white/5 ${asset.bgHover} hover:border-white/20`
-                          } ${depositData ? "opacity-50 cursor-not-allowed" : ""}`}
+                          className={`flex flex-col items-center gap-3 p-5 rounded-2xl border transition-all duration-300 ${isSelected
+                              ? `bg-white/10 ${asset.borderActive} ${asset.glow}`
+                              : `border-white/5 bg-white/5 ${asset.bgHover} hover:border-white/20`
+                            } ${depositData ? "opacity-50 cursor-not-allowed" : ""}`}
                         >
-                          <div className={`flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 ${
-                            isSelected ? "bg-white text-black scale-110 shadow-lg" : `bg-white/5 ${asset.color}`
-                          }`}>
+                          <div className={`flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 ${isSelected ? "bg-white text-black scale-110 shadow-lg" : `bg-white/5 ${asset.color}`
+                            }`}>
                             <Icon className="h-6 w-6" />
                           </div>
                           <span className={`font-medium text-sm transition-colors duration-300 ${isSelected ? "text-white" : "text-white/60"}`}>
@@ -209,16 +207,14 @@ export default function DepositPage() {
                             setDepositData(null);
                           }}
                           disabled={!!depositData}
-                          className={`w-full flex items-center justify-between p-4 rounded-xl border transition-all duration-300 ${
-                            isSelected 
-                            ? `border-white bg-white/10 ${selectedAsset.glow}` 
-                            : "border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/20"
-                          } ${depositData ? "opacity-50 cursor-not-allowed" : ""}`}
+                          className={`w-full flex items-center justify-between p-4 rounded-xl border transition-all duration-300 ${isSelected
+                              ? `border-white bg-white/10 ${selectedAsset.glow}`
+                              : "border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/20"
+                            } ${depositData ? "opacity-50 cursor-not-allowed" : ""}`}
                         >
                           <div className="flex items-center gap-3">
-                            <div className={`h-4 w-4 rounded-full border-2 flex items-center justify-center transition-colors ${
-                              isSelected ? "border-white" : "border-white/20"
-                            }`}>
+                            <div className={`h-4 w-4 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-white" : "border-white/20"
+                              }`}>
                               {isSelected && <div className="h-2 w-2 rounded-full bg-white" />}
                             </div>
                             <div className="text-left">
@@ -300,9 +296,8 @@ export default function DepositPage() {
                         <button
                           onClick={handlePayment}
                           disabled={isLoading}
-                          className={`w-full py-4 rounded-xl font-bold text-black transition-all duration-300 relative overflow-hidden group ${
-                            isLoading ? "bg-white/50 cursor-not-allowed" : "bg-white hover:scale-[1.02] active:scale-[0.98]"
-                          }`}
+                          className={`w-full py-4 rounded-xl font-bold text-black transition-all duration-300 relative overflow-hidden group ${isLoading ? "bg-white/50 cursor-not-allowed" : "bg-white hover:scale-[1.02] active:scale-[0.98]"
+                            }`}
                         >
                           <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]`} />
                           <span className="relative z-10 flex items-center justify-center gap-2">
@@ -318,12 +313,12 @@ export default function DepositPage() {
                         </button>
                       </div>
                     ) : (
-                      <motion.div 
+                      <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         className="w-full flex flex-col items-center"
                       >
-                        <button 
+                        <button
                           onClick={() => setDepositData(null)}
                           className="self-start flex items-center gap-2 text-xs font-medium text-white/40 hover:text-white transition group mb-6"
                         >
@@ -364,8 +359,8 @@ export default function DepositPage() {
                                 if (!depositData) return "";
                                 const amt = Number(depositData.expectedAmount);
                                 if (isNaN(amt)) return depositData.expectedAmount;
-                                
-                                // If it is USDT, show as whole integer
+
+                                // If it is USDT, show as whole integer for usdt
                                 if (selectedAsset.code === "USDT") {
                                   return Math.round(amt).toString();
                                 }
@@ -391,11 +386,10 @@ export default function DepositPage() {
                                 <p className="text-sm font-mono text-white truncate">{depositData?.address || ""}</p>
                               </div>
 
-                              <button 
+                              <button
                                 onClick={copyAddress}
-                                className={`flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 active:scale-95 shrink-0 ${
-                                  copied ? "bg-emerald-500 text-white" : "bg-white text-black hover:bg-white/90"
-                                }`}
+                                className={`flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 active:scale-95 shrink-0 ${copied ? "bg-emerald-500 text-white" : "bg-white text-black hover:bg-white/90"
+                                  }`}
                               >
                                 <AnimatePresence mode="wait">
                                   <motion.div
