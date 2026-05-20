@@ -85,7 +85,7 @@ export function LandingFooter() {
             <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">Binance infrastructure</span>
           </div>
 
-          {/* EU Compliance */}
+          {/* EU Compliance for footer */}
           <div className="flex items-center gap-3 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] transition-colors group cursor-default">
             <div className="bg-[#003399] p-1 rounded-sm shadow-sm group-hover:scale-110 transition-transform text-[#FFCC00]">
               <SiEuropeanunion className="h-4 w-4" />
