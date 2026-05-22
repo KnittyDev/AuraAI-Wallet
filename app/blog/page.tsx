@@ -1,11 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { LandingHeader } from "@/components/landing/landing-header";
 import { AuroraBackground } from "@/components/landing/aurora-background";
 import { LandingFooter } from "@/components/landing/landing-footer";
-import { LuCalendar, LuClock, LuArrowRight, LuTag } from "react-icons/lu";
-import Image from "next/image";
+import { LuClock, LuArrowRight, LuCalendar } from "react-icons/lu";
 import Link from "next/link";
 
 const BLOG_POSTS = [
@@ -18,7 +18,6 @@ const BLOG_POSTS = [
     date: "May 12, 2026",
     readTime: "8 min read",
     image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=800",
-    isFeatured: true
   },
   {
     id: 2,
@@ -72,9 +71,14 @@ const BLOG_POSTS = [
   }
 ];
 
+const CATEGORIES = ["All Posts", "Technology", "Market Analysis", "Strategy", "Economy", "Security", "AI"];
+
 export default function BlogPage() {
-  const featuredPost = BLOG_POSTS.find(p => p.isFeatured);
-  const regularPosts = BLOG_POSTS.filter(p => !p.isFeatured);
+  const [activeCategory, setActiveCategory] = useState("All Posts");
+
+  const filteredPosts = activeCategory === "All Posts"
+    ? BLOG_POSTS
+    : BLOG_POSTS.filter(post => post.category === activeCategory);
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-black text-white">
@@ -88,83 +92,37 @@ export default function BlogPage() {
         </div>
       </div>
 
-      <main className="relative z-10 mx-auto max-w-7xl px-6 py-20 md:px-10">
+      <main className="relative z-10 mx-auto max-w-7xl px-6 py-16 md:px-10">
         {/* Header Section */}
-        <section className="mb-20">
+        <section className="mb-16">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col items-center text-center max-w-2xl mx-auto"
+            transition={{ duration: 0.4 }}
+            className="flex flex-col items-center text-center max-w-xl mx-auto"
           >
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+            <p className="text-[10px] font-bold tracking-[0.3em] text-white/30 uppercase mb-3">
+              Research & News
+            </p>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
               The Aura Blog
             </h1>
-
-            <p className="text-lg text-white/50 leading-relaxed">
-              In-depth analysis, technical research, and strategic insights from the forefront of autonomous finance.
+            <p className="text-sm text-white/40 leading-relaxed">
+              Strategic insights, technical research, and market analysis from the forefront of autonomous finance.
             </p>
           </motion.div>
         </section>
 
-        {/* Featured Post */}
-        {featuredPost && (
-          <motion.section 
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="mb-24"
-          >
-            <Link href={`/blog/${featuredPost.id}`} className="group relative block overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.02] backdrop-blur-md">
-              <div className="grid grid-cols-1 lg:grid-cols-2">
-                <div className="relative h-[300px] lg:h-[500px] overflow-hidden">
-                  <img 
-                    src={featuredPost.image} 
-                    alt={featuredPost.title}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent lg:hidden" />
-                </div>
-                <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center">
-                  <div className="flex items-center gap-4 mb-6">
-                    <span className="px-3 py-1 rounded-lg bg-cyan-500 text-black text-[10px] font-bold uppercase tracking-widest">
-                      {featuredPost.category}
-                    </span>
-                    <span className="text-xs text-white/40 flex items-center gap-2">
-                      <LuClock className="h-3 w-3" /> {featuredPost.readTime}
-                    </span>
-                  </div>
-                  <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 group-hover:text-cyan-400 transition-colors leading-tight">
-                    {featuredPost.title}
-                  </h2>
-                  <p className="text-lg text-white/50 leading-relaxed mb-8 line-clamp-3">
-                    {featuredPost.excerpt}
-                  </p>
-                  <div className="flex items-center justify-between pt-8 border-t border-white/5">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold border border-white/10">
-                        {featuredPost.author[0]}
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-sm font-semibold">{featuredPost.author}</span>
-                        <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold">{featuredPost.date}</span>
-                      </div>
-                    </div>
-                    <div className="h-12 w-12 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
-                      <LuArrowRight className="h-5 w-5" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </motion.section>
-        )}
-
         {/* Categories Bar */}
-        <div className="flex flex-wrap gap-4 mb-12 overflow-x-auto pb-4 scrollbar-hide">
-          {["All Posts", "Technology", "Market Analysis", "Strategy", "Economy", "Security", "AI"].map((cat, i) => (
-            <button 
-              key={i}
-              className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all whitespace-nowrap ${
-                i === 0 ? "bg-white text-black" : "bg-white/5 border border-white/10 text-white/40 hover:text-white hover:bg-white/10"
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-12 overflow-x-auto pb-2 scrollbar-hide">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all duration-200 border ${
+                activeCategory === cat
+                  ? "bg-white/10 border-white/20 text-white"
+                  : "bg-transparent border-transparent text-white/40 hover:text-white/70"
               }`}
             >
               {cat}
@@ -173,70 +131,97 @@ export default function BlogPage() {
         </div>
 
         {/* Regular Posts Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {regularPosts.map((post, i) => (
-            <motion.article
-              key={post.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <Link href={`/blog/${post.id}`} className="group flex flex-col h-full rounded-[2rem] border border-white/10 bg-white/[0.02] overflow-hidden hover:bg-white/[0.05] transition-all backdrop-blur-sm">
-                <div className="relative h-60 w-full overflow-hidden">
-                  <img 
-                    src={post.image} 
-                    alt={post.title}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 rounded-lg bg-black/60 backdrop-blur-md border border-white/10 text-white text-[10px] font-bold uppercase tracking-widest">
-                      {post.category}
+        <motion.section 
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredPosts.map((post, i) => (
+              <motion.article
+                key={post.id}
+                layout
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.3, delay: i * 0.05 }}
+                className="group flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.01] hover:bg-white/[0.03] p-6 backdrop-blur-xl transition-all duration-300 hover:border-white/20"
+              >
+                <div>
+                  {/* Clean Visual Header (Unified aspect ratio) */}
+                  <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl mb-5">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-102"
+                    />
+                    <div className="absolute top-3 left-3">
+                      <span className="px-2.5 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-white/70 text-[9px] font-bold uppercase tracking-wider">
+                        {post.category}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Metadata */}
+                  <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-wider text-white/30 mb-3">
+                    <span className="flex items-center gap-1">
+                      <LuCalendar className="h-2.5 w-2.5" /> {post.date}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <LuClock className="h-2.5 w-2.5" /> {post.readTime}
                     </span>
                   </div>
-                </div>
-                <div className="p-8 flex flex-col flex-1">
-                  <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-white/30 mb-4">
-                    <span className="flex items-center gap-1.5"><LuCalendar className="h-3 w-3" /> {post.date}</span>
-                    <span className="flex items-center gap-1.5"><LuClock className="h-3 w-3" /> {post.readTime}</span>
-                  </div>
-                  <h3 className="text-xl font-bold mb-4 line-clamp-2 group-hover:text-cyan-400 transition-colors">
+
+                  {/* Title & Excerpt */}
+                  <h3 className="text-base font-bold text-white group-hover:text-white/80 transition-colors mb-3 leading-snug line-clamp-2">
                     {post.title}
                   </h3>
-                  <p className="text-sm text-white/50 leading-relaxed line-clamp-3 mb-8">
+                  <p className="text-xs text-white/40 leading-relaxed line-clamp-3 mb-6">
                     {post.excerpt}
                   </p>
-                  <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
-                    <span className="text-xs font-semibold text-white/70">{post.author}</span>
-                    <LuArrowRight className="h-4 w-4 text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all" />
-                  </div>
                 </div>
-              </Link>
-            </motion.article>
-          ))}
-        </section>
 
-        {/* CTA Section */}
-        <section className="mt-32 p-12 md:p-20 rounded-[3rem] border border-white/10 bg-gradient-to-tr from-cyan-500/10 via-transparent to-blue-600/10 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-grid-white/[0.02] [mask-image:radial-gradient(white,transparent_85%)]" />
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 relative z-10">Stay ahead of the curve.</h2>
-          <p className="text-lg text-white/50 mb-10 max-w-xl mx-auto relative z-10">
-            Get our latest research and institutional analysis delivered straight to your inbox.
-          </p>
-          <div className="flex flex-col md:flex-row gap-4 max-w-md mx-auto relative z-10">
-            <input 
-              type="email" 
-              placeholder="Enter your email"
-              className="flex-1 bg-black border border-white/10 rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-cyan-500 transition-all"
-            />
-            <button className="bg-white text-black px-8 py-3 rounded-xl text-sm font-bold hover:bg-white/90 transition-all">
-              Subscribe
-            </button>
+                {/* Footer Section */}
+                <div className="border-t border-white/5 pt-5 mt-auto flex items-center justify-between">
+                  <span className="text-[11px] font-semibold text-white/60">
+                    {post.author}
+                  </span>
+                  
+                  <Link
+                    href={`/blog/${post.id}`}
+                    className="inline-flex items-center gap-1 text-[10px] font-bold text-white/40 group-hover:text-white transition-all"
+                  >
+                    <span>Read article</span>
+                    <LuArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </Link>
+                </div>
+              </motion.article>
+            ))}
+          </AnimatePresence>
+        </motion.section>
+
+        {/* Minimalist Newsletter Box */}
+        <section className="mt-28 p-8 md:p-12 rounded-3xl border border-white/10 bg-white/[0.01] backdrop-blur-md text-center max-w-2xl mx-auto relative overflow-hidden">
+          <div className="relative z-10">
+            <h2 className="text-xl md:text-2xl font-bold mb-2">Stay ahead of the curve</h2>
+            <p className="text-xs text-white/40 mb-6 max-w-md mx-auto">
+              Get our latest research and institutional analysis delivered straight to your inbox.
+            </p>
+            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                className="flex-1 bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-white/20 focus:outline-none focus:border-white/30 focus:bg-white/[0.02] transition-all"
+              />
+              <button className="bg-white text-black px-6 py-2.5 rounded-xl text-xs font-semibold hover:bg-white/90 transition-all">
+                Subscribe
+              </button>
+            </form>
           </div>
         </section>
-        
+
         <LandingFooter />
       </main>
     </div>
   );
 }
+
