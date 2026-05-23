@@ -7,13 +7,14 @@ import { LandingHeader } from "@/components/landing/landing-header";
 import Link from "next/link";
 import Image from "next/image";
 
-
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useLanguage } from "@/context/language-context";
 
 export default function RegisterPage() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -87,11 +88,11 @@ export default function RegisterPage() {
               transition={{ duration: 0.5 }}
             >
               <h1 className="text-5xl md:text-6xl font-medium tracking-tight mb-6 leading-[1.1]">
-                Join the future, <br />
-                <span className="text-white/40">start today.</span>
+                {t("auth.register.title1")}<br />
+                <span className="text-white/40">{t("auth.register.title2")}</span>
               </h1>
               <p className="text-white/50 text-lg mb-10">
-                Create your account and let Aura manage your institutional-grade portfolio.
+                {t("auth.register.subtitle")}
               </p>
 
               <div className="space-y-4">
@@ -99,17 +100,17 @@ export default function RegisterPage() {
                 <div className="rounded-[2.5rem] border border-white/5 bg-white/[0.02] p-8 backdrop-blur-xl">
                   <button 
                     onClick={handleGoogleLogin}
-                    className="w-full flex items-center justify-center gap-3 bg-black border border-white/10 rounded-2xl py-3.5 hover:bg-white/5 transition-all group"
+                    className="w-full flex items-center justify-center gap-3 bg-black border border-white/10 rounded-2xl py-3.5 hover:bg-white/5 transition-all group cursor-pointer"
                   >
                     <FcGoogle className="h-5 w-5" />
-                    <span className="text-sm font-semibold">Join with Google</span>
+                    <span className="text-sm font-semibold">{t("auth.register.google")}</span>
                   </button>
 
                   <div className="relative my-8 flex items-center justify-center">
                     <div className="absolute inset-0 flex items-center">
                       <div className="w-full border-t border-white/5"></div>
                     </div>
-                    <span className="relative bg-[#0F0F0F] px-4 text-[10px] font-bold uppercase tracking-widest text-white/20">OR</span>
+                    <span className="relative bg-[#0F0F0F] px-4 text-[10px] font-bold uppercase tracking-widest text-white/20">{t("auth.register.or")}</span>
                   </div>
 
                   <form onSubmit={handleRegister} className="space-y-4">
@@ -124,7 +125,7 @@ export default function RegisterPage() {
                         >
                           <input
                             type="text"
-                            placeholder="Full Name"
+                            placeholder={t("auth.register.fullName")}
                             value={fullName}
                             onChange={(e) => setFullName(e.target.value)}
                             required={!isAnonymous}
@@ -141,7 +142,7 @@ export default function RegisterPage() {
                         >
                           <input
                             type="text"
-                            placeholder="Public Username"
+                            placeholder={t("auth.register.username")}
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             required={isAnonymous}
@@ -159,14 +160,14 @@ export default function RegisterPage() {
                             onChange={(e) => setIsAnonymous(e.target.checked)}
                             className="w-5 h-5 rounded-lg bg-white/5 border border-white/10 appearance-none checked:bg-white checked:border-white transition-all cursor-pointer relative after:content-['✓'] after:absolute after:inset-0 after:flex after:items-center after:justify-center after:text-black after:text-xs after:opacity-0 checked:after:opacity-100"
                           />
-                          <span className="text-sm text-white/60 group-hover:text-white transition-colors">I want to be an anonymous investor</span>
+                          <span className="text-sm text-white/60 group-hover:text-white transition-colors">{t("auth.register.anonymous")}</span>
                        </label>
                     </div>
 
                     <div>
                       <input
                         type="email"
-                        placeholder="Email address"
+                        placeholder={t("auth.register.emailAddress")}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -176,7 +177,7 @@ export default function RegisterPage() {
                     <div className="space-y-2">
                       <input
                         type="password"
-                        placeholder="Create a password"
+                        placeholder={t("auth.register.createPassword")}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
@@ -212,10 +213,10 @@ export default function RegisterPage() {
                             calculateStrength(password) === 2 ? 'text-orange-500/60' :
                             calculateStrength(password) === 3 ? 'text-yellow-500/60' : 'text-emerald-500/60'
                           }`}>
-                            {calculateStrength(password) === 1 && "Weak Password"}
-                            {calculateStrength(password) === 2 && "Fair Security"}
-                            {calculateStrength(password) === 3 && "Good Password"}
-                            {calculateStrength(password) === 4 && "Strong / Secure"}
+                            {calculateStrength(password) === 1 && t("auth.register.strength.weak")}
+                            {calculateStrength(password) === 2 && t("auth.register.strength.fair")}
+                            {calculateStrength(password) === 3 && t("auth.register.strength.good")}
+                            {calculateStrength(password) === 4 && t("auth.register.strength.strong")}
                           </p>
                         </motion.div>
                       )}
@@ -226,27 +227,27 @@ export default function RegisterPage() {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="w-full flex items-center justify-center bg-white text-black rounded-2xl py-3.5 text-sm font-bold hover:bg-white/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+                      className="w-full flex items-center justify-center bg-white text-black rounded-2xl py-3.5 text-sm font-bold hover:bg-white/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-2 cursor-pointer"
                     >
-                      {loading ? "Creating account..." : "Create Account"}
+                      {loading ? t("auth.register.submitting") : t("auth.register.submit")}
                     </button>
                   </form>
 
                   <p className="mt-6 text-center text-[10px] text-white/30">
-                    By signing up, you acknowledge Aura's <Link href="/privacy" className="underline hover:text-white transition-colors">Privacy Policy</Link> and <Link href="/terms" className="underline hover:text-white transition-colors">Terms</Link>.
+                    {t("auth.register.policy")}<Link href="/privacy" className="underline hover:text-white transition-colors">{t("auth.register.policyLink1")}</Link>{t("auth.register.policyAnd")}<Link href="/terms" className="underline hover:text-white transition-colors">{t("auth.register.policyLink2")}</Link>{t("auth.register.policyEnd") || "."}
                   </p>
                 </div>
 
                 <p className="mt-8 text-center text-sm text-white/50">
-                  Already have an account?{" "}
+                  {t("auth.register.alreadyAccount")}{" "}
                   <Link href="/login" className="text-white font-bold hover:underline underline-offset-4 transition-all">
-                    Sign in
+                    {t("auth.register.signIn")}
                   </Link>
                 </p>
 
-                <button className="w-full flex items-center justify-center gap-2 py-4 text-white/30 hover:text-white transition-all text-xs font-bold uppercase tracking-widest mt-4">
+                <button className="w-full flex items-center justify-center gap-2 py-4 text-white/30 hover:text-white transition-all text-xs font-bold uppercase tracking-widest mt-4 cursor-pointer">
                   <LuMonitor className="h-4 w-4" />
-                  Download desktop app
+                  {t("auth.register.downloadApp")}
                 </button>
               </div>
             </motion.div>
@@ -291,3 +292,4 @@ export default function RegisterPage() {
     </div>
   );
 }
+

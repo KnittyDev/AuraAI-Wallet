@@ -3,36 +3,38 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { LuShieldCheck, LuSparkles, LuMoon, LuZap, LuArrowUpRight, LuTrendingUp } from "react-icons/lu";
-
-const FEATURES = [
-  {
-    title: "Easy to use",
-    description: "Even if you have no knowledge of trading, cryptocurrency, or stock market, the Aura Opus 4.7 model handles all your trades fully autonomously!",
-    type: "prediction",
-    button: "Start Trading"
-  },
-  {
-    title: "Trade with AI",
-    description: "Use model-powered portfolio ideas and instantly convert them into actionable trade logic with a single prompt.",
-    type: "ai",
-    button: "Generate Strategy"
-  },
-  {
-    title: "Let it run while you sleep",
-    description: "While you sleep, Aura autonomously executes trades based on your configured strategy and provides real-time notifications.",
-    type: "sleep",
-    button: "Automate Now"
-  },
-  {
-    title: "Low Risk High Returns",
-    description: "Aura monitors market risk and automatically adjusts or pauses trading to protect your capital and maximize yield.",
-    type: "risk",
-    button: "View Performance"
-  }
-];
+import { useLanguage } from "@/context/language-context";
 
 export function FeatureShowcaseSection() {
+  const { t } = useLanguage();
   const [position, setPosition] = useState<"yes" | "no">("yes");
+
+  const FEATURES = [
+    {
+      title: t("features.prediction.title"),
+      description: t("features.prediction.description"),
+      type: "prediction",
+      button: t("features.prediction.button")
+    },
+    {
+      title: t("features.ai.title"),
+      description: t("features.ai.description"),
+      type: "ai",
+      button: t("features.ai.button")
+    },
+    {
+      title: t("features.sleep.title"),
+      description: t("features.sleep.description"),
+      type: "sleep",
+      button: t("features.sleep.button")
+    },
+    {
+      title: t("features.risk.title"),
+      description: t("features.risk.description"),
+      type: "risk",
+      button: t("features.risk.button")
+    }
+  ];
 
   return (
     <section className="mt-16 md:mt-32 w-full max-w-6xl mx-auto px-4 space-y-24 md:space-y-32 mb-32">
@@ -78,8 +80,8 @@ export function FeatureShowcaseSection() {
                       <div className="relative z-10 space-y-5">
                         <div className="flex items-center justify-between gap-3">
                           <div className="space-y-1 min-w-0">
-                            <p className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em]">System Status</p>
-                            <h4 className="text-base md:text-xl font-bold text-white leading-tight">Autonomous Trading</h4>
+                            <p className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em]">{t("features.prediction.status")}</p>
+                            <h4 className="text-base md:text-xl font-bold text-white leading-tight">{t("features.prediction.trading")}</h4>
                           </div>
                           {/* Premium Toggle Switch */}
                           <div 
@@ -97,7 +99,7 @@ export function FeatureShowcaseSection() {
                           <div className="flex items-center gap-2">
                             <div className={`h-1.5 w-1.5 rounded-full ${position === 'yes' ? 'bg-emerald-500 animate-pulse' : 'bg-white/20'}`} />
                             <span className={`text-[10px] font-bold uppercase tracking-widest ${position === 'yes' ? 'text-emerald-400' : 'text-white/30'}`}>
-                              {position === 'yes' ? 'Model: Active' : 'Model: Standby'}
+                              {position === 'yes' ? t("features.prediction.active") : t("features.prediction.standby")}
                             </span>
                           </div>
                           
@@ -120,8 +122,8 @@ export function FeatureShowcaseSection() {
                           <LuTrendingUp size={18} />
                         </div>
                         <div className="min-w-0">
-                          <p className="text-black font-bold text-sm">Total Profit</p>
-                          <p className="text-black/40 text-[10px] uppercase font-bold tracking-widest">Global Live</p>
+                          <p className="text-black font-bold text-sm">{t("features.prediction.profit")}</p>
+                          <p className="text-black/40 text-[10px] uppercase font-bold tracking-widest">{t("features.prediction.live")}</p>
                         </div>
                       </div>
                       <span className="text-xl md:text-2xl font-bold text-emerald-600 shrink-0">+$12,450</span>
@@ -142,7 +144,7 @@ export function FeatureShowcaseSection() {
                     </div>
                     <div className="bg-white rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-6 space-y-3 md:space-y-4 shadow-2xl">
                       <div className="flex items-center justify-between">
-                        <span className="text-black font-bold text-xs md:text-sm tracking-tight">Growth Strategy</span>
+                        <span className="text-black font-bold text-xs md:text-sm tracking-tight">{t("features.ai.strategy")}</span>
                         <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                       </div>
                       <div className="space-y-1.5 md:space-y-2">
@@ -163,13 +165,13 @@ export function FeatureShowcaseSection() {
                       <div className="flex items-center gap-3 md:gap-4 mb-1 md:mb-2">
                         <div className="h-8 w-8 md:h-10 md:w-10 rounded-full bg-black flex items-center justify-center text-white text-[10px] md:text-xs font-bold border border-white/10 shrink-0">A</div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-black font-bold text-xs md:text-sm tracking-tight truncate">Execution Success</p>
-                          <p className="text-black/40 text-[8px] md:text-[10px] font-bold uppercase tracking-widest truncate">Aura Autonomous Mode</p>
+                          <p className="text-black font-bold text-xs md:text-sm tracking-tight truncate">{t("features.sleep.success")}</p>
+                          <p className="text-black/40 text-[8px] md:text-[10px] font-bold uppercase tracking-widest truncate">{t("features.sleep.mode")}</p>
                         </div>
                         <LuMoon className="text-emerald-500 h-4 w-4 md:h-5 md:w-5 shrink-0" />
                       </div>
                       <div className="bg-black/5 rounded-xl md:rounded-2xl p-4 md:p-5 flex justify-between items-center border border-black/5">
-                        <span className="text-black/60 text-xs md:text-sm font-medium">Profit realized</span>
+                        <span className="text-black/60 text-xs md:text-sm font-medium">{t("features.sleep.profit")}</span>
                         <span className="text-emerald-600 font-bold text-base md:text-lg">+$420.00</span>
                       </div>
                     </div>
@@ -180,12 +182,12 @@ export function FeatureShowcaseSection() {
                   <div className="w-full space-y-3 md:space-y-4">
                     <div className="bg-emerald-500/5 rounded-xl md:rounded-2xl p-3 md:p-4 border border-emerald-500/10 flex items-center gap-2 md:gap-3">
                       <LuShieldCheck className="text-emerald-400 h-4 w-4 md:h-5 md:w-5 shrink-0" />
-                      <span className="text-[9px] md:text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Risk Guard Active</span>
+                      <span className="text-[9px] md:text-[10px] font-bold text-emerald-400 uppercase tracking-widest">{t("features.risk.guard")}</span>
                     </div>
                     <div className="bg-white rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-6 space-y-4 md:space-y-6 shadow-2xl">
                       <div className="flex justify-between items-start">
                         <div>
-                          <p className="text-black/40 text-[8px] md:text-[10px] font-bold uppercase tracking-widest">System Stability</p>
+                          <p className="text-black/40 text-[8px] md:text-[10px] font-bold uppercase tracking-widest">{t("features.risk.stability")}</p>
                           <p className="text-3xl md:text-4xl font-bold text-black tracking-tighter">99.9%</p>
                         </div>
                         <div className="h-8 w-8 md:h-10 md:w-10 rounded-lg md:rounded-xl bg-emerald-500/10 flex items-center justify-center shrink-0">
@@ -213,3 +215,4 @@ export function FeatureShowcaseSection() {
     </section>
   );
 }
+

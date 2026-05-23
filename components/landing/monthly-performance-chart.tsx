@@ -9,22 +9,25 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-
-const comparisonData = [
-  { method: "Manual", investedUsd: 17400, profitUsd: 1520 },
-  { method: "Aura AI", investedUsd: 17400, profitUsd: 3350 },
-];
+import { useLanguage } from "@/context/language-context";
 
 export function MonthlyPerformanceChart() {
+  const { t } = useLanguage();
+
+  const comparisonData = [
+    { method: t("results.manualLabel"), investedUsd: 17400, profitUsd: 1520 },
+    { method: t("results.auraLabel"), investedUsd: 17400, profitUsd: 3350 },
+  ];
+
   return (
     <div className="mt-8 rounded-2xl border border-white/12 bg-black/35 p-4">
       <div className="mb-4 grid grid-cols-2 gap-3 text-sm">
         <div className="rounded-xl border border-white/10 bg-white/5 p-3 text-white/80">
-          <p className="text-white/60">Monthly invested</p>
+          <p className="text-white/60">{t("results.monthlyInvested")}</p>
           <p className="mt-1 text-xl font-semibold text-white">$17,400</p>
         </div>
         <div className="rounded-xl border border-white/10 bg-white/5 p-3 text-white/80">
-          <p className="text-white/60">Profit difference</p>
+          <p className="text-white/60">{t("results.profitDifference")}</p>
           <p className="mt-1 text-xl font-semibold text-white">+$1,830</p>
         </div>
       </div>
@@ -65,7 +68,7 @@ export function MonthlyPerformanceChart() {
           />
           <Bar
             dataKey="profitUsd"
-            name="Monthly profit (USD)"
+            name={t("results.monthlyProfitUsd")}
             fill="#b463d4"
             radius={[6, 6, 0, 0]}
             barSize={48}
@@ -76,3 +79,4 @@ export function MonthlyPerformanceChart() {
     </div>
   );
 }
+

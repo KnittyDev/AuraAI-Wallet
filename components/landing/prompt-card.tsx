@@ -2,14 +2,17 @@
 
 import { motion } from "framer-motion";
 import { LuShield, LuTrendingUp, LuZap } from "react-icons/lu";
-
-const stats = [
-  { icon: LuTrendingUp, value: "$2.4B+", label: "Assets Managed" },
-  { icon: LuShield, value: "99.9%", label: "Uptime" },
-  { icon: LuZap, value: "12ms", label: "Avg. Response" },
-];
+import { useLanguage } from "@/context/language-context";
 
 export function PromptCard() {
+  const { t } = useLanguage();
+
+  const stats = [
+    { icon: LuTrendingUp, value: "$2.4B+", label: t("prompt.assetsManaged") },
+    { icon: LuShield, value: "99.9%", label: t("prompt.uptime") },
+    { icon: LuZap, value: "12ms", label: t("prompt.avgResponse") },
+  ];
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -35,9 +38,10 @@ export function PromptCard() {
       <div className="mt-6 flex items-center justify-center gap-3">
         <span className="flex items-center gap-2 text-[11px] font-medium text-white/30">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse inline-block" />
-          Aura AI is running live strategies
+          {t("prompt.ticker")}
         </span>
       </div>
     </motion.div>
   );
 }
+

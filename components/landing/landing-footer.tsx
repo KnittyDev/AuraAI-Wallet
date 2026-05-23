@@ -1,38 +1,42 @@
+"use client";
+
 import Image from "next/image";
 import auralogo from "@/app/auralogo.png";
 import { SiEuropeanunion } from "react-icons/si";
-
-const footerColumns = [
-  {
-    title: "Product",
-    links: [
-      { name: "Features", href: "/#features" },
-      { name: "Pricing", href: "/#pricing" },
-      { name: "FAQ", href: "/#faq" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { name: "About", href: "#" },
-      { name: "Contact", href: "#" },
-      { name: "Careers", href: "/careers" },
-    ],
-  },
-  {
-    title: "Legal",
-    links: [
-      { name: "Privacy", href: "/privacy" },
-      { name: "Terms", href: "/terms" },
-      { name: "System Status", href: "/status" },
-    ],
-
-  },
-];
+import { useLanguage } from "@/context/language-context";
 
 export function LandingFooter() {
+  const { t } = useLanguage();
+
+  const footerColumns = [
+    {
+      title: t("footer.product"),
+      links: [
+        { name: t("header.features"), href: "/#features" },
+        { name: t("header.pricing"), href: "/#pricing" },
+        { name: t("header.faq"), href: "/#faq" },
+      ],
+    },
+    {
+      title: t("footer.company"),
+      links: [
+        { name: t("footer.about"), href: "#" },
+        { name: t("footer.contact"), href: "#" },
+        { name: t("header.careers"), href: "/careers" },
+      ],
+    },
+    {
+      title: t("footer.legal"),
+      links: [
+        { name: t("footer.privacy"), href: "/privacy" },
+        { name: t("footer.terms"), href: "/terms" },
+        { name: t("footer.status"), href: "/status" },
+      ],
+    },
+  ];
+
   return (
-    <footer className="mx-auto mt-16 w-full max-w-6xl rounded-3xl border border-white/15 bg-black/50 px-6 py-8 text-left backdrop-blur-sm md:px-8">
+    <footer className="mx-auto mt-16 w-full max-w-6xl rounded-3xl border border-white/15 bg-black/55 px-6 py-8 text-left backdrop-blur-sm md:px-8">
       <div className="grid gap-8 md:grid-cols-4">
         <div>
           <div className="mb-4 inline-flex items-center gap-2">
@@ -44,7 +48,7 @@ export function LandingFooter() {
             <span className="text-xl font-semibold text-white">Aura</span>
           </div>
           <p className="max-w-xs text-sm text-white/65">
-            Autonomous portfolio intelligence with always-on execution and clear performance insights.
+            {t("footer.desc")}
           </p>
         </div>
 
@@ -68,7 +72,7 @@ export function LandingFooter() {
 
       <div className="mt-8 flex flex-col md:flex-row items-center justify-between border-t border-white/10 pt-6 gap-4">
         <div className="text-xs text-white/50">
-          © {new Date().getFullYear()} Aura. All rights reserved.
+          © {new Date().getFullYear()} {t("footer.rights")}
         </div>
 
         <div className="flex flex-wrap items-center gap-6">
@@ -82,7 +86,7 @@ export function LandingFooter() {
               className="opacity-40 group-hover:opacity-100 transition-opacity"
             />
             <span className="h-4 w-[1px] bg-white/10" />
-            <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">Binance infrastructure</span>
+            <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">{t("footer.binance")}</span>
           </div>
 
           {/* EU Compliance for footer */}
@@ -91,8 +95,8 @@ export function LandingFooter() {
               <SiEuropeanunion className="h-4 w-4" />
             </div>
             <div className="flex flex-col">
-              <span className="text-[10px] font-bold text-white/80 leading-none">Compliant with EU Standards</span>
-              <span className="text-[8px] text-white/30 uppercase tracking-widest mt-0.5">EU Compliant Platform</span>
+              <span className="text-[10px] font-bold text-white/80 leading-none">{t("footer.euCompliant")}</span>
+              <span className="text-[8px] text-white/30 uppercase tracking-widest mt-0.5">{t("footer.euPlatform")}</span>
             </div>
           </div>
 
@@ -106,8 +110,8 @@ export function LandingFooter() {
               </svg>
             </div>
             <div className="flex flex-col">
-              <span className="text-[10px] font-bold text-white/80 leading-none">Engineered in Switzerland</span>
-              <span className="text-[8px] text-white/30 uppercase tracking-widest mt-0.5">Swiss Quality & Precision</span>
+              <span className="text-[10px] font-bold text-white/80 leading-none">{t("footer.swissEng")}</span>
+              <span className="text-[8px] text-white/30 uppercase tracking-widest mt-0.5">{t("footer.swissQuality")}</span>
             </div>
           </div>
         </div>

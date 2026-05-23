@@ -1,3 +1,7 @@
+"use client";
+
+import { useLanguage } from "@/context/language-context";
+
 type PricingPlan = {
   name: string;
   price: string;
@@ -7,69 +11,41 @@ type PricingPlan = {
   highlighted?: boolean;
 };
 
-const plans: PricingPlan[] = [
-  {
-    name: "Free",
-    price: "$0",
-    description:
-      "A limited but powerful automated portfolio experience for new users.",
-    features: [
-      "Opus 4.6 AI Model",
-      "5 automated trades per day",
-      "1 managed portfolio",
-      "Basic weekly performance reports",
-      "Basic buy/sell suggestions",
-      "Automated flow using general strategies",
-      "1 withdrawal every 3 days",
-      "And more",
-    ],
-    cta: "Start Free",
-  },
-  {
-    name: "Pro",
-    price: "$15 / 3 months",
-    description:
-      "Full autonomous mode: AI manages trades 24/7. Billed every 3 months.",
-    features: [
-      "Opus 4.7 Max AI Model",
-      "Capital Protection: 15% Loss Recovery",
-      "Unlimited automated trades",
-      "Unlimited portfolio management",
-      "Instant withdrawals",
-      "Daily and weekly performance reports",
-      "Auto sell / auto buy",
-      "24/7 autonomous trade execution and management",
-      "Fully autonomous portfolio operations",
-      "And more",
-    ],
-    cta: "Upgrade to Pro",
-    highlighted: true,
-  },
-  {
-    name: "Enterprise",
-    price: "Custom",
-    description:
-      "Built exclusively for company investment operations with protected capital frameworks.",
-    features: [
-      "Company-only investment model",
-      "Security deposit / guarantee collateral setup",
-      "Partial loss recovery returned to the company",
-      "Custom capital protection terms",
-      "Enterprise-grade risk monitoring",
-      "Dedicated investment support",
-    ],
-    cta: "Contact Sales",
-  },
-];
-
 export function PricingSection() {
+  const { t } = useLanguage();
+
+  const plans: PricingPlan[] = [
+    {
+      name: t("pricing.free.name"),
+      price: t("pricing.free.price"),
+      description: t("pricing.free.description"),
+      features: t("pricing.free.features"),
+      cta: t("pricing.free.cta"),
+    },
+    {
+      name: t("pricing.pro.name"),
+      price: t("pricing.pro.price"),
+      description: t("pricing.pro.description"),
+      features: t("pricing.pro.features"),
+      cta: t("pricing.pro.cta"),
+      highlighted: true,
+    },
+    {
+      name: t("pricing.enterprise.name"),
+      price: t("pricing.enterprise.price"),
+      description: t("pricing.enterprise.description"),
+      features: t("pricing.enterprise.features"),
+      cta: t("pricing.enterprise.cta"),
+    },
+  ];
+
   return (
     <section
       className="mt-14 w-full max-w-6xl"
       style={{ contentVisibility: "auto", containIntrinsicSize: "1px 900px" }}
     >
       <div className="mb-6 text-center">
-        <h2 className="text-2xl font-semibold text-white md:text-4xl">Pricing</h2>
+        <h2 className="text-2xl font-semibold text-white md:text-4xl">{t("pricing.title")}</h2>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
@@ -114,7 +90,7 @@ export function PricingSection() {
                       />
                     </svg>
                   </span>
-                  <span className={feature.includes("Capital Protection") ? "font-bold text-emerald-400" : ""}>
+                  <span className={feature.includes("Capital Protection") || feature.includes("Sermaye Koruması") ? "font-bold text-emerald-400" : ""}>
                     {feature}
                   </span>
                 </li>
@@ -137,3 +113,4 @@ export function PricingSection() {
     </section>
   );
 }
+

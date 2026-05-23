@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useLanguage } from "@/context/language-context";
 
 const brands = [
   "AdriGo",
@@ -12,6 +13,7 @@ const brands = [
 ];
 
 export function BrandMarquee() {
+  const { t } = useLanguage();
   // Duplicate the list to create a seamless loop
   const duplicatedBrands = [...brands, ...brands, ...brands, ...brands];
 
@@ -21,7 +23,7 @@ export function BrandMarquee() {
       <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-10" />
 
       <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/30 mb-10 text-center">
-        Trusted by Institutional Partners & Crypto Apps
+        {t("marquee.title")}
       </p>
 
       <div className="flex overflow-hidden">
@@ -49,3 +51,4 @@ export function BrandMarquee() {
     </div>
   );
 }
+

@@ -10,6 +10,7 @@ import {
   YAxis,
   Cell,
 } from "recharts";
+import { useLanguage } from "@/context/language-context";
 
 const benchmarkData = [
   { model: "Llama 4", score: 64.3, accuracy: 79.5, latency: 610, sharpe: 0.94 },
@@ -27,14 +28,16 @@ const BAR_COLORS = [
   "#22d3ee",
 ];
 
-const metrics = [
-  { value: "97.8", label: "AuraAI (Claude Opus 4.7) score", sub: "Composite Index" },
-  { value: "99.8%", label: "Prediction accuracy", sub: "Live crypto markets" },
-  { value: "12ms", label: "Execution latency", sub: "Edge Runtime" },
-  { value: "3.42", label: "Sharpe ratio", sub: "Risk-adjusted returns" },
-];
-
 export function AIBenchmarkSection() {
+  const { language, t } = useLanguage();
+
+  const metrics = [
+    { value: "97.8", label: language === "en" ? "AuraAI (Claude Opus 4.7) score" : "AuraAI (Claude Opus 4.7) skoru", sub: t("benchmark.compositeIndex") },
+    { value: "99.8%", label: t("benchmark.accuracy"), sub: t("benchmark.liveMarkets") },
+    { value: "12ms", label: t("benchmark.latency"), sub: t("benchmark.edgeRuntime") },
+    { value: "3.42", label: t("benchmark.sharpe"), sub: t("benchmark.riskReturns") },
+  ];
+
   return (
     <section className="relative mt-16 w-full max-w-6xl overflow-hidden rounded-[28px] border border-white/15 bg-black/55 p-6 text-white backdrop-blur-sm md:p-10">
       {/* Glow Effects — matching Real Results */}
@@ -46,7 +49,7 @@ export function AIBenchmarkSection() {
         {/* Left: Title + Chart */}
         <div className="md:pr-8">
           <h2 className="text-5xl font-semibold tracking-tight text-white md:text-6xl">
-            AI Benchmark
+            {t("benchmark.title")}
           </h2>
 
           {/* Chart Card */}
@@ -54,11 +57,11 @@ export function AIBenchmarkSection() {
             {/* Mini stat boxes */}
             <div className="mb-4 grid grid-cols-2 gap-3 text-sm">
               <div className="rounded-xl border border-white/10 bg-white/5 p-3 text-white/80">
-                <p className="text-white/60">Top Model</p>
+                <p className="text-white/60">{t("benchmark.topModel")}</p>
                 <p className="mt-1 text-xl font-semibold text-white">AuraAI (Claude Opus 4.7)</p>
               </div>
               <div className="rounded-xl border border-white/10 bg-white/5 p-3 text-white/80">
-                <p className="text-white/60">Score lead</p>
+                <p className="text-white/60">{t("benchmark.scoreLead")}</p>
                 <p className="mt-1 text-xl font-semibold text-cyan-400">+15.4 pts</p>
               </div>
             </div>
@@ -95,7 +98,7 @@ export function AIBenchmarkSection() {
                   />
                   <Bar
                     dataKey="score"
-                    name="Financial Intelligence Score"
+                    name={t("benchmark.financialScore")}
                     radius={[6, 6, 0, 0]}
                     barSize={48}
                   >
@@ -109,7 +112,7 @@ export function AIBenchmarkSection() {
           </div>
 
           <p className="mt-8 text-sm text-white/60">
-            *Composite score from 10,000+ live crypto scenarios. BTC, ETH, SOL pairs. May 2026.
+            {t("benchmark.compositeDesc")}
           </p>
         </div>
 
@@ -135,3 +138,4 @@ export function AIBenchmarkSection() {
     </section>
   );
 }
+

@@ -7,16 +7,17 @@ import { LandingHeader } from "@/components/landing/landing-header";
 import Link from "next/link";
 import Image from "next/image";
 
-
 import auralogo from "@/app/auralogo.png";
 
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
+import { useLanguage } from "@/context/language-context";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -90,7 +91,7 @@ export default function LoginPage() {
     if (data.valid) {
       router.push("/dashboard");
     } else {
-      setTotpError(data.error || "Invalid code. Please try again.");
+      setTotpError(data.error || t("auth.login.twoFactor.invalidCode"));
       setTotpCode("");
     }
     setTotpLoading(false);
@@ -126,11 +127,11 @@ export default function LoginPage() {
             transition={{ duration: 0.5 }}
           >
             <h1 className="text-5xl md:text-6xl font-medium tracking-tight mb-6 leading-[1.1]">
-              Invest fast, <br />
-              <span className="text-white/40">grow faster.</span>
+              {t("auth.login.title1")}<br />
+              <span className="text-white/40">{t("auth.login.title2")}</span>
             </h1>
             <p className="text-white/50 text-lg mb-10">
-              Analyze in chat, invest with Aura. The intelligence engine for modern portfolios.
+              {t("auth.login.subtitle")}
             </p>
 
             <div className="space-y-4">
@@ -138,24 +139,24 @@ export default function LoginPage() {
               <div className="rounded-[2.5rem] border border-white/5 bg-white/[0.02] p-8 backdrop-blur-xl">
                 <button 
                   onClick={handleGoogleLogin}
-                  className="w-full flex items-center justify-center gap-3 bg-black border border-white/10 rounded-2xl py-3.5 hover:bg-white/5 transition-all group"
+                  className="w-full flex items-center justify-center gap-3 bg-black border border-white/10 rounded-2xl py-3.5 hover:bg-white/5 transition-all group cursor-pointer"
                 >
                   <FcGoogle className="h-5 w-5" />
-                  <span className="text-sm font-semibold">Continue with Google</span>
+                  <span className="text-sm font-semibold">{t("auth.login.google")}</span>
                 </button>
 
                 <div className="relative my-8 flex items-center justify-center">
                   <div className="absolute inset-0 flex items-center">
                     <div className="w-full border-t border-white/5"></div>
                   </div>
-                  <span className="relative bg-[#0F0F0F] px-4 text-[10px] font-bold uppercase tracking-widest text-white/20">OR</span>
+                  <span className="relative bg-[#0F0F0F] px-4 text-[10px] font-bold uppercase tracking-widest text-white/20">{t("auth.login.or")}</span>
                 </div>
 
                 <form onSubmit={handleLogin} className="space-y-4">
                   <div>
                     <input 
                       type="email" 
-                      placeholder="Enter your email"
+                      placeholder={t("auth.login.emailPlaceholder")}
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
@@ -165,7 +166,7 @@ export default function LoginPage() {
                   <div>
                     <input 
                       type="password" 
-                      placeholder="Enter your password"
+                      placeholder={t("auth.login.passwordPlaceholder")}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
@@ -178,27 +179,27 @@ export default function LoginPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full flex items-center justify-center bg-white text-black rounded-2xl py-3.5 text-sm font-bold hover:bg-white/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full flex items-center justify-center bg-white text-black rounded-2xl py-3.5 text-sm font-bold hover:bg-white/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
-                    {loading ? "Signing in..." : "Continue with email"}
+                    {loading ? t("auth.login.submitting") : t("auth.login.submit")}
                   </button>
                 </form>
 
                 <p className="mt-6 text-center text-[10px] text-white/30">
-                  By continuing, you acknowledge Aura's <Link href="/privacy" className="underline hover:text-white transition-colors">Privacy Policy</Link>.
+                  {t("auth.login.policy")}<Link href="/privacy" className="underline hover:text-white transition-colors">{t("auth.login.policyLink")}</Link>{t("auth.login.policyEnd") || "."}
                 </p>
               </div>
 
               <p className="mt-8 text-center text-sm text-white/50">
-                Don&apos;t have an account?{" "}
+                {t("auth.login.noAccount")}{" "}
                 <Link href="/register" className="text-white font-bold hover:underline underline-offset-4 transition-all">
-                  Create one
+                  {t("auth.login.createOne")}
                 </Link>
               </p>
 
-              <button className="w-full flex items-center justify-center gap-2 py-4 text-white/30 hover:text-white transition-all text-xs font-bold uppercase tracking-widest mt-4">
+              <button className="w-full flex items-center justify-center gap-2 py-4 text-white/30 hover:text-white transition-all text-xs font-bold uppercase tracking-widest mt-4 cursor-pointer">
                 <LuMonitor className="h-4 w-4" />
-                Download desktop app
+                {t("auth.login.downloadApp")}
               </button>
             </div>
           </motion.div>
@@ -265,9 +266,9 @@ export default function LoginPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
                     </svg>
                   </div>
-                  <h2 className="text-2xl font-bold text-white mb-2">Two-Factor Verification</h2>
+                  <h2 className="text-2xl font-bold text-white mb-2">{t("auth.login.twoFactor.title")}</h2>
                   <p className="text-sm text-white/40">
-                    Enter the 6-digit code from your authenticator app to continue.
+                    {t("auth.login.twoFactor.subtitle")}
                   </p>
                 </div>
 
@@ -286,7 +287,7 @@ export default function LoginPage() {
                 </div>
 
                 <p className="text-[10px] text-center text-white/20 font-medium">
-                  Code refreshes every 30 seconds
+                  {t("auth.login.twoFactor.refresh")}
                 </p>
 
                 {totpError && (
@@ -298,16 +299,16 @@ export default function LoginPage() {
                 <button
                   onClick={handleTOTPVerify}
                   disabled={totpLoading || totpCode.length !== 6}
-                  className="w-full py-4 rounded-2xl bg-white text-black font-bold hover:bg-white/90 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-4 rounded-2xl bg-white text-black font-bold hover:bg-white/90 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
-                  {totpLoading ? "Verifying..." : "Verify & Continue"}
+                  {totpLoading ? t("auth.login.twoFactor.submitting") : t("auth.login.twoFactor.submit")}
                 </button>
 
                 <button
                   onClick={() => { setShow2FA(false); supabase.auth.signOut(); }}
-                  className="w-full text-center text-xs font-bold text-white/20 hover:text-white/60 transition-colors uppercase tracking-widest"
+                  className="w-full text-center text-xs font-bold text-white/20 hover:text-white/60 transition-colors uppercase tracking-widest cursor-pointer"
                 >
-                  Cancel Login
+                  {t("auth.login.twoFactor.cancel")}
                 </button>
               </div>
             </motion.div>
@@ -317,4 +318,5 @@ export default function LoginPage() {
     </div>
   );
 }
+
 

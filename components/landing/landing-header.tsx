@@ -8,8 +8,10 @@ import { LuChevronDown, LuExternalLink, LuBookOpen, LuCpu, LuUsers, LuZap } from
 import auralogo from "@/app/auralogo.png";
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
+import { useLanguage } from "@/context/language-context";
 
 export function LandingHeader() {
+  const { language, setLanguage, t } = useLanguage();
   const [isResourcesOpen, setIsResourcesOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
@@ -21,11 +23,11 @@ export function LandingHeader() {
   }, []);
 
   const navLinks = [
-    { href: "/#pricing", label: "Pricing" },
-    { href: "/#features", label: "Features" },
-    { href: "/#results", label: "Results" },
-    { href: "/#case-studies", label: "Case Studies" },
-    { href: "/#faq", label: "FAQ" },
+    { href: "/#pricing", label: t("header.pricing") },
+    { href: "/#features", label: t("header.features") },
+    { href: "/#results", label: t("header.results") },
+    { href: "/#case-studies", label: t("header.caseStudies") },
+    { href: "/#faq", label: t("header.faq") },
   ];
 
   return (
@@ -53,7 +55,7 @@ export function LandingHeader() {
             onMouseLeave={() => setIsResourcesOpen(false)}
           >
             <button className="flex items-center gap-1 text-sm font-medium text-white/50 hover:text-white transition-colors py-2">
-              Resources
+              {t("header.resources")}
               <LuChevronDown className={`h-4 w-4 transition-transform duration-300 ${isResourcesOpen ? "rotate-180" : ""}`} />
             </button>
 
@@ -70,18 +72,21 @@ export function LandingHeader() {
                     {/* Insights */}
                     <div className="space-y-4">
                       <h3 className="text-[10px] font-bold uppercase tracking-widest text-white/30 flex items-center gap-2">
-                        <LuZap className="h-3 w-3" /> Insights
+                        <LuZap className="h-3 w-3" /> {t("header.insights")}
                       </h3>
                       <div className="flex flex-col gap-3">
-                        <Link href="/blog" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Blog</Link>
+                        <Link href="/blog" className="text-sm font-medium text-white/70 hover:text-white transition-colors">
+                          {t("header.blog")}
+                        </Link>
                         <Link href="/customer-stories" className="text-sm font-medium text-white/70 hover:text-white transition-colors flex items-center justify-between group/item">
-                          Customer stories
-                          <span className="text-[8px] px-1.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-white/40 group-hover/item:text-cyan-400 group-hover/item:border-cyan-500/30 transition-all uppercase font-bold tracking-tighter">Soon</span>
+                          {t("header.stories")}
+                          <span className="text-[8px] px-1.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-white/40 group-hover/item:text-cyan-400 group-hover/item:border-cyan-500/30 transition-all uppercase font-bold tracking-tighter">
+                            {t("header.storiesSoon")}
+                          </span>
                         </Link>
 
-
                         <Link href="/aura-news" className="text-sm font-medium text-white/70 hover:text-white transition-colors flex items-center justify-between">
-                          Aura news <LuExternalLink className="h-3 w-3 opacity-40" />
+                          {t("header.news")} <LuExternalLink className="h-3 w-3 opacity-40" />
                         </Link>
                       </div>
                     </div>
@@ -89,15 +94,21 @@ export function LandingHeader() {
                     {/* Learn */}
                     <div className="space-y-4">
                       <h3 className="text-[10px] font-bold uppercase tracking-widest text-white/30 flex items-center gap-2">
-                        <LuBookOpen className="h-3 w-3" /> Learn
+                        <LuBookOpen className="h-3 w-3" /> {t("header.learn")}
                       </h3>
                       <div className="flex flex-col gap-3">
                         <Link href="/academy" className="text-sm font-medium text-white/70 hover:text-white transition-colors flex items-center justify-between">
-                          Academy <LuExternalLink className="h-3 w-3 opacity-40" />
+                          {t("header.academy")} <LuExternalLink className="h-3 w-3 opacity-40" />
                         </Link>
-                        <Link href="/dashboard/settings/support" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Support Center</Link>
-                        <Link href="#" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Tutorials</Link>
-                        <Link href="/careers" className="text-sm font-medium text-white/70 hover:text-white transition-colors">Careers</Link>
+                        <Link href="/dashboard/settings/support" className="text-sm font-medium text-white/70 hover:text-white transition-colors">
+                          {t("header.support")}
+                        </Link>
+                        <Link href="#" className="text-sm font-medium text-white/70 hover:text-white transition-colors">
+                          {t("header.tutorials")}
+                        </Link>
+                        <Link href="/careers" className="text-sm font-medium text-white/70 hover:text-white transition-colors">
+                          {t("header.careers")}
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -109,26 +120,37 @@ export function LandingHeader() {
         </nav>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-4">
+        {/* Sleek Minimialist Language Selector */}
+        <button
+          onClick={() => setLanguage(language === "en" ? "tr" : "en")}
+          className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-bold tracking-wider text-white transition hover:bg-white/10 flex items-center gap-1 cursor-pointer select-none"
+          aria-label="Switch Language"
+        >
+          <span className={language === "en" ? "text-white" : "text-white/40"}>EN</span>
+          <span className="text-white/10">/</span>
+          <span className={language === "tr" ? "text-white" : "text-white/40"}>TR</span>
+        </button>
+
         <div className="hidden lg:flex items-center gap-2">
           <Link
             href="/contact-sales"
             className="rounded-full border border-white/20 bg-white/5 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
           >
-            Contact sales
+            {t("header.contactSales")}
           </Link>
           <Link
             href={user ? "/dashboard" : "/login"}
             className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-black transition hover:bg-white/85"
           >
-            {user ? "Dashboard" : "Try Now"}
+            {user ? t("header.dashboard") : t("header.tryNow")}
           </Link>
         </div>
 
         {/* Mobile Menu Button */}
         <button 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="lg:hidden relative z-[70] h-10 w-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white"
+          className="lg:hidden relative z-[70] h-10 w-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white cursor-pointer"
         >
           <div className="relative h-4 w-5">
             <motion.span 
@@ -172,11 +194,19 @@ export function LandingHeader() {
               <div className="h-px w-full bg-white/10 my-4" />
               
               <div className="space-y-6">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-white/30">Resources</h3>
-                <Link href="/academy" onClick={() => setIsMobileMenuOpen(false)} className="block text-xl font-medium text-white/70">Academy</Link>
-                <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className="block text-xl font-medium text-white/70">Blog</Link>
-                <Link href="/dashboard/settings/support" onClick={() => setIsMobileMenuOpen(false)} className="block text-xl font-medium text-white/70">Support Center</Link>
-                <Link href="#" onClick={() => setIsMobileMenuOpen(false)} className="block text-xl font-medium text-white/70">Tutorials</Link>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-white/30">{t("header.resources")}</h3>
+                <Link href="/academy" onClick={() => setIsMobileMenuOpen(false)} className="block text-xl font-medium text-white/70">
+                  {t("header.academy")}
+                </Link>
+                <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className="block text-xl font-medium text-white/70">
+                  {t("header.blog")}
+                </Link>
+                <Link href="/dashboard/settings/support" onClick={() => setIsMobileMenuOpen(false)} className="block text-xl font-medium text-white/70">
+                  {t("header.support")}
+                </Link>
+                <Link href="#" onClick={() => setIsMobileMenuOpen(false)} className="block text-xl font-medium text-white/70">
+                  {t("header.tutorials")}
+                </Link>
               </div>
             </div>
 
@@ -186,14 +216,14 @@ export function LandingHeader() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="w-full rounded-2xl border border-white/20 bg-white/5 py-4 text-center text-lg font-semibold text-white"
               >
-                Contact sales
+                {t("header.contactSales")}
               </Link>
               <Link
                 href={user ? "/dashboard" : "/login"}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="w-full rounded-2xl bg-white py-4 text-center text-lg font-semibold text-black"
               >
-                {user ? "Dashboard" : "Try Now"}
+                {user ? t("header.dashboard") : t("header.tryNow")}
               </Link>
             </div>
           </motion.div>
@@ -202,4 +232,5 @@ export function LandingHeader() {
     </header>
   );
 }
+
 
