@@ -308,6 +308,33 @@ const translations: TranslationDictionary = {
         signIn: "Sign in",
         downloadApp: "Download desktop app"
       }
+    },
+    sales: {
+      title1: "Elevate your ",
+      title2: "Capital Management.",
+      subtitle: "Aura's institutional grade infrastructure provides the security, liquidity, and AI-driven insights required for modern asset management. Connect with our team to explore tailored solutions.",
+      securityTitle: "Bank-Grade Security",
+      securityDesc: "Multi-sig custody and institutional compliance standards.",
+      liquidityTitle: "Global Liquidity",
+      liquidityDesc: "Deep order books across 50+ major liquidity providers.",
+      strategiesTitle: "Custom Strategies",
+      strategiesDesc: "AI models tuned to your specific risk and return mandates.",
+      apiTitle: "Scalable API",
+      apiDesc: "High-throughput infrastructure for automated high-frequency trading.",
+      formTitle: "Contact our sales team",
+      fullName: "Full Name",
+      organization: "Organization",
+      businessEmail: "Business Email",
+      expectedAum: "Expected AUM",
+      howHelp: "How can we help?",
+      helpPlaceholder: "Tell us about your requirements...",
+      submit: "Send Inquiry",
+      policy: "By submitting this form, you agree to our ",
+      termsLink: "Terms of Service",
+      policyAnd: " and ",
+      privacyLink: "Privacy Policy",
+      policyEnd: ".",
+      trusted: "Trusted by global financial leaders"
     }
   },
   tr: {
@@ -605,6 +632,33 @@ const translations: TranslationDictionary = {
         signIn: "Giriş yapın",
         downloadApp: "Masaüstü uygulamasını indir"
       }
+    },
+    sales: {
+      title1: "Yatırım Yönetiminizi ",
+      title2: "En Üst Seviyeye Çıkarın.",
+      subtitle: "Aura'nın kurumsal düzeydeki altyapısı, modern varlık yönetimi için gereken güvenlik, likidite ve yapay zeka destekli analizleri sunar. Özel çözümlerimizi keşfetmek için ekibimizle iletişime geçin.",
+      securityTitle: "Banka Düzeyinde Güvenlik",
+      securityDesc: "Çoklu imzalı saklama ve kurumsal uyumluluk standartları.",
+      liquidityTitle: "Küresel Likidite",
+      liquidityDesc: "50'den fazla büyük likidite sağlayıcısı arasında derin emir defterleri.",
+      strategiesTitle: "Özel Stratejiler",
+      strategiesDesc: "Özel risk ve getiri hedeflerinize göre ayarlanmış yapay zeka modelleri.",
+      apiTitle: "Ölçeklenebilir API",
+      apiDesc: "Otomatik yüksek frekanslı işlemler için yüksek kapasiteli altyapı.",
+      formTitle: "Satış ekibimizle iletişime geçin",
+      fullName: "Adınız Soyadınız",
+      organization: "Şirket / Organizasyon",
+      businessEmail: "İş E-postası",
+      expectedAum: "Beklenen AUM (Yönetilen Varlık)",
+      howHelp: "Size nasıl yardımcı olabiliriz?",
+      helpPlaceholder: "Gereksinimlerinizden bahsedin...",
+      submit: "Talep Gönder",
+      policy: "Bu formu göndererek, ",
+      termsLink: "Hizmet Koşulları'nı",
+      policyAnd: " ve ",
+      privacyLink: "Gizlilik Politikası'nı",
+      policyEnd: " kabul etmiş olursunuz.",
+      trusted: "Küresel finans liderleri tarafından güvenilen"
     }
   }
 };

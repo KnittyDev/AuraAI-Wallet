@@ -14,9 +14,34 @@ import {
   LuMail,
   LuLayers
 } from "react-icons/lu";
-
+import { useLanguage } from "@/context/language-context";
 
 export default function ContactSalesPage() {
+  const { t } = useLanguage();
+
+  const features = [
+    {
+      icon: LuShieldCheck,
+      title: t("sales.securityTitle"),
+      desc: t("sales.securityDesc")
+    },
+    {
+      icon: LuGlobe,
+      title: t("sales.liquidityTitle"),
+      desc: t("sales.liquidityDesc")
+    },
+    {
+      icon: LuChartLine,
+      title: t("sales.strategiesTitle"),
+      desc: t("sales.strategiesDesc")
+    },
+    {
+      icon: LuLayers,
+      title: t("sales.apiTitle"),
+      desc: t("sales.apiDesc")
+    }
+  ];
+
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-black text-white">
       <AuroraBackground />
@@ -39,39 +64,16 @@ export default function ContactSalesPage() {
             className="flex flex-col justify-center"
           >
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 bg-gradient-to-r from-white via-white to-white/40 bg-clip-text text-transparent">
-
-              Elevate your <br />
-              <span className="text-white">Capital Management.</span>
+              {t("sales.title1")}<br />
+              <span className="text-white">{t("sales.title2")}</span>
             </h1>
 
             <p className="text-lg text-white/60 leading-relaxed mb-12 max-w-lg">
-              Aura's institutional grade infrastructure provides the security, liquidity, and AI-driven insights required for modern asset management. Connect with our team to explore tailored solutions.
+              {t("sales.subtitle")}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {[
-                {
-                  icon: LuShieldCheck,
-                  title: "Bank-Grade Security",
-                  desc: "Multi-sig custody and institutional compliance standards."
-                },
-                {
-                  icon: LuGlobe,
-                  title: "Global Liquidity",
-                  desc: "Deep order books across 50+ major liquidity providers."
-                },
-                {
-                  icon: LuChartLine,
-                  title: "Custom Strategies",
-                  desc: "AI models tuned to your specific risk and return mandates."
-                },
-
-                {
-                  icon: LuLayers,
-                  title: "Scalable API",
-                  desc: "High-throughput infrastructure for automated high-frequency trading."
-                }
-              ].map((feature, i) => (
+              {features.map((feature, i) => (
                 <div key={i} className="flex flex-col gap-3">
                   <div className="h-10 w-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white">
                     <feature.icon className="h-5 w-5" />
@@ -93,46 +95,46 @@ export default function ContactSalesPage() {
             <div className="absolute -inset-4 bg-gradient-to-tr from-cyan-500/10 to-blue-600/10 rounded-[2.5rem] blur-2xl" />
 
             <div className="relative rounded-[2rem] border border-white/15 bg-black/40 p-8 md:p-10 backdrop-blur-2xl">
-              <h2 className="text-2xl font-bold mb-8">Contact our sales team</h2>
+              <h2 className="text-2xl font-bold mb-8">{t("sales.formTitle")}</h2>
 
               <form className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-xs font-bold uppercase tracking-widest text-white/40 flex items-center gap-2">
-                      <LuUser className="h-3 w-3" /> Full Name
+                      <LuUser className="h-3 w-3" /> {t("sales.fullName")}
                     </label>
                     <input
                       type="text"
                       placeholder="John Doe"
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all placeholder:text-white/20"
                     />
                   </div>
                   <div className="space-y-2">
                     <label className="text-xs font-bold uppercase tracking-widest text-white/40 flex items-center gap-2">
-                      <LuBuilding className="h-3 w-3" /> Organization
+                      <LuBuilding className="h-3 w-3" /> {t("sales.organization")}
                     </label>
                     <input
                       type="text"
                       placeholder="Amazon Inc."
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all placeholder:text-white/20"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-xs font-bold uppercase tracking-widest text-white/40 flex items-center gap-2">
-                    <LuMail className="h-3 w-3" /> Business Email
+                    <LuMail className="h-3 w-3" /> {t("sales.businessEmail")}
                   </label>
                   <input
                     type="email"
                     placeholder="name@company.com"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all placeholder:text-white/20"
                   />
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-xs font-bold uppercase tracking-widest text-white/40 flex items-center gap-2">
-                    <LuLayers className="h-3 w-3" /> Expected AUM
+                    <LuLayers className="h-3 w-3" /> {t("sales.expectedAum")}
                   </label>
                   <select className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all appearance-none text-white">
                     <option className="bg-black text-white" value="">$1M - $5M</option>
@@ -145,23 +147,23 @@ export default function ContactSalesPage() {
 
                 <div className="space-y-2">
                   <label className="text-xs font-bold uppercase tracking-widest text-white/40 flex items-center gap-2">
-                    <LuMessageSquare className="h-3 w-3" /> How can we help?
+                    <LuMessageSquare className="h-3 w-3" /> {t("sales.howHelp")}
                   </label>
                   <textarea
                     rows={4}
-                    placeholder="Tell us about your requirements..."
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all resize-none"
+                    placeholder={t("sales.helpPlaceholder")}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all resize-none placeholder:text-white/20"
                   />
                 </div>
 
-                <button className="w-full group relative flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-4 text-sm font-bold text-black transition-all hover:bg-white/90">
-                  Send Inquiry
+                <button className="w-full group relative flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-4 text-sm font-bold text-black transition-all hover:bg-white/90 cursor-pointer">
+                  {t("sales.submit")}
                   <LuArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </button>
 
                 <p className="text-center text-[10px] text-white/30 uppercase tracking-widest leading-relaxed">
-                  By submitting this form, you agree to our <br />
-                  <span className="text-white/60 underline cursor-pointer">Terms of Service</span> and <span className="text-white/60 underline cursor-pointer">Privacy Policy</span>.
+                  {t("sales.policy")}<br />
+                  <span className="text-white/60 underline cursor-pointer">{t("sales.termsLink")}</span>{t("sales.policyAnd")}<span className="text-white/60 underline cursor-pointer">{t("sales.privacyLink")}</span>{t("sales.policyEnd") || "."}
                 </p>
               </form>
             </div>
@@ -175,7 +177,7 @@ export default function ContactSalesPage() {
           transition={{ duration: 1 }}
           className="mt-32 pt-20 border-t border-white/5 text-center"
         >
-          <p className="text-xs font-bold uppercase tracking-widest text-white/20 mb-12">Trusted by global financial leaders</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-white/20 mb-12">{t("sales.trusted")}</p>
           <div className="flex flex-wrap justify-center gap-12 md:gap-24 opacity-30 grayscale contrast-125">
             <span className="text-2xl font-bold tracking-tighter">GOLDMAN SACHS</span>
             <span className="text-2xl font-bold tracking-tighter">GRAYSCALE</span>
@@ -187,3 +189,4 @@ export default function ContactSalesPage() {
     </div>
   );
 }
+
