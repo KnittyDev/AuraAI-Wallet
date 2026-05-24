@@ -35,6 +35,7 @@ interface Transaction {
   txId: string;
   address?: string;
   network?: string;
+  customLabel?: string;
 }
 
 const TYPE_ICONS: Record<TransactionType, any> = {
@@ -87,18 +88,19 @@ export default function TransactionsPage() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      const { data, error } = await supabase
-        .from('transactions')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
+      const [txRes, invRes, profitRes, profileRes] = await Promise.all([
+        supabase.from('transactions').select('*').eq('user_id', user.id).order('created_at', { ascending: false }),
+        supabase.from('investments').select('*').eq('user_id', user.id),
+        supabase.from('ai_actions').select('investment_id, profit_usd').eq('user_id', user.id),
+        supabase.from('profiles').select('*').eq('id', user.id).single()
+      ]);
 
-      if (data) {
-        // Fetch profile to check plan
-        const { data: profileData } = await supabase.from('profiles').select('*').eq('id', user.id).single();
-        setProfile(profileData);
+      if (profileRes.data) {
+        setProfile(profileRes.data);
+      }
 
-        const formatted: Transaction[] = data.map(tx => {
+      if (txRes.data) {
+        const formatted: Transaction[] = txRes.data.map(tx => {
           const d = new Date(tx.created_at);
           const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
           
@@ -116,12 +118,59 @@ export default function TransactionsPage() {
           };
         });
 
+        // Generate dynamic return transactions for completed investments
+        const dynamicTxs: Transaction[] = [];
+        if (invRes.data && invRes.data.length > 0) {
+          const profitMap: Record<string, number> = {};
+          if (profitRes.data) {
+            profitRes.data.forEach(p => {
+              profitMap[p.investment_id] = (profitMap[p.investment_id] || 0) + Number(p.profit_usd || 0);
+            });
+          }
+
+          invRes.data.forEach(inv => {
+            if (inv.status !== 'active') {
+              const maturityDate = new Date(inv.created_at);
+              maturityDate.setDate(maturityDate.getDate() + inv.duration_days);
+              const d = maturityDate;
+              const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+
+              // 1. Principal Return (Ana Para İadesi)
+              dynamicTxs.push({
+                id: `principal-${inv.id}`,
+                type: "Investment" as TransactionType,
+                asset: "USDT",
+                amount: Number(inv.amount),
+                status: "Completed" as TransactionStatus,
+                date: dateStr,
+                txId: `RET-${inv.id.slice(0, 8)}-${inv.asset_code}`,
+                customLabel: `Principal Return (${inv.asset_code} Plan)`
+              });
+
+              // 2. Strategy Profit (Strateji Kârı)
+              const profitAmount = profitMap[inv.id] || 0;
+              dynamicTxs.push({
+                id: `profit-${inv.id}`,
+                type: "Profit" as TransactionType,
+                asset: "USDT",
+                amount: profitAmount,
+                status: "Completed" as TransactionStatus,
+                date: dateStr,
+                txId: `PRFT-${inv.id.slice(0, 8)}-${inv.asset_code}`,
+                customLabel: `Strategy Profit (${inv.asset_code} Plan)`
+              });
+            }
+          });
+        }
+
+        const combined = [...formatted, ...dynamicTxs].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
         // Filter based on plan
-        if (profileData?.plan === 'free') {
+        if (profileRes.data?.plan === 'free') {
           const restrictedTypes = ['Trade', 'Profit', 'Rebalance', 'Investment'];
-          setTransactions(formatted.filter(tx => !restrictedTypes.includes(tx.type)));
+          setTransactions(combined.filter(tx => !restrictedTypes.includes(tx.type)));
         } else {
-          setTransactions(formatted);
+          setTransactions(combined);
         }
       }
       setLoading(false);
@@ -158,119 +207,95 @@ export default function TransactionsPage() {
         <DashboardSidebar currentPath="/dashboard/transactions" />
 
         <section className="flex-1 px-6 py-8 md:px-10 lg:ml-72 min-w-0 max-w-[100vw]">
-        <div className="mx-auto max-w-6xl">
-          <header className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
-              <h1 className="text-4xl font-bold tracking-tight text-white mb-2">Transactions</h1>
-              <p className="text-white/50">History of all your assets and AI trading activities.</p>
-            </div>
+          <div className="mx-auto max-w-6xl space-y-8">
+            <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h1 className="text-4xl font-bold tracking-tight text-white mb-2">Transactions</h1>
+                <p className="text-white/50 text-sm">Monitor all deposits, withdrawals, and strategy outputs.</p>
+              </div>
+            </header>
             
-            <div className="flex items-center gap-3">
-              <div className="relative group">
-                <LuSearch className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30 group-focus-within:text-white/60 transition-colors" />
+            <div className="flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center bg-white/[0.02] border border-white/10 rounded-[2rem] p-6 backdrop-blur-xl">
+              <div className="relative flex-1">
+                <LuSearch className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30" />
                 <input 
                   type="text" 
-                  placeholder="Search by asset or TxID..."
+                  placeholder="Search assets, type, or hash..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="bg-white/5 border border-white/10 rounded-2xl pl-11 pr-4 py-3 text-sm outline-none focus:border-white/20 transition-all w-full md:w-64"
+                  className="w-full bg-black/40 border border-white/5 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all text-white placeholder-white/20"
                 />
               </div>
-              <button 
-                onClick={() => setShowFilters(!showFilters)}
-                className={`flex items-center gap-2 px-4 py-3 border rounded-2xl text-sm font-medium transition ${
-                  showFilters ? "bg-white text-black border-white" : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10"
-                }`}
-              >
-                <LuFilter className="h-4 w-4" />
-                <span>Filters</span>
-              </button>
+              <div className="flex flex-wrap items-center gap-3">
+                <button 
+                  onClick={() => setShowFilters(!showFilters)}
+                  className={`inline-flex items-center gap-2 px-5 py-3 rounded-2xl border text-sm font-bold transition-all ${
+                    showFilters ? "bg-white text-black border-white" : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10"
+                  }`}
+                >
+                  <LuFilter className="h-4 w-4" />
+                  Filters
+                </button>
+              </div>
             </div>
-          </header>
 
           <AnimatePresence>
             {showFilters && (
               <motion.div 
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                className="overflow-hidden mb-8"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden"
               >
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6 bg-white/[0.03] border border-white/10 rounded-[32px] backdrop-blur-xl">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-white/[0.01] border border-white/5 rounded-[2rem] p-6 backdrop-blur-xl">
                   <div>
-                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-3 block">Status</label>
-                    <div className="flex flex-wrap gap-2">
-                      {["All", "Completed", "Pending", "Failed"].map((s) => (
-                        <button
-                          key={s}
-                          onClick={() => setStatusFilter(s as any)}
-                          className={`px-4 py-2 rounded-xl text-xs font-bold transition ${
-                            statusFilter === s ? "bg-white/20 text-white" : "bg-white/5 text-white/40 hover:bg-white/10"
-                          }`}
-                        >
-                          {s}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-3 block">Date Range</label>
-                    <div className="flex flex-wrap gap-2">
-                      {[
-                        { id: "All", label: "All Time" },
-                        { id: "24h", label: "Last 24h" },
-                        { id: "7d", label: "Last 7d" },
-                        { id: "30d", label: "Last 30d" }
-                      ].map((d) => (
-                        <button
-                          key={d.id}
-                          onClick={() => setDateRange(d.id as any)}
-                          className={`px-4 py-2 rounded-xl text-xs font-bold transition ${
-                            dateRange === d.id ? "bg-white/20 text-white" : "bg-white/5 text-white/40 hover:bg-white/10"
-                          }`}
-                        >
-                          {d.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-3 block">Quick Actions</label>
-                    <button 
-                      onClick={() => {
-                        setFilter("All");
-                        setStatusFilter("All");
-                        setDateRange("All");
-                        setSearch("");
-                      }}
-                      className="w-full px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl text-xs font-bold transition"
+                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest block mb-2">Type</label>
+                    <select
+                      value={filter}
+                      onChange={(e) => setFilter(e.target.value as any)}
+                      className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-white/30 transition-all"
                     >
-                      Reset All Filters
-                    </button>
+                      <option value="All">All Types</option>
+                      <option value="Deposit">Deposit</option>
+                      <option value="Withdrawal">Withdrawal</option>
+                      <option value="Trade">Trade</option>
+                      <option value="Profit">Profit</option>
+                      <option value="Rebalance">Rebalance</option>
+                      <option value="Investment">Investment</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest block mb-2">Status</label>
+                    <select
+                      value={statusFilter}
+                      onChange={(e) => setStatusFilter(e.target.value as any)}
+                      className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-white/30 transition-all"
+                    >
+                      <option value="All">All Statuses</option>
+                      <option value="Completed">Completed</option>
+                      <option value="Pending">Pending</option>
+                      <option value="Failed">Failed</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest block mb-2">Date Range</label>
+                    <select
+                      value={dateRange}
+                      onChange={(e) => setDateRange(e.target.value as any)}
+                      className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-white/30 transition-all"
+                    >
+                      <option value="All">All Time</option>
+                      <option value="24h">Last 24 Hours</option>
+                      <option value="7d">Last 7 Days</option>
+                      <option value="30d">Last 30 Days</option>
+                    </select>
                   </div>
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
-
-          {/* Type Filters */}
-          <div className="flex items-center gap-2 mb-8 overflow-x-auto pb-2 scrollbar-hide">
-            {["All", "Deposit", "Withdrawal", "Trade", "Profit", "Rebalance", "Investment"].map((type) => (
-              <button
-                key={type}
-                onClick={() => setFilter(type as any)}
-                className={`px-5 py-2 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 whitespace-nowrap ${
-                  filter === type 
-                  ? "bg-white text-black" 
-                  : "bg-white/5 text-white/40 hover:bg-white/10"
-                }`}
-              >
-                {type}
-              </button>
-            ))}
-          </div>
 
           {/* Transactions Table */}
           <div className="rounded-[32px] border border-white/10 bg-white/[0.02] backdrop-blur-xl overflow-hidden custom-scrollbar">
@@ -301,7 +326,7 @@ export default function TransactionsPage() {
                           </div>
                           <div>
                             <p className="font-bold text-white text-base">
-                              {tx.type}
+                              {tx.customLabel || tx.type}
                             </p>
                             <span className={`inline-flex mt-1 items-center px-2 py-0.5 rounded-full text-[9px] font-bold border ${STATUS_COLORS[tx.status]}`}>
                               {tx.status === 'Pending' ? 'Processing' : tx.status}
@@ -389,7 +414,7 @@ export default function TransactionsPage() {
                               </div>
                               <div>
                                 <p className="font-semibold text-white">
-                                  {tx.type}
+                                  {tx.customLabel || tx.type}
                                   {tx.type === "Investment" && tx.txId.includes("_") && (
                                     <span className="ml-2 text-xs font-normal text-white/40">
                                       ({tx.txId.split("_")[1]})

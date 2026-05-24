@@ -209,6 +209,9 @@ export default function InvestmentsPage() {
   const totalProfit = Object.values(profits).reduce((acc, p) => acc + p, 0);
   const activeCount = investments.filter(inv => inv.status === 'active').length;
 
+  const activeInvestments = investments.filter(inv => inv.status === 'active');
+  const completedInvestments = investments.filter(inv => inv.status !== 'active');
+
   const stats = [
     { label: "Total Capital", value: `$${totalCapital.toLocaleString()}`, note: "Invested in strategies", up: true },
     { label: "Total Net Profit", value: `$${totalProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, note: "Realized earnings", up: totalProfit >= 0 },
@@ -289,69 +292,75 @@ export default function InvestmentsPage() {
               </div>
               {/* Mobile Card View */}
               <div className="block md:hidden divide-y divide-white/5">
-                {investments.map((inv, i) => (
-                  <motion.div
-                    key={`mobile-${inv.id}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2 + i * 0.07 }}
-                    className="p-6 space-y-4 hover:bg-white/[0.02] transition-colors"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <span className="text-xl font-bold text-white">{inv.asset_code}</span>
-                        <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold border uppercase tracking-widest ${inv.risk_profile === "Aggressive"
-                          ? "text-red-400 bg-red-400/10 border-red-400/20"
-                          : inv.risk_profile === "Growth"
-                            ? "text-emerald-400 bg-emerald-400/10 border-emerald-400/20"
-                            : "text-blue-400 bg-blue-400/10 border-blue-400/20"
-                          }`}>
-                          {inv.risk_profile}
-                        </span>
-                      </div>
-                      <div className="flex flex-col items-end">
-                        <span className={`font-mono text-sm font-bold ${profits[inv.id] >= 0 ? "text-emerald-400" : "text-red-400"}`}>
-                          {profits[inv.id] >= 0 ? "+" : ""}{Number(profits[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT
-                        </span>
-                        <div className="flex items-center gap-1.5 mt-1">
-                          <span className={`h-1 w-1 rounded-full animate-pulse ${profits24h[inv.id] < 0 ? "bg-red-400" : "bg-emerald-400"}`} />
-                          <span className={`text-[10px] font-mono font-bold ${profits24h[inv.id] < 0 ? "text-red-400" : "text-emerald-400"}`}>
-                            24h: {profits24h[inv.id] >= 0 ? "+" : ""}{Number(profits24h[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ({((profits24h[inv.id] || 0) / Number(inv.amount) * 100).toFixed(2)}%)
+                {activeInvestments.length === 0 ? (
+                  <div className="p-8 text-center text-white/30 italic text-sm">
+                    No active AI investment strategies found.
+                  </div>
+                ) : (
+                  activeInvestments.map((inv, i) => (
+                    <motion.div
+                      key={`mobile-${inv.id}`}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.2 + i * 0.07 }}
+                      className="p-6 space-y-4 hover:bg-white/[0.02] transition-colors"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <span className="text-xl font-bold text-white">{inv.asset_code}</span>
+                          <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold border uppercase tracking-widest ${inv.risk_profile === "Aggressive"
+                            ? "text-red-400 bg-red-400/10 border-red-400/20"
+                            : inv.risk_profile === "Growth"
+                              ? "text-emerald-400 bg-emerald-400/10 border-emerald-400/20"
+                              : "text-blue-400 bg-blue-400/10 border-blue-400/20"
+                            }`}>
+                            {inv.risk_profile}
                           </span>
                         </div>
+                        <div className="flex flex-col items-end">
+                          <span className={`font-mono text-sm font-bold ${profits[inv.id] >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+                            {profits[inv.id] >= 0 ? "+" : ""}{Number(profits[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT
+                          </span>
+                          <div className="flex items-center gap-1.5 mt-1">
+                            <span className={`h-1 w-1 rounded-full animate-pulse ${profits24h[inv.id] < 0 ? "bg-red-400" : "bg-emerald-400"}`} />
+                            <span className={`text-[10px] font-mono font-bold ${profits24h[inv.id] < 0 ? "text-red-400" : "text-emerald-400"}`}>
+                              24h: {profits24h[inv.id] >= 0 ? "+" : ""}{Number(profits24h[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ({((profits24h[inv.id] || 0) / Number(inv.amount) * 100).toFixed(2)}%)
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="flex items-center justify-between text-sm bg-white/[0.02] p-4 rounded-2xl border border-white/5">
-                      <div className="flex flex-col">
-                        <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold mb-1">Capital</span>
-                        <span className="text-white/80 font-mono font-bold">${Number(inv.amount).toLocaleString()}</span>
+                      <div className="flex items-center justify-between text-sm bg-white/[0.02] p-4 rounded-2xl border border-white/5">
+                        <div className="flex flex-col">
+                          <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold mb-1">Capital</span>
+                          <span className="text-white/80 font-mono font-bold">${Number(inv.amount).toLocaleString()}</span>
+                        </div>
+                        <div className="flex flex-col items-end">
+                          <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold mb-1">Duration</span>
+                          <span className="text-white/80 font-medium">{inv.duration_days} Days</span>
+                        </div>
                       </div>
-                      <div className="flex flex-col items-end">
-                        <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold mb-1">Duration</span>
-                        <span className="text-white/80 font-medium">{inv.duration_days} Days</span>
-                      </div>
-                    </div>
 
-                    <div className="pt-2 flex items-center justify-between gap-3">
-                      <button
-                        onClick={() => setInfoModalInvestment(inv)}
-                        className="py-3 rounded-xl bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-all flex-1 flex justify-center items-center gap-2"
-                      >
-                        <LuInfo className="h-4 w-4" /> <span className="text-[10px] font-bold uppercase tracking-widest">Details</span>
-                      </button>
-                      <button
-                        onClick={() => fetchLogs(inv.id)}
-                        className={`py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all flex-1 ${selectedInvId === inv.id
-                          ? "bg-white text-black"
-                          : "bg-white/5 border border-white/10 text-white hover:bg-white/10"
-                          }`}
-                      >
-                        {selectedInvId === inv.id ? "Viewing Logs" : "View Logs"}
-                      </button>
-                    </div>
-                  </motion.div>
-                ))}
+                      <div className="pt-2 flex items-center justify-between gap-3">
+                        <button
+                          onClick={() => setInfoModalInvestment(inv)}
+                          className="py-3 rounded-xl bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-all flex-1 flex justify-center items-center gap-2"
+                        >
+                          <LuInfo className="h-4 w-4" /> <span className="text-[10px] font-bold uppercase tracking-widest">Details</span>
+                        </button>
+                        <button
+                          onClick={() => fetchLogs(inv.id)}
+                          className={`py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all flex-1 ${selectedInvId === inv.id
+                            ? "bg-white text-black"
+                            : "bg-white/5 border border-white/10 text-white hover:bg-white/10"
+                            }`}
+                        >
+                          {selectedInvId === inv.id ? "Viewing Logs" : "View Logs"}
+                        </button>
+                      </div>
+                    </motion.div>
+                  ))
+                )}
               </div>
 
               {/* Desktop Table View */}
@@ -369,85 +378,248 @@ export default function InvestmentsPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/5">
-                    {investments.map((inv, i) => (
-                      <motion.tr
-                        key={`desktop-${inv.id}`}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.2 + i * 0.07 }}
-                        className="hover:bg-white/[0.02] transition-colors"
-                      >
-                        <td className="px-8 py-5">
-                          <div className="flex items-center gap-3">
-                            <span className="text-white font-bold">{inv.asset_code}</span>
-                            <span className="text-[10px] text-white/20 font-mono tracking-tighter">#{inv.id.slice(0, 8)}</span>
-                          </div>
+                    {activeInvestments.length === 0 ? (
+                      <tr>
+                        <td colSpan={7} className="px-8 py-10 text-center text-white/30 italic text-sm">
+                          No active AI investment strategies found.
                         </td>
-                        <td className="px-8 py-5 font-mono text-sm">
-                          <div className="flex flex-col">
-                            <span className="text-white/80">${Number(inv.amount).toLocaleString()}</span>
-                            {inv.asset_amount && inv.asset_code !== 'USDT' && (
-                              <span className="text-[10px] text-white/30">{inv.asset_amount.toFixed(6)} {inv.asset_code}</span>
-                            )}
-                          </div>
-                        </td>
-                        <td className="px-8 py-5">
-                          <span className={`font-mono text-sm font-bold ${profits[inv.id] >= 0 ? "text-emerald-400" : "text-red-400"}`}>
-                            {profits[inv.id] >= 0 ? "+" : ""}{Number(profits[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT
-                          </span>
-                        </td>
-                        <td className="px-8 py-5">
-                          <div className="flex flex-col gap-1">
-                            <div className="flex items-center gap-2">
-                              <span className={`h-1.5 w-1.5 rounded-full animate-pulse ${profits24h[inv.id] < 0 ? "bg-red-400" : "bg-emerald-400"}`} />
-                              <span className={`font-mono text-sm font-bold ${profits24h[inv.id] < 0 ? "text-red-400" : "text-emerald-400"}`}>
-                                {profits24h[inv.id] >= 0 ? "+" : ""}{Number(profits24h[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT
+                      </tr>
+                    ) : (
+                      activeInvestments.map((inv, i) => (
+                        <motion.tr
+                          key={`desktop-${inv.id}`}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.2 + i * 0.07 }}
+                          className="hover:bg-white/[0.02] transition-colors"
+                        >
+                          <td className="px-8 py-5">
+                            <div className="flex items-center gap-3">
+                              <span className="text-white font-bold">{inv.asset_code}</span>
+                              <span className="text-[10px] text-white/20 font-mono tracking-tighter">#{inv.id.slice(0, 8)}</span>
+                            </div>
+                          </td>
+                          <td className="px-8 py-5 font-mono text-sm">
+                            <div className="flex flex-col">
+                              <span className="text-white/80">${Number(inv.amount).toLocaleString()}</span>
+                              {inv.asset_amount && inv.asset_code !== 'USDT' && (
+                                <span className="text-[10px] text-white/30">{inv.asset_amount.toFixed(6)} {inv.asset_code}</span>
+                              )}
+                            </div>
+                          </td>
+                          <td className="px-8 py-5">
+                            <span className={`font-mono text-sm font-bold ${profits[inv.id] >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+                              {profits[inv.id] >= 0 ? "+" : ""}{Number(profits[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT
+                            </span>
+                          </td>
+                          <td className="px-8 py-5">
+                            <div className="flex flex-col gap-1">
+                              <div className="flex items-center gap-2">
+                                <span className={`h-1.5 w-1.5 rounded-full animate-pulse ${profits24h[inv.id] < 0 ? "bg-red-400" : "bg-emerald-400"}`} />
+                                <span className={`font-mono text-sm font-bold ${profits24h[inv.id] < 0 ? "text-red-400" : "text-emerald-400"}`}>
+                                  {profits24h[inv.id] >= 0 ? "+" : ""}{Number(profits24h[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT
+                                </span>
+                              </div>
+                              <span className="text-[10px] text-white/30 ml-3.5">
+                                {profits24h[inv.id] >= 0 ? "+" : ""}{((profits24h[inv.id] || 0) / Number(inv.amount) * 100).toFixed(2)}% Yield
                               </span>
                             </div>
-                            <span className="text-[10px] text-white/30 ml-3.5">
-                              {profits24h[inv.id] >= 0 ? "+" : ""}{((profits24h[inv.id] || 0) / Number(inv.amount) * 100).toFixed(2)}% Yield
+                          </td>
+                          <td className="px-8 py-5">
+                            <span className="text-xs font-medium text-white/60">{inv.duration_days} Days</span>
+                          </td>
+                          <td className="px-8 py-5">
+                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold border uppercase tracking-widest ${inv.risk_profile === "Aggressive"
+                              ? "text-red-400 bg-red-400/10 border-red-400/20"
+                              : inv.risk_profile === "Growth"
+                                ? "text-emerald-400 bg-emerald-400/10 border-emerald-400/20"
+                                : "text-blue-400 bg-blue-400/10 border-blue-400/20"
+                              }`}>
+                              {inv.risk_profile}
                             </span>
-                          </div>
-                        </td>
-                        <td className="px-8 py-5">
-                          <span className="text-xs font-medium text-white/60">{inv.duration_days} Days</span>
-                        </td>
-                        <td className="px-8 py-5">
-                          <span className={`px-3 py-1 rounded-full text-[10px] font-bold border uppercase tracking-widest ${inv.risk_profile === "Aggressive"
-                            ? "text-red-400 bg-red-400/10 border-red-400/20"
-                            : inv.risk_profile === "Growth"
-                              ? "text-emerald-400 bg-emerald-400/10 border-emerald-400/20"
-                              : "text-blue-400 bg-blue-400/10 border-blue-400/20"
-                            }`}>
-                            {inv.risk_profile}
-                          </span>
-                        </td>
-                        <td className="px-8 py-5 text-right">
-                          <div className="flex items-center justify-end gap-2">
-                            <button
-                              onClick={() => setInfoModalInvestment(inv)}
-                              className="p-2 rounded-xl bg-white/5 border border-white/10 text-white/40 hover:text-white hover:bg-white/10 transition-all"
-                              title="Strategy Details"
-                            >
-                              <LuInfo className="h-4 w-4" />
-                            </button>
-                            <button
-                              onClick={() => fetchLogs(inv.id)}
-                              className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${selectedInvId === inv.id
-                                ? "bg-white text-black"
-                                : "bg-white/5 border border-white/10 text-white hover:bg-white/10"
-                                }`}
-                            >
-                              {selectedInvId === inv.id ? "Viewing Logs" : "View Logs"}
-                            </button>
-                          </div>
-                        </td>
-                      </motion.tr>
-                    ))}
+                          </td>
+                          <td className="px-8 py-5 text-right">
+                            <div className="flex items-center justify-end gap-2">
+                              <button
+                                onClick={() => setInfoModalInvestment(inv)}
+                                className="p-2 rounded-xl bg-white/5 border border-white/10 text-white/40 hover:text-white hover:bg-white/10 transition-all"
+                                title="Strategy Details"
+                              >
+                                <LuInfo className="h-4 w-4" />
+                              </button>
+                              <button
+                                onClick={() => fetchLogs(inv.id)}
+                                className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${selectedInvId === inv.id
+                                  ? "bg-white text-black"
+                                  : "bg-white/5 border border-white/10 text-white hover:bg-white/10"
+                                  }`}
+                              >
+                                {selectedInvId === inv.id ? "Viewing Logs" : "View Logs"}
+                              </button>
+                            </div>
+                          </td>
+                        </motion.tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>
             </div>
+
+            {/* Completed Strategies */}
+            {completedInvestments.length > 0 && (
+              <div className="rounded-[32px] border border-white/10 bg-black/40 backdrop-blur-xl overflow-hidden mt-8">
+                <div className="border-b border-white/5 px-8 py-6 flex items-center justify-between">
+                  <div>
+                    <h2 className="text-2xl font-bold text-white/60">Completed Strategies</h2>
+                  </div>
+                  <span className="flex items-center gap-2 text-xs text-white/40 font-bold">
+                    <span className="h-1.5 w-1.5 rounded-full bg-white/20" />
+                    Engine Offline
+                  </span>
+                </div>
+                
+                {/* Mobile Card View for Completed */}
+                <div className="block md:hidden divide-y divide-white/5">
+                  {completedInvestments.map((inv, i) => (
+                    <motion.div
+                      key={`mobile-completed-${inv.id}`}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.1 + i * 0.07 }}
+                      className="p-6 space-y-4 hover:bg-white/[0.01] transition-colors"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <span className="text-xl font-bold text-white/60">{inv.asset_code}</span>
+                          <span className="px-2 py-0.5 rounded-full text-[9px] font-bold border border-white/10 uppercase tracking-widest text-white/40 bg-white/5">
+                            Completed
+                          </span>
+                        </div>
+                        <div className="flex flex-col items-end">
+                          <span className={`font-mono text-sm font-bold ${profits[inv.id] >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+                            {profits[inv.id] >= 0 ? "+" : ""}{Number(profits[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT
+                          </span>
+                          <span className="text-[9px] font-mono text-white/30 uppercase tracking-widest font-bold mt-1">
+                            Final Return
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between text-sm bg-white/[0.01] p-4 rounded-2xl border border-white/5">
+                        <div className="flex flex-col">
+                          <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold mb-1">Capital</span>
+                          <span className="text-white/60 font-mono font-bold">${Number(inv.amount).toLocaleString()}</span>
+                        </div>
+                        <div className="flex flex-col items-end">
+                          <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold mb-1">Duration</span>
+                          <span className="text-white/60 font-medium">{inv.duration_days} Days</span>
+                        </div>
+                      </div>
+
+                      <div className="pt-2 flex items-center justify-between gap-3">
+                        <button
+                          onClick={() => setInfoModalInvestment(inv)}
+                          className="py-3 rounded-xl bg-white/5 border border-white/10 text-white/40 hover:text-white hover:bg-white/10 transition-all flex-1 flex justify-center items-center gap-2"
+                        >
+                          <LuInfo className="h-4 w-4" /> <span className="text-[10px] font-bold uppercase tracking-widest">Details</span>
+                        </button>
+                        <button
+                          onClick={() => fetchLogs(inv.id)}
+                          className={`py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all flex-1 ${selectedInvId === inv.id
+                            ? "bg-white text-black"
+                            : "bg-white/5 border border-white/10 text-white hover:bg-white/10"
+                            }`}
+                        >
+                          {selectedInvId === inv.id ? "Viewing Logs" : "View Logs"}
+                        </button>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Desktop Table View for Completed */}
+                <div className="hidden md:block overflow-x-auto">
+                  <table className="w-full text-left">
+                    <thead>
+                      <tr className="border-b border-white/5 bg-white/[0.01]">
+                        <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Asset</th>
+                        <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Capital</th>
+                        <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Final Net Profit</th>
+                        <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Total Yield</th>
+                        <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Duration</th>
+                        <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase">Status</th>
+                        <th className="px-8 py-4 text-[10px] font-bold tracking-widest text-white/30 uppercase text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/5">
+                      {completedInvestments.map((inv, i) => (
+                        <motion.tr
+                          key={`desktop-completed-${inv.id}`}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.1 + i * 0.07 }}
+                          className="hover:bg-white/[0.01] transition-colors"
+                        >
+                          <td className="px-8 py-5">
+                            <div className="flex items-center gap-3">
+                              <span className="text-white/70 font-bold">{inv.asset_code}</span>
+                              <span className="text-[10px] text-white/20 font-mono tracking-tighter">#{inv.id.slice(0, 8)}</span>
+                            </div>
+                          </td>
+                          <td className="px-8 py-5 font-mono text-sm">
+                            <div className="flex flex-col">
+                              <span className="text-white/60">${Number(inv.amount).toLocaleString()}</span>
+                              {inv.asset_amount && inv.asset_code !== 'USDT' && (
+                                <span className="text-[10px] text-white/30">{inv.asset_amount.toFixed(6)} {inv.asset_code}</span>
+                              )}
+                            </div>
+                          </td>
+                          <td className="px-8 py-5">
+                            <span className={`font-mono text-sm font-bold ${profits[inv.id] >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+                              {profits[inv.id] >= 0 ? "+" : ""}{Number(profits[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDT
+                            </span>
+                          </td>
+                          <td className="px-8 py-5">
+                            <span className="text-xs font-mono font-bold text-white/60">
+                              {profits[inv.id] >= 0 ? "+" : ""}{((profits[inv.id] || 0) / Number(inv.amount) * 100).toFixed(2)}% Yield
+                            </span>
+                          </td>
+                          <td className="px-8 py-5">
+                            <span className="text-xs font-medium text-white/40">{inv.duration_days} Days</span>
+                          </td>
+                          <td className="px-8 py-5">
+                            <span className="px-3 py-1 rounded-full text-[10px] font-bold border border-white/10 text-white/40 bg-white/5 uppercase tracking-widest">
+                              Completed
+                            </span>
+                          </td>
+                          <td className="px-8 py-5 text-right">
+                            <div className="flex items-center justify-end gap-2">
+                              <button
+                                onClick={() => setInfoModalInvestment(inv)}
+                                className="p-2 rounded-xl bg-white/5 border border-white/10 text-white/40 hover:text-white hover:bg-white/10 transition-all"
+                                title="Strategy Details"
+                              >
+                                <LuInfo className="h-4 w-4" />
+                              </button>
+                              <button
+                                onClick={() => fetchLogs(inv.id)}
+                                className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${selectedInvId === inv.id
+                                  ? "bg-white text-black"
+                                  : "bg-white/5 border border-white/10 text-white hover:bg-white/10"
+                                  }`}
+                              >
+                                {selectedInvId === inv.id ? "Viewing Logs" : "View Logs"}
+                              </button>
+                            </div>
+                          </td>
+                        </motion.tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
 
             {/* Selected Strategy Logs */}
             <AnimatePresence>
@@ -513,7 +685,7 @@ export default function InvestmentsPage() {
                   <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center gap-3">
                       <div className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
-                        <LuActivity className="h-6 w-6 text-emerald-400" />
+                        <LuActivity className={`h-6 w-6 ${infoModalInvestment.status === 'active' ? 'text-emerald-400' : 'text-white/40'}`} />
                       </div>
                       <div>
                         <h3 className="text-xl font-bold text-white">Strategy Details</h3>
@@ -578,8 +750,12 @@ export default function InvestmentsPage() {
                     </div>
                     <div className="flex justify-between items-center py-3 border-b border-white/5">
                       <span className="text-sm text-white/40">Execution Status</span>
-                      <span className="text-sm font-bold text-emerald-400 flex items-center gap-2">
-                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      <span className={`text-sm font-bold flex items-center gap-2 ${infoModalInvestment.status === 'active' ? 'text-emerald-400' : 'text-white/40'}`}>
+                        {infoModalInvestment.status === 'active' ? (
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        ) : (
+                          <span className="h-1.5 w-1.5 rounded-full bg-white/20" />
+                        )}
                         {infoModalInvestment.status.toUpperCase()}
                       </span>
                     </div>
@@ -600,3 +776,4 @@ export default function InvestmentsPage() {
     </main>
   );
 }
+

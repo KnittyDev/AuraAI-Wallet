@@ -54,21 +54,72 @@ export default function WalletPage() {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return;
 
-        const [balanceRes, priceRes, transactionRes, investmentRes] = await Promise.all([
+        const [balanceRes, priceRes, transactionRes, investmentRes, profitRes] = await Promise.all([
           supabase.from('balances').select('*').eq('user_id', user.id),
           fetch("/api/prices").then(res => res.json()),
           supabase.from('transactions').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(10),
-          supabase.from('investments').select('amount, status').eq('user_id', user.id)
+          supabase.from('investments').select('*').eq('user_id', user.id),
+          supabase.from('ai_actions').select('investment_id, profit_usd').eq('user_id', user.id)
         ]);
 
         if (!balanceRes.error) {
           setBalances(balanceRes.data);
         }
-        if (!transactionRes.error) {
-          setTransactions(transactionRes.data);
-        }
         if (!investmentRes.error) {
           setInvestments(investmentRes.data);
+        }
+        
+        if (!transactionRes.error && transactionRes.data) {
+          const rawTxs = transactionRes.data;
+          
+          // Generate completed investment payout transactions
+          const dynamicTxs: any[] = [];
+          if (investmentRes.data && investmentRes.data.length > 0) {
+            const profitMap: Record<string, number> = {};
+            if (profitRes.data) {
+              profitRes.data.forEach(p => {
+                profitMap[p.investment_id] = (profitMap[p.investment_id] || 0) + Number(p.profit_usd || 0);
+              });
+            }
+
+            investmentRes.data.forEach(inv => {
+              if (inv.status !== 'active') {
+                const maturityDate = new Date(inv.created_at);
+                maturityDate.setDate(maturityDate.getDate() + inv.duration_days);
+                
+                // Principal Return
+                dynamicTxs.push({
+                  id: `principal-${inv.id}`,
+                  type: "Investment",
+                  asset: "USDT",
+                  amount: Number(inv.amount),
+                  status: "Completed",
+                  created_at: maturityDate.toISOString(),
+                  tx_id: `RET-${inv.id.slice(0, 8)}-${inv.asset_code}`,
+                  customLabel: `Principal Return (${inv.asset_code} Plan)`
+                });
+
+                // Strategy Profit
+                const profitAmount = profitMap[inv.id] || 0;
+                dynamicTxs.push({
+                  id: `profit-${inv.id}`,
+                  type: "Profit",
+                  asset: "USDT",
+                  amount: profitAmount,
+                  status: "Completed",
+                  created_at: maturityDate.toISOString(),
+                  tx_id: `PRFT-${inv.id.slice(0, 8)}-${inv.asset_code}`,
+                  customLabel: `Strategy Profit (${inv.asset_code} Plan)`
+                });
+              }
+            });
+          }
+
+          const combined = [...rawTxs, ...dynamicTxs]
+            .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+            .slice(0, 10);
+          
+          setTransactions(combined);
         }
         setPrices(priceRes);
       } catch (error) {
@@ -197,10 +248,6 @@ export default function WalletPage() {
                   <motion.h2 className="text-4xl sm:text-5xl md:text-6xl font-medium tracking-tight text-white break-words tabular-nums">
                     $<motion.span>{rounded}</motion.span>
                   </motion.h2>
-                  <span className={`flex items-center gap-1 text-xs md:text-sm font-bold px-2 py-0.5 rounded-lg whitespace-nowrap ${totalChangePct >= 0 ? "text-emerald-400 bg-emerald-400/10" : "text-red-400 bg-red-400/10"}`}>
-                    {totalChangePct >= 0 ? <LuTrendingUp className="h-3 w-3 shrink-0" /> : <LuTrendingDown className="h-3 w-3 shrink-0" />}
-                    {totalChangePct >= 0 ? "+" : ""}{totalChangePct.toFixed(2)}%
-                  </span>
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -360,7 +407,7 @@ export default function WalletPage() {
                             {tx.type === "Deposit" || tx.type === "Profit" ? <LuArrowDownLeft className="h-5 w-5" /> : <LuArrowUpRight className="h-5 w-5" />}
                           </div>
                           <div>
-                            <p className="font-bold text-white text-sm">{tx.type}</p>
+                            <p className="font-bold text-white text-sm">{tx.customLabel || tx.type}</p>
                             <span className={`inline-flex mt-1 items-center px-2 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-widest ${tx.status === "Completed" ? "bg-emerald-400/10 text-emerald-400 border border-emerald-400/20" : "bg-white/5 text-white/40 border border-white/10"}`}>
                               {tx.status}
                             </span>
@@ -408,7 +455,7 @@ export default function WalletPage() {
                               {tx.type === "Deposit" || tx.type === "Profit" ? <LuArrowDownLeft className="h-4 w-4" /> : <LuArrowUpRight className="h-4 w-4" />}
                             </div>
                             <span className="text-sm font-medium text-white group-hover:translate-x-1 transition-transform">
-                              {tx.type}
+                              {tx.customLabel || tx.type}
                             </span>
                           </div>
                         </td>
