@@ -895,5 +895,33 @@
       "riskBuffer": "Risk Tamponu",
       "enterTerminal": "Terminale Giriş"
     }
+  },
+  "privacy": {
+    "title": "Gizlilik Politikası",
+    "lastUpdated": "Son Güncelleme: 2 Mayıs 2026",
+    "sec1Title": "1. Veri Toplama",
+    "sec1Desc": "Yalnızca yapay zeka odaklı analizlerimizi sunmak için gerekli olan verileri topluyoruz. Bu, işlem geçmişinizi (bağlıysa), portföy bakiyelerinizi ve temel hesap bilgilerinizi içerir. Kişisel verilerinizi üçüncü taraflara satmıyoruz.",
+    "sec2Title": "2. Bilgilerin Kullanımı",
+    "sec2Desc": "Verileriniz, kişiselleştirilmiş yatırım stratejileri sunmak ve Aura Nöral Motorunun genel doğruluğunu artırmak amacıyla, kullanıcı bazında yapay zeka modellerimizi eğitmek için özel olarak kullanılır.",
+    "sec3Title": "3. Güvenlik Önlemleri",
+    "sec3Desc": "Beklemedeki ve aktarımdaki tüm veriler için endüstri standardı şifreleme yöntemleri uyguluyoruz. Hassas verilere erişim, Aura ekosistemindeki yetkilendirilmiş otomatik sistemlerle kesin bir şekilde sınırlandırılmıştır.",
+    "sec4Title": "4. Üçüncü Taraf Entegrasyonları",
+    "sec4Desc": "Aura, çeşitli blokzincir ağları ve API'lerle entegre çalışır. Bu üçüncü tarafların kendi gizlilik politikaları vardır ve harici cüzdanlarınızı bağlarken bunları gözden geçirmenizi öneririz.",
+    "sec5Title": "5. Haklarınız",
+    "sec5Desc": "İstediğiniz zaman verilerinizin bir kopyasını talep etme veya silinmesini isteme hakkına sahipsiniz. Bu tür taleplerin işleme alınması 30 güne kadar sürebilir ve yapay zeka destekli özelliklerin askıya alınmasıyla sonuçlanabilir."
+  },
+  "terms": {
+    "title": "Hizmet Şartları",
+    "lastUpdated": "Son Güncelleme: 2 Mayıs 2026",
+    "sec1Title": "1. Şartların Kabulü",
+    "sec1Desc": "Aura platformuna (\"Hizmet\") erişerek ve kullanarak, bu Hizmet Şartlarına bağlı kalmayı kabul etmiş olursunuz. Bu şartları kabul etmiyorsanız lütfen Hizmetimizi kullanmayın.",
+    "sec2Title": "2. Hizmetin Tanımı",
+    "sec2Desc": "Aura, yapay zeka destekli bir yatırım asistanı platformu sunar. Doğrudan finansal danışmanlık sağlamıyoruz ve yapay zeka tarafından üretilen analizlerimiz yalnızca bilgilendirme amaçlıdır. Tüm yatırım kararları tamamen kullanıcının kendi sorumluluğundadır.",
+    "sec3Title": "3. Kullanıcı Sorumlulukları",
+    "sec3Desc": "Hesabınızın ve Hizmete sağlanan tüm API anahtarlarının güvenliğini sağlamaktan siz sorumlusunuz. Aura, kendi ihmaliniz nedeniyle hesabınıza yetkisiz erişim sağlanmasından kaynaklanan hiçbir kayıptan sorumlu değildir.",
+    "sec4Title": "4. Risk Bildirimi",
+    "sec4Desc": "Kripto para ticareti önemli riskler barındırır. Yapay zeka araçlarımız size yardımcı olmak için tasarlanmıştır ancak kâr garantisi veremez veya zararları önleyemez. Piyasa oynaklığı, yatırılan fonların tamamen kaybedilmesine neden olabilir.",
+    "sec5Title": "5. Sorumluluk Sınırı",
+    "sec5Desc": "Yasaların izin verdiği azami ölçüde Aura; Hizmetin kullanımından veya kullanılamamasından kaynaklanan dolaylı, arızi, özel veya sonuçsal zararlardan hiçbir şekilde sorumlu tutulamaz."
   }
 }

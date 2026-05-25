@@ -4,8 +4,11 @@ import { motion } from "framer-motion";
 import { LandingHeader } from "@/components/landing/landing-header";
 import { AuroraBackground } from "@/components/landing/aurora-background";
 import { LandingFooter } from "@/components/landing/landing-footer";
+import { useLanguage } from "@/context/language-context";
 
 export default function TermsPage() {
+  const { t } = useLanguage();
+
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-black text-white">
       <AuroraBackground />
@@ -24,42 +27,42 @@ export default function TermsPage() {
           animate={{ opacity: 1, y: 0 }}
           className="prose prose-invert max-w-none"
         >
-          <h1 className="text-4xl md:text-5xl font-bold mb-8 text-white">Terms of Service</h1>
-          <p className="text-white/60 mb-12">Last Updated: May 2, 2026</p>
+          <h1 className="text-4xl md:text-5xl font-bold mb-8 text-white">{t("terms.title")}</h1>
+          <p className="text-white/60 mb-12">{t("terms.lastUpdated")}</p>
 
           <section className="space-y-8 text-white/70 leading-relaxed">
             <div>
-              <h2 className="text-xl font-semibold text-white mb-4">1. Acceptance of Terms</h2>
+              <h2 className="text-xl font-semibold text-white mb-4">{t("terms.sec1Title")}</h2>
               <p>
-                By accessing and using the Aura platform ("Service"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our Service.
+                {t("terms.sec1Desc")}
               </p>
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold text-white mb-4">2. Description of Service</h2>
+              <h2 className="text-xl font-semibold text-white mb-4">{t("terms.sec2Title")}</h2>
               <p>
-                Aura provides an AI-driven investment assistance platform. We do not provide direct financial advice, and our AI-generated insights are for informational purposes only. All investment decisions remain the sole responsibility of the user.
+                {t("terms.sec2Desc")}
               </p>
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold text-white mb-4">3. User Responsibilities</h2>
+              <h2 className="text-xl font-semibold text-white mb-4">{t("terms.sec3Title")}</h2>
               <p>
-                You are responsible for maintaining the security of your account and any API keys provided to the Service. Aura is not liable for any losses resulting from unauthorized access to your account due to negligence on your part.
+                {t("terms.sec3Desc")}
               </p>
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold text-white mb-4">4. Risk Disclosure</h2>
+              <h2 className="text-xl font-semibold text-white mb-4">{t("terms.sec4Title")}</h2>
               <p>
-                Trading cryptocurrencies involves significant risk. Our AI tools are designed to assist, but they cannot guarantee profits or prevent losses. Market volatility can lead to the total loss of invested funds.
+                {t("terms.sec4Desc")}
               </p>
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold text-white mb-4">5. Limitation of Liability</h2>
+              <h2 className="text-xl font-semibold text-white mb-4">{t("terms.sec5Title")}</h2>
               <p>
-                To the maximum extent permitted by law, Aura shall not be liable for any indirect, incidental, special, or consequential damages resulting from the use or inability to use the Service.
+                {t("terms.sec5Desc")}
               </p>
             </div>
           </section>

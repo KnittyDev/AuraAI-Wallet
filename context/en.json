@@ -895,5 +895,33 @@
       "riskBuffer": "Risk Buffer",
       "enterTerminal": "Enter Terminal"
     }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last Updated: May 2, 2026",
+    "sec1Title": "1. Data Collection",
+    "sec1Desc": "We collect only the data necessary to provide our AI-driven insights. This includes your transaction history (if connected), portfolio balances, and basic account information. We do not sell your personal data to third parties.",
+    "sec2Title": "2. Use of Information",
+    "sec2Desc": "Your data is used exclusively to train our AI models on a per-user basis to provide personalized investment strategies and to improve the overall accuracy of the Aura Neural Engine.",
+    "sec3Title": "3. Security Measures",
+    "sec3Desc": "We employ industry-standard encryption for all data at rest and in transit. Access to sensitive data is strictly limited to authorized automated systems within the Aura ecosystem.",
+    "sec4Title": "4. Third-Party Integrations",
+    "sec4Desc": "Aura integrates with various blockchain networks and APIs. These third parties have their own privacy policies, and we recommend reviewing them when connecting your external wallets.",
+    "sec5Title": "5. Your Rights",
+    "sec5Desc": "You have the right to request a copy of your data or its deletion at any time. Processing such requests may take up to 30 days and might result in the suspension of AI-driven features."
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last Updated: May 2, 2026",
+    "sec1Title": "1. Acceptance of Terms",
+    "sec1Desc": "By accessing and using the Aura platform (\"Service\"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our Service.",
+    "sec2Title": "2. Description of Service",
+    "sec2Desc": "Aura provides an AI-driven investment assistance platform. We do not provide direct financial advice, and our AI-generated insights are for informational purposes only. All investment decisions remain the sole responsibility of the user.",
+    "sec3Title": "3. User Responsibilities",
+    "sec3Desc": "You are responsible for maintaining the security of your account and any API keys provided to the Service. Aura is not liable for any losses resulting from unauthorized access to your account due to negligence on your part.",
+    "sec4Title": "4. Risk Disclosure",
+    "sec4Desc": "Trading cryptocurrencies involves significant risk. Our AI tools are designed to assist, but they cannot guarantee profits or prevent losses. Market volatility can lead to the total loss of invested funds.",
+    "sec5Title": "5. Limitation of Liability",
+    "sec5Desc": "To the maximum extent permitted by law, Aura shall not be liable for any indirect, incidental, special, or consequential damages resulting from the use or inability to use the Service."
   }
 }
