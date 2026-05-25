@@ -25,6 +25,7 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import auraLogo from "@/app/auralogo.png";
+import { useLanguage } from "@/context/language-context";
 
 
 
@@ -42,11 +43,41 @@ const TRANSACTIONS = [
 ];
 
 export default function WalletPage() {
+  const { language, t } = useLanguage();
   const [balances, setBalances] = useState<any[]>([]);
   const [transactions, setTransactions] = useState<any[]>([]);
   const [investments, setInvestments] = useState<any[]>([]);
   const [prices, setPrices] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
+  const getTxLabel = (tx: any) => {
+    if (tx.id?.toString().startsWith("principal-")) {
+      return `${t("wallet.principalReturn")} (${tx.assetPlan || tx.asset} ${t("wallet.planLabel")})`;
+    }
+    if (tx.id?.toString().startsWith("profit-")) {
+      return `${t("wallet.strategyProfit")} (${tx.assetPlan || tx.asset} ${t("wallet.planLabel")})`;
+    }
+    const typeLower = tx.type?.toLowerCase();
+    if (typeLower === "deposit") return t("wallet.typeDeposit");
+    if (typeLower === "withdrawal") return t("wallet.typeWithdrawal");
+    if (typeLower === "profit") return t("wallet.typeProfit");
+    if (typeLower === "investment") return t("wallet.typeInvestment");
+    return tx.customLabel || tx.type;
+  };
+
+  const getTxStatus = (status: string) => {
+    const statusLower = status?.toLowerCase();
+    if (statusLower === "completed") return t("wallet.statusCompleted");
+    if (statusLower === "processing") return t("wallet.statusProcessing");
+    return status;
+  };
+
+  const formatAssetBalance = (balance: number, symbol: string) => {
+    return new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: symbol === "USDT" ? 2 : 6
+    }).format(balance);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -96,7 +127,8 @@ export default function WalletPage() {
                   status: "Completed",
                   created_at: maturityDate.toISOString(),
                   tx_id: `RET-${inv.id.slice(0, 8)}-${inv.asset_code}`,
-                  customLabel: `Principal Return (${inv.asset_code} Plan)`
+                  customLabel: `Principal Return (${inv.asset_code} Plan)`,
+                  assetPlan: inv.asset_code
                 });
 
                 // Strategy Profit
@@ -109,7 +141,8 @@ export default function WalletPage() {
                   status: "Completed",
                   created_at: maturityDate.toISOString(),
                   tx_id: `PRFT-${inv.id.slice(0, 8)}-${inv.asset_code}`,
-                  customLabel: `Strategy Profit (${inv.asset_code} Plan)`
+                  customLabel: `Strategy Profit (${inv.asset_code} Plan)`,
+                  assetPlan: inv.asset_code
                 });
               }
             });
@@ -209,19 +242,19 @@ export default function WalletPage() {
                 <div className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
                   <LuWallet className="h-5 w-5 text-white" />
                 </div>
-                <h1 className="text-4xl font-bold tracking-tight text-white">My Wallet</h1>
+                <h1 className="text-4xl font-bold tracking-tight text-white">{t("wallet.title")}</h1>
               </div>
-              <p className="text-white/50 ml-12">Securely manage your assets and liquidity.</p>
+              <p className="text-white/50 ml-12">{t("wallet.subtitle")}</p>
             </div>
 
             <div className="flex items-center gap-3">
               <Link href="/dashboard/deposit" className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-white text-black font-bold text-sm hover:bg-white/90 transition-all">
                 <LuArrowDownLeft className="h-4 w-4" />
-                Deposit
+                {t("wallet.deposit")}
               </Link>
               <Link href="/dashboard/withdraw" className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-white font-bold text-sm hover:bg-white/10 transition-all">
                 <LuArrowUpRight className="h-4 w-4" />
-                Withdraw
+                {t("wallet.withdraw")}
               </Link>
 
             </div>
@@ -240,7 +273,7 @@ export default function WalletPage() {
 
               <div className="relative z-10">
                 <div className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-4 flex items-center gap-2">
-                  Total Net Worth
+                  {t("wallet.totalNetWorth")}
                   {loading && <div className="h-2 w-2 rounded-full bg-cyan-500 animate-pulse" />}
                 </div>
 
@@ -252,13 +285,13 @@ export default function WalletPage() {
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   <div>
-                    <p className="text-[9px] font-bold tracking-widest text-white/30 uppercase mb-2">Available</p>
+                    <p className="text-[9px] font-bold tracking-widest text-white/30 uppercase mb-2">{t("wallet.available")}</p>
                     <p className="text-xl font-semibold text-white/90">
                       ${new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(availableBalance)}
                     </p>
                   </div>
                   <div>
-                    <p className="text-[9px] font-bold tracking-widest text-white/30 uppercase mb-2">In Strategies</p>
+                    <p className="text-[9px] font-bold tracking-widest text-white/30 uppercase mb-2">{t("wallet.inStrategies")}</p>
                     <p className="text-xl font-semibold text-white/90">
                       ${new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(inStrategies)}
                     </p>
@@ -273,13 +306,13 @@ export default function WalletPage() {
               {/* Assets List */}
               <div className="lg:col-span-8">
                 <div className="flex items-center justify-between mb-6 px-2">
-                  <h3 className="text-xl font-semibold text-white">Asset Breakdown</h3>
+                  <h3 className="text-xl font-semibold text-white">{t("wallet.assetBreakdown")}</h3>
                   <Link 
                     href="/dashboard/convert" 
                     className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 text-white/70 hover:text-white hover:bg-white/10 transition-all text-xs font-bold uppercase tracking-widest"
                   >
                     <LuRefreshCw className="h-3.5 w-3.5" />
-                    Convert Assets
+                    {t("wallet.convertAssets")}
                   </Link>
                 </div>
 
@@ -304,15 +337,17 @@ export default function WalletPage() {
                       <div>
                         <h4 className="text-[10px] md:text-sm font-medium text-white/50 mb-0.5 md:mb-1 truncate">{asset.name}</h4>
                         <div className="flex items-baseline gap-1 md:gap-2">
-                          <p className="text-lg sm:text-xl md:text-2xl font-semibold text-white truncate">{asset.balance}</p>
+                          <p className="text-lg sm:text-xl md:text-2xl font-semibold text-white truncate">
+                            {formatAssetBalance(asset.balance, asset.symbol)}
+                          </p>
                           <span className="text-[9px] md:text-xs font-bold text-white/20 shrink-0">{asset.symbol}</span>
                         </div>
                         <div className="flex flex-col 2xl:flex-row 2xl:items-center justify-between mt-1 md:mt-2 gap-0.5">
                           <p className="text-[10px] md:text-sm text-white/40 truncate">
-                            ${new Intl.NumberFormat("en-US").format(asset.value)}
+                            ${new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(asset.value)}
                           </p>
                           <p className="text-[8px] md:text-[10px] text-white/20 font-mono truncate">
-                            ${asset.price.toLocaleString()}
+                            ${asset.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                           </p>
                         </div>
                       </div>
@@ -324,7 +359,7 @@ export default function WalletPage() {
               {/* Crypto Card Promo */}
               <div className="lg:col-span-4 flex flex-col">
                 <div className="flex items-center justify-between mb-6 px-2">
-                  <h3 className="text-xl font-semibold text-white">Special Offer</h3>
+                  <h3 className="text-xl font-semibold text-white">{t("wallet.specialOffer")}</h3>
                 </div>
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
@@ -336,10 +371,10 @@ export default function WalletPage() {
                       <div className="h-10 w-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/20">
                         <LuCreditCard className="h-5 w-5 text-white" />
                       </div>
-                      <span className="text-[9px] font-bold tracking-widest text-white/20 uppercase border border-white/10 px-2 py-1 rounded-full">Coming Soon</span>
+                      <span className="text-[9px] font-bold tracking-widest text-white/20 uppercase border border-white/10 px-2 py-1 rounded-full">{t("wallet.comingSoon")}</span>
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-2 leading-tight">Aura Elite <br />Crypto Bank Card</h3>
-                    <p className="text-sm text-white/50 leading-relaxed mb-6">Spend your crypto anywhere in the world. 0% fees, 3% cashback.</p>
+                    <h3 className="text-2xl font-bold text-white mb-2 leading-tight whitespace-pre-line">{t("wallet.cardTitle")}</h3>
+                    <p className="text-sm text-white/50 leading-relaxed mb-6">{t("wallet.cardSubtitle")}</p>
 
                     {/* Physical Card Mockup */}
                     <div className="relative w-full aspect-[1.586/1] mb-8 group cursor-pointer mt-auto">
@@ -350,14 +385,14 @@ export default function WalletPage() {
                             <span className="text-[10px] font-bold tracking-widest text-white/90 uppercase">Aura</span>
                           </div>
                           <div className="text-right">
-                            <p className="text-[8px] font-bold tracking-widest text-white/40 uppercase">Elite</p>
+                            <p className="text-[8px] font-bold tracking-widest text-white/40 uppercase">{t("wallet.cardElite")}</p>
                           </div>
                         </div>
 
                         <div className="space-y-4">
                           <p className="text-lg font-mono tracking-widest text-white/80">•••• •••• •••• 8842</p>
                           <div className="flex justify-between items-end">
-                            <p className="text-[10px] font-medium tracking-widest text-white/40 uppercase">Aura Platinum</p>
+                            <p className="text-[10px] font-medium tracking-widest text-white/40 uppercase">{t("wallet.cardPlatinum")}</p>
                             <div className="flex -space-x-2">
                               <div className="h-6 w-6 rounded-full bg-red-500/80" />
                               <div className="h-6 w-6 rounded-full bg-orange-500/80" />
@@ -372,7 +407,7 @@ export default function WalletPage() {
                     href="/dashboard/card"
                     className="w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 bg-white text-black hover:bg-white/90 active:scale-95 group mt-auto relative z-10"
                   >
-                    Discover the Card
+                    {t("wallet.discoverCard")}
                     <LuArrowUpRight className="h-4 w-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </Link>
                 </motion.div>
@@ -388,10 +423,10 @@ export default function WalletPage() {
               <div className="flex items-center justify-between mb-6 px-2">
                 <div className="flex items-center gap-2">
                   <LuHistory className="h-5 w-5 text-white/40" />
-                  <h3 className="text-xl font-semibold text-white">Recent Activity</h3>
+                  <h3 className="text-xl font-semibold text-white">{t("wallet.recentActivity")}</h3>
                 </div>
                 <Link href="/dashboard/transactions" className="text-xs font-bold text-white/30 hover:text-white uppercase tracking-widest transition-colors">
-                  View All
+                  {t("wallet.viewAll")}
                 </Link>
               </div>
 
@@ -407,9 +442,9 @@ export default function WalletPage() {
                             {tx.type === "Deposit" || tx.type === "Profit" ? <LuArrowDownLeft className="h-5 w-5" /> : <LuArrowUpRight className="h-5 w-5" />}
                           </div>
                           <div>
-                            <p className="font-bold text-white text-sm">{tx.customLabel || tx.type}</p>
+                            <p className="font-bold text-white text-sm">{getTxLabel(tx)}</p>
                             <span className={`inline-flex mt-1 items-center px-2 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-widest ${tx.status === "Completed" ? "bg-emerald-400/10 text-emerald-400 border border-emerald-400/20" : "bg-white/5 text-white/40 border border-white/10"}`}>
-                              {tx.status}
+                              {getTxStatus(tx.status)}
                             </span>
                           </div>
                         </div>
@@ -421,14 +456,14 @@ export default function WalletPage() {
                         </div>
                       </div>
                       <div className="bg-white/[0.02] p-3 rounded-xl border border-white/5 flex items-center justify-between text-xs">
-                        <span className="text-white/30 uppercase tracking-widest font-bold text-[9px]">Date</span>
-                        <span className="text-white/80 font-medium">{new Date(tx.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                        <span className="text-white/30 uppercase tracking-widest font-bold text-[9px]">{t("wallet.dateLabel")}</span>
+                        <span className="text-white/80 font-medium">{new Date(tx.created_at).toLocaleDateString(language === "tr" ? "tr-TR" : "en-US", { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                       </div>
                     </div>
                   ))}
                   {transactions.length === 0 && (
                     <div className="p-8 text-center text-white/20 italic text-sm">
-                      No recent activity found.
+                      {t("wallet.noRecentActivity")}
                     </div>
                   )}
                 </div>
@@ -438,11 +473,11 @@ export default function WalletPage() {
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="border-b border-white/5 bg-white/[0.02]">
-                        <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">Transaction</th>
-                        <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">Asset</th>
-                        <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">Amount</th>
-                        <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">Date</th>
-                        <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest text-right">Status</th>
+                        <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{t("wallet.transactionHeader")}</th>
+                        <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{t("wallet.assetHeader")}</th>
+                        <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{t("wallet.amountHeader")}</th>
+                        <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest">{t("wallet.dateHeader")}</th>
+                        <th className="px-8 py-5 text-[10px] font-bold text-white/20 uppercase tracking-widest text-right">{t("wallet.statusHeader")}</th>
                       </tr>
                     </thead>
                   <tbody className="divide-y divide-white/5">
@@ -455,7 +490,7 @@ export default function WalletPage() {
                               {tx.type === "Deposit" || tx.type === "Profit" ? <LuArrowDownLeft className="h-4 w-4" /> : <LuArrowUpRight className="h-4 w-4" />}
                             </div>
                             <span className="text-sm font-medium text-white group-hover:translate-x-1 transition-transform">
-                              {tx.customLabel || tx.type}
+                              {getTxLabel(tx)}
                             </span>
                           </div>
                         </td>
@@ -469,12 +504,12 @@ export default function WalletPage() {
                           </span>
                         </td>
                         <td className="px-8 py-5 text-sm text-white/40">
-                          {new Date(tx.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                          {new Date(tx.created_at).toLocaleDateString(language === "tr" ? "tr-TR" : "en-US", { month: 'short', day: 'numeric', year: 'numeric' })}
                         </td>
                         <td className="px-8 py-5 text-right">
                           <span className={`text-[9px] font-bold px-2 py-1 rounded-md uppercase tracking-widest ${tx.status === "Completed" ? "bg-emerald-400/10 text-emerald-400" : "bg-white/5 text-white/40"
                             }`}>
-                            {tx.status}
+                            {getTxStatus(tx.status)}
                           </span>
                         </td>
                       </tr>
@@ -482,7 +517,7 @@ export default function WalletPage() {
                     {transactions.length === 0 && (
                       <tr>
                         <td colSpan={5} className="px-8 py-12 text-center text-white/20 italic">
-                          No recent activity found.
+                          {t("wallet.noRecentActivity")}
                         </td>
                       </tr>
                     )}

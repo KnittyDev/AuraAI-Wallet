@@ -1,5 +1,6 @@
 import { IconType } from "react-icons";
 import { SiBitcoin, SiEthereum, SiSolana, SiTether } from "react-icons/si";
+import { useLanguage } from "@/context/language-context";
 
 interface DashboardHoldingsTableProps {
   investments: { 
@@ -25,6 +26,7 @@ const ASSET_MAP: Record<string, { name: string; icon: IconType }> = {
 };
 
 export function DashboardHoldingsTable({ investments, prices, changes, profits, profits24h }: DashboardHoldingsTableProps) {
+  const { t } = useLanguage();
   const holdings = investments.map((inv) => {
     const assetInfo = ASSET_MAP[inv.asset_code] || { name: inv.asset_code, icon: SiTether };
     const price = prices[inv.asset_code] || 1;
@@ -56,7 +58,7 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
       yield24h: `${yield24h >= 0 ? "+" : ""}${yield24h.toFixed(2)}%`,
       icon: assetInfo.icon,
       risk: inv.risk_profile,
-      duration: `${inv.duration_days} Days`,
+      duration: `${inv.duration_days} ${t("dashboardHome.days")}`,
     };
   });
 
@@ -64,19 +66,19 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
     <section className="rounded-3xl border border-white/15 bg-black/45 p-5 backdrop-blur-sm">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
         <div>
-          <h3 className="text-xl font-bold text-white tracking-tight">Active Investment Strategies</h3>
-          <p className="text-xs text-white/40 mt-0.5">Real-time performance of your neural-managed portfolios.</p>
+          <h3 className="text-xl font-bold text-white tracking-tight">{t("dashboardHome.activeStrategies")}</h3>
+          <p className="text-xs text-white/40 mt-0.5">{t("dashboardHome.strategiesSubtitle")}</p>
         </div>
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 w-fit">
           <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">AuraAI Live Engine</span>
+          <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">{t("dashboardHome.liveEngine")}</span>
         </div>
       </div>
 
       {holdings.length === 0 ? (
         <div className="py-12 text-center text-white/20 italic font-medium border border-white/5 bg-white/[0.02] rounded-2xl">
-          Scanning for active strategies... <br/>
-          <span className="text-[10px] opacity-40 uppercase tracking-widest mt-2 block font-bold">Start your first investment to activate AuraAI</span>
+          {t("dashboardHome.scanning")} <br/>
+          <span className="text-[10px] opacity-40 uppercase tracking-widest mt-2 block font-bold">{t("dashboardHome.activateAura")}</span>
         </div>
       ) : (
         <>
@@ -85,14 +87,14 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
             <table className="w-full min-w-[950px] text-left text-sm">
               <thead className="text-white/30 text-[10px] font-bold uppercase tracking-widest border-b border-white/5">
                 <tr>
-                  <th className="pb-4 font-bold">Strategy Asset</th>
-                  <th className="pb-4 font-bold text-center">Risk</th>
-                  <th className="pb-4 font-bold text-center">Plan</th>
-                  <th className="pb-4 font-bold">Initial Capital</th>
-                  <th className="pb-4 font-bold">Asset Vol.</th>
-                  <th className="pb-4 font-bold">Current Value</th>
-                  <th className="pb-4 font-bold">Net Profit (USDT)</th>
-                  <th className="pb-4 font-bold text-right">24h AI <span className="opacity-40 font-normal ml-1">Yield</span></th>
+                  <th className="pb-4 font-bold">{t("dashboardHome.strategyAsset")}</th>
+                  <th className="pb-4 font-bold text-center">{t("dashboardHome.risk")}</th>
+                  <th className="pb-4 font-bold text-center">{t("dashboardHome.plan")}</th>
+                  <th className="pb-4 font-bold">{t("dashboardHome.initialCapital")}</th>
+                  <th className="pb-4 font-bold">{t("dashboardHome.assetVol")}</th>
+                  <th className="pb-4 font-bold">{t("dashboardHome.currentValue")}</th>
+                  <th className="pb-4 font-bold">{t("dashboardHome.netProfitUsdt")}</th>
+                  <th className="pb-4 font-bold text-right">{t("dashboardHome.ai24h")} <span className="opacity-40 font-normal ml-1">{t("dashboardHome.yieldHeader")}</span></th>
                 </tr>
               </thead>
               <tbody className="text-white/85 divide-y divide-white/5">
@@ -116,7 +118,10 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
                         row.risk === "Balanced" ? "text-blue-400 border-blue-500/20 bg-blue-500/10" :
                         "text-zinc-400 border-white/10 bg-white/5"
                       }`}>
-                        {row.risk}
+                        {row.risk === "Aggressive" ? t("dashboardHome.risks.aggressive") :
+                         row.risk === "Growth" ? t("dashboardHome.risks.growth") :
+                         row.risk === "Balanced" ? t("dashboardHome.risks.balanced") :
+                         row.risk}
                       </span>
                     </td>
                     <td className="py-4 text-center">
@@ -177,7 +182,10 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
                       row.risk === "Growth" ? "text-emerald-400 border-emerald-400/20 bg-emerald-400/5" :
                       "text-blue-400 border-blue-400/20 bg-blue-400/5"
                     }`}>
-                      {row.risk}
+                      {row.risk === "Aggressive" ? t("dashboardHome.risks.aggressive") :
+                       row.risk === "Growth" ? t("dashboardHome.risks.growth") :
+                       row.risk === "Balanced" ? t("dashboardHome.risks.balanced") :
+                       row.risk}
                     </span>
                     <span className="text-[10px] font-medium text-white/30 uppercase tracking-widest">{row.duration}</span>
                   </div>
@@ -186,14 +194,14 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
                 {/* Main Stats Grid */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-1.5">Initial Capital</p>
+                    <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-1.5">{t("dashboardHome.initialCapital")}</p>
                     <p className="font-mono text-white/80 font-bold">{row.initialCapital}</p>
                     {row.symbol !== 'USDT' && (
                       <p className="text-[9px] text-white/20 font-mono mt-0.5">{row.initialAssetAmount}</p>
                     )}
                   </div>
                   <div className="text-right">
-                    <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-1.5">Current Value</p>
+                    <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-1.5">{t("dashboardHome.currentValue")}</p>
                     <p className="font-mono text-white text-lg font-bold">{row.value}</p>
                   </div>
                 </div>
@@ -201,13 +209,13 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
                 {/* Performance Footer */}
                 <div className="flex items-center justify-between bg-white/[0.02] rounded-xl border border-white/5 p-4">
                   <div>
-                    <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-1">Net Profit</p>
+                    <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-1">{t("dashboardHome.netProfit")}</p>
                     <p className={`font-mono font-bold ${row.profit >= 0 ? "text-emerald-400" : "text-red-400"}`}>
                       {row.profit >= 0 ? "+" : ""}{row.profit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-[10px]">USDT</span>
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-1">24h Yield</p>
+                    <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-1">{t("dashboardHome.yield24h")}</p>
                     <p className={`font-mono font-bold text-lg ${row.profit24h < 0 ? "text-red-400" : "text-emerald-400"}`}>
                       {row.profit24h >= 0 ? "+" : ""}{row.profit24h.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </p>
@@ -217,7 +225,7 @@ export function DashboardHoldingsTable({ investments, prices, changes, profits, 
 
                 {/* Volume Tag */}
                 <div className="text-[9px] text-white/20 font-mono text-center tracking-wider">
-                  NET VOLUME: {row.currentAssetAmount}
+                  {t("dashboardHome.netVolume")}: {row.currentAssetAmount}
                 </div>
               </div>
             ))}

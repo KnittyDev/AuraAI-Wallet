@@ -6,6 +6,7 @@ import { LuNewspaper, LuExternalLink, LuClock } from "react-icons/lu";
 import Image from "next/image";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import { useLanguage } from "@/context/language-context";
 
 type NewsItem = {
   id: string;
@@ -18,6 +19,7 @@ type NewsItem = {
 };
 
 export function MarketNews() {
+  const { language, t } = useLanguage();
   const [news, setNews] = useState<NewsItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -133,7 +135,7 @@ const MOCK_NEWS: NewsItem[] = [
 
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp * 1000);
-    return date.toLocaleDateString("en-US", {
+    return date.toLocaleDateString(language === "tr" ? "tr-TR" : "en-US", {
       month: "short",
       day: "numeric",
       hour: "2-digit",
@@ -147,7 +149,7 @@ const MOCK_NEWS: NewsItem[] = [
         <div className="h-8 w-8 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
           <LuNewspaper className="h-4 w-4 text-white/60" />
         </div>
-        <h2 className="text-xl font-semibold text-white">Global Market Updates</h2>
+        <h2 className="text-xl font-semibold text-white">{t("marketData.marketUpdates")}</h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -190,7 +192,7 @@ const MOCK_NEWS: NewsItem[] = [
                   </p>
                   
                   <div className="mt-auto pt-6 flex items-center justify-end text-[10px] font-bold uppercase tracking-widest text-white/30 group-hover:text-white transition-colors">
-                    <span>Read Full Story</span>
+                    <span>{t("marketData.readFullStory")}</span>
                     <LuExternalLink className="ml-1.5 h-3 w-3" />
                   </div>
                 </div>

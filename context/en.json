@@ -1,0 +1,523 @@
+{
+  "header": {
+    "pricing": "Pricing",
+    "features": "Features",
+    "results": "Results",
+    "caseStudies": "Case Studies",
+    "faq": "FAQ",
+    "resources": "Resources",
+    "insights": "Insights",
+    "learn": "Learn",
+    "blog": "Blog",
+    "stories": "Customer stories",
+    "storiesSoon": "Soon",
+    "news": "Aura news",
+    "academy": "Academy",
+    "support": "Support Center",
+    "tutorials": "Tutorials",
+    "careers": "Careers",
+    "contactSales": "Contact sales",
+    "tryNow": "Try Now",
+    "dashboard": "Dashboard"
+  },
+  "dashboard": {
+    "overview": "Overview",
+    "wallet": "My Wallet",
+    "marketData": "Market Data",
+    "investments": "Investments",
+    "transactions": "Transactions",
+    "performance": "Performance",
+    "askAi": "Ask AI",
+    "settings": "Settings",
+    "logout": "Logout",
+    "netWorth": "Total Net Worth",
+    "adminPanel": "Admin Panel"
+  },
+  "dashboardHome": {
+    "title": "Investment Dashboard",
+    "subtitle": "Track your portfolio value, returns, and AI trading actions in one place.",
+    "deposit": "Deposit",
+    "newInvestment": "New Investment",
+    "totalCapital": "Total capital invested",
+    "yield24h": "24h yield",
+    "netProfit": "Net Profit",
+    "allTimeEarnings": "All-time AuraAI earnings",
+    "availableUsdt": "Available USDT",
+    "readyPositions": "Ready for new positions",
+    "activeStrategies": "Active Investment Strategies",
+    "strategiesSubtitle": "Real-time performance of your neural-managed portfolios.",
+    "liveEngine": "AuraAI Live Engine",
+    "scanning": "Scanning for active strategies...",
+    "activateAura": "Start your first investment to activate AuraAI",
+    "strategyAsset": "Strategy Asset",
+    "risk": "Risk",
+    "plan": "Plan",
+    "initialCapital": "Initial Capital",
+    "assetVol": "Asset Vol.",
+    "currentValue": "Current Value",
+    "netProfitUsdt": "Net Profit (USDT)",
+    "yieldHeader": "Yield",
+    "ai24h": "24h AI",
+    "days": "Days",
+    "netVolume": "NET VOLUME",
+    "risks": {
+      "aggressive": "Aggressive",
+      "growth": "Growth",
+      "balanced": "Balanced"
+    }
+  },
+  "hero": {
+    "eyebrow": "Claude Opus 4.7 — Max",
+    "title1": "Let AI Manage ",
+    "title2": "Your Portfolio",
+    "subtitle": "Aura AI continuously analyzes markets, manages risk, and executes trades — so your portfolio keeps working even when you don't.",
+    "ctaDashboard": "Go to Dashboard",
+    "ctaStart": "Start for Free",
+    "ctaTalk": "Let's Talk"
+  },
+  "prompt": {
+    "assetsManaged": "Assets Managed",
+    "uptime": "Uptime",
+    "avgResponse": "Avg. Response",
+    "ticker": "Aura AI is running live strategies"
+  },
+  "marquee": {
+    "title": "Trusted by Institutional Partners & Crypto Apps"
+  },
+  "pricing": {
+    "title": "Pricing",
+    "free": {
+      "name": "Free",
+      "price": "$0",
+      "description": "A limited but powerful automated portfolio experience for new users.",
+      "features": [
+        "Opus 4.6 AI Model",
+        "5 automated trades per day",
+        "1 managed portfolio",
+        "Basic weekly performance reports",
+        "Basic buy/sell suggestions",
+        "Automated flow using general strategies",
+        "1 withdrawal every 3 days",
+        "And more"
+      ],
+      "cta": "Start Free"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "$15 / 3 months",
+      "description": "Full autonomous mode: AI manages trades 24/7. Billed every 3 months.",
+      "features": [
+        "Opus 4.7 Max AI Model",
+        "Capital Protection: 15% Loss Recovery",
+        "Unlimited automated trades",
+        "Unlimited portfolio management",
+        "Instant withdrawals",
+        "Daily and weekly performance reports",
+        "Auto sell / auto buy",
+        "24/7 autonomous trade execution and management",
+        "Fully autonomous portfolio operations",
+        "And more"
+      ],
+      "cta": "Upgrade to Pro"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "price": "Custom",
+      "description": "Built exclusively for company investment operations with protected capital frameworks.",
+      "features": [
+        "Company-only investment model",
+        "Security deposit / guarantee collateral setup",
+        "Partial loss recovery returned to the company",
+        "Custom capital protection terms",
+        "Enterprise-grade risk monitoring",
+        "Dedicated investment support"
+      ],
+      "cta": "Contact Sales"
+    }
+  },
+  "features": {
+    "prediction": {
+      "title": "Easy to use",
+      "description": "Even if you have no knowledge of trading, cryptocurrency, or stock market, the Aura Opus 4.7 model handles all your trades fully autonomously!",
+      "button": "Start Trading",
+      "status": "System Status",
+      "trading": "Autonomous Trading",
+      "active": "Model: Active",
+      "standby": "Model: Standby",
+      "profit": "Total Profit",
+      "live": "Global Live"
+    },
+    "ai": {
+      "title": "Trade with AI",
+      "description": "Use model-powered portfolio ideas and instantly convert them into actionable trade logic with a single prompt.",
+      "button": "Generate Strategy",
+      "strategy": "Growth Strategy"
+    },
+    "sleep": {
+      "title": "Let it run while you sleep",
+      "description": "While you sleep, Aura autonomously executes trades based on your configured strategy and provides real-time notifications.",
+      "button": "Automate Now",
+      "success": "Execution Success",
+      "mode": "Aura Autonomous Mode",
+      "profit": "Profit realized"
+    },
+    "risk": {
+      "title": "Low Risk High Returns",
+      "description": "Aura monitors market risk and automatically adjusts or pauses trading to protect your capital and maximize yield.",
+      "button": "View Performance",
+      "guard": "Risk Guard Active",
+      "stability": "System Stability"
+    }
+  },
+  "results": {
+    "title": "Real Results",
+    "disclaimer": "*Illustrative 30-day estimate based on historical strategy benchmarks. (Opus 4.7 model)",
+    "invest": "You invest in 1 month",
+    "auraEarn": "You earn with Aura AI Wallet*",
+    "manualEarn": "You earn with manual trading",
+    "monthlyInvested": "Monthly invested",
+    "profitDifference": "Profit difference",
+    "monthlyProfitUsd": "Monthly profit (USD)",
+    "manualLabel": "Manual",
+    "auraLabel": "Aura AI"
+  },
+  "benchmark": {
+    "title": "AI Benchmark",
+    "topModel": "Top Model",
+    "scoreLead": "Score lead",
+    "compositeDesc": "*Composite score from 10,000+ live crypto scenarios. BTC, ETH, SOL pairs. May 2026.",
+    "compositeIndex": "Composite Index",
+    "accuracy": "Prediction accuracy",
+    "liveMarkets": "Live crypto markets",
+    "latency": "Execution latency",
+    "edgeRuntime": "Edge Runtime",
+    "sharpe": "Sharpe ratio",
+    "riskReturns": "Risk-adjusted returns",
+    "financialScore": "Financial Intelligence Score"
+  },
+  "caseStudies": {
+    "eyebrow": "Proven Outcomes",
+    "title": "Case Studies",
+    "subtitle": "Real portfolio teams using Aura to optimize autonomous trade operations in production.",
+    "readFull": "Read full case study",
+    "tags": {
+      "growth": "Growth",
+      "risk": "Risk",
+      "efficiency": "Efficiency"
+    },
+    "roles": {
+      "grayscale": "Chief Investment Officer",
+      "solidchain": "CEO",
+      "customer": "Teacher"
+    },
+    "resultLabels": {
+      "grayscale": "Quarterly profit growth",
+      "solidchain": "Lower max drawdown",
+      "customer": "Faster rebalance cycles"
+    },
+    "quotes": {
+      "grayscale": "We moved from manual spot decisions to fully automated strategy runs. Aura handles what our 6-person trading desk used to do.",
+      "solidchain": "Aura's fund protection feature is one of the best systems we've seen to date; as a crypto investor, I've made a 30% profit on the funds I've invested in.",
+      "customer": "I was always afraid of investing in crypto because I was afraid of losing my money, but AuraAI gave me the confidence to start."
+    }
+  },
+  "faq": {
+    "title": "Questions?",
+    "subtitle": "Everything you need to know before you start.",
+    "items": [
+      {
+        "question": "What exactly is Aura AI?",
+        "answer": "Aura is an AI-native autonomous trading and portfolio management platform. It uses advanced language models and real-time market data to execute complex investment strategies, manage risk, and optimize your crypto holdings without requiring manual intervention."
+      },
+      {
+        "question": "How does the AI make trading decisions?",
+        "answer": "Aura AI leverages the Claude Opus 4.7 model, utilizing advanced artificial intelligence specifically trained in the domains of investment and cryptocurrency. The system continuously analyzes real-time news, social sentiment, on-chain data, and live market streams. It autonomously executes trades based on its assessment of these signals to optimize performance in line with your risk profile."
+      },
+      {
+        "question": "Is my capital secure with Aura?",
+        "answer": "Security is our top priority. Aura uses institutional-grade encryption for all data and API connections. We never have direct access to withdraw your funds from connected exchanges; the system only has 'Trade' and 'View' permissions. Additionally, we use multi-sig cold storage for any assets held within the Aura ecosystem."
+      },
+      {
+        "question": "Which assets and exchanges are supported?",
+        "answer": "Aura currently supports all major cryptocurrencies including BTC, ETH, SOL, and USDT. We provide seamless integration with top-tier exchanges like Binance, Coinbase, and Kraken, as well as direct on-chain execution for decentralized protocols."
+      },
+      {
+        "question": "How does the Pro plan differ from the Free plan?",
+        "answer": "While the Free plan allows you to explore basic portfolio tracking and manual AI suggestions, the Pro plan ($15/mo) unlocks 24/7 fully autonomous trading, instant withdrawals, advanced risk guardrails, and priority execution on all strategies."
+      },
+      {
+        "question": "How does Aura handle extreme market volatility?",
+        "answer": "Aura includes 'Neural Risk Guards' that monitor market stress 24/7. In the event of a flash crash or extreme volatility, the AI can automatically move assets to stables, tighten stop-losses, or hedge positions using shorts to protect your capital from significant drawdowns."
+      },
+      {
+        "question": "Are there any hidden fees per trade?",
+        "answer": "No. Aura does not charge any percentage-based commissions or hidden spreads on your trades. You only pay your monthly subscription fee (if on Pro) and the standard transaction fees charged by the underlying exchanges or blockchain networks."
+      },
+      {
+        "question": "Can I cancel my subscription at any time?",
+        "answer": "Yes. You can downgrade or cancel your Pro subscription at any time with a single click. There are no long-term contracts or cancellation fees."
+      },
+      {
+        "question": "Why is there a monthly subscription fee?",
+        "answer": "Operating a 24/7 otonom AI requires significant compute resources. Your subscription directly covers the high cost of Claude Opus 4.7 tokens (which Aura 'burns' as it analyzes data), high-frequency market data streams, and the secure cloud infrastructure required to execute trades with millisecond latency across global markets."
+      },
+      {
+        "question": "Is manual approval required for deposits or withdrawals?",
+        "answer": "Absolutely not. When you create an account, your crypto wallets are automatically generated. Deposits and withdrawals are handled automatically by the system and the blockchain exclusively through these dedicated wallets, ensuring a seamless and fully autonomous experience."
+      }
+    ]
+  },
+  "footer": {
+    "product": "Product",
+    "company": "Company",
+    "legal": "Legal",
+    "about": "About",
+    "contact": "Contact",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "status": "System Status",
+    "rights": "Aura. All rights reserved.",
+    "desc": "Autonomous portfolio intelligence with always-on execution and clear performance insights.",
+    "binance": "Binance infrastructure",
+    "swissEng": "Engineered in Switzerland",
+    "swissQuality": "Swiss Quality & Precision",
+    "euCompliant": "Compliant with EU Standards",
+    "euPlatform": "EU Compliant Platform"
+  },
+  "auth": {
+    "login": {
+      "title1": "Invest fast, ",
+      "title2": "grow faster.",
+      "subtitle": "Analyze in chat, invest with Aura. The intelligence engine for modern portfolios.",
+      "google": "Continue with Google",
+      "or": "OR",
+      "emailPlaceholder": "Enter your email",
+      "passwordPlaceholder": "Enter your password",
+      "submit": "Continue with email",
+      "submitting": "Signing in...",
+      "policy": "By continuing, you acknowledge Aura's ",
+      "policyLink": "Privacy Policy",
+      "policyEnd": ".",
+      "noAccount": "Don't have an account? ",
+      "createOne": "Create one",
+      "downloadApp": "Download desktop app",
+      "twoFactor": {
+        "title": "Two-Factor Verification",
+        "subtitle": "Enter the 6-digit code from your authenticator app to continue.",
+        "refresh": "Code refreshes every 30 seconds",
+        "submit": "Verify & Continue",
+        "submitting": "Verifying...",
+        "cancel": "Cancel Login",
+        "invalidCode": "Invalid code. Please try again."
+      }
+    },
+    "register": {
+      "title1": "Join the future, ",
+      "title2": "start today.",
+      "subtitle": "Create your account and let Aura manage your institutional-grade portfolio.",
+      "google": "Join with Google",
+      "or": "OR",
+      "fullName": "Full Name",
+      "username": "Public Username",
+      "anonymous": "I want to be an anonymous investor",
+      "emailAddress": "Email address",
+      "createPassword": "Create a password",
+      "strength": {
+        "weak": "Weak Password",
+        "fair": "Fair Security",
+        "good": "Good Password",
+        "strong": "Strong / Secure"
+      },
+      "submit": "Create Account",
+      "submitting": "Creating account...",
+      "policy": "By signing up, you acknowledge Aura's ",
+      "policyLink1": "Privacy Policy",
+      "policyAnd": " and ",
+      "policyLink2": "Terms",
+      "policyEnd": ".",
+      "alreadyAccount": "Already have an account? ",
+      "signIn": "Sign in",
+      "downloadApp": "Download desktop app"
+    }
+  },
+  "sales": {
+    "title1": "Elevate your ",
+    "title2": "Capital Management.",
+    "subtitle": "Aura's institutional grade infrastructure provides the security, liquidity, and AI-driven insights required for modern asset management. Connect with our team to explore tailored solutions.",
+    "securityTitle": "Bank-Grade Security",
+    "securityDesc": "Multi-sig custody and institutional compliance standards.",
+    "liquidityTitle": "Global Liquidity",
+    "liquidityDesc": "Deep order books across 50+ major liquidity providers.",
+    "strategiesTitle": "Custom Strategies",
+    "strategiesDesc": "AI models tuned to your specific risk and return mandates.",
+    "apiTitle": "Scalable API",
+    "apiDesc": "High-throughput infrastructure for automated high-frequency trading.",
+    "formTitle": "Contact our sales team",
+    "fullName": "Full Name",
+    "organization": "Organization",
+    "businessEmail": "Business Email",
+    "expectedAum": "Expected AUM",
+    "howHelp": "How can we help?",
+    "helpPlaceholder": "Tell us about your requirements...",
+    "submit": "Send Inquiry",
+    "policy": "By submitting this form, you agree to our ",
+    "termsLink": "Terms of Service",
+    "policyAnd": " and ",
+    "privacyLink": "Privacy Policy",
+    "policyEnd": ".",
+    "trusted": "Trusted by global financial leaders"
+  },
+  "wallet": {
+    "title": "My Wallet",
+    "subtitle": "Securely manage your assets and liquidity.",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "totalNetWorth": "Total Net Worth",
+    "available": "Available",
+    "inStrategies": "In Strategies",
+    "assetBreakdown": "Asset Breakdown",
+    "convertAssets": "Convert Assets",
+    "specialOffer": "Special Offer",
+    "comingSoon": "Coming Soon",
+    "cardTitle": "Aura Elite \nCrypto Bank Card",
+    "cardSubtitle": "Spend your crypto anywhere in the world. 0% fees, 3% cashback.",
+    "cardElite": "Elite",
+    "cardPlatinum": "Aura Platinum",
+    "discoverCard": "Discover the Card",
+    "recentActivity": "Recent Activity",
+    "viewAll": "View All",
+    "noRecentActivity": "No recent activity found.",
+    "dateLabel": "Date",
+    "transactionHeader": "Transaction",
+    "assetHeader": "Asset",
+    "amountHeader": "Amount",
+    "dateHeader": "Date",
+    "statusHeader": "Status",
+    "principalReturn": "Principal Return",
+    "strategyProfit": "Strategy Profit",
+    "planLabel": "Plan",
+    "typeDeposit": "Deposit",
+    "typeWithdrawal": "Withdrawal",
+    "typeProfit": "Profit",
+    "typeInvestment": "Investment",
+    "statusCompleted": "Completed",
+    "statusProcessing": "Processing"
+  },
+  "marketData": {
+    "title": "Market Data",
+    "subtitle": "View real-time crypto market charts powered by TradingView.",
+    "neuralLink": "Accessing Neural Link...",
+    "openPositions": "Live Open Positions",
+    "executionFeed": "Real-time execution feed from AuraAI neural engine.",
+    "scanningEntries": "Scanning for high-probability entries...",
+    "monitoring": "AuraAI is monitoring the markets",
+    "pairHeader": "Pair",
+    "sideHeader": "Side",
+    "entryPriceHeader": "Entry Price",
+    "currentPriceHeader": "Current Price",
+    "timeHeader": "Time",
+    "strategyLogicHeader": "Strategy Logic",
+    "long": "long",
+    "short": "short",
+    "bullishTrendDivergence": "Bullish trend divergence detected",
+    "overboughtRejection": "Overbought rejection signal confirmed",
+    "bullishTrendMobile": "Bullish trend divergence",
+    "overboughtRejectionMobile": "Overbought rejection",
+    "marketUpdates": "Global Market Updates",
+    "readFullStory": "Read Full Story"
+  },
+  "investments": {
+    "title": "Investments",
+    "subtitle": "Live overview of your portfolio, allocations, and AI-managed positions.",
+    "deposit": "Deposit",
+    "newInvestment": "New Investment",
+    "loading": "Loading...",
+    "activeStrategies": "Active Strategies",
+    "completedStrategies": "Completed Strategies",
+    "liveEngine": "Live Engine",
+    "engineOffline": "Engine Offline",
+    "noActiveStrategies": "No active AI investment strategies found.",
+    "daysSuffix": "Days",
+    "yieldSuffix": "Yield",
+    "details": "Details",
+    "viewingLogs": "Viewing Logs",
+    "viewLogs": "View Logs",
+    "executionFeedTitle": "Strategy Execution Feed",
+    "exportPdf": "Export PDF",
+    "closeFeed": "Close Feed",
+    "neuralLinkLoading": "Accessing AuraAI neural link...",
+    "completed": "Completed",
+    "finalReturn": "Final Return",
+    "stats": {
+      "totalCapital": "Total Capital",
+      "totalCapitalNote": "Invested in strategies",
+      "totalNetProfit": "Total Net Profit",
+      "totalNetProfitNote": "Realized earnings",
+      "activeStrategies": "Active Strategies",
+      "activeStrategiesNote": "Currently managed by AI",
+      "aiEngine": "AI Engine",
+      "aiEngineNote": "Online & Scanning"
+    },
+    "headers": {
+      "asset": "Asset",
+      "capital": "Capital",
+      "netProfit": "Net Profit",
+      "aiPnl24h": "24h AI P&L",
+      "duration": "Duration",
+      "risk": "Risk",
+      "actions": "Actions",
+      "finalNetProfit": "Final Net Profit",
+      "totalYield": "Total Yield",
+      "status": "Status"
+    },
+    "modal": {
+      "title": "Strategy Details",
+      "startDate": "Start Date",
+      "maturityDate": "Maturity Date",
+      "capitalAllocation": "Capital Allocation",
+      "entryPrice": "Entry Price",
+      "riskProfile": "Risk Profile",
+      "executionStatus": "Execution Status",
+      "understood": "Understood"
+    },
+    "pdf": {
+      "terminal": "AURA TERMINAL",
+      "reportTitle": "Investment Strategy Report",
+      "generated": "Generated",
+      "summaryTitle": "Strategy Summary",
+      "disclaimerLine1": "Note: In the event of an overall strategy loss, 15% of the loss will be reimbursed to the user",
+      "disclaimerLine2": "as part of the Aura Protection Program.",
+      "executionLogTitle": "Execution Log",
+      "footerText": "Aura Investment Terminal",
+      "pageText": "Page",
+      "summaryHeaders": {
+        "asset": "Asset",
+        "capital": "Capital",
+        "assetQuantity": "Asset Quantity",
+        "netProfit": "Net Profit",
+        "duration": "Duration",
+        "riskProfile": "Risk Profile",
+        "status": "Status"
+      },
+      "logHeaders": {
+        "date": "Date",
+        "type": "Type",
+        "asset": "Asset",
+        "entry": "Entry",
+        "exit": "Exit",
+        "pnl": "P&L",
+        "status": "Status"
+      }
+    }
+  },
+  "actionLog": {
+    "title": "AuraAI Engine Log",
+    "subtitle": "Autonomous Execution Stream",
+    "liveMonitoring": "Live Monitoring",
+    "monitoring": "Monitoring...",
+    "activePosition": "Active Position",
+    "strategyComplete": "Strategy Complete",
+    "scanningMarkets": "Scanning Markets for Opportunity...",
+    "engineVersion": "Engine Version: 2.4.0-AuraAI with Claude Opus 4.7 Max"
+  }
+}

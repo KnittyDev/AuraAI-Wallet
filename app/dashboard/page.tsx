@@ -7,6 +7,7 @@ import { LuPlus, LuLoader, LuWallet, LuArrowUpRight } from "react-icons/lu";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { useLanguage } from "@/context/language-context";
 
 interface Investment {
   id: string;
@@ -31,6 +32,7 @@ interface AiAction {
 }
 
 export default function DashboardPage() {
+  const { t } = useLanguage();
   const [investments, setInvestments] = useState<Investment[]>([]);
   const [prices, setPrices] = useState<Record<string, number>>({});
   const [changes, setChanges] = useState<Record<string, number>>({});
@@ -141,10 +143,10 @@ export default function DashboardPage() {
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">
-                  Investment Dashboard
+                  {t("dashboardHome.title")}
                 </h1>
                 <p className="mt-2 text-sm text-white/65">
-                  Track your portfolio value, returns, and AI trading actions in one place.
+                  {t("dashboardHome.subtitle")}
                 </p>
               </div>
 
@@ -154,7 +156,7 @@ export default function DashboardPage() {
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
                 >
                   <LuPlus className="h-4 w-4" />
-                  Deposit
+                  {t("dashboardHome.deposit")}
                 </Link>
                 
                 <Link
@@ -162,7 +164,7 @@ export default function DashboardPage() {
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition hover:bg-white/85"
                 >
                   <LuWallet className="h-4 w-4" />
-                  New Investment
+                  {t("dashboardHome.newInvestment")}
                   <LuArrowUpRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -171,21 +173,21 @@ export default function DashboardPage() {
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
             <DashboardStatCard
-              title="Total capital invested"
+              title={t("dashboardHome.totalCapital")}
               value={`$${totalInvested.toLocaleString(undefined, { maximumFractionDigits: 2 })}`}
-              note={`${profitPercentage24h >= 0 ? "+" : ""}${profitPercentage24h.toFixed(2)}% (24h yield)`}
+              note={`${profitPercentage24h >= 0 ? "+" : ""}${profitPercentage24h.toFixed(2)}% (${t("dashboardHome.yield24h")})`}
               trend={profitPercentage24h >= 0 ? "up" : "down"}
             />
             <DashboardStatCard
-              title="Net Profit"
+              title={t("dashboardHome.netProfit")}
               value={`$${totalProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
-              note="All-time AuraAI earnings"
+              note={t("dashboardHome.allTimeEarnings")}
               trend={totalProfit >= 0 ? "up" : "down"}
             />
             <DashboardStatCard
-              title="Available USDT"
+              title={t("dashboardHome.availableUsdt")}
               value={`$${availableUSDT.toLocaleString(undefined, { maximumFractionDigits: 2 })}`}
-              note="Ready for new positions"
+              note={t("dashboardHome.readyPositions")}
             />
           </div>
 

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "@/context/language-context";
 
 import {
   LuChartBar,
@@ -25,20 +26,20 @@ import { SiTether } from "react-icons/si";
 import { motion, AnimatePresence } from "framer-motion";
 
 type NavItem = {
-  label: string;
+  key: string;
   href: string;
   icon: React.ComponentType<{ className?: string }>;
 };
 
 const navItems: NavItem[] = [
-  { label: "Overview", href: "/dashboard", icon: LuLayoutDashboard },
-  { label: "My Wallet", href: "/dashboard/wallet", icon: LuWallet },
-  { label: "Market Data", href: "/dashboard/market-data", icon: LuChartBar },
-  { label: "Investments", href: "/dashboard/investments", icon: LuTrendingUp },
-  { label: "Transactions", href: "/dashboard/transactions", icon: LuWaypoints },
-  { label: "Performance", href: "/dashboard/performance", icon: LuActivity },
-  { label: "Ask AI", href: "/dashboard/ask-ai", icon: LuSparkles },
-  { label: "Settings", href: "/dashboard/settings", icon: LuSettings },
+  { key: "overview", href: "/dashboard", icon: LuLayoutDashboard },
+  { key: "wallet", href: "/dashboard/wallet", icon: LuWallet },
+  { key: "marketData", href: "/dashboard/market-data", icon: LuChartBar },
+  { key: "investments", href: "/dashboard/investments", icon: LuTrendingUp },
+  { key: "transactions", href: "/dashboard/transactions", icon: LuWaypoints },
+  { key: "performance", href: "/dashboard/performance", icon: LuActivity },
+  { key: "askAi", href: "/dashboard/ask-ai", icon: LuSparkles },
+  { key: "settings", href: "/dashboard/settings", icon: LuSettings },
 ];
 
 type DashboardSidebarProps = {
@@ -47,6 +48,7 @@ type DashboardSidebarProps = {
 
 export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
   const router = useRouter();
+  const { t } = useLanguage();
   const [totalBalance, setTotalBalance] = useState(0);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -153,7 +155,7 @@ export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
 
               return (
                 <Link
-                  key={item.label}
+                  key={item.key}
                   href={item.href}
                   onClick={() => setIsMobileOpen(false)}
                   className={`flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm transition ${
@@ -163,7 +165,7 @@ export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
                   }`}
                 >
                   <Icon className="h-4 w-4" />
-                  <span>{item.label}</span>
+                  <span>{t(`dashboard.${item.key}`)}</span>
                 </Link>
               );
             })}
@@ -176,7 +178,7 @@ export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
                   className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm font-semibold text-red-400 hover:bg-red-500/10 hover:text-red-300 transition"
                 >
                   <LuShieldAlert className="h-4 w-4" />
-                  <span>Admin Panel</span>
+                  <span>{t("dashboard.adminPanel")}</span>
                 </Link>
               </div>
             )}
@@ -186,7 +188,7 @@ export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
               className="w-full flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-white/40 hover:bg-white/5 hover:text-white transition mt-2"
             >
               <LuLogOut className="h-4 w-4" />
-              <span>Logout</span>
+              <span>{t("dashboard.logout")}</span>
             </button>
           </nav>
         </div>
@@ -198,7 +200,7 @@ export function DashboardSidebar({ currentPath }: DashboardSidebarProps) {
             </div>
             <div className="leading-tight">
               <p className="text-[10px] uppercase tracking-wide text-emerald-200/60">
-                Total Net Worth
+                {t("dashboard.netWorth")}
               </p>
               <p className="text-sm font-semibold text-emerald-100">
                 {totalBalance.toLocaleString(undefined, { maximumFractionDigits: 2 })} USDT

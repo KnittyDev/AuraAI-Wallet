@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { LuLoader } from "react-icons/lu";
+import { useLanguage } from "@/context/language-context";
 
 interface OpenPosition {
   id: string;
@@ -14,6 +15,7 @@ interface OpenPosition {
 }
 
 export function OpenPositionsTable() {
+  const { t } = useLanguage();
   const [positions, setPositions] = useState<OpenPosition[]>([]);
   const [prices, setPrices] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
@@ -67,7 +69,7 @@ export function OpenPositionsTable() {
     return (
       <section className="rounded-3xl border border-white/15 bg-black/45 p-12 backdrop-blur-sm flex flex-col items-center justify-center text-white/20">
         <LuLoader className="h-8 w-8 animate-spin mb-4" />
-        <p className="text-sm font-medium uppercase tracking-widest">Accessing Neural Link...</p>
+        <p className="text-sm font-medium uppercase tracking-widest">{t("marketData.neuralLink")}</p>
       </section>
     );
   }
@@ -76,17 +78,17 @@ export function OpenPositionsTable() {
     <section className="rounded-3xl border border-white/15 bg-black/45 p-5 backdrop-blur-sm">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-semibold tracking-tight text-white">Live Open Positions</h2>
+          <h2 className="text-2xl font-semibold tracking-tight text-white">{t("marketData.openPositions")}</h2>
           <p className="mt-1 text-sm text-white/65">
-            Real-time execution feed from AuraAI neural engine.
+            {t("marketData.executionFeed")}
           </p>
         </div>
       </div>
 
       {positions.length === 0 ? (
         <div className="py-12 text-center text-white/20 italic font-medium border border-white/5 bg-white/[0.02] rounded-2xl">
-          Scanning for high-probability entries... <br />
-          <span className="text-[10px] opacity-40 uppercase tracking-widest mt-2 block font-bold">AuraAI is monitoring the markets</span>
+          {t("marketData.scanningEntries")} <br />
+          <span className="text-[10px] opacity-40 uppercase tracking-widest mt-2 block font-bold">{t("marketData.monitoring")}</span>
         </div>
       ) : (
         <>
@@ -95,12 +97,12 @@ export function OpenPositionsTable() {
             <table className="w-full min-w-[860px] text-left text-sm">
               <thead className="text-white/30 text-[10px] font-bold uppercase tracking-widest border-b border-white/5">
                 <tr>
-                  <th className="pb-4 font-bold">Pair</th>
-                  <th className="pb-4 font-bold">Side</th>
-                  <th className="pb-4 font-bold">Entry Price</th>
-                  <th className="pb-4 font-bold">Current Price</th>
-                  <th className="pb-4 font-bold">Time</th>
-                  <th className="pb-4 font-bold">Strategy Logic</th>
+                  <th className="pb-4 font-bold">{t("marketData.pairHeader")}</th>
+                  <th className="pb-4 font-bold">{t("marketData.sideHeader")}</th>
+                  <th className="pb-4 font-bold">{t("marketData.entryPriceHeader")}</th>
+                  <th className="pb-4 font-bold">{t("marketData.currentPriceHeader")}</th>
+                  <th className="pb-4 font-bold">{t("marketData.timeHeader")}</th>
+                  <th className="pb-4 font-bold">{t("marketData.strategyLogicHeader")}</th>
                 </tr>
               </thead>
               <tbody className="text-white/85 divide-y divide-white/5">
@@ -122,7 +124,7 @@ export function OpenPositionsTable() {
                             : "bg-orange-500/10 text-orange-400 border border-orange-500/20"
                             }`}
                         >
-                          {pos.action_type}
+                          {pos.action_type === "long" ? t("marketData.long") : t("marketData.short")}
                         </span>
                       </td>
                       <td className="py-4 font-mono text-white/60">${Number(pos.entry_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
@@ -131,7 +133,7 @@ export function OpenPositionsTable() {
                         {new Date(pos.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </td>
                       <td className="py-4 text-white/30 text-xs italic">
-                        {pos.action_type === 'long' ? "Bullish trend divergence detected" : "Overbought rejection signal confirmed"}
+                        {pos.action_type === 'long' ? t("marketData.bullishTrendDivergence") : t("marketData.overboughtRejection")}
                       </td>
                     </tr>
                   );
@@ -159,18 +161,18 @@ export function OpenPositionsTable() {
                         : "bg-orange-500/10 text-orange-400 border border-orange-500/20"
                         }`}
                     >
-                      {pos.action_type}
+                      {pos.action_type === "long" ? t("marketData.long") : t("marketData.short")}
                     </span>
                   </div>
                   
                   {/* Price Info */}
                   <div className="flex justify-between">
                     <div className="flex flex-col">
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-1">Entry Price</span>
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-1">{t("marketData.entryPriceHeader")}</span>
                       <span className="font-mono text-white/60 text-sm">${Number(pos.entry_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
                     </div>
                     <div className="flex flex-col text-right">
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-1">Current Price</span>
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-1">{t("marketData.currentPriceHeader")}</span>
                       <span className="font-mono text-white/40 text-sm">${currentPrice?.toLocaleString(undefined, { minimumFractionDigits: 2 }) || "---"}</span>
                     </div>
                   </div>
@@ -181,7 +183,7 @@ export function OpenPositionsTable() {
                       {new Date(pos.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                     <div className="text-[10px] text-white/30 italic">
-                      {pos.action_type === 'long' ? "Bullish trend divergence" : "Overbought rejection"}
+                      {pos.action_type === 'long' ? t("marketData.bullishTrendMobile") : t("marketData.overboughtRejectionMobile")}
                     </div>
                   </div>
                 </div>

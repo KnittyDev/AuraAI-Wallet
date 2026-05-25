@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { LuTerminal, LuArrowUpRight, LuArrowDownLeft, LuActivity, LuCpu } from "react-icons/lu";
+import { useLanguage } from "@/context/language-context";
 
 interface AiAction {
   id: string;
@@ -19,6 +20,8 @@ interface AiActionLogProps {
 }
 
 export function AiActionLog({ actions }: AiActionLogProps) {
+  const { language, t } = useLanguage();
+
   return (
     <section className="rounded-3xl border border-white/10 bg-black/40 p-6 backdrop-blur-md relative overflow-hidden group">
       <div className="absolute top-0 right-0 p-6 opacity-[0.03] pointer-events-none group-hover:opacity-[0.05] transition-opacity">
@@ -31,13 +34,13 @@ export function AiActionLog({ actions }: AiActionLogProps) {
             <LuTerminal className="h-5 w-5 text-cyan-400" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white tracking-tight">AuraAI Engine Log</h3>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-white/30 font-medium">Autonomous Execution Stream</p>
+            <h3 className="text-lg font-bold text-white tracking-tight">{t("actionLog.title")}</h3>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-white/30 font-medium">{t("actionLog.subtitle")}</p>
           </div>
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
           <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Live Monitoring</span>
+          <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">{t("actionLog.liveMonitoring")}</span>
         </div>
       </div>
 
@@ -60,19 +63,19 @@ export function AiActionLog({ actions }: AiActionLogProps) {
                   </div>
                   <div>
                     <div className="flex flex-wrap items-center gap-2 mb-1">
-                      <span className="text-white/40">[{new Date(action.created_at).toLocaleTimeString([], { hour12: false })}]</span>
+                      <span className="text-white/40">[{new Date(action.created_at).toLocaleTimeString(language === "tr" ? "tr-TR" : "en-US", { hour12: false })}]</span>
                       <span className="text-white font-bold">{action.asset_code}/USDT</span>
                       <span className={`text-[10px] px-1.5 py-0.5 rounded uppercase font-bold tracking-widest ${action.action_type === 'long' ? "bg-emerald-500/10 text-emerald-400" : "bg-orange-500/10 text-orange-400"
                         }`}>
-                        {action.action_type}
+                        {t(`marketData.${action.action_type}`)}
                       </span>
                     </div>
                     <div className="text-[10px] text-white/20 flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <span>ENTRY: <span className="text-white/40">${Number(action.entry_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span></span>
+                      <span>{t("investments.pdf.logHeaders.entry").toUpperCase()}: <span className="text-white/40">${Number(action.entry_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span></span>
                       {action.status === 'closed' && (
                         <>
                           <span className="hidden sm:inline">|</span>
-                          <span>EXIT: <span className="text-white/40">${Number(action.exit_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span></span>
+                          <span>{t("investments.pdf.logHeaders.exit").toUpperCase()}: <span className="text-white/40">${Number(action.exit_price).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span></span>
                         </>
                       )}
                     </div>
@@ -83,7 +86,7 @@ export function AiActionLog({ actions }: AiActionLogProps) {
                   {action.status === 'open' ? (
                     <div className="flex items-center gap-2 text-cyan-400">
                       <LuActivity className="h-3 w-3 animate-pulse shrink-0" />
-                      <span className="text-[10px] font-bold uppercase tracking-widest">Monitoring...</span>
+                      <span className="text-[10px] font-bold uppercase tracking-widest">{t("actionLog.monitoring")}</span>
                     </div>
                   ) : (
                     <div className={`font-bold text-sm sm:text-xs ${Number(action.profit_usd) >= 0 ? "text-emerald-400" : "text-red-400"}`}>
@@ -91,7 +94,7 @@ export function AiActionLog({ actions }: AiActionLogProps) {
                     </div>
                   )}
                   <div className="text-[9px] text-white/10 uppercase tracking-widest mt-0 sm:mt-1">
-                    {action.status === 'open' ? "Active Position" : "Strategy Complete"}
+                    {action.status === 'open' ? t("actionLog.activePosition") : t("actionLog.strategyComplete")}
                   </div>
                 </div>
               </motion.div>
@@ -99,14 +102,14 @@ export function AiActionLog({ actions }: AiActionLogProps) {
           ) : (
             <div className="py-12 text-center border border-dashed border-white/10 rounded-2xl">
               <LuActivity className="h-8 w-8 text-white/10 mx-auto mb-3" />
-              <p className="text-white/30 text-[10px] uppercase tracking-widest font-bold">Scanning Markets for Opportunity...</p>
+              <p className="text-white/30 text-[10px] uppercase tracking-widest font-bold">{t("actionLog.scanningMarkets")}</p>
             </div>
           )}
         </AnimatePresence>
       </div>
 
       <div className="mt-6 pt-6 border-t border-white/5 flex items-center justify-between text-[9px] font-bold text-white/20 uppercase tracking-[0.2em]">
-        <span>Engine Version: 2.4.0-AuraAI with Claude Opus 4.7 Max</span>
+        <span>{t("actionLog.engineVersion")}</span>
       </div>
     </section>
   );

@@ -1,0 +1,523 @@
+{
+  "header": {
+    "pricing": "Fiyatlandırma",
+    "features": "Özellikler",
+    "results": "Sonuçlar",
+    "caseStudies": "Vaka Çalışmaları",
+    "faq": "SSS",
+    "resources": "Kaynaklar",
+    "insights": "Analizler",
+    "learn": "Öğrenin",
+    "blog": "Blog",
+    "stories": "Müşteri Hikayeleri",
+    "storiesSoon": "Yakında",
+    "news": "Aura Haberleri",
+    "academy": "Akademi",
+    "support": "Destek Merkezi",
+    "tutorials": "Eğitimler",
+    "careers": "Kariyer",
+    "contactSales": "Satışla Görüş",
+    "tryNow": "Şimdi Dene",
+    "dashboard": "Panel"
+  },
+  "dashboard": {
+    "overview": "Genel Bakış",
+    "wallet": "Cüzdanım",
+    "marketData": "Piyasa Verileri",
+    "investments": "Yatırımlar",
+    "transactions": "İşlemler",
+    "performance": "Performans",
+    "askAi": "AI'ya Sor",
+    "settings": "Ayarlar",
+    "logout": "Çıkış Yap",
+    "netWorth": "Toplam Net Değer",
+    "adminPanel": "Yönetici Paneli"
+  },
+  "dashboardHome": {
+    "title": "Yatırım Paneli",
+    "subtitle": "Portföy değerinizi, getirilerinizi ve yapay zeka işlem hareketlerinizi tek bir yerden takip edin.",
+    "deposit": "Para Yatır",
+    "newInvestment": "Yeni Yatırım",
+    "totalCapital": "Toplam yatırılan sermaye",
+    "yield24h": "24s getiri",
+    "netProfit": "Net Kâr",
+    "allTimeEarnings": "Tüm zamanların AuraAI kazancı",
+    "availableUsdt": "Kullanılabilir USDT",
+    "readyPositions": "Yeni pozisyonlar için hazır",
+    "activeStrategies": "Aktif Yatırım Stratejileri",
+    "strategiesSubtitle": "Yapay zeka yönetimindeki portföylerinizin gerçek zamanlı performansı.",
+    "liveEngine": "AuraAI Canlı Motoru",
+    "scanning": "Aktif stratejiler taranıyor...",
+    "activateAura": "AuraAI'yı etkinleştirmek için ilk yatırımınızı başlatın",
+    "strategyAsset": "Strateji Varlığı",
+    "risk": "Risk",
+    "plan": "Plan",
+    "initialCapital": "Başlangıç Sermayesi",
+    "assetVol": "Varlık Hacmi",
+    "currentValue": "Güncel Değer",
+    "netProfitUsdt": "Net Kâr (USDT)",
+    "yieldHeader": "Getiri",
+    "ai24h": "24s AI",
+    "days": "Gün",
+    "netVolume": "NET HACİM",
+    "risks": {
+      "aggressive": "Agresif",
+      "growth": "Büyüme",
+      "balanced": "Dengeli"
+    }
+  },
+  "hero": {
+    "eyebrow": "Claude Opus 4.7 — En Üst Seviye",
+    "title1": "Portföyünüzü ",
+    "title2": "Bırakın AI Yönetsin",
+    "subtitle": "Aura AI piyasaları sürekli analiz eder, riskleri yönetir ve işlemleri gerçekleştirir — siz dinlenirken bile portföyünüz çalışmaya devam eder.",
+    "ctaDashboard": "Paneli Aç",
+    "ctaStart": "Ücretsiz Başla",
+    "ctaTalk": "Görüşelim"
+  },
+  "prompt": {
+    "assetsManaged": "Yönetilen Varlık",
+    "uptime": "Çalışma Süresi",
+    "avgResponse": "Ort. Yanıt",
+    "ticker": "Aura AI canlı stratejileri yürütüyor"
+  },
+  "marquee": {
+    "title": "Kurumsal Ortaklar ve Kripto Uygulamaları Tarafından Güvenilen"
+  },
+  "pricing": {
+    "title": "Fiyatlandırma",
+    "free": {
+      "name": "Ücretsiz",
+      "price": "$0",
+      "description": "Yeni kullanıcılar için sınırlı fakat güçlü bir otomatik portföy deneyimi.",
+      "features": [
+        "Opus 4.6 AI Modeli",
+        "Günde 5 otonom işlem",
+        "1 managed portfolio",
+        "Temel haftalık performans raporları",
+        "Temel al/sat önerileri",
+        "Genel stratejilerle otomatik akış",
+        "3 günde 1 çekim hakkı",
+        "Ve dahası"
+      ],
+      "cta": "Ücretsiz Başla"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "$15 / 3 ay",
+      "description": "Tam otonom mod: AI işlemleri 7/24 yönetir. 3 ayda bir faturalandırılır.",
+      "features": [
+        "Opus 4.7 Max AI Modeli",
+        "Sermaye Koruması: %15 Kayıp Telafisi",
+        "Sınırsız otonom işlem",
+        "Sınırsız portföy yönetimi",
+        "Anında para çekme",
+        "Günlük ve haftalık performans raporları",
+        "Otomatik alım / otomatik satım",
+        "7/24 otonom işlem yürütme ve yönetimi",
+        "Tamamen otonom portföy operasyonları",
+        "Ve dahası"
+      ],
+      "cta": "Pro'ya Yükselt"
+    },
+    "enterprise": {
+      "name": "Kurumsal",
+      "price": "Özel",
+      "description": "Şirket yatırım operasyonları için korumalı sermaye çerçeveleriyle özel olarak tasarlandı.",
+      "features": [
+        "Şirkete özel yatırım modeli",
+        "Güvence teminatı / garanti kolateral kurulumu",
+        "Şirkete iade edilen kısmi kayıp telafisi",
+        "Özel sermaye koruma şartları",
+        "Kurumsal düzeyde risk izleme",
+        "Özel yatırım desteği"
+      ],
+      "cta": "Satışla Görüş"
+    }
+  },
+  "features": {
+    "prediction": {
+      "title": "Kullanımı Kolay",
+      "description": "Ticaret, kripto para veya borsa hakkında hiçbir bilginiz olmasa bile, Aura Opus 4.7 modeli tüm işlemlerinizi tamamen otonom olarak yönetir!",
+      "button": "İşlemlere Başla",
+      "status": "Sistem Durumu",
+      "trading": "Otonom İşlemler",
+      "active": "Model: Aktif",
+      "standby": "Model: Beklemede",
+      "profit": "Toplam Kâr",
+      "live": "Küresel Canlı"
+    },
+    "ai": {
+      "title": "Trade with AI",
+      "description": "Use model-powered portfolio ideas and instantly convert them into actionable trade logic with a single prompt.",
+      "button": "Generate Strategy",
+      "strategy": "Growth Strategy"
+    },
+    "sleep": {
+      "title": "Siz Uyurken Çalışsın",
+      "description": "Siz uyurken Aura, yapılandırdığınız stratejiye göre işlemleri otonom olarak gerçekleştirir ve gerçek zamanlı bildirimler sunar.",
+      "button": "Şimdi Otomatikleştir",
+      "success": "Başarılı Yürütme",
+      "mode": "Aura Otonom Modu",
+      "profit": "Gerçekleşen Kâr"
+    },
+    "risk": {
+      "title": "Düşük Risk Yüksek Getiri",
+      "description": "Aura piyasa riskini izler ve sermayenizi korumak ile getiriyi en üst duyara çıkarmak için işlemleri otomatik olarak ayarlar veya duraklatır.",
+      "button": "Performansı İncele",
+      "guard": "Risk Koruması Aktif",
+      "stability": "Sistem Kararlılığı"
+    }
+  },
+  "results": {
+    "title": "Gerçek Sonuçlar",
+    "disclaimer": "*Tarihsel strateji kriterlerine dayalı açıklayıcı 30 günlük tahmin. (Opus 4.7 modeli)",
+    "invest": "1 ayda yatırdığınız tutar",
+    "auraEarn": "Aura AI Cüzdanı ile kazancınız*",
+    "manualEarn": "Manuel işlemlerle kazancınız",
+    "monthlyInvested": "Aylık yatırılan",
+    "profitDifference": "Kâr farkı",
+    "monthlyProfitUsd": "Aylık kâr (USD)",
+    "manualLabel": "Manuel",
+    "auraLabel": "Aura AI"
+  },
+  "benchmark": {
+    "title": "AI Kıyaslaması",
+    "topModel": "En İyi Model",
+    "scoreLead": "Skor Liderliği",
+    "compositeDesc": "*Tarihsel strateji kriterlerine dayalı açıklayıcı 30 günlük tahmin. (Opus 4.7 modeli)",
+    "compositeIndex": "Birleşik Endeks",
+    "accuracy": "Tahmin doğruluğu",
+    "liveMarkets": "Canlı kripto piyasaları",
+    "latency": "Yürütme gecikmesi",
+    "edgeRuntime": "Edge Çalışma Zamanı",
+    "sharpe": "Sharpe oranı",
+    "riskReturns": "Risk ayarlı getiriler",
+    "financialScore": "Finansal Zeka Skoru"
+  },
+  "caseStudies": {
+    "eyebrow": "Kanıtlanmış Sonuçlar",
+    "title": "Vaka Çalışmaları",
+    "subtitle": "Üretimde otonom ticaret operasyonlarını optimize etmek için Aura'yı kullanan gerçek portföy ekipleri.",
+    "readFull": "Vaka çalışmasının tamamını oku",
+    "tags": {
+      "growth": "Büyüme",
+      "risk": "Risk",
+      "efficiency": "Verimlilik"
+    },
+    "roles": {
+      "grayscale": "Yatırım Müdürü",
+      "solidchain": "CEO",
+      "customer": "Öğretmen"
+    },
+    "resultLabels": {
+      "grayscale": "Çeyreklik kâr büyümesi",
+      "solidchain": "Düşük maksimum düşüş",
+      "customer": "Daha hızlı yeniden dengeleme döngüsü"
+    },
+    "quotes": {
+      "grayscale": "Manuel spot kararlardan tamamen otomatik strateji çalışmalarına geçtik. Aura, 6 kişilik ticaret masamızın yaptığı işi tek başına hallediyor.",
+      "solidchain": "Aura'nın fon koruma özelliği bugüne kadar gördüğümüz en iyi sistemlerden biri; as a kripto yatırımcısı olarak, yatırdığım fonlardan %30 kâr elde ettim.",
+      "customer": "Kayıp yaşamaktan korktuğum için kriptoya yatırım yapmaktan hep çekiniyordum, ancak AuraAI bana başlama güvenini verdi."
+    }
+  },
+  "faq": {
+    "title": "Sorularınız mı Var?",
+    "subtitle": "Başlamadan önce bilmeniz gereken her şey.",
+    "items": [
+      {
+        "question": "Aura AI tam olarak nedir?",
+        "answer": "Aura, yapay zekaya dayalı otonom bir ticaret ve portföy yönetimi platformudur. Gelişmiş dil modellerini ve gerçek zamanlı piyasa verilerini kullanarak karmaşık yatırım stratejilerini yürütür, riskleri yönetir ve manuel müdahale gerektirmeden kripto varlıklarınızı optimize eder."
+      },
+      {
+        "question": "Yapay zeka işlem kararlarını nasıl alıyor?",
+        "answer": "Aura AI, yatırım ve kripto para birimleri alanlarında özel olarak eğitilmiş gelişmiş yapay zeka Claude Opus 4.7 modelini kullanır. Sistem; gerçek zamanlı haberleri, sosyal medya eğilimlerini, zincir üstü verileri ve canlı piyasa akışlarını sürekli olarak analiz eder. Bu sinyallerden çıkardığı değerlendirmelere göre, risk profilinize uygun performansı optimize etmek amacıyla otonom olarak işlemler gerçekleştirir."
+      },
+      {
+        "question": "Sermayem Aura ile güvende mi?",
+        "answer": "Güvenlik en büyük önceliğimizdir. Aura, tüm veriler og API bağlantıları için kurumsal düzeyde şifreleme kullanır. Bağlı borsalardan fonlarınızı çekmek için hiçbir zaman doğrudan erişimimiz yoktur; sistem yalnızca 'İşlem Yapma' ve 'Görüntüleme' yetkilerine sahiptir. Ayrıca Aura ekosisteminde tutulan tüm varlıklar için çoklu imzalı (multi-sig) soğuk cüzdanlar kullanıyoruz."
+      },
+      {
+        "question": "Hangi varlıklar ve borsalar destekleniyor?",
+        "answer": "Aura şu anda BTC, ETH, SOL ve USDT dahil tüm büyük kripto para birimlerini desteklemektedir. Binance, Coinbase ve Kraken gibi birinci sınıf borsalarla sorunsuz entegrasyonun yanı sıra merkeziyetsiz protokoller için doğrudan zincir üstü yürütme sağlıyoruz."
+      },
+      {
+        "question": "Pro planın Ücretsiz plandan farkı nedir?",
+        "answer": "Ücretsiz plan temel portföy takibini ve manuel yapay zeka önerilerini keşfetmenize olanak tanırken, Pro plan (aylık $15) 7/24 tam otonom işlemlerin, anında para çekmenin, gelişmiş risk korumalarının ve tüm stratejilerde öncelikli yürütmenin kapılarını açar."
+      },
+      {
+        "question": "Aura aşırı piyasa oynaklığını nasıl yönetiyor?",
+        "answer": "Aura, piyasa stresini 7/24 izleyen 'Nöral Risk Korumalarına' sahiptir. Ani bir düşüş veya aşırı oynaklık durumunda yapay zeka, sermayenizi büyük düşüşlerden korumak için varlıkları otomatik olarak stabil coinlere taşıyabilir, zarar durdurma limitlerini daraltabilir veya açığa satış işlemlerle pozisyonları hedge edebilir."
+      },
+      {
+        "question": "İşlem başına herhangi bir gizli ücret var mı?",
+        "answer": "Hayır. Aura, işlemlerinizden yüzdeye dayalı herhangi bir komisyon veya gizli spread almaz. Yalnızca aylık abonelik ücretinizi (Pro plandaysanız) ve ilgili borsaların veya blokzincir ağlarının uyguladığı standart işlem ücretlerini ödersiniz."
+      },
+      {
+        "question": "Aboneliğimi istediğim zaman iptal edebilir miyim?",
+        "answer": "Yes. İstediğiniz zaman tek bir tıklamayla Pro aboneliğinizi düşürebilir veya iptal edebilirsiniz. Uzun vadeli sözleşmeler veya iptal ücretleri yoktur."
+      },
+      {
+        "question": "Neden aylık abonelik ücreti var?",
+        "answer": "7/24 otonom çalışan bir yapay zekayı işletmek ciddi hesaplama kaynakları gerektirir. Aboneliğiniz; Aura'nın veri analiz ederken harcadığı Claude Opus 4.7 tokenlarının maliyetini, yüksek frekanslı piyasa verisi akışlarını ve küresel piyasalarda milisaniye düzeyinde gecikmeyle işlemler yürütebilmesi için gereken güvenli bulut altyapısını doğrudan karşılar."
+      },
+      {
+        "question": "Yatırma veya çekme işlemleri için manuel onay gerekiyor mu?",
+        "answer": "Kesinlikle hayır. Hesap oluşturduğunuzda kripto cüzdanlarınız otomatik olarak oluşturulur. Yatırma ve çekme işlemleri, sistem ve blokzincir tarafından yalnızca bu özel cüzdanlar üzerinden otomatik olarak gerçekleştirilir; böylece kesintisiz ve tamamen otonom bir deneyim sunulur."
+      }
+    ]
+  },
+  "footer": {
+    "product": "Ürün",
+    "company": "Şirket",
+    "legal": "Yasal",
+    "about": "Hakkımızda",
+    "contact": "İletişim",
+    "privacy": "Gizlilik",
+    "terms": "Koşullar",
+    "status": "Sistem Durumu",
+    "rights": "Aura. Tüm hakları saklıdır.",
+    "desc": "Sürekli çalışan yürütme gücü ve net performans analizleriyle otonom portföy zekası.",
+    "binance": "Binance altyapısı",
+    "swissEng": "İsviçre'de Geliştirilmiştir",
+    "swissQuality": "İsviçre Kalitesi ve Hassasiyeti",
+    "euCompliant": "AB Standartlarına Uygundur",
+    "euPlatform": "AB Uyumlu Platform"
+  },
+  "auth": {
+    "login": {
+      "title1": "Hızlı yatırım yapın, ",
+      "title2": "daha hızlı büyüyün.",
+      "subtitle": "Sohbette analiz edin, Aura ile yatırım yapın. Modern portföyler için yapay zeka zekası.",
+      "google": "Google ile Devam Et",
+      "or": "VEYA",
+      "emailPlaceholder": "E-postanızı girin",
+      "passwordPlaceholder": "Şifrenizi girin",
+      "submit": "E-posta ile devam et",
+      "submitting": "Giriş yapılıyor...",
+      "policy": "Devam ederek Aura'nın ",
+      "policyLink": "Gizlilik Politikası'nı",
+      "policyEnd": " kabul etmiş olursunuz.",
+      "noAccount": "Hesabınız yok mu? ",
+      "createOne": "Yeni bir tane oluşturun",
+      "downloadApp": "Masaüstü uygulamasını indir",
+      "twoFactor": {
+        "title": "İki Adımlı Doğrulama",
+        "subtitle": "Devam etmek için kimlik doğrulama uygulamanızdaki 6 haneli kodu girin.",
+        "refresh": "Kod her 30 saniyede bir yenilenir",
+        "submit": "Doğrula ve Devam Et",
+        "submitting": "Doğrulanıyor...",
+        "cancel": "Girişi İptal Et",
+        "invalidCode": "Geçersiz kod. Lütfen tekrar deneyin."
+      }
+    },
+    "register": {
+      "title1": "Geleceğe katılın, ",
+      "title2": "bugün başlayın.",
+      "subtitle": "Hesabınızı oluşturun ve bırakın kurumsal düzeydeki portföyünüzü Aura yönetsin.",
+      "google": "Google ile Katıl",
+      "or": "VEYA",
+      "fullName": "Adınız Soyadınız",
+      "username": "Kullanıcı Adı",
+      "anonymous": "Anonim bir yatırımcı olmak istiyorum",
+      "emailAddress": "E-posta adresi",
+      "createPassword": "Şifre oluşturun",
+      "strength": {
+        "weak": "Zayıf Şifre",
+        "fair": "Orta Düzey Güvenlik",
+        "good": "İyi Şifre",
+        "strong": "Güçlü / Güvenli"
+      },
+      "submit": "Hesap Oluştur",
+      "submitting": "Hesap oluşturuluyor...",
+      "policy": "Kaydolarak Aura'nın ",
+      "policyLink1": "Gizlilik Politikası'nı",
+      "policyAnd": " ve ",
+      "policyLink2": "Kullanım Koşulları'nı",
+      "policyEnd": " kabul etmiş olursunuz.",
+      "alreadyAccount": "Zaten bir hesabınız var mı? ",
+      "signIn": "Giriş yapın",
+      "downloadApp": "Masaüstü uygulamasını indir"
+    }
+  },
+  "sales": {
+    "title1": "Yatırım Yönetiminizi ",
+    "title2": "En Üst Seviyeye Çıkarın.",
+    "subtitle": "Aura'nın kurumsal düzeydeki altyapısı, modern varlık yönetimi için gereken güvenlik, likidite ve yapay zeka destekli analizleri sunar. Özel çözümlerimizi keşfetmek için ekibimizle iletişime geçin.",
+    "securityTitle": "Banka Düzeyinde Güvenlik",
+    "securityDesc": "Çoklu imzalı saklama ve kurumsal uyumluluk standartları.",
+    "liquidityTitle": "Küresel Likidite",
+    "liquidityDesc": "50'den fazla büyük likidite sağlayıcısı arasında derin emir defterleri.",
+    "strategiesTitle": "Özel Stratejiler",
+    "strategiesDesc": "Özel risk ve getiri hedeflerinize göre ayarlanmış yapay zeka modelleri.",
+    "apiTitle": "Ölçeklenebilir API",
+    "apiDesc": "Otomatik yüksek frekanslı işlemler için yüksek kapasiteli altyapı.",
+    "formTitle": "Satış ekibimizle iletişime geçin",
+    "fullName": "Adınız Soyadınız",
+    "organization": "Şirket / Organizasyon",
+    "businessEmail": "İş E-postası",
+    "expectedAum": "Beklenen AUM (Yönetilen Varlık)",
+    "howHelp": "Size nasıl yardımcı olabiliriz?",
+    "helpPlaceholder": "Size nasıl yardımcı olabiliriz?",
+    "submit": "Talep Gönder",
+    "policy": "Bu formu göndererek, ",
+    "termsLink": "Hizmet Koşulları'nı",
+    "policyAnd": " ve ",
+    "privacyLink": "Gizlilik Politikası'nı",
+    "policyEnd": " kabul etmiş olursunuz.",
+    "trusted": "Küresel finans liderleri tarafından güvenilen"
+  },
+  "wallet": {
+    "title": "Cüzdanım",
+    "subtitle": "Varlıklarınızı ve likiditenizi güvenle yönetin.",
+    "deposit": "Para Yatır",
+    "withdraw": "Para Çek",
+    "totalNetWorth": "Toplam Net Değer",
+    "available": "Kullanılabilir",
+    "inStrategies": "Stratejilerde",
+    "assetBreakdown": "Varlık Dağılımı",
+    "convertAssets": "Varlıkları Dönüştür",
+    "specialOffer": "Özel Teklif",
+    "comingSoon": "Yakında",
+    "cardTitle": "Aura Elite \nKripto Banka Kartı",
+    "cardSubtitle": "Kriptonuzu dünyanın her yerinde harcayın. %0 komisyon, %3 nakit iade (cashback).",
+    "cardElite": "Elite",
+    "cardPlatinum": "Aura Platinum",
+    "discoverCard": "Kartı Keşfet",
+    "recentActivity": "Son İşlemler",
+    "viewAll": "Tümünü Gör",
+    "noRecentActivity": "Son işlem bulunamadı.",
+    "dateLabel": "Tarih",
+    "transactionHeader": "İşlem",
+    "assetHeader": "Varlık",
+    "amountHeader": "Miktar",
+    "dateHeader": "Tarih",
+    "statusHeader": "Durum",
+    "principalReturn": "Ana Para İadesi",
+    "strategyProfit": "Strateji Kârı",
+    "planLabel": "Planı",
+    "typeDeposit": "Yatırma",
+    "typeWithdrawal": "Çekme",
+    "typeProfit": "Kâr",
+    "typeInvestment": "Yatırım",
+    "statusCompleted": "Tamamlandı",
+    "statusProcessing": "İşleniyor"
+  },
+  "marketData": {
+    "title": "Piyasa Verileri",
+    "subtitle": "TradingView tarafından desteklenen gerçek zamanlı kripto piyasası grafiklerini görüntüleyin.",
+    "neuralLink": "Sinirsel Bağlantıya Erişiliyor...",
+    "openPositions": "Canlı Açık Pozisyonlar",
+    "executionFeed": "AuraAI nöral motorundan gerçek zamanlı işlem akışı.",
+    "scanningEntries": "Yüksek olasılıklı girişler taranıyor...",
+    "monitoring": "AuraAI piyasaları izliyor",
+    "pairHeader": "Parite",
+    "sideHeader": "Yön",
+    "entryPriceHeader": "Giriş Fiyatı",
+    "currentPriceHeader": "Mevcut Fiyat",
+    "timeHeader": "Tarih/Saat",
+    "strategyLogicHeader": "Strateji Mantığı",
+    "long": "long",
+    "short": "short",
+    "bullishTrendDivergence": "Boğa yönlü trend uyumsuzluğu tespit edildi",
+    "overboughtRejection": "Aşırı alım reddi sinyali doğrulandı",
+    "bullishTrendMobile": "Boğa yönlü trend uyumsuzluğu",
+    "overboughtRejectionMobile": "Aşırı alım reddi",
+    "marketUpdates": "Küresel Piyasa Gelişmeleri",
+    "readFullStory": "Haberin Tamamını Oku"
+  },
+  "investments": {
+    "title": "Yatırımlar",
+    "subtitle": "Portföyünüzün, dağılımlarınızın ve yapay zeka tarafından yönetilen pozisyonlarınızın canlı genel bakışı.",
+    "deposit": "Para Yatır",
+    "newInvestment": "Yeni Yatırım",
+    "loading": "Yükleniyor...",
+    "activeStrategies": "Aktif Stratejiler",
+    "completedStrategies": "Tamamlanan Stratejiler",
+    "liveEngine": "Canlı Motor",
+    "engineOffline": "Motor Çevrimdışı",
+    "noActiveStrategies": "Aktif yapay zeka yatırım stratejisi bulunamadı.",
+    "daysSuffix": "Gün",
+    "yieldSuffix": "Getiri",
+    "details": "Detaylar",
+    "viewingLogs": "Günlükler İnceleniyor",
+    "viewLogs": "Günlüğü Görüntüle",
+    "executionFeedTitle": "Strateji Yürütme Akışı",
+    "exportPdf": "PDF Dışa Aktar",
+    "closeFeed": "Akışı Kapat",
+    "neuralLinkLoading": "AuraAI nöral bağlantısına erişiliyor...",
+    "completed": "Tamamlandı",
+    "finalReturn": "Nihai Getiri",
+    "stats": {
+      "totalCapital": "Toplam Sermaye",
+      "totalCapitalNote": "Stratejilere yatırılan",
+      "totalNetProfit": "Toplam Net Kâr",
+      "totalNetProfitNote": "Gerçekleşen kazançlar",
+      "activeStrategies": "Aktif Stratejiler",
+      "activeStrategiesNote": "Şu anda yapay zeka yönetiminde",
+      "aiEngine": "AI Motoru",
+      "aiEngineNote": "Çevrimiçi ve Taramada"
+    },
+    "headers": {
+      "asset": "Varlık",
+      "capital": "Sermaye",
+      "netProfit": "Net Kâr",
+      "aiPnl24h": "24s AI K/Z",
+      "duration": "Süre",
+      "risk": "Risk",
+      "actions": "İşlemler",
+      "finalNetProfit": "Nihai Net Kâr",
+      "totalYield": "Toplam Getiri",
+      "status": "Durum"
+    },
+    "modal": {
+      "title": "Strateji Detayları",
+      "startDate": "Başlangıç Tarihi",
+      "maturityDate": "Vade Tarihi",
+      "capitalAllocation": "Sermaye Dağılımı",
+      "entryPrice": "Giriş Fiyatı",
+      "riskProfile": "Risk Profili",
+      "executionStatus": "Yürütme Durumu",
+      "understood": "Anlaşıldı"
+    },
+    "pdf": {
+      "terminal": "AURA TERMİNALİ",
+      "reportTitle": "Yatırım Stratejisi Raporu",
+      "generated": "Oluşturulma Tarihi",
+      "summaryTitle": "Strateji Özeti",
+      "disclaimerLine1": "Not: Genel bir strateji kaybı durumunda, kaybın %15'i Aura Koruma Programı",
+      "disclaimerLine2": "kapsamında kullanıcıya iade edilecektir.",
+      "executionLogTitle": "Yürütme Günlüğü",
+      "footerText": "Aura Yatırım Terminali",
+      "pageText": "Sayfa",
+      "summaryHeaders": {
+        "asset": "Varlık",
+        "capital": "Sermaye",
+        "assetQuantity": "Varlık Miktarı",
+        "netProfit": "Net Kâr",
+        "duration": "Süre",
+        "riskProfile": "Risk Profili",
+        "status": "Durum"
+      },
+      "logHeaders": {
+        "date": "Tarih",
+        "type": "Tür",
+        "asset": "Varlık",
+        "entry": "Giriş",
+        "exit": "Çıkış",
+        "pnl": "K/Z",
+        "status": "Durum"
+      }
+    }
+  },
+  "actionLog": {
+    "title": "AuraAI Motor Günlüğü",
+    "subtitle": "Otonom Yürütme Akışı",
+    "liveMonitoring": "Canlı İzleme",
+    "monitoring": "İzleniyor...",
+    "activePosition": "Aktif Pozisyon",
+    "strategyComplete": "Strateji Tamamlandı",
+    "scanningMarkets": "Piyasalar Fırsat İçin Taranıyor...",
+    "engineVersion": "Motor Sürümü: 2.4.0-AuraAI ile Claude Opus 4.7 Max"
+  }
+}

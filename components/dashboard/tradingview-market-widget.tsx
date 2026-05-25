@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useLanguage } from "@/context/language-context";
 
 export function TradingviewMarketWidget() {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const { language } = useLanguage();
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -22,7 +24,7 @@ export function TradingviewMarketWidget() {
       timezone: "Etc/UTC",
       theme: "dark",
       style: "1",
-      locale: "en",
+      locale: language === "tr" ? "tr" : "en",
       enable_publishing: false,
       allow_symbol_change: true,
       details: true,
@@ -31,7 +33,7 @@ export function TradingviewMarketWidget() {
     });
 
     containerRef.current.appendChild(script);
-  }, []);
+  }, [language]);
 
   return <div ref={containerRef} className="h-[520px] w-full" />;
 }
