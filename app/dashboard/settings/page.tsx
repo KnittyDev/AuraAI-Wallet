@@ -275,6 +275,7 @@ export default function SettingsPage() {
   };
 
   const handleExportData = async () => {
+    const isTr = language === "tr";
     setExporting(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -307,7 +308,6 @@ export default function SettingsPage() {
 
       const doc = new jsPDF();
       const pageWidth = doc.internal.pageSize.getWidth();
-      const isTr = language === "tr";
 
       // Header
       doc.setFillColor(10, 10, 10);
