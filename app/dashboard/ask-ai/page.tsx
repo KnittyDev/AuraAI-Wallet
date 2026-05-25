@@ -19,6 +19,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { supabase } from "@/lib/supabase";
 import { PlanUpgradeModal } from "@/components/dashboard/plan-upgrade-modal";
+import { useLanguage } from "@/context/language-context";
 
 type Message = {
   role: "user" | "assistant" | "system";
@@ -26,9 +27,21 @@ type Message = {
 };
 
 export default function AskAIPage() {
-  const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", content: "Hello! I am Aura, your AI investment assistant. I've analyzed your current portfolio and I'm ready to help. How can I assist you today?" }
-  ]);
+  const { language, t } = useLanguage();
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  useEffect(() => {
+    setMessages((prev) => {
+      if (prev.length === 0) {
+        return [{ role: "assistant", content: t("askAi.welcomeMessage") }];
+      }
+      const newMessages = [...prev];
+      if (newMessages[0]?.role === "assistant") {
+        newMessages[0] = { ...newMessages[0], content: t("askAi.welcomeMessage") };
+      }
+      return newMessages;
+    });
+  }, [t]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showDelayMessage, setShowDelayMessage] = useState(false);
@@ -142,7 +155,8 @@ export default function AskAIPage() {
             { role: "system", content: `You are AuraAI, a premium investment assistant. Use the following user data to answer questions accurately: ${context}` },
             ...messages, 
             userMessage
-          ] 
+          ],
+          language
         }),
       });
 
@@ -168,17 +182,17 @@ export default function AskAIPage() {
       }
     } catch (error) {
       console.error("Chat Error:", error);
-      setMessages((prev) => [...prev, { role: "assistant", content: "I'm sorry, I encountered an error. Please try again later." }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: t("askAi.errorMessage") }]);
     } finally {
       setIsLoading(false);
     }
   };
 
   const suggestedQuestions = [
-    { text: "Analyze my portfolio", icon: LuTrendingUp },
-    { text: "Market outlook for SOL", icon: LuSparkles },
-    { text: "Balance breakdown", icon: LuWallet },
-    { text: "Recent trade history", icon: LuHistory },
+    { text: t("askAi.suggestions.analyzePortfolio"), icon: LuTrendingUp },
+    { text: t("askAi.suggestions.marketOutlookSol"), icon: LuSparkles },
+    { text: t("askAi.suggestions.balanceBreakdown"), icon: LuWallet },
+    { text: t("askAi.suggestions.recentTradeHistory"), icon: LuHistory },
   ];
 
   return (
@@ -196,10 +210,10 @@ export default function AskAIPage() {
               <Image src="/auralogo.png" alt="Aura Logo" width={40} height={40} />
             </div>
             <div>
-              <h1 className="text-xl font-bold tracking-tight">Ask Aura AI</h1>
+              <h1 className="text-xl font-bold tracking-tight">{t("askAi.title")}</h1>
               <div className="flex items-center gap-1.5">
                 <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[10px] text-white/40 uppercase tracking-widest font-bold">Online & Analyzing</span>
+                <span className="text-[10px] text-white/40 uppercase tracking-widest font-bold">{t("askAi.onlineStatus")}</span>
               </div>
             </div>
           </div>
@@ -285,7 +299,7 @@ export default function AskAIPage() {
                           exit={{ opacity: 0 }}
                           className="text-[11px] text-white/40 italic font-medium ml-1"
                         >
-                          Analyzing your data... please wait.
+                          {t("askAi.delayMessage")}
                         </motion.p>
                       )}
                     </AnimatePresence>
@@ -323,7 +337,7 @@ export default function AskAIPage() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                placeholder="Ask Aura about your investments..."
+                placeholder={t("askAi.inputPlaceholder")}
                 className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-5 pr-14 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-cyan-500/50 transition-all group-hover:bg-white/[0.08]"
               />
               <button
@@ -335,7 +349,7 @@ export default function AskAIPage() {
               </button>
             </div>
             <p className="text-[10px] text-center text-white/20 uppercase tracking-widest font-bold">
-              Powered by Claude 4.7 Sonnet & Aura Neural Engine
+              {t("askAi.footerText")}
             </p>
           </div>
         </div>
@@ -344,8 +358,8 @@ export default function AskAIPage() {
       <PlanUpgradeModal 
         isOpen={isUpgradeModalOpen} 
         onClose={() => setIsUpgradeModalOpen(false)}
-        title="AI Limit Reached"
-        description="Free users can ask up to 2 questions per day. Upgrade to Pro for unlimited AI insights and real-time market analysis."
+        title={t("askAi.modal.title")}
+        description={t("askAi.modal.description")}
       />
     </main>
   );

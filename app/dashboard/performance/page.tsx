@@ -32,6 +32,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { useLanguage } from "@/context/language-context";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -47,6 +48,7 @@ const itemVariants = {
 };
 
 export default function PerformancePage() {
+  const { language, t } = useLanguage();
   const [investments, setInvestments] = useState<any[]>([]);
   const [actions, setActions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -120,31 +122,31 @@ export default function PerformancePage() {
   const actionsBeforeRange = allClosed.filter(a => new Date(a.created_at) < cutoffDate);
   let startingBalanceForRange = totalInvested + actionsBeforeRange.reduce((acc, a) => acc + Number(a.profit_usd || 0), 0);
   
-  let tempRunning = startingBalanceForRange;
-  const performanceHistory = filteredActions.map(a => {
-    tempRunning += Number(a.profit_usd || 0);
-    return {
-      date: new Date(a.created_at).toLocaleDateString(undefined, 
-        timeRange === "24H" 
-          ? { hour: '2-digit', minute: '2-digit' } 
-          : { month: 'short', day: 'numeric' }
-      ),
-      aura: Number(tempRunning.toFixed(2)),
-      market: Number((startingBalanceForRange * (1 + ((Math.random() - 0.4) * 0.02))).toFixed(2))
-    };
-  });
+    let tempRunning = startingBalanceForRange;
+    const performanceHistory = filteredActions.map(a => {
+      tempRunning += Number(a.profit_usd || 0);
+      return {
+        date: new Date(a.created_at).toLocaleDateString(language === "tr" ? "tr-TR" : "en-US", 
+          timeRange === "24H" 
+            ? { hour: '2-digit', minute: '2-digit' } 
+            : { month: 'short', day: 'numeric' }
+        ),
+        aura: Number(tempRunning.toFixed(2)),
+        market: Number((startingBalanceForRange * (1 + ((Math.random() - 0.4) * 0.02))).toFixed(2))
+      };
+    });
 
-  // 3. Process Monthly Returns
-  const monthlyData: Record<string, number> = {};
-  filteredActions.forEach(a => {
-    const month = new Date(a.created_at).toLocaleDateString(undefined, { month: 'short' });
-    monthlyData[month] = (monthlyData[month] || 0) + Number(a.profit_usd || 0);
-  });
+    // 3. Process Monthly Returns
+    const monthlyData: Record<string, number> = {};
+    filteredActions.forEach(a => {
+      const month = new Date(a.created_at).toLocaleDateString(language === "tr" ? "tr-TR" : "en-US", { month: 'short' });
+      monthlyData[month] = (monthlyData[month] || 0) + Number(a.profit_usd || 0);
+    });
 
-  const monthlyReturns = Object.entries(monthlyData).map(([month, profit]) => ({
-    month,
-    return: Number(((profit / (totalInvested || 1)) * 100).toFixed(2))
-  }));
+    const monthlyReturns = Object.entries(monthlyData).map(([month, profit]) => ({
+      month,
+      return: Number(((profit / (totalInvested || 1)) * 100).toFixed(2))
+    }));
 
   // 4. Identify Best Asset
   const assetProfits: Record<string, number> = {};
@@ -155,10 +157,10 @@ export default function PerformancePage() {
   const bestAsset = bestAssetEntry ? bestAssetEntry[0] : "N/A";
 
   const statsList = [
-    { label: "Range Return", value: `${returnPercent >= 0 ? "+" : ""}${returnPercent.toFixed(1)}%`, icon: LuTrendingUp, color: "text-emerald-400", trend: timeRange },
-    { label: "Range Profit", value: `$${filteredProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, icon: LuCalendar, color: "text-cyan-400", trend: "Realized" },
-    { label: "Trades", value: filteredActions.length.toString(), icon: LuArrowUpRight, color: "text-white/70", trend: "Execution" },
-    { label: "Win Rate", value: `${winRate.toFixed(1)}%`, icon: LuTarget, color: "text-amber-400", trend: "Success" },
+    { label: t("performance.stats.rangeReturn"), value: `${returnPercent >= 0 ? "+" : ""}${returnPercent.toFixed(1)}%`, icon: LuTrendingUp, color: "text-emerald-400", trend: t(`performance.intervals.${timeRange}`) },
+    { label: t("performance.stats.rangeProfit"), value: `$${filteredProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, icon: LuCalendar, color: "text-cyan-400", trend: t("performance.stats.realized") },
+    { label: t("performance.stats.trades"), value: filteredActions.length.toString(), icon: LuArrowUpRight, color: "text-white/70", trend: t("performance.stats.execution") },
+    { label: t("performance.stats.winRate"), value: `${winRate.toFixed(1)}%`, icon: LuTarget, color: "text-amber-400", trend: t("performance.stats.success") },
   ];
 
   if (profile?.plan === 'free') {
@@ -173,16 +175,16 @@ export default function PerformancePage() {
             <div className="mx-auto h-20 w-20 rounded-3xl bg-red-500/10 flex items-center justify-center border border-red-500/20 mb-8 transform rotate-12">
               <LuLock className="h-8 w-8 text-red-500 -rotate-12" />
             </div>
-            <h2 className="text-3xl font-bold text-white mb-4">Pro Feature</h2>
+            <h2 className="text-3xl font-bold text-white mb-4">{t("performance.locked.title")}</h2>
             <p className="text-white/40 mb-10 leading-relaxed">
-              Performance analytics and advanced profit tracking are only available to Pro members.
+              {t("performance.locked.subtitle")}
             </p>
             <button 
               onClick={() => setIsUpgradeModalOpen(true)}
               className="w-full py-4 rounded-2xl bg-red-500 hover:bg-red-600 text-white font-bold flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-red-500/20"
             >
               <LuZap className="h-4 w-4" />
-              Upgrade to Pro
+              {t("performance.locked.upgradeBtn")}
             </button>
           </div>
         </section>
@@ -190,8 +192,8 @@ export default function PerformancePage() {
         <PlanUpgradeModal 
           isOpen={isUpgradeModalOpen} 
           onClose={() => setIsUpgradeModalOpen(false)}
-          title="Performance Analytics"
-          description="Track your growth with precision. Pro members get access to detailed performance charts and historical data."
+          title={t("performance.modal.title")}
+          description={t("performance.modal.description")}
         />
       </main>
     );
@@ -217,9 +219,9 @@ export default function PerformancePage() {
                   <LuChartLine className="h-5 w-5 text-white" />
 
                 </div>
-                <h1 className="text-4xl font-bold tracking-tight text-white">Performance</h1>
+                <h1 className="text-4xl font-bold tracking-tight text-white">{t("dashboard.performance")}</h1>
               </div>
-              <p className="text-white/50 ml-12">Detailed analysis of your AI-driven returns.</p>
+              <p className="text-white/50 ml-12">{t("performance.subtitle")}</p>
             </div>
 
             <div className="flex gap-2 p-1 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
@@ -229,7 +231,7 @@ export default function PerformancePage() {
                   onClick={() => setTimeRange(p)}
                   className={`px-4 py-1.5 rounded-lg text-xs font-bold transition ${timeRange === p ? "bg-white text-black shadow-lg" : "text-white/40 hover:text-white"}`}
                 >
-                  {p}
+                  {t(`performance.intervals.${p}`)}
                 </button>
               ))}
             </div>
@@ -268,17 +270,17 @@ export default function PerformancePage() {
             >
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <h3 className="text-xl font-semibold text-white">Cumulative Returns</h3>
-                  <p className="text-sm text-white/40">Aura AI Strategy vs Market Benchmark</p>
+                  <h3 className="text-xl font-semibold text-white">{t("performance.charts.cumulativeTitle")}</h3>
+                  <p className="text-sm text-white/40">{t("performance.charts.cumulativeSubtitle")}</p>
                 </div>
                 <div className="flex items-center gap-6">
                   <div className="flex items-center gap-2">
                     <div className="h-3 w-3 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
-                    <span className="text-xs font-medium text-white/60">Aura AI</span>
+                    <span className="text-xs font-medium text-white/60">{t("performance.charts.auraLegend")}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="h-3 w-3 rounded-full bg-white/20" />
-                    <span className="text-xs font-medium text-white/40">Market Avg</span>
+                    <span className="text-xs font-medium text-white/40">{t("performance.charts.marketLegend")}</span>
                   </div>
                 </div>
               </div>
@@ -307,7 +309,7 @@ export default function PerformancePage() {
                         domain={['dataMin - 100', 'dataMax + 100']}
                       />
                       <Tooltip 
-                        formatter={(value: any) => [`$${Number(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, "Value"]}
+                        formatter={(value: any) => [`$${Number(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, t("performance.charts.tooltipValue")]}
                         contentStyle={{ backgroundColor: "#000", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "16px" }}
                         itemStyle={{ fontSize: "12px" }}
                       />
@@ -334,7 +336,7 @@ export default function PerformancePage() {
                 ) : (
                   <div className="h-full flex flex-col items-center justify-center text-white/20 space-y-4">
                     <LuChartLine className="h-12 w-12 opacity-50" />
-                    <p className="text-sm font-medium">No activity recorded for the selected period</p>
+                    <p className="text-sm font-medium">{t("performance.charts.noActivity")}</p>
                   </div>
                 )}
               </div>
@@ -347,7 +349,7 @@ export default function PerformancePage() {
                 className="rounded-[32px] border border-white/10 bg-white/[0.02] p-6 backdrop-blur-md"
               >
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-lg font-semibold text-white">Monthly Returns (%)</h3>
+                  <h3 className="text-lg font-semibold text-white">{t("performance.charts.monthlyTitle")}</h3>
                   <LuChartBar className="h-5 w-5 text-white/20" />
 
                 </div>
@@ -395,15 +397,15 @@ export default function PerformancePage() {
                     <LuArrowUpRight className="h-10 w-10 text-emerald-400" />
                   </div>
                   <div>
-                    <h4 className="text-white/40 text-sm font-medium uppercase tracking-widest">Top Performing Asset</h4>
+                    <h4 className="text-white/40 text-sm font-medium uppercase tracking-widest">{t("performance.bestStrategy.topAsset")}</h4>
                     <p className="text-3xl font-bold text-white mt-1">{bestAsset === "BTC" ? "Bitcoin" : bestAsset === "ETH" ? "Ethereum" : bestAsset === "SOL" ? "Solana" : bestAsset} ({bestAsset})</p>
                   </div>
                   <div className="flex items-center justify-center gap-2 text-emerald-400 font-bold">
                     <LuTrendingUp className="h-5 w-5" />
-                    <span>Best performing strategy</span>
+                    <span>{t("performance.bestStrategy.bannerText")}</span>
                   </div>
                   <p className="text-white/30 text-xs max-w-[280px] mx-auto leading-relaxed">
-                    AI strategy optimized positions for high volatility periods, resulting in outperformance against the market benchmark.
+                    {t("performance.bestStrategy.description")}
                   </p>
                 </div>
               </motion.div>

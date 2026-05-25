@@ -8,7 +8,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { messages } = await req.json();
+    const { messages, language } = await req.json();
 
     // 1. Fetch Real-time Market Data from Binance
     let marketContext = "";
@@ -26,6 +26,10 @@ export async function POST(req: Request) {
       console.error("Failed to fetch Binance prices for AI context:", e);
     }
 
+    const systemInstructionLanguage = language === "tr"
+      ? "You MUST respond in Turkish. All explanations, table headers, numbers, labels, advice, and analysis MUST be written entirely in Turkish."
+      : "You MUST respond in English. All explanations, table headers, numbers, labels, advice, and analysis MUST be written entirely in English.";
+
     // Context about the user's portfolio to give the AI some "knowledge"
     const systemMessage = {
       role: "system",
@@ -42,7 +46,7 @@ export async function POST(req: Request) {
       MARKET DATA:${marketContext}
       
       Your personality: Professional, data-driven, concise, and helpful. 
-      IMPORTANT: Respond in the SAME LANGUAGE as the user (e.g., if they ask in Turkish, respond in Turkish).
+      IMPORTANT: ${systemInstructionLanguage}
       Use Markdown formatting:
       - Use TABLES for portfolio data or price comparisons.
       - Use BOLD text for important numbers.

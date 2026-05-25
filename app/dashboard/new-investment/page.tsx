@@ -11,102 +11,11 @@ import auraLogo from "@/app/auralogo.png";
 import { supabase } from "@/lib/supabase";
 import { PlanUpgradeModal } from "@/components/dashboard/plan-upgrade-modal";
 import { useEffect } from "react";
+import { useLanguage } from "@/context/language-context";
 
-const cryptoOptions = [
-  {
-    code: "BTC",
-    name: "Bitcoin",
-    icon: SiBitcoin,
-    description: "Digital gold. The most famous and safest coin to hold long-term.",
-    badge: "Market Leader",
-  },
-  {
-    code: "ETH",
-    name: "Ethereum",
-    icon: SiEthereum,
-    description: "Smart computer. Powers most apps and digital finance systems.",
-    badge: "Popular",
-  },
-  {
-    code: "SOL",
-    name: "Solana",
-    icon: SiSolana,
-    description: "Ultra-fast. A newer, very quick coin designed for millions of users.",
-  },
-  {
-    code: "USDT",
-    name: "Tether",
-    icon: SiTether,
-    description: "Stable dollar. A digital coin tied to the US Dollar to keep your value steady.",
-  },
-];
-const riskOptions = [
-  {
-    level: "Conservative",
-    icon: LuShield,
-    description: "Safety first. Best for keeping your savings safe while getting steady, small gains.",
-    monthly: "8% — 12%",
-    tier: "Institutional Low",
-  },
-  {
-    level: "Balanced",
-    icon: LuScale,
-    description: "Best of both worlds. A mix of safety and growth to help your money grow steadily.",
-    recommended: true,
-    monthly: "15% — 25%",
-    tier: "Institutional Medium",
-  },
-  {
-    level: "Growth",
-    icon: LuTrendingUp,
-    description: "Faster growth. Aim for bigger profits by taking more risk during market changes.",
-    monthly: "35% — 42%",
-    tier: "High Growth",
-  },
-  {
-    level: "Aggressive",
-    icon: LuZap,
-    description: "Maximum speed. Uses advanced high-speed trading to hunt for the highest possible returns.",
-    monthly: "50% — 60%",
-    tier: "Maximum Alpha",
-  },
-];
-const goalOptions = [
-  {
-    title: "Capital Growth",
-    icon: LuTrendingUp,
-    description: "Maximize the total value of your portfolio over the long term.",
-  },
-  {
-    title: "Passive Income",
-    icon: LuScale,
-    description: "Generate regular distributions and consistent cash flow.",
-  },
-  {
-    title: "Capital Preservation",
-    icon: LuShield,
-    description: "Keep your initial investment safe with minimal risk exposure.",
-  },
-];
-const experienceOptions = [
-  {
-    title: "Beginner",
-    icon: LuShield,
-    description: "New to crypto trading. Looking for guidance and automated safety.",
-  },
-  {
-    title: "Intermediate",
-    icon: LuScale,
-    description: "Familiar with market dynamics. Understands technical analysis basics.",
-  },
-  {
-    title: "Advanced",
-    icon: LuZap,
-    description: "Experienced trader. Looking for deep optimization and advanced tools.",
-  },
-];
 
 export default function NewInvestmentPage() {
+  const { language, t } = useLanguage();
   const [step, setStep] = useState(1);
   const [crypto, setCrypto] = useState("BTC");
   const [risk, setRisk] = useState("Balanced");
@@ -124,14 +33,111 @@ export default function NewInvestmentPage() {
   const [profile, setProfile] = useState<any>(null);
   const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
 
+  const cryptoOptions = [
+    {
+      code: "BTC",
+      name: t("newInvestment.crypto.btc.name"),
+      icon: SiBitcoin,
+      description: t("newInvestment.crypto.btc.desc"),
+      badge: t("newInvestment.crypto.btc.badge"),
+    },
+    {
+      code: "ETH",
+      name: t("newInvestment.crypto.eth.name"),
+      icon: SiEthereum,
+      description: t("newInvestment.crypto.eth.desc"),
+      badge: t("newInvestment.crypto.eth.badge"),
+    },
+    {
+      code: "SOL",
+      name: t("newInvestment.crypto.sol.name"),
+      icon: SiSolana,
+      description: t("newInvestment.crypto.sol.desc"),
+    },
+    {
+      code: "USDT",
+      name: t("newInvestment.crypto.usdt.name"),
+      icon: SiTether,
+      description: t("newInvestment.crypto.usdt.desc"),
+    },
+  ];
+
+  const riskOptions = [
+    {
+      level: "Conservative",
+      icon: LuShield,
+      description: t("newInvestment.risk.conservative.desc"),
+      monthly: "8% — 12%",
+      tier: "Institutional Low",
+    },
+    {
+      level: "Balanced",
+      icon: LuScale,
+      description: t("newInvestment.risk.balanced.desc"),
+      recommended: true,
+      monthly: "15% — 25%",
+      tier: "Institutional Medium",
+    },
+    {
+      level: "Growth",
+      icon: LuTrendingUp,
+      description: t("newInvestment.risk.growth.desc"),
+      monthly: "35% — 42%",
+      tier: "High Growth",
+    },
+    {
+      level: "Aggressive",
+      icon: LuZap,
+      description: t("newInvestment.risk.aggressive.desc"),
+      monthly: "50% — 60%",
+      tier: "Maximum Alpha",
+    },
+  ];
+
+  const goalOptions = [
+    {
+      title: "Capital Growth",
+      icon: LuTrendingUp,
+      description: t("newInvestment.goals.growth.desc"),
+    },
+    {
+      title: "Passive Income",
+      icon: LuScale,
+      description: t("newInvestment.goals.passive.desc"),
+    },
+    {
+      title: "Capital Preservation",
+      icon: LuShield,
+      description: t("newInvestment.goals.preservation.desc"),
+    },
+  ];
+
+  const experienceOptions = [
+    {
+      title: "Beginner",
+      icon: LuShield,
+      description: t("newInvestment.experience.beginner.desc"),
+    },
+    {
+      title: "Intermediate",
+      icon: LuScale,
+      description: t("newInvestment.experience.intermediate.desc"),
+    },
+    {
+      title: "Advanced",
+      icon: LuZap,
+      description: t("newInvestment.experience.advanced.desc"),
+    },
+  ];
+
   const TOTAL_STEPS = 7;
 
   const isLastStep = step === TOTAL_STEPS;
   const planStages = [
-    { icon: LuBot, text: "Aura AI is analyzing your investment profile..." },
-    { icon: LuTrendingUp, text: "Building your strategy and preparing entry zones..." },
-    { icon: LuShieldCheck, text: "Applying risk controls and position sizing..." },
-    { icon: LuCircleCheck, text: "Your plan is ready. Positions are being prepared." },
+    { icon: LuBot, text: t("newInvestment.animation.stage0") },
+    { icon: LuTrendingUp, text: t("newInvestment.animation.stage1") },
+    { icon: LuShieldCheck, text: t("newInvestment.animation.stage2") },
+    { icon: LuCircleCheck, text: t("newInvestment.animation.stage3") },
   ];
 
   useEffect(() => {
@@ -152,7 +158,7 @@ export default function NewInvestmentPage() {
 
   const handleNext = async () => {
     if (step === 3 && Number(amount) < 150) {
-      setError("Minimum investment amount is 150€.");
+      setError(t("newInvestment.minAmountError"));
       return;
     }
 
@@ -202,7 +208,7 @@ export default function NewInvestmentPage() {
         .maybeSingle();
 
       if (balanceError || !balanceData || Number(balanceData?.amount || 0) < Number(amount)) {
-        setError("Insufficient USDT balance. Please deposit more funds.");
+        setError(t("newInvestment.insufficientBalance"));
         setIsCreatingPlan(false);
         return;
       }
@@ -308,9 +314,38 @@ export default function NewInvestmentPage() {
 
     } catch (err: any) {
       console.error("Investment creation error:", err);
-      setError(err.message || "An unexpected error occurred. Please try again.");
+      setError(err.message || t("newInvestment.errors.unexpected"));
       setIsCreatingPlan(false);
     }
+  };
+
+  const getGoalTitle = (title: string) => {
+    if (title === "Capital Growth") return t("newInvestment.goals.growth.title");
+    if (title === "Passive Income") return t("newInvestment.goals.passive.title");
+    return t("newInvestment.goals.preservation.title");
+  };
+
+  const getExperienceTitle = (title: string) => {
+    if (title === "Beginner") return t("newInvestment.experience.beginner.title");
+    if (title === "Intermediate") return t("newInvestment.experience.intermediate.title");
+    return t("newInvestment.experience.advanced.title");
+  };
+
+  const getProfitActionLabel = (opt: string) => {
+    if (opt === "Deposit all profits into my account") return t("newInvestment.steps.step6.options.deposit");
+    if (opt === "Reinvest all profits automatically") return t("newInvestment.steps.step6.options.reinvest");
+    return t("newInvestment.steps.step6.options.split");
+  };
+
+  const getRiskTierLabel = (tier: string | undefined) => {
+    if (!tier) return "";
+    if (language === "tr") {
+      if (tier === "Institutional Low") return "Kurumsal Düşük";
+      if (tier === "Institutional Medium") return "Kurumsal Orta";
+      if (tier === "High Growth") return "Yüksek Büyüme";
+      return "Maksimum Alfa";
+    }
+    return tier;
   };
 
   return (
@@ -324,17 +359,17 @@ export default function NewInvestmentPage() {
               href="/dashboard"
               className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10"
             >
-              Back to dashboard
+              {t("newInvestment.backToDashboard")}
             </Link>
           </div>
 
           {step !== 1 && step !== 2 && (
             <div className="text-center">
               <h1 className="text-3xl font-semibold tracking-tight text-white md:text-5xl">
-                Explain your investment ideas
+                {t("newInvestment.title")}
               </h1>
               <p className="mx-auto mt-4 max-w-3xl text-base text-white/65 md:text-lg">
-                Step by step onboarding to create your next investment plan.
+                {t("newInvestment.subtitle")}
               </p>
             </div>
           )}
@@ -355,9 +390,9 @@ export default function NewInvestmentPage() {
                 <div className="mt-3 flex items-center justify-between text-[9px] font-bold tracking-[0.2em] text-white/30 uppercase">
                   <span className="flex items-center gap-2">
                     <span className="h-1 w-1 rounded-full bg-white/40 animate-pulse" />
-                    Step {step} of {TOTAL_STEPS}
+                    {t("newInvestment.stepOf").replace("{step}", step.toString()).replace("{total}", TOTAL_STEPS.toString())}
                   </span>
-                  <span>{Math.round((step / TOTAL_STEPS) * 100)}% Processed</span>
+                  <span>{t("newInvestment.processed").replace("{percentage}", Math.round((step / TOTAL_STEPS) * 100).toString())}</span>
                 </div>
               </div>
 
@@ -365,11 +400,10 @@ export default function NewInvestmentPage() {
                 {step === 1 && (
                   <motion.div key="step-1" className="mt-4 w-full" {...stepAnimation}>
                     <div className="mb-10 text-center">
-                      <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">Step 01</p>
-                      <h2 className="text-4xl font-bold tracking-tight text-white mb-4">Select Asset Class</h2>
+                      <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">{t("newInvestment.steps.step1.badge")}</p>
+                      <h2 className="text-4xl font-bold tracking-tight text-white mb-4">{t("newInvestment.steps.step1.title")}</h2>
                       <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/50">
-                        Choose the foundational asset for your investment strategy. <br className="hidden md:block" />
-                        Aura AI will optimize entry points based on the selected asset's liquidity.
+                        {t("newInvestment.steps.step1.desc")}
                       </p>
                     </div>
 
@@ -425,11 +459,10 @@ export default function NewInvestmentPage() {
                 {step === 2 && (
                   <motion.div key="step-2" className="mt-4 w-full" {...stepAnimation}>
                     <div className="mb-10 text-center">
-                      <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">Step 02</p>
-                      <h2 className="text-4xl font-bold tracking-tight text-white mb-4">Select Your Risk Profile</h2>
+                      <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">{t("newInvestment.steps.step2.badge")}</p>
+                      <h2 className="text-4xl font-bold tracking-tight text-white mb-4">{t("newInvestment.steps.step2.title")}</h2>
                       <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/50">
-                        Define the operational boundaries for the AuraAI neural engine. <br className="hidden md:block" />
-                        Your selection calibrates volatility tolerance and target yield velocity.
+                        {t("newInvestment.steps.step2.desc")}
                       </p>
                     </div>
 
@@ -451,7 +484,7 @@ export default function NewInvestmentPage() {
                           >
                             {option.recommended && (
                               <div className="absolute right-4 top-4 rounded-full bg-white px-2 py-0.5 text-[8px] font-bold tracking-wider text-black uppercase">
-                                Recommended
+                                {t("newInvestment.risk.balanced.badge")}
                               </div>
                             )}
 
@@ -461,12 +494,12 @@ export default function NewInvestmentPage() {
                             </div>
 
                             <h3 className={`mb-2 text-xl font-semibold ${isSelected ? "text-white" : "text-white/90"}`}>
-                              {option.level}
+                              {t(`newInvestment.risk.${option.level.toLowerCase()}.level`)}
                             </h3>
 
                             <div className={`mb-4 inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-[10px] font-bold uppercase tracking-wider ${isSelected ? "bg-white/10 text-white" : "bg-white/5 text-white/40"}`}>
                               <LuTrendingUp className="h-3 w-3" />
-                              Est. Monthly: {option.monthly}
+                              {t("newInvestment.steps.step3.estMonthly")} {option.monthly}
                             </div>
 
                             <p className="text-sm leading-relaxed text-white/40">
@@ -489,11 +522,10 @@ export default function NewInvestmentPage() {
                 {step === 3 && (
                   <motion.div key="step-3" className="mt-4 w-full" {...stepAnimation}>
                     <div className="mb-10 text-center">
-                      <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">Step 03</p>
-                      <h2 className="text-4xl font-bold tracking-tight text-white mb-4">Define Strategy Parameters</h2>
+                      <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">{t("newInvestment.steps.step3.badge")}</p>
+                      <h2 className="text-4xl font-bold tracking-tight text-white mb-4">{t("newInvestment.steps.step3.title")}</h2>
                       <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/50">
-                        Specify your capital allocation and desired investment horizon. <br className="hidden md:block" />
-                        Our engine optimizes yield based on your timeframe.
+                        {t("newInvestment.steps.step3.desc")}
                       </p>
                     </div>
 
@@ -501,7 +533,7 @@ export default function NewInvestmentPage() {
                       {/* Initial Capital */}
                       <div>
                         <div className="mb-4 flex items-center justify-between">
-                          <label className="text-[10px] font-bold tracking-widest text-white/40 uppercase">Initial Capital</label>
+                          <label className="text-[10px] font-bold tracking-widest text-white/40 uppercase">{t("newInvestment.steps.step3.capital")}</label>
                           <div className="flex items-center gap-2 rounded-lg bg-white/5 px-2 py-1 text-xs font-bold text-white/60">
                             USDT <span className="text-[10px]">▼</span>
                           </div>
@@ -521,7 +553,7 @@ export default function NewInvestmentPage() {
                             placeholder="0.00"
                           />
                           <span className="absolute right-0 top-1/2 -translate-y-1/2 text-[10px] font-bold tracking-widest text-white/20 uppercase">
-                            Minimum 150
+                            {t("newInvestment.steps.step3.minText")}
                           </span>
 
                           <AnimatePresence>
@@ -545,9 +577,9 @@ export default function NewInvestmentPage() {
                       {/* Target Duration */}
                       <div>
                         <div className="mb-4 flex items-center justify-between">
-                          <label className="text-[10px] font-bold tracking-widest text-white/40 uppercase">Target Duration</label>
+                          <label className="text-[10px] font-bold tracking-widest text-white/40 uppercase">{t("newInvestment.steps.step3.duration")}</label>
                           <div className="text-2xl font-light text-white">
-                            {days} <span className="text-sm text-white/40 uppercase tracking-widest ml-1">Days</span>
+                            {days} <span className="text-sm text-white/40 uppercase tracking-widest ml-1">{t("newInvestment.steps.step3.days")}</span>
                           </div>
                         </div>
                         <input
@@ -563,22 +595,22 @@ export default function NewInvestmentPage() {
                           <span>7D</span>
                           <span>90D</span>
                           <span>180D</span>
-                          <span>Custom</span>
+                          <span>{language === "tr" ? "Özel" : "Custom"}</span>
                         </div>
                       </div>
 
                       {/* Strategy Stats */}
                       <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-white/5 bg-white/5">
                         <div className="bg-black/20 p-6">
-                          <p className="text-[9px] font-bold tracking-widest text-white/30 uppercase mb-2">Monthly Return Rate</p>
+                          <p className="text-[9px] font-bold tracking-widest text-white/30 uppercase mb-2">{t("newInvestment.steps.step3.monthlyReturnRate")}</p>
                           <p className="text-lg font-medium text-white transition-all duration-300">
                             {riskOptions.find(o => o.level === risk)?.monthly}
                           </p>
                         </div>
                         <div className="bg-black/20 p-6">
-                          <p className="text-[9px] font-bold tracking-widest text-white/30 uppercase mb-2">Risk Tier</p>
+                          <p className="text-[9px] font-bold tracking-widest text-white/30 uppercase mb-2">{t("newInvestment.steps.step3.riskTier")}</p>
                           <p className="text-lg font-medium text-white transition-all duration-300">
-                            {riskOptions.find(o => o.level === risk)?.tier}
+                            {getRiskTierLabel(riskOptions.find(o => o.level === risk)?.tier)}
                           </p>
                         </div>
                       </div>
@@ -589,11 +621,10 @@ export default function NewInvestmentPage() {
                 {step === 4 && (
                   <motion.div key="step-4-goal" className="mt-4 w-full" {...stepAnimation}>
                     <div className="mb-10 text-center">
-                      <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">Step 04</p>
-                      <h2 className="text-4xl font-bold tracking-tight text-white mb-4">Select Investment Goal</h2>
+                      <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">{t("newInvestment.steps.step4.badge")}</p>
+                      <h2 className="text-4xl font-bold tracking-tight text-white mb-4">{t("newInvestment.steps.step4.title")}</h2>
                       <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/50">
-                        What is the primary objective for this specific strategy? <br className="hidden md:block" />
-                        Your choice influences position holding periods and exit targets.
+                        {t("newInvestment.steps.step4.desc")}
                       </p>
                     </div>
 
@@ -619,7 +650,7 @@ export default function NewInvestmentPage() {
                             </div>
 
                             <h3 className={`mb-3 text-xl font-semibold ${isSelected ? "text-white" : "text-white/90"}`}>
-                              {option.title}
+                              {getGoalTitle(option.title)}
                             </h3>
 
                             <p className="text-sm leading-relaxed text-white/40">
@@ -642,11 +673,10 @@ export default function NewInvestmentPage() {
                 {step === 5 && (
                   <motion.div key="step-5-experience" className="mt-4 w-full" {...stepAnimation}>
                     <div className="mb-10 text-center">
-                      <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">Step 05</p>
-                      <h2 className="text-4xl font-bold tracking-tight text-white mb-4">Trading Experience</h2>
+                      <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">{t("newInvestment.steps.step5.badge")}</p>
+                      <h2 className="text-4xl font-bold tracking-tight text-white mb-4">{t("newInvestment.steps.step5.title")}</h2>
                       <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/50">
-                        Select the level that best describes your market proficiency. <br className="hidden md:block" />
-                        Aura AI adjusts its risk warnings and control interface accordingly.
+                        {t("newInvestment.steps.step5.desc")}
                       </p>
                     </div>
 
@@ -672,7 +702,7 @@ export default function NewInvestmentPage() {
                             </div>
 
                             <h3 className={`mb-3 text-xl font-semibold ${isSelected ? "text-white" : "text-white/90"}`}>
-                              {option.title}
+                              {getExperienceTitle(option.title)}
                             </h3>
 
                             <p className="text-sm leading-relaxed text-white/40">
@@ -693,42 +723,52 @@ export default function NewInvestmentPage() {
                 )}
 
                 {step === 6 && (
-                  <motion.div key="step-6-rules" className="mt-4 max-w-2xl space-y-4" {...stepAnimation}>
-                    <div>
-                      <p className="mb-2 text-sm text-white/75">How should we handle your profits?</p>
-                      <div className="grid gap-2">
-                        {[
-                          "Deposit all profits into my account",
-                          "Reinvest all profits automatically",
-                          "Split profits: 50% account / 50% reinvest",
-                        ].map((option) => (
-                          <button
-                            key={option}
-                            type="button"
-                            onClick={() => setProfitAction(option)}
-                            className={`rounded-xl border px-4 py-2 text-left text-sm transition ${profitAction === option
-                                ? "border-white bg-white text-black"
-                                : "border-white/20 bg-white/5 text-white hover:bg-white/10"
-                              }`}
-                          >
-                            {option}
-                          </button>
-                        ))}
-                      </div>
+                  <motion.div key="step-6-rules" className="mt-4 w-full" {...stepAnimation}>
+                    <div className="mb-10 text-center">
+                      <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">{t("newInvestment.steps.step6.badge")}</p>
+                      <h2 className="text-4xl font-bold tracking-tight text-white mb-4">{t("newInvestment.steps.step6.title")}</h2>
+                      <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/50">
+                        {t("newInvestment.steps.step6.desc")}
+                      </p>
                     </div>
 
-                    <div>
-                      <label htmlFor="notes" className="mb-2 block text-sm text-white/75">
-                        Extra notes (optional)
-                      </label>
-                      <textarea
-                        id="notes"
-                        rows={3}
-                        value={notes}
-                        onChange={(e) => setNotes(e.target.value)}
-                        placeholder="Any constraints, coins to avoid, or custom instructions..."
-                        className="w-full rounded-2xl border border-white/20 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/40 focus:border-white/35"
-                      />
+                    <div className="mx-auto max-w-xl space-y-6">
+                      <div>
+                        <p className="mb-2 text-sm text-white/75">{t("newInvestment.steps.step6.profitQuestion")}</p>
+                        <div className="grid gap-2">
+                          {[
+                            "Deposit all profits into my account",
+                            "Reinvest all profits automatically",
+                            "Split profits: 50% account / 50% reinvest",
+                          ].map((option) => (
+                            <button
+                              key={option}
+                              type="button"
+                              onClick={() => setProfitAction(option)}
+                              className={`rounded-xl border px-4 py-2 text-left text-sm transition ${profitAction === option
+                                  ? "border-white bg-white text-black"
+                                  : "border-white/20 bg-white/5 text-white hover:bg-white/10"
+                                }`}
+                            >
+                              {getProfitActionLabel(option)}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <label htmlFor="notes" className="mb-2 block text-sm text-white/75">
+                          {t("newInvestment.steps.step6.extraNotes")}
+                        </label>
+                        <textarea
+                          id="notes"
+                          rows={3}
+                          value={notes}
+                          onChange={(e) => setNotes(e.target.value)}
+                          placeholder={t("newInvestment.steps.step6.placeholder")}
+                          className="w-full rounded-2xl border border-white/20 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/40 focus:border-white/35"
+                        />
+                      </div>
                     </div>
                   </motion.div>
                 )}
@@ -736,11 +776,10 @@ export default function NewInvestmentPage() {
                 {step === 7 && (
                   <motion.div key="step-7-review" className="mt-4 w-full" {...stepAnimation}>
                     <div className="mb-10 text-center">
-                      <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">Step 07</p>
-                      <h2 className="text-4xl font-bold tracking-tight text-white mb-4">Final Strategy Review</h2>
+                      <p className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase mb-2">{t("newInvestment.steps.step7.badge")}</p>
+                      <h2 className="text-4xl font-bold tracking-tight text-white mb-4">{t("newInvestment.steps.step7.title")}</h2>
                       <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/50">
-                        Review your autonomous strategy parameters before activation. <br className="hidden md:block" />
-                        Aura AI will begin execution immediately upon confirmation.
+                        {t("newInvestment.steps.step7.desc")}
                       </p>
                     </div>
 
@@ -757,23 +796,23 @@ export default function NewInvestmentPage() {
                       {/* Core Parameters Card */}
                       <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02]">
                         <div className="border-b border-white/5 bg-white/[0.02] px-6 py-3">
-                          <p className="text-[10px] font-bold tracking-widest text-white/40 uppercase">Core Parameters</p>
+                          <p className="text-[10px] font-bold tracking-widest text-white/40 uppercase">{t("newInvestment.steps.step7.coreParameters")}</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3">
                           <div className="border-r border-white/5 p-6">
-                            <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-2">Selected Asset</p>
+                            <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-2">{t("newInvestment.steps.step7.selectedAsset")}</p>
                             <div className="flex items-center gap-2">
                               <span className="text-xl font-semibold text-white">{crypto}</span>
                               <span className="rounded bg-white/10 px-1.5 py-0.5 text-[10px] font-bold text-white/60">MAINNET</span>
                             </div>
                           </div>
                           <div className="border-r border-white/5 p-6">
-                            <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-2">Initial Capital</p>
+                            <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-2">{t("newInvestment.steps.step7.initialCapital")}</p>
                             <p className="text-xl font-semibold text-white">{Number(amount).toLocaleString()} <span className="text-xs text-white/40 uppercase ml-1">USDT</span></p>
                           </div>
                           <div className="p-6">
-                            <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-2">Time Horizon</p>
-                            <p className="text-xl font-semibold text-white">{days} <span className="text-xs text-white/40 uppercase ml-1">Days</span></p>
+                            <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-2">{t("newInvestment.steps.step7.timeHorizon")}</p>
+                            <p className="text-xl font-semibold text-white">{days} <span className="text-xs text-white/40 uppercase ml-1">{t("newInvestment.steps.step3.days")}</span></p>
                           </div>
                         </div>
                       </div>
@@ -786,19 +825,19 @@ export default function NewInvestmentPage() {
                               <LuShield className="h-4 w-4 text-white/60" />
                             </div>
                             <div>
-                              <p className="text-[10px] font-bold tracking-widest text-white/40 uppercase">Risk & Objective</p>
-                              <p className="text-sm font-medium text-white">{risk} Profile</p>
+                              <p className="text-[10px] font-bold tracking-widest text-white/40 uppercase">{t("newInvestment.steps.step7.riskObjective")}</p>
+                              <p className="text-sm font-medium text-white">{t("newInvestment.risk." + risk.toLowerCase() + ".level")} {t("newInvestment.steps.step7.profile")}</p>
                             </div>
                           </div>
                           <div className="space-y-4">
                             <div>
-                              <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">Primary Goal</p>
-                              <p className="text-sm text-white/80">{goal}</p>
+                              <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">{t("newInvestment.steps.step7.primaryGoal")}</p>
+                              <p className="text-sm text-white/80">{getGoalTitle(goal)}</p>
                             </div>
                             <div>
-                              <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">Risk Tier</p>
+                              <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">{t("newInvestment.steps.step7.riskTier")}</p>
                               <p className="text-sm text-white/80">
-                                {riskOptions.find(o => o.level === risk)?.tier}
+                                {getRiskTierLabel(riskOptions.find(o => o.level === risk)?.tier)}
                               </p>
                             </div>
                           </div>
@@ -811,20 +850,20 @@ export default function NewInvestmentPage() {
                               <LuBot className="h-4 w-4 text-white/60" />
                             </div>
                             <div>
-                              <p className="text-[10px] font-bold tracking-widest text-white/40 uppercase">Execution Rules</p>
-                              <p className="text-sm font-medium text-white">{experience} Mode</p>
+                              <p className="text-[10px] font-bold tracking-widest text-white/40 uppercase">{t("newInvestment.steps.step7.executionRules")}</p>
+                              <p className="text-sm font-medium text-white">{getExperienceTitle(experience)} {t("newInvestment.steps.step7.mode")}</p>
                             </div>
                           </div>
                           <div className="space-y-4">
                             <div>
-                              <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">Profit Distribution</p>
-                              <p className="text-sm text-white/80">{profitAction}</p>
+                              <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">{t("newInvestment.steps.step7.profitDistribution")}</p>
+                              <p className="text-sm text-white/80">{getProfitActionLabel(profitAction)}</p>
                             </div>
                             <div>
-                              <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">Engine Status</p>
+                              <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">{t("newInvestment.steps.step7.engineStatus")}</p>
                               <p className="flex items-center gap-1.5 text-sm text-emerald-400">
                                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                                Ready for Deployment
+                                {t("newInvestment.steps.step7.readyStatus")}
                               </p>
                             </div>
                           </div>
@@ -833,7 +872,7 @@ export default function NewInvestmentPage() {
 
                       {notes.trim() && (
                         <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
-                          <p className="text-[10px] font-bold tracking-widest text-white/40 uppercase mb-2">Custom Instructions</p>
+                          <p className="text-[10px] font-bold tracking-widest text-white/40 uppercase mb-2">{t("newInvestment.steps.step7.customInstructions")}</p>
                           <p className="text-sm leading-relaxed text-white/60 italic">"{notes}"</p>
                         </div>
                       )}
@@ -851,7 +890,13 @@ export default function NewInvestmentPage() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    Next
+                    {isLastStep
+                      ? isCreatingPlan
+                        ? t("newInvestment.creatingPlan")
+                        : planReady
+                          ? t("newInvestment.planCreated")
+                          : t("newInvestment.createPlan")
+                      : t("newInvestment.next")}
                   </motion.button>
 
                   {step === 1 ? (
@@ -859,7 +904,7 @@ export default function NewInvestmentPage() {
                       href="/login"
                       className="text-[10px] tracking-widest text-white/40 uppercase transition hover:text-white"
                     >
-                      Back to Authentication
+                      {t("newInvestment.backToAuth")}
                     </Link>
                   ) : (
                     <button
@@ -867,7 +912,7 @@ export default function NewInvestmentPage() {
                       onClick={() => setStep((prev) => prev - 1)}
                       className="text-[10px] tracking-widest text-white/40 uppercase transition hover:text-white cursor-pointer"
                     >
-                      Go Back
+                      {t("newInvestment.goBack")}
                     </button>
                   )}
                 </div>
@@ -881,7 +926,7 @@ export default function NewInvestmentPage() {
                     whileHover={step === 1 ? undefined : { scale: 1.02 }}
                     whileTap={step === 1 ? undefined : { scale: 0.98 }}
                   >
-                    Back
+                    {t("newInvestment.back")}
                   </motion.button>
 
                   <motion.button
@@ -894,11 +939,11 @@ export default function NewInvestmentPage() {
                   >
                     {isLastStep
                       ? isCreatingPlan
-                        ? "Creating Plan..."
+                        ? t("newInvestment.creatingPlan")
                         : planReady
-                          ? "Plan Created"
-                          : "Create Investment Plan"
-                      : "Next"}
+                          ? t("newInvestment.planCreated")
+                          : t("newInvestment.createPlan")
+                      : t("newInvestment.next")}
                   </motion.button>
                 </div>
               )}
@@ -1002,7 +1047,7 @@ export default function NewInvestmentPage() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                   >
-                    {planReady ? "Strategy Active" : "Neural Optimization in Progress"}
+                    {planReady ? t("newInvestment.animation.strategyActive") : t("newInvestment.animation.optimizing")}
                   </motion.p>
 
                   <div className="h-12 flex items-center justify-center">
@@ -1028,15 +1073,15 @@ export default function NewInvestmentPage() {
                       transition={{ delay: 0.5 }}
                     >
                       <div className="text-center">
-                        <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">Latency</p>
+                        <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">{t("newInvestment.animation.latency")}</p>
                         <p className="text-xs font-mono text-emerald-400">12ms</p>
                       </div>
                       <div className="text-center">
-                        <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">Confidence</p>
+                        <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">{t("newInvestment.animation.confidence")}</p>
                         <p className="text-xs font-mono text-cyan-400">99.4%</p>
                       </div>
                       <div className="text-center">
-                        <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">Risk Buffer</p>
+                        <p className="text-[9px] font-bold tracking-widest text-white/20 uppercase mb-1">{t("newInvestment.animation.riskBuffer")}</p>
                         <p className="text-xs font-mono text-white/60">OK</p>
                       </div>
                     </motion.div>
@@ -1057,7 +1102,7 @@ export default function NewInvestmentPage() {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                       >
-                        Enter Terminal
+                        {t("newInvestment.animation.enterTerminal")}
                       </motion.button>
                     </motion.div>
                   )}
@@ -1070,8 +1115,8 @@ export default function NewInvestmentPage() {
       <PlanUpgradeModal 
         isOpen={isUpgradeModalOpen} 
         onClose={() => setIsUpgradeModalOpen(false)}
-        title="Position Limit Reached"
-        description="Free users can open up to 1 automatic position per day. Upgrade to Pro for unlimited autonomous trading and real-time execution."
+        title={t("newInvestment.upgradeModal.title")}
+        description={t("newInvestment.upgradeModal.description")}
       />
     </div>
   );

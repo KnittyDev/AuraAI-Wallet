@@ -30,6 +30,7 @@ import { supabase } from "@/lib/supabase";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import auraLogo from "@/app/auralogo.png";
+import { useLanguage } from "@/context/language-context";
 
 interface SettingCardProps {
   label: string;
@@ -76,6 +77,7 @@ function SettingCard({ label, description, enabled, onToggle, icon: Icon, accent
 }
 
 export default function SettingsPage() {
+  const { language, setLanguage, t } = useLanguage();
   const [settings, setSettings] = useState({
     notifyTradeOpen: true,
     notifyTradeClose: true,
@@ -254,7 +256,7 @@ export default function SettingsPage() {
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newPassword !== confirmPassword) {
-      setMessage({ type: "error", text: "New passwords do not match." });
+      setMessage({ type: "error", text: t("settings.passwordModal.dontMatch") });
       return;
     }
 
@@ -266,7 +268,7 @@ export default function SettingsPage() {
     if (error) {
       setMessage({ type: "error", text: error.message });
     } else {
-      setMessage({ type: "success", text: "Master password updated successfully." });
+      setMessage({ type: "success", text: t("settings.passwordModal.success") });
       setTimeout(() => setShowPasswordModal(false), 2000);
     }
     setLoading(false);
@@ -305,6 +307,7 @@ export default function SettingsPage() {
 
       const doc = new jsPDF();
       const pageWidth = doc.internal.pageSize.getWidth();
+      const isTr = language === "tr";
 
       // Header
       doc.setFillColor(10, 10, 10);
@@ -321,24 +324,24 @@ export default function SettingsPage() {
       doc.setFontSize(22);
       doc.text("AURA AI WALLET", 28, 20);
       doc.setFontSize(10);
-      doc.text("USER PROFILE DATA EXPORT", 28, 30);
-      doc.text(`Generated: ${new Date().toLocaleString()}`, pageWidth - 14, 30, { align: "right" });
+      doc.text(isTr ? "KULLANICI PROFİL VERİLERİ DIŞA AKTARIMI" : "USER PROFILE DATA EXPORT", 28, 30);
+      doc.text(`${isTr ? "Oluşturulma" : "Generated"}: ${new Date().toLocaleString(isTr ? "tr-TR" : "en-US")}`, pageWidth - 14, 30, { align: "right" });
 
       // Section: Account Overview
       doc.setTextColor(0, 0, 0);
       doc.setFontSize(14);
-      doc.text("1. Account Overview", 14, 55);
+      doc.text(isTr ? "1. Hesap Özeti" : "1. Account Overview", 14, 55);
       
       autoTable(doc, {
         startY: 60,
-        head: [["Attribute", "Details"]],
+        head: [[isTr ? "Özellik" : "Attribute", isTr ? "Detaylar" : "Details"]],
         body: [
-          ["Full Name", profile?.full_name || "N/A"],
-          ["Email", user.email || "N/A"],
-          ["Last Sign In", user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleString() : "N/A"],
-          ["Plan Type", profile?.plan?.toUpperCase() || "FREE"],
-          ["Two-Factor Auth", totpEnabled ? "ENABLED (Secure)" : "DISABLED (Action Required)"],
-          ["Account Created", new Date(user.created_at).toLocaleDateString()],
+          [isTr ? "Tam Adı" : "Full Name", profile?.full_name || "N/A"],
+          [isTr ? "E-posta" : "Email", user.email || "N/A"],
+          [isTr ? "Son Giriş" : "Last Sign In", user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleString(isTr ? "tr-TR" : "en-US") : "N/A"],
+          [isTr ? "Plan Türü" : "Plan Type", (profile?.plan || "free").toUpperCase()],
+          [isTr ? "İki Faktörlü Doğrulama" : "Two-Factor Auth", totpEnabled ? (isTr ? "ETKİN (Güvenli)" : "ENABLED (Secure)") : (isTr ? "DEVRE DIŞI (Eylem Gerekli)" : "DISABLED (Action Required)")],
+          [isTr ? "Hesap Oluşturulma" : "Account Created", new Date(user.created_at).toLocaleDateString(isTr ? "tr-TR" : "en-US")],
         ],
         theme: "striped",
         headStyles: { fillColor: [30, 30, 30] }
@@ -346,28 +349,28 @@ export default function SettingsPage() {
 
       // Section: Asset Balances
       const balancesY = (doc as any).lastAutoTable.finalY + 15;
-      doc.text("2. Asset Balances", 14, balancesY);
+      doc.text(isTr ? "2. Varlık Bakiyeleri" : "2. Asset Balances", 14, balancesY);
       
       const balanceRows = (balances || []).map(b => [
         b.asset_code,
         Number(b.amount).toLocaleString(undefined, { minimumFractionDigits: 2 }),
-        "Wallet Asset"
+        isTr ? "Cüzdan Varlığı" : "Wallet Asset"
       ]);
 
       autoTable(doc, {
         startY: balancesY + 5,
-        head: [["Asset", "Amount", "Type"]],
-        body: balanceRows.length > 0 ? balanceRows : [["No assets found", "-", "-"]],
+        head: [[isTr ? "Varlık" : "Asset", isTr ? "Miktar" : "Amount", isTr ? "Tür" : "Type"]],
+        body: balanceRows.length > 0 ? balanceRows : [[isTr ? "Varlık bulunamadı" : "No assets found", "-", "-"]],
         theme: "grid",
         headStyles: { fillColor: [30, 30, 30] }
       });
 
       // Section: Recent AI Strategies
       const actionsY = (doc as any).lastAutoTable.finalY + 15;
-      doc.text("3. Recent AI Trading Positions", 14, actionsY);
+      doc.text(isTr ? "3. Son Yapay Zeka İşlem Pozisyonları" : "3. Recent AI Trading Positions", 14, actionsY);
 
       const actionRows = (recentActions || []).map(a => [
-        new Date(a.created_at).toLocaleDateString(),
+        new Date(a.created_at).toLocaleDateString(isTr ? "tr-TR" : "en-US"),
         a.asset_code,
         a.action_type.toUpperCase(),
         `$${Number(a.entry_price).toLocaleString()}`,
@@ -377,8 +380,8 @@ export default function SettingsPage() {
 
       autoTable(doc, {
         startY: actionsY + 5,
-        head: [["Date", "Asset", "Type", "Entry Price", "Status", "P&L"]],
-        body: actionRows.length > 0 ? actionRows : [["No recent positions", "-", "-", "-", "-", "-"]],
+        head: [[isTr ? "Tarih" : "Date", isTr ? "Varlık" : "Asset", isTr ? "Tür" : "Type", isTr ? "Giriş Fiyatı" : "Entry Price", isTr ? "Durum" : "Status", isTr ? "Kâr/Zarar" : "P&L"]],
+        body: actionRows.length > 0 ? actionRows : [[isTr ? "Son pozisyon bulunamadı" : "No recent positions", "-", "-", "-", "-", "-"]],
         theme: "striped",
         headStyles: { fillColor: [30, 30, 30] }
       });
@@ -390,7 +393,9 @@ export default function SettingsPage() {
         doc.setFontSize(8);
         doc.setTextColor(150, 150, 150);
         doc.text(
-          `This is an automated report from Aura AI Wallet. Page ${i} of ${totalPages}`,
+          isTr 
+            ? `Bu rapor Aura AI Cüzdanı tarafından otomatik olarak oluşturulmuştur. Sayfa ${i} / ${totalPages}`
+            : `This is an automated report from Aura AI Wallet. Page ${i} of ${totalPages}`,
           pageWidth / 2,
           doc.internal.pageSize.getHeight() - 10,
           { align: "center" }
@@ -400,7 +405,7 @@ export default function SettingsPage() {
       doc.save(`aura-profile-data-${new Date().getTime()}.pdf`);
     } catch (err) {
       console.error(err);
-      setMessage({ type: "error", text: "Failed to export profile data." });
+      setMessage({ type: "error", text: isTr ? "Profil verileri dışa aktarılamadı." : "Failed to export profile data." });
     } finally {
       setExporting(false);
     }
@@ -432,15 +437,15 @@ export default function SettingsPage() {
                 </div>
               </div>
               <div>
-                <h1 className="text-3xl font-bold tracking-tight text-white mb-1">Account Control</h1>
-                <p className="text-white/40 text-sm font-medium">Manage your neural identities and preferences.</p>
+                <h1 className="text-3xl font-bold tracking-tight text-white mb-1">{t("settings.title")}</h1>
+                <p className="text-white/40 text-sm font-medium">{t("settings.subtitle")}</p>
               </div>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 relative z-10">
               <Link href="/dashboard/settings/support">
                 <button className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold text-xs uppercase tracking-widest hover:bg-white/10 transition-all active:scale-95">
-                  Support Center
+                  {t("settings.supportCenter")}
                 </button>
               </Link>
               <button 
@@ -448,7 +453,7 @@ export default function SettingsPage() {
                 disabled={exporting}
                 className="px-8 py-4 rounded-2xl bg-white text-black font-bold text-xs uppercase tracking-widest hover:scale-105 transition-all active:scale-95 shadow-[0_10px_40px_rgba(255,255,255,0.2)] disabled:opacity-50"
               >
-                {exporting ? "Exporting..." : "Export Profile Data"}
+                {exporting ? t("settings.exporting") : t("settings.exportProfileData")}
               </button>
             </div>
           </motion.div>
@@ -459,37 +464,37 @@ export default function SettingsPage() {
             <div className="lg:col-span-8 space-y-8">
               <div className="flex items-center gap-3 px-4">
                 <div className="h-2 w-2 rounded-full bg-emerald-400" />
-                <h3 className="text-sm font-bold uppercase tracking-[0.3em] text-white/30">System Notifications</h3>
+                <h3 className="text-sm font-bold uppercase tracking-[0.3em] text-white/30">{t("settings.systemNotifications")}</h3>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <SettingCard
-                  label="Position Entry"
-                  description="Real-time alerts when AuraAI executes a market entry."
+                  label={t("settings.notifications.tradeOpen.label")}
+                  description={t("settings.notifications.tradeOpen.description")}
                   enabled={settings.notifyTradeOpen}
                   onToggle={() => toggleSetting('notifyTradeOpen')}
                   icon={LuZap}
                   accentColor="yellow"
                 />
                 <SettingCard
-                  label="Position Exit"
-                  description="Instant reporting on closed positions and realized P&L."
+                  label={t("settings.notifications.tradeClose.label")}
+                  description={t("settings.notifications.tradeClose.description")}
                   enabled={settings.notifyTradeClose}
                   onToggle={() => toggleSetting('notifyTradeClose')}
                   icon={LuArrowUpRight}
                   accentColor="emerald"
                 />
                 <SettingCard
-                  label="Investment Maturity"
-                  description="Notified when strategy duration ends and funds settle."
+                  label={t("settings.notifications.investmentMaturity.label")}
+                  description={t("settings.notifications.investmentMaturity.description")}
                   enabled={settings.notifyInvestmentMaturity}
                   onToggle={() => toggleSetting('notifyInvestmentMaturity')}
                   icon={LuCheck}
                   accentColor="blue"
                 />
                 <SettingCard
-                  label="Wallet Movements"
-                  description="Confirmations for every deposit and withdrawal request."
+                  label={t("settings.notifications.walletMovements.label")}
+                  description={t("settings.notifications.walletMovements.description")}
                   enabled={settings.notifyWalletMovements}
                   onToggle={() => toggleSetting('notifyWalletMovements')}
                   icon={LuWallet}
@@ -500,7 +505,7 @@ export default function SettingsPage() {
               <div className="mt-12 space-y-4">
                 <div className="flex items-center gap-3 px-4">
                   <div className="h-2 w-2 rounded-full bg-cyan-400" />
-                  <h3 className="text-sm font-bold uppercase tracking-[0.3em] text-white/30">Security Layers</h3>
+                  <h3 className="text-sm font-bold uppercase tracking-[0.3em] text-white/30">{t("settings.securityLayers")}</h3>
                 </div>
 
                 <div className="grid grid-cols-1 gap-4">
@@ -510,15 +515,15 @@ export default function SettingsPage() {
                         <LuKey className="h-6 w-6" />
                       </div>
                       <div>
-                        <h4 className="text-white font-bold mb-1">Master Password</h4>
-                        <p className="text-xs text-white/30">Last updated 14 days ago. High complexity active.</p>
+                        <h4 className="text-white font-bold mb-1">{t("settings.security.masterPassword.label")}</h4>
+                        <p className="text-xs text-white/30">{t("settings.security.masterPassword.description")}</p>
                       </div>
                     </div>
                     <button 
                       onClick={() => setShowPasswordModal(true)}
                       className="flex items-center gap-2 text-[10px] font-bold text-white/40 uppercase tracking-widest hover:text-white transition-colors"
                     >
-                      Change <LuChevronRight className="h-4 w-4" />
+                      {t("settings.security.change")} <LuChevronRight className="h-4 w-4" />
                     </button>
                   </div>
 
@@ -532,11 +537,11 @@ export default function SettingsPage() {
                         {totpEnabled ? <LuShieldCheck className="h-6 w-6" /> : <LuSmartphone className="h-6 w-6" />}
                       </div>
                       <div>
-                        <h4 className="text-white font-bold mb-1">Two-Factor Authentication</h4>
+                        <h4 className="text-white font-bold mb-1">{t("settings.security.twoFactor.label")}</h4>
                         <p className="text-xs text-white/30 leading-relaxed">
                           {totpEnabled
-                            ? "Active — Your account is protected with TOTP verification."
-                            : "Enhance security with Google Authenticator or Authy."
+                            ? t("settings.security.twoFactor.activeDescription")
+                            : t("settings.security.twoFactor.inactiveDescription")
                           }
                         </p>
                       </div>
@@ -546,24 +551,24 @@ export default function SettingsPage() {
                         <>
                           <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-2">
                             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                            Protected
+                            {t("settings.security.twoFactor.protected")}
                           </span>
                           <button
                             onClick={() => setShow2FAModal(true)}
                             className="px-5 py-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 font-bold text-[10px] uppercase tracking-widest hover:bg-red-500/20 transition-all ml-auto sm:ml-0"
                           >
-                            Disable
+                            {t("settings.security.twoFactor.disable")}
                           </button>
                         </>
                       ) : (
                         <>
-                          <span className="text-[10px] font-bold text-orange-400 uppercase tracking-widest">Recommended</span>
+                          <span className="text-[10px] font-bold text-orange-400 uppercase tracking-widest">{t("settings.security.twoFactor.recommended")}</span>
                           <button
                             onClick={handle2FASetup}
                             disabled={totpLoading}
                             className="px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all disabled:opacity-50 ml-auto sm:ml-0"
                           >
-                            {totpLoading ? "Loading..." : "Setup"}
+                            {totpLoading ? t("settings.security.twoFactor.loading") : t("settings.security.twoFactor.setup")}
                           </button>
                         </>
                       )}
@@ -577,19 +582,22 @@ export default function SettingsPage() {
             <div className="lg:col-span-4 space-y-8">
               <div className="flex items-center gap-3 px-4">
                 <div className="h-2 w-2 rounded-full bg-purple-400" />
-                <h3 className="text-sm font-bold uppercase tracking-[0.3em] text-white/30">Preferences</h3>
+                <h3 className="text-sm font-bold uppercase tracking-[0.3em] text-white/30">{t("settings.preferences")}</h3>
               </div>
 
               <div className="space-y-4">
                 <div className="p-8 rounded-[2.5rem] border border-white/10 bg-white/[0.03] space-y-6">
                   <div className="space-y-4">
                     <label className="flex items-center gap-2 text-[10px] font-bold text-white/30 uppercase tracking-widest px-1">
-                      <LuGlobe className="h-3 w-3" /> Interface Language
+                      <LuGlobe className="h-3 w-3" /> {t("settings.interfaceLanguage")}
                     </label>
-                    <select className="w-full bg-black/60 border border-white/5 rounded-2xl px-5 py-4 text-sm font-bold text-white outline-none focus:border-white/20 transition-all appearance-none cursor-pointer">
-                      <option>English (US)</option>
-                      <option>Turkish (TR)</option>
-                      <option>German (DE)</option>
+                    <select 
+                      value={language}
+                      onChange={(e) => setLanguage(e.target.value as "en" | "tr")}
+                      className="w-full bg-black/60 border border-white/5 rounded-2xl px-5 py-4 text-sm font-bold text-white outline-none focus:border-white/20 transition-all appearance-none cursor-pointer"
+                    >
+                      <option value="en">English (US)</option>
+                      <option value="tr">Türkçe (TR)</option>
                     </select>
                   </div>
                 </div>
@@ -597,7 +605,7 @@ export default function SettingsPage() {
                 <div className="p-8 rounded-[2.5rem] border border-white/10 bg-white/[0.03] space-y-6">
                   <div className="space-y-4">
                     <label className="flex items-center gap-2 text-[10px] font-bold text-white/30 uppercase tracking-widest px-1">
-                      <LuCpu className="h-3 w-3" /> Active Membership
+                      <LuCpu className="h-3 w-3" /> {t("settings.activeMembership")}
                     </label>
                     <div className="flex items-center justify-between p-4 rounded-2xl bg-black/40 border border-white/5">
                       <div className="flex items-center gap-3">
@@ -607,16 +615,16 @@ export default function SettingsPage() {
                           <LuZap className="h-5 w-5" />
                         </div>
                         <div>
-                          <h4 className="text-sm font-bold text-white capitalize">{profileData.plan} Plan</h4>
+                          <h4 className="text-sm font-bold text-white capitalize">{profileData.plan === 'pro' ? "Pro" : "Free"} {t("dashboardHome.yield24h").includes("24s") ? "Planı" : "Plan"}</h4>
                           <p className="text-[10px] text-white/30 font-medium tracking-tight">
-                            {profileData.plan === 'pro' ? 'Neural AI Priority' : 'Standard Identity'}
+                            {profileData.plan === 'pro' ? (language === "tr" ? "Nöral AI Önceliği" : "Neural AI Priority") : (language === "tr" ? "Standart Kimlik" : "Standard Identity")}
                           </p>
                         </div>
                       </div>
                       {profileData.plan === 'free' && (
                         <Link href="/dashboard/investments">
                           <button className="text-[9px] font-bold text-white uppercase tracking-widest px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
-                            Upgrade
+                            {t("settings.upgrade")}
                           </button>
                         </Link>
                       )}
@@ -625,7 +633,7 @@ export default function SettingsPage() {
                     {profileData.plan !== 'free' && profileData.expiry && (
                       <div className="px-1 space-y-2">
                         <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider">
-                          <span className="text-white/30">Validity Period</span>
+                          <span className="text-white/30">{t("settings.validityPeriod")}</span>
                           <span className="text-emerald-400 flex items-center gap-1.5">
                             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                             {(() => {
@@ -633,9 +641,9 @@ export default function SettingsPage() {
                               const now = new Date().getTime();
                               const diffMs = expiry - now;
                               const diffDays = Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
-                              if (diffDays === 0) return "Expires Today";
-                              if (diffDays === 1) return "1 Day Left";
-                              return `${diffDays} Days Left`;
+                              if (diffDays === 0) return t("settings.expiresToday");
+                              if (diffDays === 1) return t("settings.oneDayLeft");
+                              return `${diffDays} ${t("settings.daysLeft")}`;
                             })()}
                           </span>
                         </div>
@@ -658,7 +666,7 @@ export default function SettingsPage() {
                            />
                         </div>
                         <p className="text-[10px] text-white/40 leading-relaxed">
-                          Your membership will expire on <span className="text-white font-bold">{new Date(profileData.expiry).toLocaleDateString()}</span>.
+                          {t("settings.membershipExpiryText")} <span className="text-white font-bold">{new Date(profileData.expiry).toLocaleDateString(language === "tr" ? "tr-TR" : "en-US")}</span>.
                         </p>
                       </div>
                     )}
@@ -699,13 +707,13 @@ export default function SettingsPage() {
                 <LuKey className="h-8 w-8 text-white" />
               </div>
 
-              <h2 className="text-3xl font-bold text-white mb-2">Update Password</h2>
-              <p className="text-white/40 text-sm mb-8">Secure your account with a new master key.</p>
+              <h2 className="text-3xl font-bold text-white mb-2">{t("settings.passwordModal.title")}</h2>
+              <p className="text-white/40 text-sm mb-8">{t("settings.passwordModal.subtitle")}</p>
 
               <form onSubmit={handleChangePassword} className="space-y-6">
                 <div className="space-y-4">
                   <div>
-                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest px-1 block mb-2">New Password</label>
+                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest px-1 block mb-2">{t("settings.passwordModal.newPasswordLabel")}</label>
                     <input
                       type="password"
                       required
@@ -733,14 +741,14 @@ export default function SettingsPage() {
                         <p className={`text-[10px] font-bold uppercase tracking-widest ${
                           calculateStrength(newPassword) <= 2 ? "text-red-500" : calculateStrength(newPassword) === 3 ? "text-yellow-500" : "text-emerald-500"
                         }`}>
-                          {calculateStrength(newPassword) <= 2 ? "Weak Password" : calculateStrength(newPassword) === 3 ? "Moderate Strength" : "Highly Secure"}
+                          {calculateStrength(newPassword) <= 2 ? t("settings.passwordModal.weak") : calculateStrength(newPassword) === 3 ? t("settings.passwordModal.moderate") : t("settings.passwordModal.secure")}
                         </p>
                       </div>
                     )}
                   </div>
 
                   <div>
-                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest px-1 block mb-2">Confirm New Password</label>
+                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest px-1 block mb-2">{t("settings.passwordModal.confirmPasswordLabel")}</label>
                     <input
                       type="password"
                       required
@@ -765,7 +773,7 @@ export default function SettingsPage() {
                   disabled={loading}
                   className="w-full py-5 rounded-2xl bg-white text-black font-bold hover:bg-white/90 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? "Updating Master Key..." : "Confirm Update"}
+                  {loading ? t("settings.passwordModal.updating") : t("settings.passwordModal.confirm")}
                 </button>
               </form>
             </div>
@@ -807,16 +815,16 @@ export default function SettingsPage() {
                     <div className="mx-auto h-16 w-16 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
                       <LuShieldCheck className="h-8 w-8 text-red-400" />
                     </div>
-                    <h2 className="text-2xl font-bold text-white">Disable 2FA</h2>
+                    <h2 className="text-2xl font-bold text-white">{t("settings.twoFactorModal.disableTitle")}</h2>
                     <p className="text-sm text-white/40 max-w-xs mx-auto">
-                      This will remove the TOTP requirement from your account. You can re-enable it anytime.
+                      {t("settings.twoFactorModal.disableDescription")}
                     </p>
                     <button
                       onClick={handle2FADisable}
                       disabled={totpLoading}
                       className="w-full py-4 rounded-2xl bg-red-500 text-white font-bold hover:bg-red-600 transition-all active:scale-[0.98] disabled:opacity-50"
                     >
-                      {totpLoading ? "Disabling..." : "Confirm Disable 2FA"}
+                      {totpLoading ? t("settings.twoFactorModal.disabling") : t("settings.twoFactorModal.confirmDisable")}
                     </button>
                   </div>
                 ) : totpStep === "done" ? (
@@ -829,25 +837,24 @@ export default function SettingsPage() {
                     <div className="mx-auto h-20 w-20 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
                       <LuShieldCheck className="h-10 w-10 text-emerald-400" />
                     </div>
-                    <h2 className="text-2xl font-bold text-white">2FA Activated</h2>
+                    <h2 className="text-2xl font-bold text-white">{t("settings.twoFactorModal.activatedTitle")}</h2>
                     <p className="text-sm text-white/40 max-w-xs mx-auto">
-                      Your account is now protected with Two-Factor Authentication.
-                      A TOTP code will be required on every login.
+                      {t("settings.twoFactorModal.activatedDescription")}
                     </p>
                     <button
                       onClick={() => setShow2FAModal(false)}
                       className="w-full py-4 rounded-2xl bg-white text-black font-bold hover:bg-white/90 transition-all active:scale-[0.98]"
                     >
-                      Done
+                      {t("settings.twoFactorModal.done")}
                     </button>
                   </motion.div>
                 ) : totpStep === "scan" ? (
                   /* ── Step 1: Scan QR Code ── */
                   <div className="space-y-6">
                     <div>
-                      <h2 className="text-2xl font-bold text-white mb-2">Setup Authenticator</h2>
+                      <h2 className="text-2xl font-bold text-white mb-2">{t("settings.twoFactorModal.setupTitle")}</h2>
                       <p className="text-sm text-white/40">
-                        Scan the QR code below with Google Authenticator, Authy, or any TOTP app.
+                        {t("settings.twoFactorModal.setupDescription")}
                       </p>
                     </div>
 
@@ -861,7 +868,7 @@ export default function SettingsPage() {
 
                     {/* Manual entry secret */}
                     <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5">
-                      <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-2">Manual Entry Key</p>
+                      <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-2">{t("settings.twoFactorModal.manualEntryKey")}</p>
                       <div className="flex items-center justify-between gap-2">
                         <code className="text-xs font-mono text-white/60 break-all leading-relaxed">{totpSecret}</code>
                         <button
@@ -877,16 +884,16 @@ export default function SettingsPage() {
                       onClick={() => setTotpStep("verify")}
                       className="w-full py-4 rounded-2xl bg-white text-black font-bold hover:bg-white/90 transition-all active:scale-[0.98]"
                     >
-                      I&apos;ve Scanned It → Next
+                      {t("settings.twoFactorModal.scannedNext")}
                     </button>
                   </div>
                 ) : (
                   /* ── Step 2: Enter verification code ── */
                   <div className="space-y-6">
                     <div>
-                      <h2 className="text-2xl font-bold text-white mb-2">Enter Verification Code</h2>
+                      <h2 className="text-2xl font-bold text-white mb-2">{t("settings.twoFactorModal.verifyTitle")}</h2>
                       <p className="text-sm text-white/40">
-                        Enter the 6-digit code from your authenticator app to confirm setup.
+                        {t("settings.twoFactorModal.verifyDescription")}
                       </p>
                     </div>
 
@@ -904,7 +911,7 @@ export default function SettingsPage() {
                     </div>
 
                     <p className="text-[10px] text-center text-white/20 font-medium">
-                      Code refreshes every 30 seconds
+                      {t("settings.twoFactorModal.refreshText")}
                     </p>
 
                     {totpError && (
@@ -918,14 +925,14 @@ export default function SettingsPage() {
                         onClick={() => setTotpStep("scan")}
                         className="flex-1 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 transition-all"
                       >
-                        Back
+                        {t("settings.twoFactorModal.back")}
                       </button>
                       <button
                         onClick={handle2FAVerify}
                         disabled={totpLoading || totpCode.length !== 6}
                         className="flex-1 py-4 rounded-2xl bg-white text-black font-bold hover:bg-white/90 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        {totpLoading ? "Verifying..." : "Verify & Enable"}
+                        {totpLoading ? t("settings.twoFactorModal.verifying") : t("settings.twoFactorModal.verifyEnable")}
                       </button>
                     </div>
                   </div>

@@ -20,6 +20,7 @@ import {
 } from "react-icons/lu";
 
 import { PlanUpgradeModal } from "@/components/dashboard/plan-upgrade-modal";
+import { useLanguage } from "@/context/language-context";
 
 type TransactionStatus = "Completed" | "Pending" | "Failed";
 type TransactionType = "Deposit" | "Withdrawal" | "Trade" | "Profit" | "Rebalance" | "Investment";
@@ -73,6 +74,7 @@ const getExplorerUrl = (tx: Transaction) => {
 };
 
 export default function TransactionsPage() {
+  const { language, t } = useLanguage();
   const [filter, setFilter] = useState<"All" | TransactionType>("All");
   const [statusFilter, setStatusFilter] = useState<"All" | TransactionStatus>("All");
   const [dateRange, setDateRange] = useState<"All" | "24h" | "7d" | "30d">("All");
@@ -144,7 +146,7 @@ export default function TransactionsPage() {
                 status: "Completed" as TransactionStatus,
                 date: dateStr,
                 txId: `RET-${inv.id.slice(0, 8)}-${inv.asset_code}`,
-                customLabel: `Principal Return (${inv.asset_code} Plan)`
+                customLabel: `${t("wallet.principalReturn")} (${inv.asset_code} ${t("wallet.planLabel")})`
               });
 
               // 2. Strategy Profit (Strateji Kârı)
@@ -157,7 +159,7 @@ export default function TransactionsPage() {
                 status: "Completed" as TransactionStatus,
                 date: dateStr,
                 txId: `PRFT-${inv.id.slice(0, 8)}-${inv.asset_code}`,
-                customLabel: `Strategy Profit (${inv.asset_code} Plan)`
+                customLabel: `${t("wallet.strategyProfit")} (${inv.asset_code} ${t("wallet.planLabel")})`
               });
             }
           });
@@ -210,8 +212,8 @@ export default function TransactionsPage() {
           <div className="mx-auto max-w-6xl space-y-8">
             <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className="text-4xl font-bold tracking-tight text-white mb-2">Transactions</h1>
-                <p className="text-white/50 text-sm">Monitor all deposits, withdrawals, and strategy outputs.</p>
+                <h1 className="text-4xl font-bold tracking-tight text-white mb-2">{t("transactions.title")}</h1>
+                <p className="text-white/50 text-sm">{t("transactions.subtitle")}</p>
               </div>
             </header>
             
@@ -220,7 +222,7 @@ export default function TransactionsPage() {
                 <LuSearch className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30" />
                 <input 
                   type="text" 
-                  placeholder="Search assets, type, or hash..."
+                  placeholder={t("transactions.searchPlaceholder")}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="w-full bg-black/40 border border-white/5 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all text-white placeholder-white/20"
@@ -234,7 +236,7 @@ export default function TransactionsPage() {
                   }`}
                 >
                   <LuFilter className="h-4 w-4" />
-                  Filters
+                  {t("transactions.filtersBtn")}
                 </button>
               </div>
             </div>
@@ -249,47 +251,47 @@ export default function TransactionsPage() {
               >
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-white/[0.01] border border-white/5 rounded-[2rem] p-6 backdrop-blur-xl">
                   <div>
-                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest block mb-2">Type</label>
+                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest block mb-2">{t("transactions.filters.type")}</label>
                     <select
                       value={filter}
                       onChange={(e) => setFilter(e.target.value as any)}
                       className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-white/30 transition-all"
                     >
-                      <option value="All">All Types</option>
-                      <option value="Deposit">Deposit</option>
-                      <option value="Withdrawal">Withdrawal</option>
-                      <option value="Trade">Trade</option>
-                      <option value="Profit">Profit</option>
-                      <option value="Rebalance">Rebalance</option>
-                      <option value="Investment">Investment</option>
+                      <option value="All">{t("transactions.filters.allTypes")}</option>
+                      <option value="Deposit">{t("wallet.typeDeposit")}</option>
+                      <option value="Withdrawal">{t("wallet.typeWithdrawal")}</option>
+                      <option value="Trade">{t("transactions.typeTrade")}</option>
+                      <option value="Profit">{t("wallet.typeProfit")}</option>
+                      <option value="Rebalance">{t("transactions.typeRebalance")}</option>
+                      <option value="Investment">{t("wallet.typeInvestment")}</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest block mb-2">Status</label>
+                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest block mb-2">{t("transactions.filters.status")}</label>
                     <select
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value as any)}
                       className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-white/30 transition-all"
                     >
-                      <option value="All">All Statuses</option>
-                      <option value="Completed">Completed</option>
-                      <option value="Pending">Pending</option>
-                      <option value="Failed">Failed</option>
+                      <option value="All">{t("transactions.filters.allStatuses")}</option>
+                      <option value="Completed">{t("wallet.statusCompleted")}</option>
+                      <option value="Pending">{t("wallet.statusProcessing")}</option>
+                      <option value="Failed">{t("transactions.statusFailed")}</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest block mb-2">Date Range</label>
+                    <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest block mb-2">{t("transactions.filters.dateRange")}</label>
                     <select
                       value={dateRange}
                       onChange={(e) => setDateRange(e.target.value as any)}
                       className="w-full bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-white/30 transition-all"
                     >
-                      <option value="All">All Time</option>
-                      <option value="24h">Last 24 Hours</option>
-                      <option value="7d">Last 7 Days</option>
-                      <option value="30d">Last 30 Days</option>
+                      <option value="All">{t("transactions.filters.allTime")}</option>
+                      <option value="24h">{t("transactions.filters.last24h")}</option>
+                      <option value="7d">{t("transactions.filters.last7d")}</option>
+                      <option value="30d">{t("transactions.filters.last30d")}</option>
                     </select>
                   </div>
                 </div>
@@ -326,10 +328,10 @@ export default function TransactionsPage() {
                           </div>
                           <div>
                             <p className="font-bold text-white text-base">
-                              {tx.customLabel || tx.type}
+                              {tx.customLabel || t(tx.type === "Deposit" ? "wallet.typeDeposit" : tx.type === "Withdrawal" ? "wallet.typeWithdrawal" : tx.type === "Profit" ? "wallet.typeProfit" : tx.type === "Investment" ? "wallet.typeInvestment" : tx.type === "Trade" ? "transactions.typeTrade" : "transactions.typeRebalance")}
                             </p>
                             <span className={`inline-flex mt-1 items-center px-2 py-0.5 rounded-full text-[9px] font-bold border ${STATUS_COLORS[tx.status]}`}>
-                              {tx.status === 'Pending' ? 'Processing' : tx.status}
+                              {tx.status === 'Pending' ? t("wallet.statusProcessing") : tx.status === 'Completed' ? t("wallet.statusCompleted") : t("transactions.statusFailed")}
                             </span>
                           </div>
                         </div>
@@ -353,11 +355,11 @@ export default function TransactionsPage() {
 
                       <div className="flex items-center justify-between text-sm bg-white/[0.02] p-4 rounded-2xl border border-white/5">
                         <div className="flex flex-col">
-                          <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold mb-1">Date</span>
+                          <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold mb-1">{t("wallet.dateLabel")}</span>
                           <span className="text-white/80 text-xs font-medium">{tx.date}</span>
                         </div>
                         <div className="flex flex-col items-end">
-                          <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold mb-1">TxID / Hash</span>
+                          <span className="text-[10px] text-white/30 uppercase tracking-widest font-bold mb-1">{t("transactions.mobile.txIdLabel")}</span>
                           <a 
                             href={getExplorerUrl(tx)}
                             target="_blank"
@@ -380,11 +382,11 @@ export default function TransactionsPage() {
               <table className="w-full text-left border-collapse min-w-[800px]">
                 <thead>
                   <tr className="border-b border-white/5 bg-white/[0.01]">
-                    <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Activity</th>
-                    <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Amount</th>
-                    <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Date</th>
-                    <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Status</th>
-                    <th className="px-6 py-5 text-right text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Hash</th>
+                    <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">{t("transactions.headers.activity")}</th>
+                    <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">{t("wallet.amountHeader")}</th>
+                    <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">{t("wallet.dateHeader")}</th>
+                    <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">{t("wallet.statusHeader")}</th>
+                    <th className="px-6 py-5 text-right text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">{t("transactions.headers.hash")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
@@ -414,7 +416,7 @@ export default function TransactionsPage() {
                               </div>
                               <div>
                                 <p className="font-semibold text-white">
-                                  {tx.customLabel || tx.type}
+                                  {tx.customLabel || t(tx.type === "Deposit" ? "wallet.typeDeposit" : tx.type === "Withdrawal" ? "wallet.typeWithdrawal" : tx.type === "Profit" ? "wallet.typeProfit" : tx.type === "Investment" ? "wallet.typeInvestment" : tx.type === "Trade" ? "transactions.typeTrade" : "transactions.typeRebalance")}
                                   {tx.type === "Investment" && tx.txId.includes("_") && (
                                     <span className="ml-2 text-xs font-normal text-white/40">
                                       ({tx.txId.split("_")[1]})
@@ -447,7 +449,7 @@ export default function TransactionsPage() {
                           </td>
                           <td className="px-6 py-5">
                             <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold border ${STATUS_COLORS[tx.status]}`}>
-                              {tx.status === 'Pending' ? 'Processing' : tx.status}
+                              {tx.status === 'Pending' ? t("wallet.statusProcessing") : tx.status === 'Completed' ? t("wallet.statusCompleted") : t("transactions.statusFailed")}
                             </span>
                           </td>
                           <td className="px-6 py-5 text-right">
@@ -474,16 +476,21 @@ export default function TransactionsPage() {
                   <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-white/5 mb-4">
                     <LuSearch className="h-8 w-8 text-white/20" />
                   </div>
-                  <p className="text-white/60 font-medium">No transactions found</p>
-                  <p className="text-sm text-white/40 mt-1">Try adjusting your filters or search term.</p>
+                  <p className="text-white/60 font-medium">{t("transactions.empty.title")}</p>
+                  <p className="text-sm text-white/40 mt-1">{t("transactions.empty.subtitle")}</p>
                 </div>
               )}
             
             <div className="px-6 py-5 border-t border-white/5 bg-white/[0.01] flex items-center justify-between">
-              <p className="text-xs text-white/30 font-medium">Showing {filteredTransactions.length} results</p>
+              <p className="text-xs text-white/30 font-medium">
+                {language === "tr"
+                  ? `${filteredTransactions.length} ${t("transactions.footer.results")}`
+                  : `${t("transactions.footer.showing")} ${filteredTransactions.length} ${t("transactions.footer.results")}`
+                }
+              </p>
               <div className="flex items-center gap-2">
-                <button className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-white/40 cursor-not-allowed">Previous</button>
-                <button className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-white/40 cursor-not-allowed">Next</button>
+                <button className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-white/40 cursor-not-allowed">{t("transactions.footer.prev")}</button>
+                <button className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-white/40 cursor-not-allowed">{t("transactions.footer.next")}</button>
               </div>
             </div>
           </div>
@@ -495,8 +502,8 @@ export default function TransactionsPage() {
                   <LuLock className="h-6 w-6 text-red-500" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-bold text-white mb-1">Investment Logs Restricted</h4>
-                  <p className="text-sm text-white/40">Upgrade to Pro to view your automated AI trading history and profit distribution logs.</p>
+                  <h4 className="text-lg font-bold text-white mb-1">{t("transactions.locked.title")}</h4>
+                  <p className="text-sm text-white/40">{t("transactions.locked.subtitle")}</p>
                 </div>
               </div>
               <button 
@@ -504,7 +511,7 @@ export default function TransactionsPage() {
                 className="px-6 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white text-xs font-bold flex items-center gap-2 transition-all active:scale-95 whitespace-nowrap shadow-lg shadow-red-500/20"
               >
                 <LuZap className="h-3.5 w-3.5" />
-                Unlock Pro
+                {t("transactions.locked.unlockBtn")}
               </button>
             </div>
           )}
@@ -514,8 +521,8 @@ export default function TransactionsPage() {
       <PlanUpgradeModal 
         isOpen={isUpgradeModalOpen} 
         onClose={() => setIsUpgradeModalOpen(false)}
-        title="Investment Logs"
-        description="Detailed insights into every trade. Pro members get a complete history of all AI activities, rebalances, and realized profits."
+        title={t("transactions.modal.title")}
+        description={t("transactions.modal.description")}
       />
     </div>
   </main>

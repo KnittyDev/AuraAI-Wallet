@@ -519,5 +519,381 @@
     "strategyComplete": "Strateji Tamamlandı",
     "scanningMarkets": "Piyasalar Fırsat İçin Taranıyor...",
     "engineVersion": "Motor Sürümü: 2.4.0-AuraAI ile Claude Opus 4.7 Max"
+  },
+  "transactions": {
+    "title": "İşlemler",
+    "subtitle": "Tüm para yatırma, çekme ve strateji çıktılarınızı takip edin.",
+    "searchPlaceholder": "Varlık, tür veya işlem kodu (hash) ara...",
+    "filtersBtn": "Filtreler",
+    "typeTrade": "Takas",
+    "typeRebalance": "Yeniden Dengeleme",
+    "statusFailed": "Başarısız",
+    "filters": {
+      "type": "Tür",
+      "allTypes": "Tüm Türler",
+      "status": "Durum",
+      "allStatuses": "Tüm Durumlar",
+      "dateRange": "Tarih Aralığı",
+      "allTime": "Tüm Zamanlar",
+      "last24h": "Son 24 Saat",
+      "last7d": "Son 7 Gün",
+      "last30d": "Son 30 Gün"
+    },
+    "headers": {
+      "activity": "Aktivite",
+      "hash": "İşlem Kodu"
+    },
+    "mobile": {
+      "txIdLabel": "İşlem Kodu / Hash"
+    },
+    "locked": {
+      "title": "Yatırım Günlükleri Kısıtlandı",
+      "subtitle": "Yapay zeka otonom işlem geçmişini ve kâr dağıtım günlüklerini görüntülemek için Pro planına yükseltin.",
+      "unlockBtn": "Pro Kilidini Aç"
+    },
+    "modal": {
+      "title": "Yatırım Günlükleri",
+      "description": "Her işleme dair detaylı analizler. Pro üyeleri yapay zeka hareketlerinin, yeniden dengelemelerin ve gerçekleşen kârların tam geçmişini görebilir."
+    },
+    "empty": {
+      "title": "İşlem bulunamadı",
+      "subtitle": "Filtrelerinizi veya arama teriminizi değiştirmeyi deneyin."
+    },
+    "footer": {
+      "showing": "",
+      "results": "sonuç gösteriliyor",
+      "prev": "Önceki",
+      "next": "Sonraki"
+    }
+  },
+  "performance": {
+    "subtitle": "Yapay zeka odaklı getirilerinizin detaylı analizi.",
+    "intervals": {
+      "24H": "24S",
+      "1W": "1H",
+      "1M": "1A",
+      "1Y": "1Y",
+      "ALL": "TÜMÜ"
+    },
+    "stats": {
+      "rangeReturn": "Dönem Getirisi",
+      "rangeProfit": "Dönem Kârı",
+      "trades": "İşlemler",
+      "winRate": "Kazanma Oranı",
+      "realized": "Gerçekleşen",
+      "execution": "Yürütme",
+      "success": "Başarı"
+    },
+    "locked": {
+      "title": "Pro Özelliği",
+      "subtitle": "Performans analizleri ve gelişmiş kâr takibi yalnızca Pro üyeler için mevcuttur.",
+      "upgradeBtn": "Pro'ya Yükselt"
+    },
+    "modal": {
+      "title": "Performans Analizleri",
+      "description": "Büyümenizi hassasiyetle takip edin. Pro üyeleri detaylı performans grafiklerine ve geçmiş verilere erişebilir."
+    },
+    "charts": {
+      "cumulativeTitle": "Kümülatif Getiriler",
+      "cumulativeSubtitle": "Aura AI Stratejisi vs Piyasa Göstergesi",
+      "auraLegend": "Aura AI",
+      "marketLegend": "Piyasa Ort.",
+      "tooltipValue": "Değer",
+      "noActivity": "Seçilen dönem için kaydedilmiş bir aktivite bulunmuyor",
+      "monthlyTitle": "Aylık Getiriler (%)"
+    },
+    "bestStrategy": {
+      "topAsset": "En İyi Performans Gösteren Varlık",
+      "bannerText": "En iyi performans gösteren strateji",
+      "description": "Yüksek oynaklık dönemlerinde optimize edilmiş AI strateji pozisyonları, piyasa ortalamasının üzerinde getiri sağladı."
+    }
+  },
+  "askAi": {
+    "title": "Aura AI'ya Sor",
+    "onlineStatus": "Çevrimiçi ve Analiz Ediyor",
+    "welcomeMessage": "Merhaba! Ben yatırım asistanınız Aura. Mevcut portföyünüzü analiz ettim ve size yardımcı olmaya hazırım. Bugün size nasıl yardımcı olabilirim?",
+    "delayMessage": "Verileriniz analiz ediliyor... lütfen bekleyin.",
+    "inputPlaceholder": "Yatırımlarınız hakkında Aura'ya sorun...",
+    "footerText": "Claude 4.7 Sonnet ve Aura Nöral Motoru ile güçlendirilmiştir",
+    "errorMessage": "Üzgünüm, bir hata ile karşılaştım. Lütfen daha sonra tekrar deneyin.",
+    "suggestions": {
+      "analyzePortfolio": "Portföyümü analiz et",
+      "marketOutlookSol": "SOL için piyasa görünümü",
+      "balanceBreakdown": "Bakiye dağılımı",
+      "recentTradeHistory": "Son işlem geçmişi"
+    },
+    "modal": {
+      "title": "AI Sınırına Ulaşıldı",
+      "description": "Ücretsiz plan kullanıcıları günde en fazla 2 soru sorabilir. Sınırsız yapay zeka analizleri ve gerçek zamanlı piyasa analizleri için Pro'ya yükseltin."
+    }
+  },
+  "settings": {
+    "title": "Hesap Kontrolü",
+    "subtitle": "Nöral kimliklerinizi ve tercihlerinizi yönetin.",
+    "supportCenter": "Destek Merkezi",
+    "exportProfileData": "Profil Verilerini Dışa Aktar",
+    "exporting": "Dışa aktarılıyor...",
+    "systemNotifications": "Sistem Bildirimleri",
+    "securityLayers": "Güvenlik Katmanları",
+    "preferences": "Tercihler",
+    "interfaceLanguage": "Arayüz Dili",
+    "activeMembership": "Aktif Üyelik",
+    "upgrade": "Yükselt",
+    "validityPeriod": "Geçerlilik Süresi",
+    "expiresToday": "Bugün Sona Eriyor",
+    "oneDayLeft": "1 Gün Kaldı",
+    "daysLeft": "Gün Kaldı",
+    "membershipExpiryText": "Üyeliğinizin sona ereceği tarih: ",
+    "notifications": {
+      "tradeOpen": {
+        "label": "Pozisyon Girişi",
+        "description": "AuraAI bir piyasa girişi gerçekleştirdiğinde gerçek zamanlı uyarılar."
+      },
+      "tradeClose": {
+        "label": "Pozisyondan Çıkış",
+        "description": "Kapatılan pozisyonlar ve gerçekleşen kâr/zarar hakkında anında raporlama."
+      },
+      "investmentMaturity": {
+        "label": "Yatırım Vadesi",
+        "description": "Strateji süresi sona erdiğinde ve fonlar cüzdanınıza aktarıldığında bildirim."
+      },
+      "walletMovements": {
+        "label": "Cüzdan Hareketleri",
+        "description": "Her para yatırma ve çekme talebi için onay bildirimleri."
+      }
+    },
+    "security": {
+      "masterPassword": {
+        "label": "Ana Şifre",
+        "description": "Son güncelleme 14 gün önce. Yüksek karmaşıklık aktif."
+      },
+      "change": "Değiştir",
+      "twoFactor": {
+        "label": "İki Faktörlü Doğrulama",
+        "activeDescription": "Aktif — Hesabınız TOTP doğrulaması ile korunuyor.",
+        "inactiveDescription": "Google Authenticator veya Authy ile güvenliğinizi artırın.",
+        "protected": "Korumalı",
+        "disable": "Devre Dışı Bırak",
+        "recommended": "Önerilen",
+        "setup": "Kurulum",
+        "loading": "Yükleniyor..."
+      }
+    },
+    "passwordModal": {
+      "title": "Şifreyi Güncelle",
+      "subtitle": "Yeni bir anahtar ile hesabınızı güvenceye alın.",
+      "newPasswordLabel": "Yeni Şifre",
+      "confirmPasswordLabel": "Yeni Şifreyi Onayla",
+      "weak": "Zayıf Şifre",
+      "moderate": "Orta Güçlükte",
+      "secure": "Oldukça Güvenli",
+      "dontMatch": "Yeni şifreler eşleşmiyor.",
+      "success": "Ana şifre başarıyla güncellendi.",
+      "updating": "Anahtar Güncelleniyor...",
+      "confirm": "Güncellemeyi Onayla"
+    },
+    "twoFactorModal": {
+      "disableTitle": "2FA'yı Devre Dışı Bırak",
+      "disableDescription": "Bu işlem hesabınızdaki TOTP gereksinimini kaldıracaktır. İstediğiniz zaman tekrar aktif edebilirsiniz.",
+      "confirmDisable": "2FA'yı Kapatmayı Onayla",
+      "disabling": "Kapatılıyor...",
+      "activatedTitle": "2FA Aktive Edildi",
+      "activatedDescription": "Hesabınız artık İki Faktörlü Doğrulama ile korunmaktadır. Her girişte bir TOTP kodu istenecektir.",
+      "done": "Tamamlandı",
+      "setupTitle": "Doğrulayıcıyı Kur",
+      "setupDescription": "Aşağıdaki QR kodu Google Authenticator, Authy veya herhangi bir TOTP uygulamasıyla taratın.",
+      "manualEntryKey": "Manuel Giriş Anahtarı",
+      "scannedNext": "Tarıttım → Sonraki",
+      "verifyTitle": "Doğrulama Kodunu Girin",
+      "verifyDescription": "Kurulumu onaylamak için doğrulayıcı uygulamanızdaki 6 haneli kodu girin.",
+      "refreshText": "Kod her 30 saniyede bir yenilenir",
+      "back": "Geri",
+      "verifyEnable": "Doğrula ve Etkinleştir",
+      "verifying": "Doğrulanıyor..."
+    }
+  },
+  "convert": {
+    "title": "Dönüştür",
+    "subtitle": "Gerçek zamanlı nöral oranlarla anında varlık takasları.",
+    "from": "Gönderen",
+    "balance": "Bakiye",
+    "to": "Alıcı (Tahmini)",
+    "exchangeRate": "Döviz Kuru",
+    "success": "Dönüştürme başarılı! Bakiyeleriniz güncellendi.",
+    "processing": "Takas İşleniyor...",
+    "confirm": "Dönüşümü Onayla",
+    "realTimeRates": "Gerçek Zamanlı Oranlar",
+    "errors": {
+      "insufficient": "Yetersiz bakiye.",
+      "auth": "Kimlik doğrulaması gerekiyor."
+    }
+  },
+  "newInvestment": {
+    "title": "Yatırım fikirlerinizi açıklayın",
+    "subtitle": "Bir sonraki yatırım planınızı oluşturmak için adım adım katılım.",
+    "backToDashboard": "Panele geri dön",
+    "stepOf": "Adım {step} / {total}",
+    "processed": "%{percentage} Tamamlandı",
+    "next": "İleri",
+    "back": "Geri",
+    "goBack": "Geri Dön",
+    "backToAuth": "Kimlik Doğrulamaya Geri Dön",
+    "creatingPlan": "Plan Oluşturuluyor...",
+    "planCreated": "Plan Oluşturuldu",
+    "createPlan": "Yatırım Planı Oluştur",
+    "minAmountError": "Minimum yatırım miktarı 150€'dur.",
+    "insufficientBalance": "Yetersiz USDT bakiyesi. Lütfen daha fazla fon yatırın.",
+    "errors": {
+      "unexpected": "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin."
+    },
+    "upgradeModal": {
+      "title": "Pozisyon Sınırına Ulaşıldı",
+      "description": "Ücretsiz plan kullanıcıları günde en fazla 1 otomatik pozisyon açabilir. Sınırsız otonom işlem ve gerçek zamanlı işlem yürütme için Pro'ya yükseltin."
+    },
+    "crypto": {
+      "btc": {
+        "name": "Bitcoin",
+        "desc": "Dijital altın. Uzun vadede tutulabilecek en ünlü ve en güvenli coin.",
+        "badge": "Piyasa Lideri"
+      },
+      "eth": {
+        "name": "Ethereum",
+        "desc": "Akıllı bilgisayar. Çoğu uygulamayı ve dijital finans sistemini besler.",
+        "badge": "Popüler"
+      },
+      "sol": {
+        "name": "Solana",
+        "desc": "Ultra hızlı. Milyonlarca kullanıcı için tasarlanmış yeni, çok hızlı bir coin."
+      },
+      "usdt": {
+        "name": "Tether",
+        "desc": "Sabit dolar. Değerinizi sabit tutmak için ABD Dolarına endeksli dijital coin."
+      }
+    },
+    "risk": {
+      "conservative": {
+        "level": "Muhafazakar",
+        "desc": "Önce güvenlik. İstikrarlı ve küçük kazançlar elde ederken birikimlerinizi güvende tutmak için en iyisidir."
+      },
+      "balanced": {
+        "level": "Dengeli",
+        "desc": "Her iki dünyanın da en iyisi. Paranızı istikrarlı bir şekilde büyütmek için güvenlik ve büyüme dengesi.",
+        "badge": "Önerilen"
+      },
+      "growth": {
+        "level": "Büyüme",
+        "desc": "Daha hızlı büyüme. Piyasa hareketleri sırasında daha fazla risk alarak daha büyük kârları hedefler."
+      },
+      "aggressive": {
+        "level": "Agresif",
+        "desc": "Maksimum hız. En yüksek getiriyi kovalamak için gelişmiş yüksek hızlı işlemleri kullanır."
+      }
+    },
+    "goals": {
+      "growth": {
+        "title": "Sermaye Büyümesi",
+        "desc": "Uzun vadede portföyünüzün toplam değerini maksimuma çıkarın."
+      },
+      "passive": {
+        "title": "Pasif Gelir",
+        "desc": "Düzenli dağıtımlar ve tutarlı nakit akışı oluşturun."
+      },
+      "preservation": {
+        "title": "Sermaye Koruma",
+        "desc": "Minimum risk maruziyetiyle ilk yatırımınızı güvende tutun."
+      }
+    },
+    "experience": {
+      "beginner": {
+        "title": "Başlangıç",
+        "desc": "Kripto ticaretine yeni başlayanlar. Rehberlik ve otomatik güvenlik arayanlar."
+      },
+      "intermediate": {
+        "title": "Orta Düzey",
+        "desc": "Piyasa dinamiklerine aşina. Teknik analizin temellerini anlayanlar."
+      },
+      "advanced": {
+        "title": "İleri Düzey",
+        "desc": "Deneyimli yatırımcı. Derin optimizasyon ve gelişmiş araçlar arayanlar."
+      }
+    },
+    "steps": {
+      "step1": {
+        "badge": "Adım 01",
+        "title": "Varlık Sınıfı Seçin",
+        "desc": "Yatırım stratejiniz için temel varlığı seçin. Aura AI, seçilen varlığın likiditesine göre giriş noktalarını optimize edecektir."
+      },
+      "step2": {
+        "badge": "Adım 02",
+        "title": "Risk Profilinizi Seçin",
+        "desc": "AuraAI nöral motorunun çalışma sınırlarını belirleyin. Seçiminiz volatilite toleransını ve hedef getiri hızını kalibre eder."
+      },
+      "step3": {
+        "badge": "Adım 03",
+        "title": "Strateji Parametrelerini Belirleyin",
+        "desc": "Sermaye tahsisinizi ve istediğiniz yatırım vadesini belirtin. Motorumuz, zaman diliminize göre getiriyi optimize eder.",
+        "capital": "Başlangıç Sermayesi",
+        "minText": "Minimum 150",
+        "duration": "Hedef Süre",
+        "days": "Gün",
+        "estMonthly": "Tahmini Aylık:",
+        "monthlyReturnRate": "Aylık Getiri Oranı",
+        "riskTier": "Risk Seviyesi"
+      },
+      "step4": {
+        "badge": "Adım 04",
+        "title": "Yatırım Hedefini Seçin",
+        "desc": "Bu strateji için birincil amaç nedir? Seçiminiz pozisyon tutma sürelerini ve çıkış hedeflerini etkiler."
+      },
+      "step5": {
+        "badge": "Adım 05",
+        "title": "İşlem Deneyimi",
+        "desc": "Piyasa yetkinliğinizi en iyi tanımlayan seviyeyi seçin. Aura AI risk uyarılarını ve kontrol arayüzünü buna göre ayarlar."
+      },
+      "step6": {
+        "badge": "Adım 06",
+        "title": "Kâr Yönetimi ve Notlar",
+        "desc": "Kâr yönetimini ve ekstra kısıtlamaları belirtin.",
+        "profitQuestion": "Kârınızı nasıl yönetmeliyiz?",
+        "options": {
+          "deposit": "Tüm kârları hesabıma yatır",
+          "reinvest": "Tüm kârları otomatik olarak yeniden yatır",
+          "split": "Kârı bölüştür: %50 hesap / %50 yeniden yatırım"
+        },
+        "extraNotes": "Ekstra notlar (isteğe bağlı)",
+        "placeholder": "Kısıtlamalar, kaçınılacak coinler veya özel talimatlar..."
+      },
+      "step7": {
+        "badge": "Adım 07",
+        "title": "Son Strateji İncelemesi",
+        "desc": "Aktivasyondan önce otonom strateji parametrelerinizi gözden geçirin. Aura AI, onayınızın ardından hemen işleme başlayacaktır.",
+        "coreParameters": "Temel Parametreler",
+        "selectedAsset": "Seçilen Varlık",
+        "initialCapital": "Başlangıç Sermayesi",
+        "timeHorizon": "Zaman Vadesi",
+        "riskObjective": "Risk ve Hedef",
+        "profile": "Profili",
+        "primaryGoal": "Birincil Hedef",
+        "riskTier": "Risk Seviyesi",
+        "executionRules": "Yürütme Kuralları",
+        "mode": "Modu",
+        "profitDistribution": "Kâr Dağıtımı",
+        "engineStatus": "Motor Durumu",
+        "readyStatus": "Dağıtıma Hazır",
+        "customInstructions": "Özel Talimatlar"
+      }
+    },
+    "animation": {
+      "strategyActive": "Strateji Aktif",
+      "optimizing": "Nöral Optimizasyon Devam Ediyor",
+      "stage0": "Aura AI yatırım profilinizi analiz ediyor...",
+      "stage1": "Stratejiniz oluşturuluyor ve giriş bölgeleri hazırlanıyor...",
+      "stage2": "Risk kontrolleri ve pozisyon büyüklüğü uygulanıyor...",
+      "stage3": "Planınız hazır. Pozisyonlar hazırlanıyor.",
+      "latency": "Gecikme",
+      "confidence": "Güven Derecesi",
+      "riskBuffer": "Risk Tamponu",
+      "enterTerminal": "Terminale Giriş"
+    }
   }
 }

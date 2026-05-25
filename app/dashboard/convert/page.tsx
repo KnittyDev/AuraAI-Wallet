@@ -17,6 +17,7 @@ import {
 import { SiBitcoin, SiEthereum, SiSolana, SiTether } from "react-icons/si";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useLanguage } from "@/context/language-context";
 
 const ASSETS = [
   { symbol: "BTC", name: "Bitcoin", icon: SiBitcoin, id: "bitcoin" },
@@ -26,6 +27,7 @@ const ASSETS = [
 ];
 
 export default function ConvertPage() {
+  const { t } = useLanguage();
   const [fromAsset, setFromAsset] = useState(ASSETS[0]);
   const [toAsset, setToAsset] = useState(ASSETS[3]);
   const [amount, setAmount] = useState("");
@@ -79,7 +81,7 @@ export default function ConvertPage() {
   const executeConversion = async () => {
     if (!amount || Number(amount) <= 0) return;
     if (Number(amount) > Number(fromBalance)) {
-      setError("Insufficient balance.");
+      setError(t("convert.errors.insufficient"));
       return;
     }
 
@@ -88,7 +90,7 @@ export default function ConvertPage() {
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Auth required");
+      if (!user) throw new Error(t("convert.errors.auth"));
 
       // 1. Subtract from source
       const { error: subError } = await supabase
@@ -160,9 +162,9 @@ export default function ConvertPage() {
               <div className="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
                 <LuRefreshCw className={`h-5 w-5 text-white ${isConverting ? "animate-spin" : ""}`} />
               </div>
-              <h1 className="text-4xl font-bold tracking-tight text-white">Convert</h1>
+              <h1 className="text-4xl font-bold tracking-tight text-white">{t("convert.title")}</h1>
             </div>
-            <p className="text-white/50">Instant asset swaps with real-time neural rates.</p>
+            <p className="text-white/50">{t("convert.subtitle")}</p>
           </header>
 
           <div className="space-y-6">
@@ -173,9 +175,9 @@ export default function ConvertPage() {
                 {/* From Asset */}
                 <div className="space-y-3">
                   <div className="flex justify-between items-end px-2">
-                    <label className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase">From</label>
+                    <label className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase">{t("convert.from")}</label>
                     <span className="text-[10px] text-white/30 font-medium uppercase tracking-wider">
-                      Balance: {fromBalance.toLocaleString()} {fromAsset.symbol}
+                      {t("convert.balance")}: {fromBalance.toLocaleString()} {fromAsset.symbol}
                     </span>
                   </div>
                   <div className="relative group">
@@ -214,7 +216,7 @@ export default function ConvertPage() {
                 {/* To Asset */}
                 <div className="space-y-3">
                   <div className="flex justify-between items-end px-2">
-                    <label className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase">To (Estimated)</label>
+                    <label className="text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase">{t("convert.to")}</label>
                   </div>
                   <div className="relative group">
                     <div className="absolute left-6 top-1/2 -translate-y-1/2 flex items-center gap-3">
@@ -239,7 +241,7 @@ export default function ConvertPage() {
                 <div className="rounded-2xl bg-white/[0.03] border border-white/5 p-6 flex items-center justify-between">
                   <div className="flex items-center gap-3 text-white/40">
                     <LuInfo className="h-4 w-4" />
-                    <p className="text-xs font-medium uppercase tracking-widest">Exchange Rate</p>
+                    <p className="text-xs font-medium uppercase tracking-widest">{t("convert.exchangeRate")}</p>
                   </div>
                   <p className="text-sm font-mono font-bold text-white/80">
                     1 {fromAsset.symbol} = {rate.toLocaleString(undefined, { maximumFractionDigits: 6 })} {toAsset.symbol}
@@ -267,7 +269,7 @@ export default function ConvertPage() {
                       className="rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-4 flex items-center gap-3 text-emerald-400 text-sm font-medium"
                     >
                       <LuCircleCheck className="h-5 w-5 shrink-0" />
-                      Conversion successful! Your balances have been updated.
+                      {t("convert.success")}
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -281,11 +283,11 @@ export default function ConvertPage() {
                   {isConverting ? (
                     <>
                       <LuRefreshCw className="h-6 w-6 animate-spin" />
-                      Processing Swap...
+                      {t("convert.processing")}
                     </>
                   ) : (
                     <>
-                      Confirm Conversion
+                      {t("convert.confirm")}
                       <LuArrowRight className="h-6 w-6" />
                     </>
                   )}
@@ -295,7 +297,7 @@ export default function ConvertPage() {
 
             {/* Hint */}
             <p className="text-center text-[10px] text-white/20 font-bold uppercase tracking-[0.3em]">
-              Real-Time Rates
+              {t("convert.realTimeRates")}
             </p>
           </div>
         </div>

@@ -519,5 +519,381 @@
     "strategyComplete": "Strategy Complete",
     "scanningMarkets": "Scanning Markets for Opportunity...",
     "engineVersion": "Engine Version: 2.4.0-AuraAI with Claude Opus 4.7 Max"
+  },
+  "transactions": {
+    "title": "Transactions",
+    "subtitle": "Monitor all deposits, withdrawals, and strategy outputs.",
+    "searchPlaceholder": "Search assets, type, or hash...",
+    "filtersBtn": "Filters",
+    "typeTrade": "Trade",
+    "typeRebalance": "Rebalance",
+    "statusFailed": "Failed",
+    "filters": {
+      "type": "Type",
+      "allTypes": "All Types",
+      "status": "Status",
+      "allStatuses": "All Statuses",
+      "dateRange": "Date Range",
+      "allTime": "All Time",
+      "last24h": "Last 24 Hours",
+      "last7d": "Last 7 Days",
+      "last30d": "Last 30 Days"
+    },
+    "headers": {
+      "activity": "Activity",
+      "hash": "Hash"
+    },
+    "mobile": {
+      "txIdLabel": "TxID / Hash"
+    },
+    "locked": {
+      "title": "Investment Logs Restricted",
+      "subtitle": "Upgrade to Pro to view your automated AI trading history and profit distribution logs.",
+      "unlockBtn": "Unlock Pro"
+    },
+    "modal": {
+      "title": "Investment Logs",
+      "description": "Detailed insights into every trade. Pro members get a complete history of all AI activities, rebalances, and realized profits."
+    },
+    "empty": {
+      "title": "No transactions found",
+      "subtitle": "Try adjusting your filters or search term."
+    },
+    "footer": {
+      "showing": "Showing",
+      "results": "results",
+      "prev": "Previous",
+      "next": "Next"
+    }
+  },
+  "performance": {
+    "subtitle": "Detailed analysis of your AI-driven returns.",
+    "intervals": {
+      "24H": "24H",
+      "1W": "1W",
+      "1M": "1M",
+      "1Y": "1Y",
+      "ALL": "ALL"
+    },
+    "stats": {
+      "rangeReturn": "Range Return",
+      "rangeProfit": "Range Profit",
+      "trades": "Trades",
+      "winRate": "Win Rate",
+      "realized": "Realized",
+      "execution": "Execution",
+      "success": "Success"
+    },
+    "locked": {
+      "title": "Pro Feature",
+      "subtitle": "Performance analytics and advanced profit tracking are only available to Pro members.",
+      "upgradeBtn": "Upgrade to Pro"
+    },
+    "modal": {
+      "title": "Performance Analytics",
+      "description": "Track your growth with precision. Pro members get access to detailed performance charts and historical data."
+    },
+    "charts": {
+      "cumulativeTitle": "Cumulative Returns",
+      "cumulativeSubtitle": "Aura AI Strategy vs Market Benchmark",
+      "auraLegend": "Aura AI",
+      "marketLegend": "Market Avg",
+      "tooltipValue": "Value",
+      "noActivity": "No activity recorded for the selected period",
+      "monthlyTitle": "Monthly Returns (%)"
+    },
+    "bestStrategy": {
+      "topAsset": "Top Performing Asset",
+      "bannerText": "Best performing strategy",
+      "description": "AI strategy optimized positions for high volatility periods, resulting in outperformance against the market benchmark."
+    }
+  },
+  "askAi": {
+    "title": "Ask Aura AI",
+    "onlineStatus": "Online & Analyzing",
+    "welcomeMessage": "Hello! I am Aura, your AI investment assistant. I've analyzed your current portfolio and I'm ready to help. How can I assist you today?",
+    "delayMessage": "Analyzing your data... please wait.",
+    "inputPlaceholder": "Ask Aura about your investments...",
+    "footerText": "Powered by Claude 4.7 Sonnet & Aura Neural Engine",
+    "errorMessage": "I'm sorry, I encountered an error. Please try again later.",
+    "suggestions": {
+      "analyzePortfolio": "Analyze my portfolio",
+      "marketOutlookSol": "Market outlook for SOL",
+      "balanceBreakdown": "Balance breakdown",
+      "recentTradeHistory": "Recent trade history"
+    },
+    "modal": {
+      "title": "AI Limit Reached",
+      "description": "Free users can ask up to 2 questions per day. Upgrade to Pro for unlimited AI insights and real-time market analysis."
+    }
+  },
+  "settings": {
+    "title": "Account Control",
+    "subtitle": "Manage your neural identities and preferences.",
+    "supportCenter": "Support Center",
+    "exportProfileData": "Export Profile Data",
+    "exporting": "Exporting...",
+    "systemNotifications": "System Notifications",
+    "securityLayers": "Security Layers",
+    "preferences": "Preferences",
+    "interfaceLanguage": "Interface Language",
+    "activeMembership": "Active Membership",
+    "upgrade": "Upgrade",
+    "validityPeriod": "Validity Period",
+    "expiresToday": "Expires Today",
+    "oneDayLeft": "1 Day Left",
+    "daysLeft": "Days Left",
+    "membershipExpiryText": "Your membership will expire on ",
+    "notifications": {
+      "tradeOpen": {
+        "label": "Position Entry",
+        "description": "Real-time alerts when AuraAI executes a market entry."
+      },
+      "tradeClose": {
+        "label": "Position Exit",
+        "description": "Instant reporting on closed positions and realized P&L."
+      },
+      "investmentMaturity": {
+        "label": "Investment Maturity",
+        "description": "Notified when strategy duration ends and funds settle."
+      },
+      "walletMovements": {
+        "label": "Wallet Movements",
+        "description": "Confirmations for every deposit and withdrawal request."
+      }
+    },
+    "security": {
+      "masterPassword": {
+        "label": "Master Password",
+        "description": "Last updated 14 days ago. High complexity active."
+      },
+      "change": "Change",
+      "twoFactor": {
+        "label": "Two-Factor Authentication",
+        "activeDescription": "Active — Your account is protected with TOTP verification.",
+        "inactiveDescription": "Enhance security with Google Authenticator or Authy.",
+        "protected": "Protected",
+        "disable": "Disable",
+        "recommended": "Recommended",
+        "setup": "Setup",
+        "loading": "Loading..."
+      }
+    },
+    "passwordModal": {
+      "title": "Update Password",
+      "subtitle": "Secure your account with a new master key.",
+      "newPasswordLabel": "New Password",
+      "confirmPasswordLabel": "Confirm New Password",
+      "weak": "Weak Password",
+      "moderate": "Moderate Strength",
+      "secure": "Highly Secure",
+      "dontMatch": "New passwords do not match.",
+      "success": "Master password updated successfully.",
+      "updating": "Updating Master Key...",
+      "confirm": "Confirm Update"
+    },
+    "twoFactorModal": {
+      "disableTitle": "Disable 2FA",
+      "disableDescription": "This will remove the TOTP requirement from your account. You can re-enable it anytime.",
+      "confirmDisable": "Confirm Disable 2FA",
+      "disabling": "Disabling...",
+      "activatedTitle": "2FA Activated",
+      "activatedDescription": "Your account is now protected with Two-Factor Authentication. A TOTP code will be required on every login.",
+      "done": "Done",
+      "setupTitle": "Setup Authenticator",
+      "setupDescription": "Scan the QR code below with Google Authenticator, Authy, or any TOTP app.",
+      "manualEntryKey": "Manual Entry Key",
+      "scannedNext": "I've Scanned It → Next",
+      "verifyTitle": "Enter Verification Code",
+      "verifyDescription": "Enter the 6-digit code from your authenticator app to confirm setup.",
+      "refreshText": "Code refreshes every 30 seconds",
+      "back": "Back",
+      "verifyEnable": "Verify & Enable",
+      "verifying": "Verifying..."
+    }
+  },
+  "convert": {
+    "title": "Convert",
+    "subtitle": "Instant asset swaps with real-time neural rates.",
+    "from": "From",
+    "balance": "Balance",
+    "to": "To (Estimated)",
+    "exchangeRate": "Exchange Rate",
+    "success": "Conversion successful! Your balances have been updated.",
+    "processing": "Processing Swap...",
+    "confirm": "Confirm Conversion",
+    "realTimeRates": "Real-Time Rates",
+    "errors": {
+      "insufficient": "Insufficient balance.",
+      "auth": "Authentication required."
+    }
+  },
+  "newInvestment": {
+    "title": "Explain your investment ideas",
+    "subtitle": "Step by step onboarding to create your next investment plan.",
+    "backToDashboard": "Back to dashboard",
+    "stepOf": "Step {step} of {total}",
+    "processed": "{percentage}% Processed",
+    "next": "Next",
+    "back": "Back",
+    "goBack": "Go Back",
+    "backToAuth": "Back to Authentication",
+    "creatingPlan": "Creating Plan...",
+    "planCreated": "Plan Created",
+    "createPlan": "Create Investment Plan",
+    "minAmountError": "Minimum investment amount is 150€.",
+    "insufficientBalance": "Insufficient USDT balance. Please deposit more funds.",
+    "errors": {
+      "unexpected": "An unexpected error occurred. Please try again."
+    },
+    "upgradeModal": {
+      "title": "Position Limit Reached",
+      "description": "Free users can open up to 1 automatic position per day. Upgrade to Pro for unlimited autonomous trading and real-time execution."
+    },
+    "crypto": {
+      "btc": {
+        "name": "Bitcoin",
+        "desc": "Digital gold. The most famous and safest coin to hold long-term.",
+        "badge": "Market Leader"
+      },
+      "eth": {
+        "name": "Ethereum",
+        "desc": "Smart computer. Powers most apps and digital finance systems.",
+        "badge": "Popular"
+      },
+      "sol": {
+        "name": "Solana",
+        "desc": "Ultra-fast. A newer, very quick coin designed for millions of users."
+      },
+      "usdt": {
+        "name": "Tether",
+        "desc": "Stable dollar. A digital coin tied to the US Dollar to keep your value steady."
+      }
+    },
+    "risk": {
+      "conservative": {
+        "level": "Conservative",
+        "desc": "Safety first. Best for keeping your savings safe while getting steady, small gains."
+      },
+      "balanced": {
+        "level": "Balanced",
+        "desc": "Best of both worlds. A mix of safety and growth to help your money grow steadily.",
+        "badge": "Recommended"
+      },
+      "growth": {
+        "level": "Growth",
+        "desc": "Faster growth. Aim for bigger profits by taking more risk during market changes."
+      },
+      "aggressive": {
+        "level": "Aggressive",
+        "desc": "Maximum speed. Uses advanced high-speed trading to hunt for the highest possible returns."
+      }
+    },
+    "goals": {
+      "growth": {
+        "title": "Capital Growth",
+        "desc": "Maximize the total value of your portfolio over the long term."
+      },
+      "passive": {
+        "title": "Passive Income",
+        "desc": "Generate regular distributions and consistent cash flow."
+      },
+      "preservation": {
+        "title": "Capital Preservation",
+        "desc": "Keep your initial investment safe with minimal risk exposure."
+      }
+    },
+    "experience": {
+      "beginner": {
+        "title": "Beginner",
+        "desc": "New to crypto trading. Looking for guidance and automated safety."
+      },
+      "intermediate": {
+        "title": "Intermediate",
+        "desc": "Familiar with market dynamics. Understands technical analysis basics."
+      },
+      "advanced": {
+        "title": "Advanced",
+        "desc": "Experienced trader. Looking for deep optimization and advanced tools."
+      }
+    },
+    "steps": {
+      "step1": {
+        "badge": "Step 01",
+        "title": "Select Asset Class",
+        "desc": "Choose the foundational asset for your investment strategy. Aura AI will optimize entry points based on the selected asset's liquidity."
+      },
+      "step2": {
+        "badge": "Step 02",
+        "title": "Select Your Risk Profile",
+        "desc": "Define the operational boundaries for the AuraAI neural engine. Your selection calibrates volatility tolerance and target yield velocity."
+      },
+      "step3": {
+        "badge": "Step 03",
+        "title": "Define Strategy Parameters",
+        "desc": "Specify your capital allocation and desired investment horizon. Our engine optimizes yield based on your timeframe.",
+        "capital": "Initial Capital",
+        "minText": "Minimum 150",
+        "duration": "Target Duration",
+        "days": "Days",
+        "estMonthly": "Est. Monthly:",
+        "monthlyReturnRate": "Monthly Return Rate",
+        "riskTier": "Risk Tier"
+      },
+      "step4": {
+        "badge": "Step 04",
+        "title": "Select Investment Goal",
+        "desc": "What is the primary objective for this specific strategy? Your choice influences position holding periods and exit targets."
+      },
+      "step5": {
+        "badge": "Step 05",
+        "title": "Trading Experience",
+        "desc": "Select the level that best describes your market proficiency. Aura AI adjusts its risk warnings and control interface accordingly."
+      },
+      "step6": {
+        "badge": "Step 06",
+        "title": "Profit Handling & Notes",
+        "desc": "Specify profit handling and extra constraints.",
+        "profitQuestion": "How should we handle your profits?",
+        "options": {
+          "deposit": "Deposit all profits into my account",
+          "reinvest": "Reinvest all profits automatically",
+          "split": "Split profits: 50% account / 50% reinvest"
+        },
+        "extraNotes": "Extra notes (optional)",
+        "placeholder": "Any constraints, coins to avoid, or custom instructions..."
+      },
+      "step7": {
+        "badge": "Step 07",
+        "title": "Final Strategy Review",
+        "desc": "Review your autonomous strategy parameters before activation. Aura AI will begin execution immediately upon confirmation.",
+        "coreParameters": "Core Parameters",
+        "selectedAsset": "Selected Asset",
+        "initialCapital": "Initial Capital",
+        "timeHorizon": "Time Horizon",
+        "riskObjective": "Risk & Objective",
+        "profile": "Profile",
+        "primaryGoal": "Primary Goal",
+        "riskTier": "Risk Tier",
+        "executionRules": "Execution Rules",
+        "mode": "Mode",
+        "profitDistribution": "Profit Distribution",
+        "engineStatus": "Engine Status",
+        "readyStatus": "Ready for Deployment",
+        "customInstructions": "Custom Instructions"
+      }
+    },
+    "animation": {
+      "strategyActive": "Strategy Active",
+      "optimizing": "Neural Optimization in Progress",
+      "stage0": "Aura AI is analyzing your investment profile...",
+      "stage1": "Building your strategy and preparing entry zones...",
+      "stage2": "Applying risk controls and position sizing...",
+      "stage3": "Your plan is ready. Positions are being prepared.",
+      "latency": "Latency",
+      "confidence": "Confidence",
+      "riskBuffer": "Risk Buffer",
+      "enterTerminal": "Enter Terminal"
+    }
   }
 }
