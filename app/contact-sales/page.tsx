@@ -284,22 +284,6 @@ export default function ContactSalesPage() {
             </div>
           </motion.div>
         </div>
-
-        {/* Trust Section */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="mt-32 pt-20 border-t border-white/5 text-center"
-        >
-          <p className="text-xs font-bold uppercase tracking-widest text-white/20 mb-12">{t("sales.trusted")}</p>
-          <div className="flex flex-wrap justify-center gap-12 md:gap-24 opacity-30 grayscale contrast-125">
-            <span className="text-2xl font-bold tracking-tighter">GOLDMAN SACHS</span>
-            <span className="text-2xl font-bold tracking-tighter">GRAYSCALE</span>
-            <span className="text-2xl font-bold tracking-tighter">BLACKROCK</span>
-            <span className="text-2xl font-bold tracking-tighter">J.P. MORGAN</span>
-          </div>
-        </motion.div>
       </main>
     </div>
   );
