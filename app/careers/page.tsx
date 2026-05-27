@@ -20,58 +20,61 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import auralogo from "@/app/auralogo.png";
-
-const PERKS = [
-  { icon: LuHeart, title: "Health & Wellness", desc: "Premium health, dental, and vision coverage for you and your family." },
-  { icon: LuGlobe, title: "Fully Remote", desc: "Work from anywhere in the world. We believe in results, not office hours." },
-  { icon: LuZap, title: "Equity & Tokens", desc: "Competitive equity packages plus token allocation in the Aura ecosystem." },
-  { icon: LuGraduationCap, title: "Learning Budget", desc: "Annual CHF 5,000 budget for courses, conferences, and certifications." },
-];
-
-const POSITIONS = [
-  {
-    title: "Senior Blockchain Engineer",
-    department: "Engineering",
-    location: "Remote (EU Timezone)",
-    type: "Full-time",
-    icon: LuCode,
-    tags: ["Solidity", "Rust", "EVM"],
-  },
-  {
-    title: "AI/ML Research Engineer",
-    department: "Neural Engine",
-    location: "Zurich, CH / Remote",
-    type: "Full-time",
-    icon: LuChartBar,
-    tags: ["Python", "PyTorch", "Transformers"],
-  },
-  {
-    title: "Security Engineer",
-    department: "Infrastructure",
-    location: "Remote (Global)",
-    type: "Full-time",
-    icon: LuShieldCheck,
-    tags: ["Pen Testing", "SOC2", "Zero Trust"],
-  },
-  {
-    title: "Product Designer",
-    department: "Design",
-    location: "Remote (EU Timezone)",
-    type: "Full-time",
-    icon: LuPalette,
-    tags: ["Figma", "Design Systems", "Motion"],
-  },
-  {
-    title: "Community & Growth Lead",
-    department: "Marketing",
-    location: "Remote (Global)",
-    type: "Full-time",
-    icon: LuUsers,
-    tags: ["Web3", "Content Strategy", "Analytics"],
-  },
-];
+import { useLanguage } from "@/context/language-context";
 
 export default function CareersPage() {
+  const { t } = useLanguage();
+
+  const perksList = [
+    { icon: LuHeart, title: t("careers.perks.health.title"), desc: t("careers.perks.health.desc") },
+    { icon: LuGlobe, title: t("careers.perks.remote.title"), desc: t("careers.perks.remote.desc") },
+    { icon: LuZap, title: t("careers.perks.equity.title"), desc: t("careers.perks.equity.desc") },
+    { icon: LuGraduationCap, title: t("careers.perks.learning.title"), desc: t("careers.perks.learning.desc") },
+  ];
+
+  const positionsList = [
+    {
+      title: t("careers.openPositions.0.title") || "Senior Blockchain Engineer",
+      department: t("careers.departments.engineering"),
+      location: t("careers.locations.eu"),
+      type: t("careers.types.fullTime"),
+      icon: LuCode,
+      tags: ["Solidity", "Rust", "EVM"],
+    },
+    {
+      title: t("careers.openPositions.1.title") || "AI/ML Research Engineer",
+      department: t("careers.departments.neural"),
+      location: t("careers.locations.ch"),
+      type: t("careers.types.fullTime"),
+      icon: LuChartBar,
+      tags: ["Python", "PyTorch", "Transformers"],
+    },
+    {
+      title: t("careers.openPositions.2.title") || "Security Engineer",
+      department: t("careers.departments.infra"),
+      location: t("careers.locations.global"),
+      type: t("careers.types.fullTime"),
+      icon: LuShieldCheck,
+      tags: ["Pen Testing", "SOC2", "Zero Trust"],
+    },
+    {
+      title: t("careers.openPositions.3.title") || "Product Designer",
+      department: t("careers.departments.design"),
+      location: t("careers.locations.eu"),
+      type: t("careers.types.fullTime"),
+      icon: LuPalette,
+      tags: ["Figma", "Design Systems", "Motion"],
+    },
+    {
+      title: t("careers.openPositions.4.title") || "Community & Growth Lead",
+      department: t("careers.departments.marketing"),
+      location: t("careers.locations.global"),
+      type: t("careers.types.fullTime"),
+      icon: LuUsers,
+      tags: ["Web3", "Content Strategy", "Analytics"],
+    },
+  ];
+
   return (
     <main className="min-h-screen bg-black text-white relative overflow-hidden font-sans">
       <AuroraBackground />
@@ -87,7 +90,7 @@ export default function CareersPage() {
           href="/"
           className="px-5 py-2 rounded-full bg-white/5 border border-white/10 text-white text-sm font-medium hover:bg-white hover:text-black transition-all"
         >
-          Back to Home
+          {t("careers.backHome")}
         </Link>
       </nav>
 
@@ -100,7 +103,7 @@ export default function CareersPage() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold uppercase tracking-widest mb-4"
           >
             <LuBriefcase className="h-3 w-3" />
-            We&apos;re Hiring
+            {t("careers.hiringBadge")}
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 15 }}
@@ -108,10 +111,10 @@ export default function CareersPage() {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-7xl font-bold tracking-tight leading-[1.1]"
           >
-            Build the Future of
+            {t("careers.heroTitle1")}
             <br />
             <span className="bg-gradient-to-r from-cyan-400 via-white to-violet-400 bg-clip-text text-transparent">
-              Autonomous Finance
+              {t("careers.heroTitle2")}
             </span>
           </motion.h1>
           <motion.p
@@ -120,8 +123,7 @@ export default function CareersPage() {
             transition={{ delay: 0.2 }}
             className="text-white/40 text-lg md:text-xl max-w-2xl mx-auto"
           >
-            Join a world-class team of engineers, designers, and researchers pushing
-            the boundaries of AI-driven trading from Zurich, Switzerland.
+            {t("careers.heroDesc")}
           </motion.p>
         </div>
 
@@ -132,7 +134,7 @@ export default function CareersPage() {
           transition={{ delay: 0.3 }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-20"
         >
-          {PERKS.map((perk) => (
+          {perksList.map((perk) => (
             <div
               key={perk.title}
               className="group p-6 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-all text-center"
@@ -150,13 +152,13 @@ export default function CareersPage() {
         <div className="mb-20">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-white">Open Positions</h2>
-              <p className="mt-1 text-sm text-white/40">{POSITIONS.length} roles available across our global team</p>
+              <h2 className="text-2xl md:text-3xl font-bold text-white">{t("careers.positionsTitle")}</h2>
+              <p className="mt-1 text-sm text-white/40">{t("careers.positionsDesc").replace("{count}", positionsList.length.toString())}</p>
             </div>
           </div>
 
           <div className="space-y-4">
-            {POSITIONS.map((pos, idx) => (
+            {positionsList.map((pos, idx) => (
               <motion.div
                 key={pos.title}
                 initial={{ opacity: 0, x: -20 }}
@@ -216,17 +218,16 @@ export default function CareersPage() {
           className="text-center py-16 px-8 rounded-[2rem] border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent"
         >
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-            Don&apos;t see your role?
+            {t("careers.noRole.title")}
           </h2>
           <p className="text-white/40 max-w-lg mx-auto mb-8">
-            We&apos;re always looking for exceptional talent. Send us your resume and tell us
-            how you&apos;d contribute to the future of autonomous finance.
+            {t("careers.noRole.desc")}
           </p>
           <a
             href="mailto:careers@aurainvest.ai"
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-white text-black font-bold text-sm hover:bg-white/90 transition-all"
           >
-            Send Open Application
+            {t("careers.noRole.button")}
             <LuArrowRight className="h-4 w-4" />
           </a>
           <p className="text-[10px] text-white/20 uppercase font-bold tracking-[0.2em] mt-6">
@@ -241,7 +242,7 @@ export default function CareersPage() {
             href="/"
             className="text-xs text-white/30 hover:text-white transition-colors"
           >
-            Back to Home
+            {t("careers.backHome")}
           </Link>
         </div>
       </section>

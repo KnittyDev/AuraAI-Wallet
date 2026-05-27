@@ -365,7 +365,10 @@
     "policyAnd": " ve ",
     "privacyLink": "Gizlilik Politikası'nı",
     "policyEnd": " kabul etmiş olursunuz.",
-    "trusted": "Küresel finans liderleri tarafından güvenilen"
+    "trusted": "Küresel finans liderleri tarafından güvenilen",
+    "successMessage": "Teşekkürler! Talebiniz başarıyla alındı. Satış ekibimiz en kısa sürede sizinle iletişime geçecektir.",
+    "errorMessage": "Talep gönderilemedi. Lütfen daha sonra tekrar deneyin.",
+    "validationError": "Lütfen tüm zorunlu alanları doldurun."
   },
   "wallet": {
     "title": "Cüzdanım",
@@ -923,5 +926,310 @@
     "sec4Desc": "Kripto para ticareti önemli riskler barındırır. Yapay zeka araçlarımız size yardımcı olmak için tasarlanmıştır ancak kâr garantisi veremez veya zararları önleyemez. Piyasa oynaklığı, yatırılan fonların tamamen kaybedilmesine neden olabilir.",
     "sec5Title": "5. Sorumluluk Sınırı",
     "sec5Desc": "Yasaların izin verdiği azami ölçüde Aura; Hizmetin kullanımından veya kullanılamamasından kaynaklanan dolaylı, arızi, özel veya sonuçsal zararlardan hiçbir şekilde sorumlu tutulamaz."
+  },
+  "blog": {
+    "title": "Aura Blog",
+    "subtitle": "Araştırma ve Haberler",
+    "desc": "Otonom finansın ön saflarından stratejik içgörüler, teknik araştırmalar ve piyasa analizleri.",
+    "readArticle": "Yazıyı oku",
+    "stayAhead": "Gelişmelerden haberdar olun",
+    "newsletterDesc": "En son araştırmalarımızın ve kurumsal analizlerimizin doğrudan gelen kutunuza gönderilmesini sağlayın.",
+    "emailPlaceholder": "E-posta adresinizi girin",
+    "subscribe": "Abone Ol",
+    "categories": {
+      "all": "Tüm Yazılar",
+      "tech": "Teknoloji",
+      "market": "Piyasa Analizi",
+      "strategy": "Strateji",
+      "economy": "Ekonomi",
+      "security": "Güvenlik",
+      "ai": "Yapay Zeka"
+    },
+    "posts": [
+      {
+        "id": 1,
+        "title": "Otonom Ticaretin Geleceği: Aura AI Nasıl Öncülük Ediyor?",
+        "excerpt": "Finansal piyasalarda yapay zekanın evrimini ve kurumsal yatırımcılar için merkeziyetsiz otonom ticaretin neden bir sonraki mantıklı adım olduğunu keşfetmek.",
+        "category": "Teknoloji",
+        "author": "Arif Can",
+        "date": "12 Mayıs 2026",
+        "readTime": "8 dk okuma"
+      },
+      {
+        "id": 2,
+        "title": "Katman 1 Ölçeklenebilirliğini Anlamak: SOL vs ETH vs BTC",
+        "excerpt": "Dünyanın önde gelen L1 protokolleri arasındaki teknik farklara ve bunların portföy stratejiniz için ne anlama geldiğine derinlemesine bir bakış.",
+        "category": "Piyasa Analizi",
+        "author": "Elena Rodriguez",
+        "date": "10 Mayıs 2026",
+        "readTime": "12 dk okuma"
+      },
+      {
+        "id": 3,
+        "title": "Yüksek Volatiliteli Piyasalarda Getiriyi Maksimuma Çıkarmak",
+        "excerpt": "Aşırı piyasa çalkantısı dönemlerinde sermayeyi korumak ve yukarı yönlü potansiyeli yakalamak için yapay zeka destekli içgörülerden yararlanma stratejileri.",
+        "category": "Strateji",
+        "author": "Marcus Chen",
+        "date": "8 Mayıs 2026",
+        "readTime": "6 dk okuma"
+      },
+      {
+        "id": 4,
+        "title": "Küresel Makro Trendlerin Kripto Varlıklar Üzerindeki Etkisi",
+        "excerpt": "Faiz artışlarının ve jeopolitik değişimlerin dijital para birimlerinin uzun vadeli benimseme eğrisi üzerindeki etkisi.",
+        "category": "Ekonomi",
+        "author": "Sarah Jenkins",
+        "date": "5 Mayıs 2026",
+        "readTime": "10 dk okuma"
+      },
+      {
+        "id": 5,
+        "title": "Kurumsal Saklama için Güvenlik En İyi Uygulamaları",
+        "excerpt": "Dijital varlıklarınızın anında likidite korunarak banka düzeyinde güvenlik protokolleriyle korunmasını sağlamak.",
+        "category": "Güvenlik",
+        "author": "James Wilson",
+        "date": "1 Mayıs 2026",
+        "readTime": "7 dk okuma"
+      },
+      {
+        "id": 6,
+        "title": "Yapay Zeka ve Nöral Ağlar: Aura Zekasının Çekirdeği",
+        "excerpt": "Otonom karar alma motorumuzu besleyen makine öğrenimi modellerinin teknik bir analizi.",
+        "category": "Yapay Zeka",
+        "author": "Dr. Thomas Miller",
+        "date": "28 Nisan 2026",
+        "readTime": "15 dk okuma"
+      }
+    ]
+  },
+  "newsroom": {
+    "liveUpdates": "Canlı Güncellemeler",
+    "title": "Aura Basın Odası",
+    "desc": "Aura AI ekosisteminden resmi güncellemeler, platform kilometre taşları ve kurumsal duyurular.",
+    "readStory": "Haberin Tamamını Oku",
+    "noUpdates": "Güncelleme bulunamadı",
+    "noUpdatesDesc": "Resmi duyurular için daha sonra tekrar kontrol edin.",
+    "notFound": "Haber bulunamadı",
+    "notFoundDesc": "Aradığınız haber mevcut değil veya kaldırılmış olabilir.",
+    "backToNewsroom": "Basın Odasına Geri Dön",
+    "shareArticle": "Haberi Paylaş",
+    "sourceLink": "Kaynak Bağlantısı",
+    "allUpdates": "Tüm Güncellemeler"
+  },
+  "academy": {
+    "hero": {
+      "badge": "Aura Bilgi Merkezi",
+      "title1": "Yatırımda yapay zekayı",
+      "title2": "birlikte yönetiyoruz",
+      "desc": "Yapay zeka destekli sermaye yönetiminde uzmanlaşın. Sinir ağı temellerinden gelişmiş risk profili oluşturmaya kadar, Aura Akademi finansın geleceğine açılan kapınızdır.",
+      "cta1": "Ücretsiz Başlayın",
+      "cta2": "Müfredatı Keşfedin"
+    },
+    "philosophy": {
+      "title": "Güvenli ve etik yapay zeka benimsenmesini sağlama yaklaşımımız",
+      "desc": "Yapay zekanın gücünün erişilebilir ancak kontrollü olması gerektiğine inanıyoruz. Müfredatımız üç temel sütuna odaklanmaktadır: algoritmik karar vermede şeffaflık, nöral geri bildirim yoluyla risk azaltma ve uzun vadeli sermaye koruma.",
+      "secureTitle": "Güvenli",
+      "secureDesc": "Tüm nöral stratejiler üzerinde titiz testler.",
+      "neuralTitle": "Nöral",
+      "neuralDesc": "Piyasa analizi için yeni nesil yapay zeka modelleri.",
+      "moduleTitle": "Otomatik Servet Teorisi",
+      "moduleSubtitle": "Modül 01 • Giriş"
+    },
+    "pillars": {
+      "p1Title": "Algorithmik Hız",
+      "p1Desc": "Büyük ölçekte yürütmeyi anlamak.",
+      "p2Title": "Sosyal Ticaret",
+      "p2Desc": "Kolektif yapay zeka zekasının etkisi.",
+      "p3Title": "Küresel Piyasalar",
+      "p3Desc": "7/24 finansal ekosistemlerde gezinmek.",
+      "p4Title": "Risk Yönetimi",
+      "p4Desc": "Değişken zamanlarda sermayeyi korumak."
+    },
+    "resources": {
+      "title": "Eğitim kaynakları",
+      "desc": "Aura AI araştırmacıları tarafından hazırlanan teknik raporlarımıza, eğitimlerimize ve strateji kılavuzlarımıza derinlemesine dalın.",
+      "viewAll": "Tüm Kaynakları Görüntüle",
+      "videoLesson": "Video Dersi",
+      "lessonTitle": "Yapay sinir ağları piyasa oynaklığını nasıl tahmin eder?",
+      "lessonDesc": "Fiyat hareketi modellemesi üzerine 8 dakikalık bir ustalık sınıfı."
+    },
+    "cta": {
+      "title": "Geleceğe yön vermeye hazır mısınız?",
+      "desc": "Finansal okuryazarlıklarını artırmak için halihazırda Aura AI kullanan 50.000'den fazla yatırımcıya katılın.",
+      "button": "Öğrenci Hesabınızı Oluşturun"
+    },
+    "footer": {
+      "copy": "© 2026 Aura AI Platformu • Bilgi Güçtür",
+      "link1": "Müfredat",
+      "link2": "Kaynaklar",
+      "link3": "Ortaklar"
+    }
+  },
+  "support": {
+    "title1": "Aura Yardım",
+    "title2": "Merkezine Hoş Geldiniz",
+    "searchPlaceholder": "Makaleler, kılavuzlar veya sorunlar için arama yapın...",
+    "selfService": "Kendi Kendine Hizmet",
+    "selfServiceItems": {
+      "resetPassword": {
+        "title": "Şifreyi Sıfırla",
+        "desc": "Anahtarınızı güvenle kurtarın"
+      },
+      "twoFactor": {
+        "title": "2FA Yönetimi",
+        "desc": "Kimlik Doğrulayıcıyı açın veya kapatın"
+      },
+      "depositIssue": {
+        "title": "Kripto Yatırma Sorunu",
+        "desc": "Onaylanmamış işlemleri takip edin"
+      },
+      "withdrawalStatus": {
+        "title": "Çekim Durumu",
+        "desc": "Sıkışmış veya bekleyen çekimleri kontrol edin"
+      },
+      "exportData": {
+        "title": "Veriyi Dışa Aktar",
+        "desc": "Portföy raporlarınızı indirin"
+      },
+      "deviceManagement": {
+        "title": "Cihaz Yönetimi",
+        "desc": "Yetkilendirilmiş oturumları yönetin"
+      }
+    },
+    "faqGuides": "SSS & Kılavuzlar",
+    "topQuestions": "En Çok Sorulan Sorular",
+    "faqList": [
+      {
+        "q": "Kimlik Doğrulamasına (KYC) ihtiyacım var mı?",
+        "a": "Şu anda Aura Cüzdanı gizliliğe öncelik vermektedir. Çoğu temel özellik KYC olmadan kullanılabilir. Ancak daha yüksek çekim limitlerine veya premium kurumsal özelliklere erişmek için doğrulama gerekebilir."
+      },
+      {
+        "q": "Aura Cüzdanıma nasıl kripto yatırabilirim?",
+        "a": "Panelinizden 'Yatır' sayfasına gidin, varlığı (örneğin BTC, ETH, USDT) ve ağı seçin. Fon göndermeniz için benzersiz bir cüzdan adresi ve QR kodu oluşturulacaktır."
+      },
+      {
+        "q": "Para çekme işlemim neden askıya alındı?",
+        "a": "Şifre değişikliği, 2FA sıfırlama işlemlerinin ardından veya güvenlik sistemimiz şüpheli bir giriş modeli algıladığında, fonlarınızı korumak amacıyla para çekme işlemleri 24 saat boyunca geçici olarak askıya alınabilir."
+      },
+      {
+        "q": "Aura AI işlem stratejilerini nasıl yürütür?",
+        "a": "Nöral motorumuz, yüksek olasılıklı 'Uzun' (Long) veya 'Kısa' (Short) pozisyonları otomatik olarak yürütmek için 40'tan fazla borsadaki gerçek zamanlı piyasa duyarlılığını, sosyal sinyalleri ve teknik göstergeleri analiz eder."
+      },
+      {
+        "q": "Stratejim zarar ederse ne olur?",
+        "a": "AuraAI ile zarar ederseniz ve yatırım planınız henüz sona ermemiş, aktif durumdaysa AuraAI bu zararları telafi etmek için elinden geleni yapacaktır; ancak bu durumda dahi zarar etmeye devam ederseniz, zararınızın %15 ila %30'u (500€ ve üzeri yatırımlar için) size iade edilecektir."
+      }
+    ],
+    "walletGuide": "Aura Cüzdan Kılavuzu",
+    "guidesList": [
+      {
+        "q": "Aura Cüzdanı Nedir?",
+        "a": "Aura, varlıkları yönetmenize ve birikimlerinizi otonom olarak büyütmenize olanak tanıyan güçlü bir yapay zeka işlem motoruyla entegre edilmiş yeni nesil emanetsiz (non-custodial) bir cüzdandır."
+      },
+      {
+        "q": "Performans Takibi",
+        "a": "Yatırım panelinizden gerçek zamanlı yatırım getirisini (ROI), kâr/zarar (P&L) eğrilerini ve varlık dağılımını milisaniye hassasiyetiyle görüntüleyebilirsiniz."
+      },
+      {
+        "q": "AI İşlem Kayıtları",
+        "a": "Yapay zeka tarafından yapılan her işlem; giriş fiyatı, çıkış fiyatı ve gerekçesiyle birlikte kaydedilir. Bunları 'Yürütme Akışı' bölümünde görüntüleyebilirsiniz."
+      }
+    ],
+    "securityVerification": "Güvenlik & Doğrulama",
+    "securityList": [
+      "Kimlik doğrulaması, üst düzey güvenlik sağlar ve premium kurumsal limitlerin kilidini açar.",
+      "2FA'nızı mı kaybettiniz? Kurtarma anahtarınızı kullanın veya KYC kanıtı ile destekle iletişime geçin.",
+      "Aura'dan gelen her e-postayı doğrulamak için ayarlardan kimlik avı önleme kodlarını etkinleştirin."
+    ],
+    "aiTutorial": "AI İşlem Eğitimi",
+    "tutorialList": [
+      "Adım 1: Fon yatırın. Adım 2: Bir risk profili seçin. Adım 3: Gerisini Aura halleder.",
+      "Agresif: Yüksek ödül, yüksek volatilite. Büyüme: Dengeli uzun vadeli birikim."
+    ],
+    "viewFullTutorial": "Eğitimin tamamını görüntüle",
+    "needMoreSupport": "Daha Fazla Desteğe mi İhtiyacınız Var?",
+    "myTickets": "Destek Biletlerim",
+    "myTicketsDesc": "Önceki konuşmalarınızı görüntüleyin veya 7/24 ekibimizden yardım almak için bir destek bileti açın.",
+    "viewTickets": "Biletleri Görüntüle",
+    "feedback": "Ürün Geri Bildirimi",
+    "feedbackDesc": "Aura Cüzdanı'nı geliştirmemize yardımcı olun. Fikirlerinizi, önerilerinizi veya hata raporlarınızı paylaşın.",
+    "shareFeedback": "Geri Bildirim Paylaş",
+    "noResults": "Sonuç bulunamadı:",
+    "noResultsDesc": "Farklı anahtar kelimeler kullanmayı deneyin veya aşağıdaki SSS kategorilerimizi inceleyin.",
+    "clearSearch": "Aramayı Temizle"
+  },
+  "careers": {
+    "backHome": "Ana Sayfaya Dön",
+    "hiringBadge": "Ekibimizi Büyütüyoruz",
+    "heroTitle1": "Geleceğini İnşa Edin",
+    "heroTitle2": "Otonom Finansın",
+    "heroDesc": "Zürih, İsviçre'den yapay zeka destekli ticaretin sınırlarını zorlayan birinci sınıf mühendisler, tasarımcılar ve araştırmacılardan oluşan ekibimize katılın.",
+    "perks": {
+      "health": {
+        "title": "Sağlık ve Zindelik",
+        "desc": "Siz ve aileniz için birinci sınıf sağlık, diş ve göz sağlığı güvencesi."
+      },
+      "remote": {
+        "title": "Tamamen Uzaktan",
+        "desc": "Dünyanın her yerinden çalışın. Ofis saatlerine değil, sonuçlara inanıyoruz."
+      },
+      "equity": {
+        "title": "Hisse & Token",
+        "desc": "Aura ekosisteminde rekabetçi hisse senedi paketleri ve token tahsisi."
+      },
+      "learning": {
+        "title": "Eğitim Bütçesi",
+        "desc": "Kurslar, konferanslar ve sertifikalar için yıllık 5.000 CHF bütçe."
+      }
+    },
+    "positionsTitle": "Açık Pozisyonlar",
+    "positionsDesc": "Küresel ekibimizde {count} aktif açık pozisyon bulunmaktadır",
+    "departments": {
+      "engineering": "Mühendislik",
+      "neural": "Nöral Motor",
+      "infra": "Altyapı",
+      "design": "Tasarım",
+      "marketing": "Pazarlama"
+    },
+    "locations": {
+      "eu": "Uzaktan (AB Saat Dilimi)",
+      "ch": "Zürih, CH / Uzaktan",
+      "global": "Uzaktan (Küresel)"
+    },
+    "types": {
+      "fullTime": "Tam zamanlı"
+    },
+    "openPositions": [
+      {
+        "title": "Kıdemli Blokzincir Mühendisi",
+        "department": "Mühendislik",
+        "location": "Uzaktan (AB Saat Dilimi)"
+      },
+      {
+        "title": "Yapay Zeka / ML Araştırma Mühendisi",
+        "department": "Nöral Motor",
+        "location": "Zürih, CH / Uzaktan"
+      },
+      {
+        "title": "Güvenlik Mühendisi",
+        "department": "Altyapı",
+        "location": "Uzaktan (Küresel)"
+      },
+      {
+        "title": "Ürün Tasarımcısı",
+        "department": "Tasarım",
+        "location": "Uzaktan (AB Saat Dilimi)"
+      },
+      {
+        "title": "Topluluk ve Büyüme Lideri",
+        "department": "Pazarlama",
+        "location": "Uzaktan (Küresel)"
+      }
+    ],
+    "noRole": {
+      "title": "Aradığınız rolü bulamadınız mı?",
+      "desc": "Her zaman olağanüstü yetenekler arıyoruz. Özgeçmişinizi bize gönderin ve otonom finansın geleceğine nasıl katkıda bulunacağınızı anlatın.",
+      "button": "Genel Başvuru Gönder"
+    }
   }
 }

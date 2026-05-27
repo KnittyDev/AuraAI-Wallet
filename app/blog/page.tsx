@@ -7,6 +7,7 @@ import { AuroraBackground } from "@/components/landing/aurora-background";
 import { LandingFooter } from "@/components/landing/landing-footer";
 import { LuClock, LuArrowRight, LuCalendar } from "react-icons/lu";
 import Link from "next/link";
+import { useLanguage } from "@/context/language-context";
 
 const BLOG_POSTS = [
   {
@@ -74,11 +75,36 @@ const BLOG_POSTS = [
 const CATEGORIES = ["All Posts", "Technology", "Market Analysis", "Strategy", "Economy", "Security", "AI"];
 
 export default function BlogPage() {
+  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState("All Posts");
 
+  const getCategoryLabel = (cat: string) => {
+    if (cat === "All Posts") return t("blog.categories.all");
+    if (cat === "Technology") return t("blog.categories.tech");
+    if (cat === "Market Analysis") return t("blog.categories.market");
+    if (cat === "Strategy") return t("blog.categories.strategy");
+    if (cat === "Economy") return t("blog.categories.economy");
+    if (cat === "Security") return t("blog.categories.security");
+    if (cat === "AI") return t("blog.categories.ai");
+    return cat;
+  };
+
+  const localizedPosts = BLOG_POSTS.map(post => {
+    const postsTrans = t("blog.posts") || [];
+    const translation = postsTrans.find((p: any) => p.id === post.id);
+    return {
+      ...post,
+      title: translation?.title || post.title,
+      excerpt: translation?.excerpt || post.excerpt,
+      category: getCategoryLabel(post.category),
+      date: translation?.date || post.date,
+      readTime: translation?.readTime || post.readTime,
+    };
+  });
+
   const filteredPosts = activeCategory === "All Posts"
-    ? BLOG_POSTS
-    : BLOG_POSTS.filter(post => post.category === activeCategory);
+    ? localizedPosts
+    : localizedPosts.filter(post => post.category === getCategoryLabel(activeCategory));
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-black text-white">
@@ -102,13 +128,13 @@ export default function BlogPage() {
             className="flex flex-col items-center text-center max-w-xl mx-auto"
           >
             <p className="text-[10px] font-bold tracking-[0.3em] text-white/30 uppercase mb-3">
-              Research & News
+              {t("blog.subtitle")}
             </p>
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-              The Aura Blog
+              {t("blog.title")}
             </h1>
             <p className="text-sm text-white/40 leading-relaxed">
-              Strategic insights, technical research, and market analysis from the forefront of autonomous finance.
+              {t("blog.desc")}
             </p>
           </motion.div>
         </section>
@@ -125,7 +151,7 @@ export default function BlogPage() {
                   : "bg-transparent border-transparent text-white/40 hover:text-white/70"
               }`}
             >
-              {cat}
+              {getCategoryLabel(cat)}
             </button>
           ))}
         </div>
@@ -190,7 +216,7 @@ export default function BlogPage() {
                     href={`/blog/${post.id}`}
                     className="inline-flex items-center gap-1 text-[10px] font-bold text-white/40 group-hover:text-white transition-all"
                   >
-                    <span>Read article</span>
+                    <span>{t("blog.readArticle")}</span>
                     <LuArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
                   </Link>
                 </div>
@@ -202,18 +228,18 @@ export default function BlogPage() {
         {/* Minimalist Newsletter Box */}
         <section className="mt-28 p-8 md:p-12 rounded-3xl border border-white/10 bg-white/[0.01] backdrop-blur-md text-center max-w-2xl mx-auto relative overflow-hidden">
           <div className="relative z-10">
-            <h2 className="text-xl md:text-2xl font-bold mb-2">Stay ahead of the curve</h2>
+            <h2 className="text-xl md:text-2xl font-bold mb-2">{t("blog.stayAhead")}</h2>
             <p className="text-xs text-white/40 mb-6 max-w-md mx-auto">
-              Get our latest research and institutional analysis delivered straight to your inbox.
+              {t("blog.newsletterDesc")}
             </p>
             <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
               <input
                 type="email"
-                placeholder="Enter your email address"
+                placeholder={t("blog.emailPlaceholder")}
                 className="flex-1 bg-black border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-white/20 focus:outline-none focus:border-white/30 focus:bg-white/[0.02] transition-all"
               />
               <button className="bg-white text-black px-6 py-2.5 rounded-xl text-xs font-semibold hover:bg-white/90 transition-all">
-                Subscribe
+                {t("blog.subscribe")}
               </button>
             </form>
           </div>
@@ -224,4 +250,3 @@ export default function BlogPage() {
     </div>
   );
 }
-

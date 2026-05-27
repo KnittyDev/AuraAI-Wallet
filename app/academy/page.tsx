@@ -5,6 +5,7 @@ import { LandingHeader } from "@/components/landing/landing-header";
 import { AuroraBackground } from "@/components/landing/aurora-background";
 import { LuBookOpen, LuCpu, LuShieldCheck, LuUsers, LuArrowRight, LuPlay, LuZap, LuGlobe } from "react-icons/lu";
 import Link from "next/link";
+import { useLanguage } from "@/context/language-context";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -22,6 +23,21 @@ const staggerContainer: Variants = {
 };
 
 export default function AcademyPage() {
+  const { t } = useLanguage();
+
+  const corePillars = [
+    { icon: LuZap, title: t("academy.pillars.p1Title"), desc: t("academy.pillars.p1Desc") },
+    { icon: LuUsers, title: t("academy.pillars.p2Title"), desc: t("academy.pillars.p2Desc") },
+    { icon: LuGlobe, title: t("academy.pillars.p3Title"), desc: t("academy.pillars.p3Desc") },
+    { icon: LuShieldCheck, title: t("academy.pillars.p4Title"), desc: t("academy.pillars.p4Desc") }
+  ];
+
+  const lessonCards = [
+    { id: 1, title: t("academy.resources.lessonTitle"), desc: t("academy.resources.lessonDesc") },
+    { id: 2, title: t("academy.resources.lessonTitle"), desc: t("academy.resources.lessonDesc") },
+    { id: 3, title: t("academy.resources.lessonTitle"), desc: t("academy.resources.lessonDesc") }
+  ];
+
   return (
     <main className="min-h-screen bg-black text-white relative overflow-hidden">
       <AuroraBackground />
@@ -42,21 +58,21 @@ export default function AcademyPage() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/60 text-xs font-bold uppercase tracking-widest mb-8">
               <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
-              Aura Knowledge Hub
+              {t("academy.hero.badge")}
             </div>
             <h1 className="text-6xl md:text-8xl font-serif tracking-tight text-white mb-8 leading-[1.1]">
-              Navigating AI in <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-white/40 italic">investing together</span>
+              {t("academy.hero.title1")} <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-white/40 italic">{t("academy.hero.title2")}</span>
             </h1>
             <p className="max-w-2xl mx-auto text-lg text-white/50 leading-relaxed mb-10">
-              Master the art of AI-driven capital management. From neural network basics to advanced risk profiling, Aura Academy is your gateway to the future of finance.
+              {t("academy.hero.desc")}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button className="px-8 py-4 rounded-full bg-white text-black font-bold text-sm transition hover:bg-white/90 flex items-center gap-2">
-                Get Started for Free <LuArrowRight className="h-4 w-4" />
+                {t("academy.hero.cta1")} <LuArrowRight className="h-4 w-4" />
               </button>
               <button className="px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white font-bold text-sm transition hover:bg-white/10 flex items-center gap-2">
-                Explore Curriculum
+                {t("academy.hero.cta2")}
               </button>
             </div>
           </motion.div>
@@ -74,23 +90,23 @@ export default function AcademyPage() {
               variants={fadeInUp}
             >
               <h2 className="text-4xl md:text-5xl font-serif leading-tight text-white mb-8">
-                Our approach to ensuring safe and ethical AI adoption
+                {t("academy.philosophy.title")}
               </h2>
               <p className="text-white/40 leading-relaxed text-lg mb-8">
-                We believe that the power of AI should be accessible yet controlled. Our curriculum focuses on three core pillars: transparency in algorithmic decision-making, risk mitigation through neural feedback, and long-term capital preservation.
+                {t("academy.philosophy.desc")}
               </p>
               <div className="grid grid-cols-2 gap-8">
                 <div>
                   <h4 className="text-white font-bold mb-2 flex items-center gap-2">
-                    <LuShieldCheck className="h-4 w-4 text-cyan-400" /> Secure
+                    <LuShieldCheck className="h-4 w-4 text-cyan-400" /> {t("academy.philosophy.secureTitle")}
                   </h4>
-                  <p className="text-sm text-white/30">Rigorous testing on all neural strategies.</p>
+                  <p className="text-sm text-white/30">{t("academy.philosophy.secureDesc")}</p>
                 </div>
                 <div>
                   <h4 className="text-white font-bold mb-2 flex items-center gap-2">
-                    <LuCpu className="h-4 w-4 text-purple-400" /> Neural
+                    <LuCpu className="h-4 w-4 text-purple-400" /> {t("academy.philosophy.neuralTitle")}
                   </h4>
-                  <p className="text-sm text-white/30">Next-gen AI models for market analysis.</p>
+                  <p className="text-sm text-white/30">{t("academy.philosophy.neuralDesc")}</p>
                 </div>
               </div>
             </motion.div>
@@ -104,9 +120,9 @@ export default function AcademyPage() {
                <div className="absolute inset-0 flex items-center justify-center p-12">
                   <div className="w-full h-full rounded-[2rem] border border-white/5 bg-black/40 backdrop-blur-2xl flex flex-col items-center justify-center text-center p-8">
                     <LuBookOpen className="h-16 w-16 text-white/10 mb-6" />
-                    <h3 className="text-2xl font-serif text-white/80 mb-4 italic">Theory of Automated Wealth</h3>
+                    <h3 className="text-2xl font-serif text-white/80 mb-4 italic">{t("academy.philosophy.moduleTitle")}</h3>
                     <div className="h-px w-20 bg-white/10 mb-6" />
-                    <p className="text-xs text-white/30 uppercase tracking-widest font-bold">Module 01 • Introduction</p>
+                    <p className="text-xs text-white/30 uppercase tracking-widest font-bold">{t("academy.philosophy.moduleSubtitle")}</p>
                   </div>
                </div>
             </motion.div>
@@ -120,12 +136,7 @@ export default function AcademyPage() {
             variants={staggerContainer}
             className="grid grid-cols-1 md:grid-cols-4 gap-8"
           >
-            {[
-              { icon: LuZap, title: "Algorithmic Speed", desc: "Understanding execution at scale." },
-              { icon: LuUsers, title: "Social Trading", desc: "The impact of collective AI intelligence." },
-              { icon: LuGlobe, title: "Global Markets", desc: "Navigating 24/7 financial ecosystems." },
-              { icon: LuShieldCheck, title: "Risk Management", desc: "Protecting capital in volatile times." }
-            ].map((pillar, i) => (
+            {corePillars.map((pillar, i) => (
               <motion.div
                 key={i}
                 variants={fadeInUp}
@@ -147,18 +158,18 @@ export default function AcademyPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
             <div>
-              <h2 className="text-4xl font-serif text-white mb-4 italic">Educational resources</h2>
-              <p className="text-white/40 max-w-xl">Deep dive into our whitepapers, tutorials, and strategy guides curated by Aura AI researchers.</p>
+              <h2 className="text-4xl font-serif text-white mb-4 italic">{t("academy.resources.title")}</h2>
+              <p className="text-white/40 max-w-xl">{t("academy.resources.desc")}</p>
             </div>
             <button className="text-xs font-bold uppercase tracking-widest text-white/40 hover:text-white flex items-center gap-2 transition-colors">
-              View All Resources <LuArrowRight className="h-4 w-4" />
+              {t("academy.resources.viewAll")} <LuArrowRight className="h-4 w-4" />
             </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((item) => (
+            {lessonCards.map((item) => (
               <motion.div
-                key={item}
+                key={item.id}
                 whileHover={{ y: -10 }}
                 className="group cursor-pointer"
               >
@@ -168,11 +179,11 @@ export default function AcademyPage() {
                     <div className="h-10 w-10 rounded-full bg-white text-black flex items-center justify-center shadow-2xl scale-0 group-hover:scale-100 transition-transform duration-500">
                       <LuPlay className="h-4 w-4 fill-current" />
                     </div>
-                    <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest">Video Lesson</span>
+                    <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest">{t("academy.resources.videoLesson")}</span>
                   </div>
                 </div>
-                <h4 className="text-xl font-serif text-white group-hover:text-cyan-400 transition-colors mb-2">How neural networks predict market volatility</h4>
-                <p className="text-sm text-white/30">An 8-minute masterclass on price action modeling.</p>
+                <h4 className="text-xl font-serif text-white group-hover:text-cyan-400 transition-colors mb-2">{item.title}</h4>
+                <p className="text-sm text-white/30">{item.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -190,10 +201,10 @@ export default function AcademyPage() {
           >
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.05),transparent)]" />
             <LuBookOpen className="h-12 w-12 text-white/20 mx-auto mb-8 relative z-10" />
-            <h2 className="text-4xl md:text-5xl font-serif text-white mb-8 relative z-10 italic">Ready to master the future?</h2>
-            <p className="text-white/40 max-w-2xl mx-auto mb-10 relative z-10">Join 50,000+ investors who are already leveraging Aura AI to enhance their financial literacy.</p>
+            <h2 className="text-4xl md:text-5xl font-serif text-white mb-8 relative z-10 italic">{t("academy.cta.title")}</h2>
+            <p className="text-white/40 max-w-2xl mx-auto mb-10 relative z-10">{t("academy.cta.desc")}</p>
             <button className="px-10 py-4 rounded-full bg-white text-black font-bold text-sm transition hover:bg-white/90 relative z-10">
-              Create Your Student Account
+              {t("academy.cta.button")}
             </button>
           </motion.div>
         </div>
@@ -202,11 +213,11 @@ export default function AcademyPage() {
       {/* Simple Footer */}
       <footer className="relative z-10 py-20 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8 text-white/20 text-[10px] font-bold uppercase tracking-[0.3em]">
-          <div>© 2026 Aura AI Platform • Knowledge is Power</div>
+          <div>{t("academy.footer.copy")}</div>
           <div className="flex items-center gap-8">
-            <a href="#" className="hover:text-white transition-colors">Curriculum</a>
-            <a href="#" className="hover:text-white transition-colors">Resources</a>
-            <a href="#" className="hover:text-white transition-colors">Partners</a>
+            <a href="#" className="hover:text-white transition-colors">{t("academy.footer.link1")}</a>
+            <a href="#" className="hover:text-white transition-colors">{t("academy.footer.link2")}</a>
+            <a href="#" className="hover:text-white transition-colors">{t("academy.footer.link3")}</a>
           </div>
         </div>
       </footer>

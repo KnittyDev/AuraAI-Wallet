@@ -8,6 +8,7 @@ import { LandingFooter } from "@/components/landing/landing-footer";
 import { LuClock, LuExternalLink, LuNewspaper, LuArrowRight } from "react-icons/lu";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import { useLanguage } from "@/context/language-context";
 
 type NewsItem = {
   id: string;
@@ -28,6 +29,7 @@ const stripHtml = (html: string) => {
 };
 
 export default function AuraNewsPage() {
+  const { language, t } = useLanguage();
   const [news, setNews] = useState<NewsItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -63,11 +65,23 @@ export default function AuraNewsPage() {
 
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp * 1000);
-    return date.toLocaleDateString("en-US", {
+    return date.toLocaleDateString(language === "tr" ? "tr-TR" : "en-US", {
       month: "short",
       day: "numeric",
       year: "numeric"
     });
+  };
+
+  const getNewsCategoryLabel = (cat: string) => {
+    if (!cat) return "";
+    if (language === "tr") {
+      if (cat.toLowerCase() === "announcement") return "Duyuru";
+      if (cat.toLowerCase() === "update") return "Güncelleme";
+      if (cat.toLowerCase() === "milestone") return "Kilometre Taşı";
+      if (cat.toLowerCase() === "security") return "Güvenlik";
+      if (cat.toLowerCase() === "tech") return "Teknoloji";
+    }
+    return cat;
   };
 
   return (
@@ -93,14 +107,14 @@ export default function AuraNewsPage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
               </span>
-              Live Updates
+              {t("newsroom.liveUpdates")}
             </div>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-              Aura Newsroom
+              {t("newsroom.title")}
             </h1>
 
             <p className="text-lg text-white/50 leading-relaxed">
-              Official updates, platform milestones, and institutional announcements directly from the Aura AI ecosystem.
+              {t("newsroom.desc")}
             </p>
           </motion.div>
         </section>
@@ -129,7 +143,7 @@ export default function AuraNewsPage() {
                       />
                       <div className="absolute top-4 left-4 z-20">
                         <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[9px] font-bold uppercase tracking-widest text-white">
-                          {item.category}
+                          {getNewsCategoryLabel(item.category)}
                         </span>
                       </div>
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
@@ -154,7 +168,7 @@ export default function AuraNewsPage() {
                       </p>
                       
                       <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-white/20 group-hover:text-white transition-colors cursor-pointer">
-                        <span>Read Full Story</span>
+                        <span>{t("newsroom.readStory")}</span>
                         <LuArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </div>
                     </div>
@@ -168,8 +182,8 @@ export default function AuraNewsPage() {
         {!isLoading && news.length === 0 && (
           <div className="py-32 text-center">
             <LuNewspaper className="h-12 w-12 text-white/10 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">No updates found</h3>
-            <p className="text-white/40">Check back later for official announcements.</p>
+            <h3 className="text-xl font-semibold mb-2">{t("newsroom.noUpdates")}</h3>
+            <p className="text-white/40">{t("newsroom.noUpdatesDesc")}</p>
           </div>
         )}
 

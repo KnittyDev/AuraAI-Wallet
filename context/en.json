@@ -365,7 +365,10 @@
     "policyAnd": " and ",
     "privacyLink": "Privacy Policy",
     "policyEnd": ".",
-    "trusted": "Trusted by global financial leaders"
+    "trusted": "Trusted by global financial leaders",
+    "successMessage": "Thank you! Your inquiry has been received. Our sales team will get back to you shortly.",
+    "errorMessage": "Failed to submit inquiry. Please try again later.",
+    "validationError": "Please fill in all required fields."
   },
   "wallet": {
     "title": "My Wallet",
@@ -923,5 +926,310 @@
     "sec4Desc": "Trading cryptocurrencies involves significant risk. Our AI tools are designed to assist, but they cannot guarantee profits or prevent losses. Market volatility can lead to the total loss of invested funds.",
     "sec5Title": "5. Limitation of Liability",
     "sec5Desc": "To the maximum extent permitted by law, Aura shall not be liable for any indirect, incidental, special, or consequential damages resulting from the use or inability to use the Service."
+  },
+  "blog": {
+    "title": "The Aura Blog",
+    "subtitle": "Research & News",
+    "desc": "Strategic insights, technical research, and market analysis from the forefront of autonomous finance.",
+    "readArticle": "Read article",
+    "stayAhead": "Stay ahead of the curve",
+    "newsletterDesc": "Get our latest research and institutional analysis delivered straight to your inbox.",
+    "emailPlaceholder": "Enter your email address",
+    "subscribe": "Subscribe",
+    "categories": {
+      "all": "All Posts",
+      "tech": "Technology",
+      "market": "Market Analysis",
+      "strategy": "Strategy",
+      "economy": "Economy",
+      "security": "Security",
+      "ai": "AI"
+    },
+    "posts": [
+      {
+        "id": 1,
+        "title": "The Future of Autonomous Trading: How Aura AI is Leading the Way",
+        "excerpt": "Exploring the evolution of AI in financial markets and why decentralized autonomous trading is the next logical step for institutional investors.",
+        "category": "Technology",
+        "author": "Arif Can",
+        "date": "May 12, 2026",
+        "readTime": "8 min read"
+      },
+      {
+        "id": 2,
+        "title": "Understanding Layer 1 Scalability: SOL vs ETH vs BTC",
+        "excerpt": "A deep dive into the technical differences between the world's leading L1 protocols and what they mean for your portfolio strategy.",
+        "category": "Market Analysis",
+        "author": "Elena Rodriguez",
+        "date": "May 10, 2026",
+        "readTime": "12 min read"
+      },
+      {
+        "id": 3,
+        "title": "Maximizing Returns in High-Volatility Markets",
+        "excerpt": "Strategies for leveraging AI-driven insights to protect capital and capture upside during periods of extreme market turbulence.",
+        "category": "Strategy",
+        "author": "Marcus Chen",
+        "date": "May 8, 2026",
+        "readTime": "6 min read"
+      },
+      {
+        "id": 4,
+        "title": "The Impact of Global Macro Trends on Crypto Assets",
+        "excerpt": "How interest rate hikes and geopolitical shifts are influencing the long-term adoption curve of digital currencies.",
+        "category": "Economy",
+        "author": "Sarah Jenkins",
+        "date": "May 5, 2026",
+        "readTime": "10 min read"
+      },
+      {
+        "id": 5,
+        "title": "Security Best Practices for Institutional Custody",
+        "excerpt": "Ensuring your digital assets are protected by bank-grade security protocols while maintaining immediate liquidity.",
+        "category": "Security",
+        "author": "James Wilson",
+        "date": "May 1, 2026",
+        "readTime": "7 min read"
+      },
+      {
+        "id": 6,
+        "title": "AI & Neural Networks: The Core of Aura's Intelligence",
+        "excerpt": "A technical breakdown of the machine learning models that power our autonomous decision-making engine.",
+        "category": "AI",
+        "author": "Dr. Thomas Miller",
+        "date": "April 28, 2026",
+        "readTime": "15 min read"
+      }
+    ]
+  },
+  "newsroom": {
+    "liveUpdates": "Live Updates",
+    "title": "Aura Newsroom",
+    "desc": "Official updates, platform milestones, and institutional announcements directly from the Aura AI ecosystem.",
+    "readStory": "Read Full Story",
+    "noUpdates": "No updates found",
+    "noUpdatesDesc": "Check back later for official announcements.",
+    "notFound": "News not found",
+    "notFoundDesc": "The story you are looking for doesn't exist or has been removed.",
+    "backToNewsroom": "Back to Newsroom",
+    "shareArticle": "Share Article",
+    "sourceLink": "Source Link",
+    "allUpdates": "All Updates"
+  },
+  "academy": {
+    "hero": {
+      "badge": "Aura Knowledge Hub",
+      "title1": "Navigating AI in",
+      "title2": "investing together",
+      "desc": "Master the art of AI-driven capital management. From neural network basics to advanced risk profiling, Aura Academy is your gateway to the future of finance.",
+      "cta1": "Get Started for Free",
+      "cta2": "Explore Curriculum"
+    },
+    "philosophy": {
+      "title": "Our approach to ensuring safe and ethical AI adoption",
+      "desc": "We believe that the power of AI should be accessible yet controlled. Our curriculum focuses on three core pillars: transparency in algorithmic decision-making, risk mitigation through neural feedback, and long-term capital preservation.",
+      "secureTitle": "Secure",
+      "secureDesc": "Rigorous testing on all neural strategies.",
+      "neuralTitle": "Neural",
+      "neuralDesc": "Next-gen AI models for market analysis.",
+      "moduleTitle": "Theory of Automated Wealth",
+      "moduleSubtitle": "Module 01 • Introduction"
+    },
+    "pillars": {
+      "p1Title": "Algorithmic Speed",
+      "p1Desc": "Understanding execution at scale.",
+      "p2Title": "Social Trading",
+      "p2Desc": "The impact of collective AI intelligence.",
+      "p3Title": "Global Markets",
+      "p3Desc": "Navigating 24/7 financial ecosystems.",
+      "p4Title": "Risk Management",
+      "p4Desc": "Protecting capital in volatile times."
+    },
+    "resources": {
+      "title": "Educational resources",
+      "desc": "Deep dive into our whitepapers, tutorials, and strategy guides curated by Aura AI researchers.",
+      "viewAll": "View All Resources",
+      "videoLesson": "Video Lesson",
+      "lessonTitle": "How neural networks predict market volatility",
+      "lessonDesc": "An 8-minute masterclass on price action modeling."
+    },
+    "cta": {
+      "title": "Ready to master the future?",
+      "desc": "Join 50,000+ investors who are already leveraging Aura AI to enhance their financial literacy.",
+      "button": "Create Your Student Account"
+    },
+    "footer": {
+      "copy": "© 2026 Aura AI Platform • Knowledge is Power",
+      "link1": "Curriculum",
+      "link2": "Resources",
+      "link3": "Partners"
+    }
+  },
+  "support": {
+    "title1": "Welcome to",
+    "title2": "Aura Help Center",
+    "searchPlaceholder": "Search for articles, guides, or issues...",
+    "selfService": "Self-Service",
+    "selfServiceItems": {
+      "resetPassword": {
+        "title": "Reset Password",
+        "desc": "Recover your master key safely"
+      },
+      "twoFactor": {
+        "title": "2FA Management",
+        "desc": "Enable or disable Authenticator"
+      },
+      "depositIssue": {
+        "title": "Crypto Deposit Issue",
+        "desc": "Track unconfirmed transactions"
+      },
+      "withdrawalStatus": {
+        "title": "Withdrawal Status",
+        "desc": "Check stuck or pending withdrawals"
+      },
+      "exportData": {
+        "title": "Export Data",
+        "desc": "Download your portfolio reports"
+      },
+      "deviceManagement": {
+        "title": "Device Management",
+        "desc": "Manage authorized sessions"
+      }
+    },
+    "faqGuides": "FAQ & Guides",
+    "topQuestions": "Top Questions",
+    "faqList": [
+      {
+        "q": "Do I need Identity Verification (KYC)?",
+        "a": "Currently, Aura Wallet prioritizes privacy. Most core features are available without KYC. However, to access higher withdrawal limits or premium enterprise features, verification may be required."
+      },
+      {
+        "q": "How do I deposit crypto into my Aura Wallet?",
+        "a": "Navigate to the 'Deposit' page from your dashboard, select the asset (e.g., BTC, ETH, USDT) and the network. A unique wallet address and QR code will be generated for you to send funds to."
+      },
+      {
+        "q": "Why is my withdrawal suspended?",
+        "a": "Withdrawals may be temporarily held for 24 hours following a password change, 2FA reset, or if our security system detects unusual login patterns. This is to protect your funds from unauthorized access."
+      },
+      {
+        "q": "How does Aura AI execute trading strategies?",
+        "a": "Our neural engine analyzes real-time market sentiment, social signals, and technical indicators across 40+ exchanges to execute high-probability 'Long' or 'Short' positions automatically."
+      },
+      {
+        "q": "What happens if my strategy loses money?",
+        "a": "If you lose money with AuraAI, and provided your investment plan has not yet ended and is still active, AuraAI will do everything in its power to recover those losses; however, even in that case, if you still incur a loss, between 15% and 30% of your loss (for investments of €500 or more) will be refunded to you."
+      }
+    ],
+    "walletGuide": "Aura Wallet Guide",
+    "guidesList": [
+      {
+        "q": "What is Aura Wallet?",
+        "a": "Aura is a next-generation non-custodial wallet integrated with a powerful AI trading engine, allowing you to manage assets and grow wealth autonomously."
+      },
+      {
+        "q": "Tracking Performance",
+        "a": "You can view real-time ROI, P&L curves, and asset distribution directly on your 'Investment Dashboard' with millisecond accuracy."
+      },
+      {
+        "q": "AI Action Logs",
+        "a": "Every trade made by the AI is logged with entry price, exit price, and rationale. You can view these in the 'Execution Feed' section."
+      }
+    ],
+    "securityVerification": "Security & Verification",
+    "securityList": [
+      "Identity verification ensures high-tier security and unlocks premium institutional limits.",
+      "Lost your 2FA? Use your master recovery key or contact support with KYC proof.",
+      "Enable anti-phishing codes in settings to verify every email from Aura."
+    ],
+    "aiTutorial": "AI Trading Tutorial",
+    "tutorialList": [
+      "Step 1: Deposit funds. Step 2: Choose a risk profile. Step 3: Aura handles the rest.",
+      "Aggressive: High reward, high volatility. Growth: Balanced long-term wealth."
+    ],
+    "viewFullTutorial": "View full tutorial",
+    "needMoreSupport": "Need More Support?",
+    "myTickets": "My Support Tickets",
+    "myTicketsDesc": "View your previous conversations or open a ticket to get help from our 24/7 team.",
+    "viewTickets": "View Tickets",
+    "feedback": "Product Feedback",
+    "feedbackDesc": "Help us improve Aura Wallet. Share your ideas, suggestions, or bug reports.",
+    "shareFeedback": "Share Feedback",
+    "noResults": "No results for",
+    "noResultsDesc": "Try using different keywords or check out our FAQ categories below.",
+    "clearSearch": "Clear Search"
+  },
+  "careers": {
+    "backHome": "Back to Home",
+    "hiringBadge": "We're Hiring",
+    "heroTitle1": "Build the Future of",
+    "heroTitle2": "Autonomous Finance",
+    "heroDesc": "Join a world-class team of engineers, designers, and researchers pushing the boundaries of AI-driven trading from Zurich, Switzerland.",
+    "perks": {
+      "health": {
+        "title": "Health & Wellness",
+        "desc": "Premium health, dental, and vision coverage for you and your family."
+      },
+      "remote": {
+        "title": "Fully Remote",
+        "desc": "Work from anywhere in the world. We believe in results, not office hours."
+      },
+      "equity": {
+        "title": "Equity & Tokens",
+        "desc": "Competitive equity packages plus token allocation in the Aura ecosystem."
+      },
+      "learning": {
+        "title": "Learning Budget",
+        "desc": "Annual CHF 5,000 budget for courses, conferences, and certifications."
+      }
+    },
+    "positionsTitle": "Open Positions",
+    "positionsDesc": "{count} roles available across our global team",
+    "departments": {
+      "engineering": "Engineering",
+      "neural": "Neural Engine",
+      "infra": "Infrastructure",
+      "design": "Design",
+      "marketing": "Marketing"
+    },
+    "locations": {
+      "eu": "Remote (EU Timezone)",
+      "ch": "Zurich, CH / Remote",
+      "global": "Remote (Global)"
+    },
+    "types": {
+      "fullTime": "Full-time"
+    },
+    "openPositions": [
+      {
+        "title": "Senior Blockchain Engineer",
+        "department": "Engineering",
+        "location": "Remote (EU Timezone)"
+      },
+      {
+        "title": "AI/ML Research Engineer",
+        "department": "Neural Engine",
+        "location": "Zurich, CH / Remote"
+      },
+      {
+        "title": "Security Engineer",
+        "department": "Infrastructure",
+        "location": "Remote (Global)"
+      },
+      {
+        "title": "Product Designer",
+        "department": "Design",
+        "location": "Remote (EU Timezone)"
+      },
+      {
+        "title": "Community & Growth Lead",
+        "department": "Marketing",
+        "location": "Remote (Global)"
+      }
+    ],
+    "noRole": {
+      "title": "Don't see your role?",
+      "desc": "We're always looking for exceptional talent. Send us your resume and tell us how you'd contribute to the future of autonomous finance.",
+      "button": "Send Open Application"
+    }
   }
 }

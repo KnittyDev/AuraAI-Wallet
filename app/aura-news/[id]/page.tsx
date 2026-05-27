@@ -9,6 +9,7 @@ import { LandingFooter } from "@/components/landing/landing-footer";
 import { AuroraBackground } from "@/components/landing/aurora-background";
 import { LuArrowLeft, LuShare2, LuCalendar, LuTag, LuExternalLink } from "react-icons/lu";
 import Link from "next/link";
+import { useLanguage } from "@/context/language-context";
 
 interface NewsItem {
   id: string;
@@ -22,6 +23,7 @@ interface NewsItem {
 }
 
 export default function NewsDetailPage() {
+  const { language, t } = useLanguage();
   const params = useParams();
   const router = useRouter();
   const [news, setNews] = useState<NewsItem | null>(null);
@@ -50,6 +52,18 @@ export default function NewsDetailPage() {
     fetchNewsDetail();
   }, [params.id]);
 
+  const getNewsCategoryLabel = (cat: string) => {
+    if (!cat) return "";
+    if (language === "tr") {
+      if (cat.toLowerCase() === "announcement") return "Duyuru";
+      if (cat.toLowerCase() === "update") return "Güncelleme";
+      if (cat.toLowerCase() === "milestone") return "Kilometre Taşı";
+      if (cat.toLowerCase() === "security") return "Güvenlik";
+      if (cat.toLowerCase() === "tech") return "Teknoloji";
+    }
+    return cat;
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
@@ -61,9 +75,9 @@ export default function NewsDetailPage() {
   if (!news) {
     return (
       <div className="min-h-screen bg-black flex flex-col items-center justify-center p-6 text-center">
-        <h1 className="text-4xl font-bold mb-4">News not found</h1>
-        <p className="text-white/40 mb-8">The story you are looking for doesn&apos;t exist or has been removed.</p>
-        <Link href="/aura-news" className="px-8 py-3 rounded-2xl bg-white text-black font-bold">Back to Newsroom</Link>
+        <h1 className="text-4xl font-bold mb-4">{t("newsroom.notFound")}</h1>
+        <p className="text-white/40 mb-8">{t("newsroom.notFoundDesc")}</p>
+        <Link href="/aura-news" className="px-8 py-3 rounded-2xl bg-white text-black font-bold">{t("newsroom.backToNewsroom")}</Link>
       </div>
     );
   }
@@ -91,7 +105,7 @@ export default function NewsDetailPage() {
             className="inline-flex items-center gap-2 text-sm font-medium text-white/40 hover:text-white transition-colors group"
           >
             <LuArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-            Back to Newsroom
+            {t("newsroom.backToNewsroom")}
           </Link>
         </motion.div>
 
@@ -103,11 +117,11 @@ export default function NewsDetailPage() {
             className="flex flex-wrap items-center gap-4"
           >
             <span className="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-widest">
-              {news.category}
+              {getNewsCategoryLabel(news.category)}
             </span>
             <div className="flex items-center gap-2 text-xs text-white/30">
               <LuCalendar className="h-3.5 w-3.5" />
-              {new Date(news.published_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+              {new Date(news.published_at).toLocaleDateString(language === "tr" ? "tr-TR" : "en-US", { month: 'long', day: 'numeric', year: 'numeric' })}
             </div>
             <div className="flex items-center gap-2 text-xs text-white/30">
               <LuTag className="h-3.5 w-3.5" />
@@ -172,12 +186,12 @@ export default function NewsDetailPage() {
                   });
                 } else {
                   navigator.clipboard.writeText(window.location.href);
-                  alert("Link copied to clipboard!");
+                  alert(language === "tr" ? "Bağlantı panoya kopyalandı!" : "Link copied to clipboard!");
                 }
               }}
               className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-sm font-bold"
             >
-              <LuShare2 className="h-4 w-4" /> Share Article
+              <LuShare2 className="h-4 w-4" /> {t("newsroom.shareArticle")}
             </button>
             {news.external_url && news.external_url !== '#' && (
               <a 
@@ -186,7 +200,7 @@ export default function NewsDetailPage() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-cyan-400 text-sm font-bold hover:underline"
               >
-                Source Link <LuExternalLink className="h-3 w-3" />
+                {t("newsroom.sourceLink")} <LuExternalLink className="h-3 w-3" />
               </a>
             )}
           </div>
@@ -195,7 +209,7 @@ export default function NewsDetailPage() {
             href="/aura-news" 
             className="text-white/30 hover:text-white transition-colors text-sm font-medium"
           >
-            All Updates
+            {t("newsroom.allUpdates")}
           </Link>
         </motion.div>
       </main>

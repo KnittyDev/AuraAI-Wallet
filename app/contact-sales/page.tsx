@@ -12,12 +12,36 @@ import {
   LuBuilding,
   LuUser,
   LuMail,
-  LuLayers
+  LuLayers,
+  LuLoaderCircle,
+  LuCircleCheck
 } from "react-icons/lu";
 import { useLanguage } from "@/context/language-context";
+import { useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 export default function ContactSalesPage() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+
+  const [fullName, setFullName] = useState("");
+  const [organization, setOrganization] = useState("");
+  const [email, setEmail] = useState("");
+  const [expectedAum, setExpectedAum] = useState("under_100k");
+  const [message, setMessage] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const aumOptions = [
+    { value: "under_100k", label: language === "tr" ? "100.000$ Altı" : "Under $100K" },
+    { value: "100k_500k", label: "$100K - $500K" },
+    { value: "500k_1m", label: "$500K - $1M" },
+    { value: "1m_5m", label: "$1M - $5M" },
+    { value: "5m_25m", label: "$5M - $25M" },
+    { value: "25m_100m", label: "$25M - $100M" },
+    { value: "100m_plus", label: "$100M+" }
+  ];
 
   const features = [
     {
@@ -41,6 +65,46 @@ export default function ContactSalesPage() {
       desc: t("sales.apiDesc")
     }
   ];
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg(null);
+    setSuccess(false);
+
+    if (!fullName.trim() || !organization.trim() || !email.trim() || !message.trim()) {
+      setErrorMsg(t("sales.validationError"));
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const { error } = await supabase
+        .from("contact_sales")
+        .insert({
+          full_name: fullName,
+          organization: organization,
+          email: email,
+          expected_aum: expectedAum,
+          message: message
+        });
+
+      if (error) throw error;
+      setSuccess(true);
+      
+      // Reset form
+      setFullName("");
+      setOrganization("");
+      setEmail("");
+      setExpectedAum("under_100k");
+      setMessage("");
+    } catch (err: any) {
+      console.error("Sales contact submission error:", err);
+      setErrorMsg(t("sales.errorMessage"));
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-black text-white">
@@ -97,7 +161,28 @@ export default function ContactSalesPage() {
             <div className="relative rounded-[2rem] border border-white/15 bg-black/40 p-8 md:p-10 backdrop-blur-2xl">
               <h2 className="text-2xl font-bold mb-8">{t("sales.formTitle")}</h2>
 
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {success && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-3 p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 text-sm font-medium"
+                  >
+                    <LuCircleCheck className="h-5 w-5 shrink-0" />
+                    <span>{t("sales.successMessage")}</span>
+                  </motion.div>
+                )}
+
+                {errorMsg && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-4 rounded-xl border border-red-500/20 bg-red-500/10 text-red-400 text-sm font-medium"
+                  >
+                    {errorMsg}
+                  </motion.div>
+                )}
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-xs font-bold uppercase tracking-widest text-white/40 flex items-center gap-2">
@@ -106,7 +191,10 @@ export default function ContactSalesPage() {
                     <input
                       type="text"
                       placeholder="John Doe"
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all placeholder:text-white/20"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all placeholder:text-white/20 text-white"
+                      disabled={isLoading}
                     />
                   </div>
                   <div className="space-y-2">
@@ -116,7 +204,10 @@ export default function ContactSalesPage() {
                     <input
                       type="text"
                       placeholder="Amazon Inc."
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all placeholder:text-white/20"
+                      value={organization}
+                      onChange={(e) => setOrganization(e.target.value)}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all placeholder:text-white/20 text-white"
+                      disabled={isLoading}
                     />
                   </div>
                 </div>
@@ -128,7 +219,10 @@ export default function ContactSalesPage() {
                   <input
                     type="email"
                     placeholder="name@company.com"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all placeholder:text-white/20"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all placeholder:text-white/20 text-white"
+                    disabled={isLoading}
                   />
                 </div>
 
@@ -136,14 +230,22 @@ export default function ContactSalesPage() {
                   <label className="text-xs font-bold uppercase tracking-widest text-white/40 flex items-center gap-2">
                     <LuLayers className="h-3 w-3" /> {t("sales.expectedAum")}
                   </label>
-                  <select className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all appearance-none text-white">
-                    <option className="bg-black text-white" value="">$1M - $5M</option>
-                    <option className="bg-black text-white" value="">$5M - $25M</option>
-                    <option className="bg-black text-white" value="">$25M - $100M</option>
-                    <option className="bg-black text-white" value="">$100M+</option>
-                  </select>
+                  <div className="relative">
+                    <select 
+                      value={expectedAum}
+                      onChange={(e) => setExpectedAum(e.target.value)}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all appearance-none text-white cursor-pointer"
+                      disabled={isLoading}
+                    >
+                      {aumOptions.map((opt) => (
+                        <option key={opt.value} className="bg-black text-white" value={opt.value}>
+                          {opt.label}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-white/40 text-xs">▼</div>
+                  </div>
                 </div>
-
 
                 <div className="space-y-2">
                   <label className="text-xs font-bold uppercase tracking-widest text-white/40 flex items-center gap-2">
@@ -152,13 +254,26 @@ export default function ContactSalesPage() {
                   <textarea
                     rows={4}
                     placeholder={t("sales.helpPlaceholder")}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all resize-none placeholder:text-white/20"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-white/20 transition-all resize-none placeholder:text-white/20 text-white"
+                    disabled={isLoading}
                   />
                 </div>
 
-                <button className="w-full group relative flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-4 text-sm font-bold text-black transition-all hover:bg-white/90 cursor-pointer">
-                  {t("sales.submit")}
-                  <LuArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <button 
+                  type="submit" 
+                  disabled={isLoading}
+                  className="w-full group relative flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-4 text-sm font-bold text-black transition-all hover:bg-white/90 disabled:opacity-50 cursor-pointer"
+                >
+                  {isLoading ? (
+                    <LuLoaderCircle className="h-4 w-4 animate-spin text-black" />
+                  ) : (
+                    <>
+                      {t("sales.submit")}
+                      <LuArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </>
+                  )}
                 </button>
 
                 <p className="text-center text-[10px] text-white/30 uppercase tracking-widest leading-relaxed">
@@ -189,4 +304,3 @@ export default function ContactSalesPage() {
     </div>
   );
 }
-

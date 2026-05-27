@@ -22,58 +22,27 @@ import {
 } from "react-icons/lu";
 import Link from "next/link";
 import { useState } from "react";
-
-const selfServiceItems = [
-  { icon: LuKey, title: "Reset Password", desc: "Recover your master key safely", href: "/dashboard/settings" },
-  { icon: LuShieldCheck, title: "2FA Management", desc: "Enable or disable Authenticator", href: "/dashboard/settings" },
-  { icon: LuWallet, title: "Crypto Deposit Issue", desc: "Track unconfirmed transactions", href: "/dashboard/settings/support/new-ticket" },
-  { icon: LuCreditCard, title: "Withdrawal Status", desc: "Check stuck or pending withdrawals", href: "/dashboard/transactions" },
-  { icon: LuFileText, title: "Export Data", desc: "Download your portfolio reports", href: "/dashboard/settings" },
-  { icon: LuSmartphone, title: "Device Management", desc: "Manage authorized sessions", href: "/dashboard/settings" },
-];
-
-const topQuestions = [
-  {
-    q: "Do I need Identity Verification (KYC)?",
-    a: "Currently, Aura Wallet prioritizes privacy. Most core features are available without KYC. However, to access higher withdrawal limits or premium enterprise features, verification may be required."
-  },
-  {
-    q: "How do I deposit crypto into my Aura Wallet?",
-    a: "Navigate to the 'Deposit' page from your dashboard, select the asset (e.g., BTC, ETH, USDT) and the network. A unique wallet address and QR code will be generated for you to send funds to."
-  },
-  {
-    q: "Why is my withdrawal suspended?",
-    a: "Withdrawals may be temporarily held for 24 hours following a password change, 2FA reset, or if our security system detects unusual login patterns. This is to protect your funds from unauthorized access."
-  },
-  {
-    q: "How does Aura AI execute trading strategies?",
-    a: "Our neural engine analyzes real-time market sentiment, social signals, and technical indicators across 40+ exchanges to execute high-probability 'Long' or 'Short' positions automatically."
-  },
-  {
-    q: "What happens if my strategy loses money?",
-    a: "If you lose money with AuraAI, and provided your investment plan has not yet ended and is still active, AuraAI will do everything in its power to recover those losses; however, even in that case, if you still incur a loss, between 15% and 30% of your loss (for investments of €500 or more) will be refunded to you."
-  },
-];
-
-const guideItems = [
-  {
-    q: "What is Aura Wallet?",
-    a: "Aura is a next-generation non-custodial wallet integrated with a powerful AI trading engine, allowing you to manage assets and grow wealth autonomously."
-  },
-  {
-    q: "Tracking Performance",
-    a: "You can view real-time ROI, P&L curves, and asset distribution directly on your 'Investment Dashboard' with millisecond accuracy."
-  },
-  {
-    q: "AI Action Logs",
-    a: "Every trade made by the AI is logged with entry price, exit price, and rationale. You can view these in the 'Execution Feed' section."
-  },
-];
+import { useLanguage } from "@/context/language-context";
 
 export default function SupportCenterPage() {
+  const { language, t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [openGuide, setOpenGuide] = useState<number | null>(null);
+
+  const selfServiceItems = [
+    { icon: LuKey, title: t("support.selfServiceItems.resetPassword.title"), desc: t("support.selfServiceItems.resetPassword.desc"), href: "/dashboard/settings" },
+    { icon: LuShieldCheck, title: t("support.selfServiceItems.twoFactor.title"), desc: t("support.selfServiceItems.twoFactor.desc"), href: "/dashboard/settings" },
+    { icon: LuWallet, title: t("support.selfServiceItems.depositIssue.title"), desc: t("support.selfServiceItems.depositIssue.desc"), href: "/dashboard/settings/support/new-ticket" },
+    { icon: LuCreditCard, title: t("support.selfServiceItems.withdrawalStatus.title"), desc: t("support.selfServiceItems.withdrawalStatus.desc"), href: "/dashboard/transactions" },
+    { icon: LuFileText, title: t("support.selfServiceItems.exportData.title"), desc: t("support.selfServiceItems.exportData.desc"), href: "/dashboard/settings" },
+    { icon: LuSmartphone, title: t("support.selfServiceItems.deviceManagement.title"), desc: t("support.selfServiceItems.deviceManagement.desc"), href: "/dashboard/settings" },
+  ];
+
+  const topQuestions = (t("support.faqList") || []) as { q: string; a: string }[];
+  const guideItems = (t("support.guidesList") || []) as { q: string; a: string }[];
+  const securityList = (t("support.securityList") || []) as string[];
+  const tutorialList = (t("support.tutorialList") || []) as string[];
 
   const filteredSelfService = selfServiceItems.filter(item => 
     item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -111,8 +80,8 @@ export default function SupportCenterPage() {
               animate={{ opacity: 1, y: 0 }}
               className="text-4xl md:text-6xl font-bold tracking-tight text-white"
             >
-              Welcome to <br />
-              Aura Help Center
+              {t("support.title1")} <br />
+              {t("support.title2")}
             </motion.h1>
 
             <motion.div
@@ -126,7 +95,7 @@ export default function SupportCenterPage() {
                 <LuSearch className="h-6 w-6 text-white/40 mr-4" />
                 <input
                   type="text"
-                  placeholder="Search for articles, guides, or issues..."
+                  placeholder={t("support.searchPlaceholder")}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="bg-transparent border-none outline-none text-white placeholder:text-white/30 w-full text-lg"
@@ -147,7 +116,7 @@ export default function SupportCenterPage() {
                 className="mb-16"
               >
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-white">Self-Service</h2>
+                  <h2 className="text-2xl font-bold text-white">{t("support.selfService")}</h2>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -182,7 +151,7 @@ export default function SupportCenterPage() {
                 className="mb-16"
               >
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-white">FAQ & Guides</h2>
+                  <h2 className="text-2xl font-bold text-white">{t("support.faqGuides")}</h2>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -193,7 +162,7 @@ export default function SupportCenterPage() {
                       <div className="p-8 rounded-[2.5rem] border border-white/5 bg-white/[0.02] backdrop-blur-xl">
                         <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-3">
                           <LuLifeBuoy className="h-5 w-5 text-white/60" />
-                          Top Questions
+                          {t("support.topQuestions")}
                         </h3>
                         <div className="space-y-4">
                           {filteredFaqs.map((item, i) => (
@@ -236,7 +205,7 @@ export default function SupportCenterPage() {
                         <div className="flex items-center justify-between mb-6">
                           <h3 className="text-lg font-bold text-white flex items-center gap-3">
                             <LuBookOpen className="h-5 w-5 text-white/60" />
-                            Aura Wallet Guide
+                            {t("support.walletGuide")}
                           </h3>
                         </div>
                         <div className="space-y-4">
@@ -270,7 +239,7 @@ export default function SupportCenterPage() {
                     )}
                   </div>
 
-                  {/* Right Column (Show if not searching or if search matches something related to security/AI) */}
+                  {/* Right Column */}
                   {(!searchQuery || searchQuery.toLowerCase().includes("security") || searchQuery.toLowerCase().includes("ai") || searchQuery.toLowerCase().includes("trading")) && (
                     <div className="space-y-6">
                       {/* Security & Verification */}
@@ -278,13 +247,15 @@ export default function SupportCenterPage() {
                         <div className="flex items-center justify-between mb-6">
                           <h3 className="text-lg font-bold text-white flex items-center gap-3">
                             <LuShieldCheck className="h-5 w-5 text-white/60" />
-                            Security & Verification
+                            {t("support.securityVerification")}
                           </h3>
                         </div>
                         <div className="space-y-4">
-                          <div className="text-sm text-white/70 py-1 border-b border-white/5 pb-3">Identity verification ensures high-tier security and unlocks premium institutional limits.</div>
-                          <div className="text-sm text-white/70 py-1 border-b border-white/5 pb-3">Lost your 2FA? Use your master recovery key or contact support with KYC proof.</div>
-                          <div className="text-sm text-white/70 py-1 border-b border-white/5 pb-3">Enable anti-phishing codes in settings to verify every email from Aura.</div>
+                          {securityList.map((sec, i) => (
+                            <div key={i} className="text-sm text-white/70 py-1 border-b border-white/5 last:border-0 pb-3 last:pb-0">
+                              {sec}
+                            </div>
+                          ))}
                         </div>
                       </div>
 
@@ -294,13 +265,16 @@ export default function SupportCenterPage() {
                           <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 blur-[50px] rounded-full -mr-10 -mt-10 group-hover:bg-white/10 transition-colors" />
                           <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-3 relative z-10">
                             <LuZap className="h-5 w-5 text-white/60" />
-                            AI Trading Tutorial
+                            {t("support.aiTutorial")}
                           </h3>
                           <div className="space-y-4 relative z-10">
-                            <div className="text-sm text-white/70 py-1 border-b border-white/5 pb-3">Step 1: Deposit funds. Step 2: Choose a risk profile. Step 3: Aura handles the rest.</div>
-                            <div className="text-sm text-white/70 py-1 border-b border-white/5 pb-3">Aggressive: High reward, high volatility. Growth: Balanced long-term wealth.</div>
+                            {tutorialList.map((tut, i) => (
+                              <div key={i} className="text-sm text-white/70 py-1 border-b border-white/5 pb-3">
+                                {tut}
+                              </div>
+                            ))}
                             <div className="flex items-center gap-2 text-sm font-bold text-white/60 hover:text-white transition-colors py-2 mt-2">
-                              View full tutorial <LuArrowRight className="h-4 w-4" />
+                              {t("support.viewFullTutorial")} <LuArrowRight className="h-4 w-4" />
                             </div>
                           </div>
                         </div>
@@ -320,7 +294,7 @@ export default function SupportCenterPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
               >
-                <h2 className="text-2xl font-bold text-white mb-6">Need More Support?</h2>
+                <h2 className="text-2xl font-bold text-white mb-6">{t("support.needMoreSupport")}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                   {/* Chat Support */}
@@ -329,12 +303,12 @@ export default function SupportCenterPage() {
                       showTicketsCard ? 'border-cyan-500/50 bg-cyan-500/5 ring-4 ring-cyan-500/10' : 'border-white/10 bg-white/[0.03] hover:bg-white/[0.05]'
                     }`}>
                       <div>
-                        <h3 className="text-lg font-bold text-white mb-2">My Support Tickets</h3>
+                        <h3 className="text-lg font-bold text-white mb-2">{t("support.myTickets")}</h3>
                         <p className="text-sm text-white/40 max-w-[250px] mb-6">
-                          View your previous conversations or open a ticket to get help from our 24/7 team.
+                          {t("support.myTicketsDesc")}
                         </p>
                         <div className="inline-flex items-center gap-2 text-xs font-bold text-white/40 uppercase tracking-widest group-hover:text-white transition-colors">
-                          View Tickets <LuArrowRight className="h-4 w-4" />
+                          {t("support.viewTickets")} <LuArrowRight className="h-4 w-4" />
                         </div>
                       </div>
                       <div className={`h-20 w-20 rounded-full flex items-center justify-center shrink-0 border transition-all group-hover:scale-110 ${
@@ -348,12 +322,12 @@ export default function SupportCenterPage() {
                   {/* Product Feedback */}
                   <div className="p-8 rounded-[2.5rem] border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] transition-all flex items-center justify-between group">
                     <div>
-                      <h3 className="text-lg font-bold text-white mb-2">Product Feedback</h3>
+                      <h3 className="text-lg font-bold text-white mb-2">{t("support.feedback")}</h3>
                       <p className="text-sm text-white/40 max-w-[250px] mb-6">
-                        Help us improve Aura Wallet. Share your ideas, suggestions, or bug reports.
+                        {t("support.feedbackDesc")}
                       </p>
                       <Link href="#" className="inline-flex items-center gap-2 text-xs font-bold text-white/40 uppercase tracking-widest hover:text-white transition-colors">
-                        Share Feedback <LuArrowRight className="h-4 w-4" />
+                        {t("support.shareFeedback")} <LuArrowRight className="h-4 w-4" />
                       </Link>
                     </div>
                     <div className="h-20 w-20 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10 group-hover:scale-110 transition-transform">
@@ -376,13 +350,13 @@ export default function SupportCenterPage() {
                 <div className="h-24 w-24 rounded-full bg-white/5 border border-dashed border-white/10 flex items-center justify-center mx-auto mb-6 text-white/10">
                   <LuSearch className="h-10 w-10" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">No results for &quot;{searchQuery}&quot;</h3>
-                <p className="text-white/40 text-sm max-w-xs mx-auto mb-8">Try using different keywords or check out our FAQ categories below.</p>
+                <h3 className="text-xl font-bold text-white mb-2">{t("support.noResults")} &quot;{searchQuery}&quot;</h3>
+                <p className="text-white/40 text-sm max-w-xs mx-auto mb-8">{t("support.noResultsDesc")}</p>
                 <button 
                   onClick={() => setSearchQuery("")}
                   className="text-xs font-bold text-cyan-400 hover:text-cyan-300 uppercase tracking-widest transition-colors"
                 >
-                  Clear Search
+                  {t("support.clearSearch")}
                 </button>
               </motion.div>
             )}
