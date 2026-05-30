@@ -1,0 +1,1235 @@
+{
+  "header": {
+    "pricing": "Prissättning",
+    "features": "Funktioner",
+    "results": "Resultat",
+    "caseStudies": "Fallstudier",
+    "faq": "FAQ",
+    "resources": "Resurser",
+    "insights": "Insikter",
+    "learn": "Lär dig",
+    "blog": "Blogg",
+    "stories": "Kundberättelser",
+    "storiesSoon": "Snart",
+    "news": "Aura Nyheter",
+    "academy": "Akademi",
+    "support": "Supportcenter",
+    "tutorials": "Guider",
+    "careers": "Karriär",
+    "contactSales": "Kontakta försäljning",
+    "tryNow": "Prova nu",
+    "dashboard": "Instrumentpanel"
+  },
+  "dashboard": {
+    "overview": "Översikt",
+    "wallet": "Min plånbok",
+    "marketData": "Marknadsdata",
+    "investments": "Investeringar",
+    "transactions": "Transaktioner",
+    "performance": "Prestanda",
+    "askAi": "Fråga AI",
+    "settings": "Inställningar",
+    "logout": "Logga ut",
+    "netWorth": "Totalt nettovärde",
+    "adminPanel": "Adminpanel"
+  },
+  "dashboardHome": {
+    "title": "Investeringspanel",
+    "subtitle": "Följ din portföljs värde, avkastning och AI-handelsåtgärder på ett ställe.",
+    "deposit": "Sätt in",
+    "newInvestment": "Ny investering",
+    "totalCapital": "Totalt investerat kapital",
+    "yield24h": "24h avkastning",
+    "netProfit": "Nettovinst",
+    "allTimeEarnings": "AuraAI-intäkter någonsin",
+    "availableUsdt": "Tillgänglig USDT",
+    "readyPositions": "Redo för nya positioner",
+    "activeStrategies": "Aktiva investeringsstrategier",
+    "strategiesSubtitle": "Realtidsprestanda för dina AI-förvaltade portföljer.",
+    "liveEngine": "AuraAI Live-motor",
+    "scanning": "Söker efter aktiva strategier...",
+    "activateAura": "Starta din första investering för att aktivera AuraAI",
+    "strategyAsset": "Strategitillgång",
+    "risk": "Risk",
+    "plan": "Plan",
+    "initialCapital": "Startkapital",
+    "assetVol": "Tillgångsvol.",
+    "currentValue": "Nuvarande värde",
+    "netProfitUsdt": "Nettovinst (USDT)",
+    "yieldHeader": "Avkastning",
+    "ai24h": "24h AI",
+    "days": "Dagar",
+    "netVolume": "NETTOVOLYM",
+    "risks": {
+      "aggressive": "Aggressiv",
+      "growth": "Tillväxt",
+      "balanced": "Balanserad"
+    }
+  },
+  "hero": {
+    "eyebrow": "Claude Opus 4.7 — Max",
+    "title1": "Låt AI förvalta ",
+    "title2": "din portfölj",
+    "subtitle": "Aura AI analyserar ständigt marknader, hanterar risker och utför affärer – så att din portfölj fortsätter att arbeta även när du inte gör det.",
+    "ctaDashboard": "Gå till instrumentpanel",
+    "ctaStart": "Starta gratis",
+    "ctaTalk": "Kontakta oss"
+  },
+  "prompt": {
+    "assetsManaged": "Förvaltade tillgångar",
+    "uptime": "Drifttid",
+    "avgResponse": "Genomsn. svarstid",
+    "ticker": "Aura AI kör live-strategier"
+  },
+  "marquee": {
+    "title": "Betrodd av institutionella partner & kryptoappar"
+  },
+  "pricing": {
+    "title": "Prissättning",
+    "free": {
+      "name": "Gratis",
+      "price": "$0",
+      "description": "En begränsad men kraftfull automatiserad portföljupplevelse för nya användare.",
+      "features": [
+        "Opus 4.6 AI-modell",
+        "5 automatiserade affärer per dag",
+        "1 förvaltad portfölj",
+        "Grundläggande veckovisa prestandarapporter",
+        "Grundläggande köp-/säljförslag",
+        "Automatiskt flöde med allmänna strategier",
+        "1 uttag var tredje dag",
+        "Och mer"
+      ],
+      "cta": "Starta gratis"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "$15 / 3 månader",
+      "description": "Fullt autonomt läge: AI hanterar affärer dygnet runt. Faktureras var tredje månad.",
+      "features": [
+        "Opus 4.7 Max AI-modell",
+        "Kapitalkydd: 15% förluståterbetalning",
+        "Obegränsade automatiserade affärer",
+        "Obegränsad portföljförvaltning",
+        "Omedelbara uttag",
+        "Dagliga och veckovisa prestandarapporter",
+        "Automatiskt sälj / automatiskt köp",
+        "Autonom handelsutförande och förvaltning dygnet runt",
+        "Fullt autonoma portföljoperationer",
+        "Och mer"
+      ],
+      "cta": "Uppgradera till Pro"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "price": "Anpassad",
+      "description": "Byggd exklusivt för företags investeringsverksamhet med skyddade kapitalramar.",
+      "features": [
+        "Investeringsmodell endast för företag",
+        "Säkerhetsdeposition / garantisäkerhetsupplägg",
+        "Partiell förluståterbäring till företaget",
+        "Anpassade kapitalkyddsvillkor",
+        "Riskövervakning av företagsklass",
+        "Dedikerad investeringssupport"
+      ],
+      "cta": "Kontakta försäljning"
+    }
+  },
+  "features": {
+    "prediction": {
+      "title": "Enkel att använda",
+      "description": "Även om du inte har någon kunskap om handel, kryptovaluta eller aktiemarknaden, hanterar Aura Opus 4.7-modellen alla dina affärer helt självständigt!",
+      "button": "Börja handla",
+      "status": "Systemstatus",
+      "trading": "Autonom handel",
+      "active": "Modell: Aktiv",
+      "standby": "Modell: Standby",
+      "profit": "Total vinst",
+      "live": "Global Live"
+    },
+    "ai": {
+      "title": "Handla med AI",
+      "description": "Använd modellstödda portföljidéer och konvertera dem omedelbart till körbar handelslogik med en enda prompt.",
+      "button": "Generera strategi",
+      "strategy": "Tillväxtstrategi"
+    },
+    "sleep": {
+      "title": "Låt det köra medan du sover",
+      "description": "Medan du sover utför Aura självständigt affärer baserat på din konfigurerade strategi och ger realtidsaviseringar.",
+      "button": "Automatisera nu",
+      "success": "Utförande lyckades",
+      "mode": "Aura Autonomt läge",
+      "profit": "Realiserad vinst"
+    },
+    "risk": {
+      "title": "Låg risk Hög avkastning",
+      "description": "Aura övervakar marknadsrisken och justerar eller pausar automatiskt handeln för att skydda ditt kapital och maximera avkastningen.",
+      "button": "Visa prestanda",
+      "guard": "Riskskydd aktivt",
+      "stability": "Systemstabilitet"
+    }
+  },
+  "results": {
+    "title": "Verkliga resultat",
+    "disclaimer": "*Illustrativ 30-dagars uppskattning baserad på historiska strategiriktmärken. (Opus 4.7-modell)",
+    "invest": "Du investerar på 1 månad",
+    "auraEarn": "Du tjänar med Aura AI Wallet*",
+    "manualEarn": "Du tjänar med manuell handel",
+    "monthlyInvested": "Månadsvis investerat",
+    "profitDifference": "Vinstskillnad",
+    "monthlyProfitUsd": "Månadsvinst (USD)",
+    "manualLabel": "Manuell",
+    "auraLabel": "Aura AI"
+  },
+  "benchmark": {
+    "title": "AI Benchmark",
+    "topModel": "Toppmodell",
+    "scoreLead": "Poängledande",
+    "compositeDesc": "*Sammansatt poäng från 10 000+ live-kryptoscenarier. BTC, ETH, SOL-par. Maj 2026.",
+    "compositeIndex": "Sammansatt index",
+    "accuracy": "Prognosnoggrannhet",
+    "liveMarkets": "Live kryptomarknader",
+    "latency": "Utförandelatens",
+    "edgeRuntime": "Edge Runtime",
+    "sharpe": "Sharpekvot",
+    "riskReturns": "Riskjusterad avkastning",
+    "financialScore": "Finansiell intelligenspoäng"
+  },
+  "caseStudies": {
+    "eyebrow": "Bevisade resultat",
+    "title": "Fallstudier",
+    "subtitle": "Verkliga portföljteam som använder Aura för att optimera autonoma handelsoperationer i produktion.",
+    "readFull": "Läs hela fallstudien",
+    "tags": {
+      "growth": "Tillväxt",
+      "risk": "Risk",
+      "efficiency": "Effektivitet"
+    },
+    "roles": {
+      "grayscale": "Investeringschef",
+      "solidchain": "VD",
+      "customer": "Lärare"
+    },
+    "resultLabels": {
+      "grayscale": "Kvartalsvis vinsttillväxt",
+      "solidchain": "Lägre max drawdown",
+      "customer": "Snabbare ombalanseringscykler"
+    },
+    "quotes": {
+      "grayscale": "Vi gick från manuella spotbeslut till helt automatiserade strategikörningar. Aura hanterar vad vårt handelsteam på 6 personer brukade göra.",
+      "solidchain": "Auras kapitalkyddsfunktion är ett av de bästa systemen vi har sett hittills; som kryptoinvesterare har jag gjort 30 % vinst på mina investerade medel.",
+      "customer": "Jag var alltid rädd för att investera i krypto eftersom jag var rädd för att förlora mina pengar, men AuraAI gav mig modet att börja."
+    }
+  },
+  "faq": {
+    "title": "Frågor?",
+    "subtitle": "Allt du behöver veta innan du börjar.",
+    "items": [
+      {
+        "question": "Vad exakt är Aura AI?",
+        "answer": "Aura är en AI-native plattform för autonom handel och portföljförvaltning. Den använder avancerade språkmodeller och marknadsdata i realtid för att utföra komplexa investeringsstrategier, hantera risker och optimera dina kryptoinnehav utan krav på manuella ingrepp."
+      },
+      {
+        "question": "Hur fattar AI:n handelsbeslut?",
+        "answer": "Aura AI använder Claude Opus 4.7-modellen och utnyttjar avancerad artificiell intelligens som är särskilt tränad inom investerings- och kryptovalutadomänerna. Systemet analyserar ständigt realtidsnyheter, sociala känslor, on-chain-data och live-marknadsströmmar. Den utför självständigt affärer baserat på dessa signaler för att optimera prestanda i linje med din riskprofil."
+      },
+      {
+        "question": "Är mitt kapital säkert med Aura?",
+        "answer": "Säkerhet är vår högsta prioritet. Aura använder kryptering av institutionell klass för alla data- och API-anslutningar. Vi har aldrig direkt tillgång till att ta ut dina medel från anslutna börser; systemet har endast behörighet för 'Handel' och 'Visning'. Dessutom använder vi multi-sig cold storage för alla tillgångar som hålls inom Aura-ekosystemet."
+      },
+      {
+        "question": "Vilka tillgångar och börser stöds?",
+        "answer": "Aura stöder för närvarande alla större kryptovalutor inklusive BTC, ETH, SOL och USDT. Vi erbjuder sömlös integration med ledande börser som Binance, Coinbase och Kraken, samt direkt on-chain-utförande för decentraliserade protokoll."
+      },
+      {
+        "question": "Hur skiljer sig Pro-planen från Gratis-planen?",
+        "answer": "Medan Gratis-planen låter dig utforska grundläggande portföljspårning och manuella AI-förslag, låser Pro-planen ($15/månad) upp fullt autonom handel dygnet runt, omedelbara uttag, avancerade riskskydd och prioriterat utförande på alla strategier."
+      },
+      {
+        "question": "Hur hanterar Aura extrem marknadsvolatilitet?",
+        "answer": "Aura inkluderar 'Neural Risk Guards' som övervakar marknadsstress dygnet runt. I händelse av en plötslig krasch eller extrem volatilitet kan AI:n automatiskt flytta tillgångar till stablecoins, strama åt stop-losses eller hedga positioner med hjälp av blankning för att skydda ditt kapital från betydande värdeminskningar."
+      },
+      {
+        "question": "Finns det några dolda avgifter per affär?",
+        "answer": "Nej. Aura tar inte ut några procentuella provisioner eller dolda spreadar på dina affärer. Du betalar endast din månatliga prenumerationsavgift (om du använder Pro) och de standardtransaktionsavgifter som tas ut av de underliggande börserna eller blockkedjenätverken."
+      },
+      {
+        "question": "Kan jag avsluta min prenumeration när som helst?",
+        "answer": "Ja. Du kan nedgradera eller avsluta din Pro-prenumeration när som helst med ett enda klick. Det finns inga långsiktiga avtal eller uppsägningsavgifter."
+      },
+      {
+        "question": "Varför finns det en månatlig prenumerationsavgift?",
+        "answer": "Att driva en autonom AI dygnet runt kräver betydande beräkningsresurser. Din prenumeration täcker direkt den höga kostnaden för Claude Opus 4.7-tokens (som Aura 'förbrukar' när den analyserar data), högfrekventa marknadsdataströmmar och den säkra molninfrastruktur som krävs för att utföra affärer med millisekunds latens över globala marknader."
+      },
+      {
+        "question": "Krävs manuellt godkännande för insättningar eller uttag?",
+        "answer": "Absolut inte. När du skapar ett konto genereras dina kryptoplånböcker automatiskt. Insättningar och uttag hanteras automatiskt av systemet och blockkedjan exklusivt genom dessa dedikerade plånböcker, vilket garanterar en sömlös och helt autonom upplevelse."
+      }
+    ]
+  },
+  "footer": {
+    "product": "Produkt",
+    "company": "Företag",
+    "legal": "Juridik",
+    "about": "Om oss",
+    "contact": "Kontakt",
+    "privacy": "Integritet",
+    "terms": "Villkor",
+    "status": "Systemstatus",
+    "rights": "Aura. Alla rättigheter förbehållna.",
+    "desc": "Autonom portföljintelligens med ständigt aktivt utförande och tydliga prestandainsikter.",
+    "binance": "Binance-infrastruktur",
+    "swissEng": "Utvecklad i Schweiz",
+    "swissQuality": "Schweizisk kvalitet & precision",
+    "euCompliant": "Följer EU-standarder",
+    "euPlatform": "EU-kompatibel plattform"
+  },
+  "auth": {
+    "login": {
+      "title1": "Investera snabbt, ",
+      "title2": "väx snabbare.",
+      "subtitle": "Analysera i chatt, investera med Aura. Intelligensmotorn för moderna portföljer.",
+      "google": "Fortsätt med Google",
+      "or": "ELLER",
+      "emailPlaceholder": "Ange din e-postadress",
+      "passwordPlaceholder": "Ange ditt lösenord",
+      "submit": "Fortsätt med e-post",
+      "submitting": "Loggar in...",
+      "policy": "Genom att fortsätta godkänner du Auras ",
+      "policyLink": "Integritetspolicy",
+      "policyEnd": ".",
+      "noAccount": "Har du inget konto? ",
+      "createOne": "Skapa ett",
+      "downloadApp": "Ladda ner skrivbordsappen",
+      "twoFactor": {
+        "title": "Tvåfaktorsverifiering",
+        "subtitle": "Ange den 6-siffriga koden från din autentiseringsapp för att fortsätta.",
+        "refresh": "Koden uppdateras var 30:e sekund",
+        "submit": "Verifiera & Fortsätt",
+        "submitting": "Verifierar...",
+        "cancel": "Avbryt inloggning",
+        "invalidCode": "Ogiltig kod. Försök igen."
+      }
+    },
+    "register": {
+      "title1": "Gå med i framtiden, ",
+      "title2": "börja idag.",
+      "subtitle": "Skapa ditt konto och låt Aura förvalta din portfölj på institutionell nivå.",
+      "google": "Gå med med Google",
+      "or": "ELLER",
+      "fullName": "Fullständigt namn",
+      "username": "Offentligt användarnamn",
+      "anonymous": "Jag vill vara en anonym investerare",
+      "emailAddress": "E-postadress",
+      "createPassword": "Skapa ett lösenord",
+      "strength": {
+        "weak": "Svagt lösenord",
+        "fair": "Måttlig säkerhet",
+        "good": "Bra lösenord",
+        "strong": "Starkt / Säkert"
+      },
+      "submit": "Skapa konto",
+      "submitting": "Skapar konto...",
+      "policy": "Genom att registrera dig godkänner du Auras ",
+      "policyLink1": "Integritetspolicy",
+      "policyAnd": " och ",
+      "policyLink2": "Villkor",
+      "policyEnd": ".",
+      "alreadyAccount": "Har du redan ett konto? ",
+      "signIn": "Logga in",
+      "downloadApp": "Ladda ner skrivbordsappen"
+    }
+  },
+  "sales": {
+    "title1": "Lyft din ",
+    "title2": "kapitalförvaltning.",
+    "subtitle": "Auras infrastruktur av institutionell klass ger den säkerhet, likviditet och AI-drivna insikter som krävs för modern kapitalförvaltning. Kontakta vårt team för att utforska skräddarsydda lösningar.",
+    "securityTitle": "Säkerhet på banknivå",
+    "securityDesc": "Multi-sig förvaring och institutionella efterlevnadsstandarder.",
+    "liquidityTitle": "Global likviditet",
+    "liquidityDesc": "Djupa orderböcker hos över 50 stora likviditetsleverantörer.",
+    "strategiesTitle": "Anpassade strategier",
+    "strategiesDesc": "AI-modeller anpassade efter dina specifika risk- och avkastningskrav.",
+    "apiTitle": "Skalbart API",
+    "apiDesc": "Högkapacitetsinfrastruktur för automatiserad högfrekvent handel.",
+    "formTitle": "Kontakta vårt säljteam",
+    "fullName": "Fullständigt namn",
+    "organization": "Organisation",
+    "businessEmail": "E-postadress för företag",
+    "expectedAum": "Förväntat AUM",
+    "howHelp": "Hur kan vi hjälpa till?",
+    "helpPlaceholder": "Berätta om dina krav...",
+    "submit": "Skicka förfrågan",
+    "policy": "Genom att skicka in detta formulär godkänner du våra ",
+    "termsLink": "Användarvillkor",
+    "policyAnd": " och ",
+    "privacyLink": "Integritetspolicy",
+    "policyEnd": ".",
+    "trusted": "Betrodd av globala finansiella ledare",
+    "successMessage": "Tack! Din förfrågan har mottagits. Vårt säljteam återkommer till dig inom kort.",
+    "errorMessage": "Misslyckades att skicka förfrågan. Försök igen senare.",
+    "validationError": "Vänligen fyll i alla obligatoriska fält."
+  },
+  "wallet": {
+    "title": "Min plånbok",
+    "subtitle": "Hantera dina tillgångar och din likviditet på ett säkert sätt.",
+    "deposit": "Sätt in",
+    "withdraw": "Ta ut",
+    "totalNetWorth": "Totalt nettovärde",
+    "available": "Tillgängligt",
+    "inStrategies": "I strategier",
+    "assetBreakdown": "Tillgångsfördelning",
+    "convertAssets": "Konvertera tillgångar",
+    "specialOffer": "Specialerbjudande",
+    "comingSoon": "Kommer snart",
+    "cardTitle": "Aura Elite \nKrypto-bankkort",
+    "cardSubtitle": "Spendera din krypto var som helst i världen. 0% avgifter, 3% cashback.",
+    "cardElite": "Elite",
+    "cardPlatinum": "Aura Platinum",
+    "discoverCard": "Upptäck kortet",
+    "recentActivity": "Senaste aktivitet",
+    "viewAll": "Visa alla",
+    "noRecentActivity": "Ingen senaste aktivitet hittades.",
+    "dateLabel": "Datum",
+    "transactionHeader": "Transaktion",
+    "assetHeader": "Tillgång",
+    "amountHeader": "Belopp",
+    "dateHeader": "Datum",
+    "statusHeader": "Status",
+    "principalReturn": "Kapitalåterbetalning",
+    "strategyProfit": "Strategivinst",
+    "planLabel": "Plan",
+    "typeDeposit": "Insättning",
+    "typeWithdrawal": "Uttag",
+    "typeProfit": "Vinst",
+    "typeInvestment": "Investering",
+    "statusCompleted": "Slutförd",
+    "statusProcessing": "Behandlas"
+  },
+  "marketData": {
+    "title": "Marknadsdata",
+    "subtitle": "Visa kryptomarknadsdiagram i realtid som drivs av TradingView.",
+    "neuralLink": "Ansluter till Neural Link...",
+    "openPositions": "Aktiva livepositioner",
+    "executionFeed": "Realtidsutflöde från AuraAI:s neurala motor.",
+    "scanningEntries": "Söker efter ingångar med hög sannolikhet...",
+    "monitoring": "AuraAI övervakar marknaderna",
+    "pairHeader": "Par",
+    "sideHeader": "Sida",
+    "entryPriceHeader": "Ingångspris",
+    "currentPriceHeader": "Aktuellt pris",
+    "timeHeader": "Tid",
+    "strategyLogicHeader": "Strategilogik",
+    "long": "long",
+    "short": "short",
+    "bullishTrendDivergence": "Bullish trenddivergens upptäckt",
+    "overboughtRejection": "Överköpt avvisningssignal bekräftad",
+    "bullishTrendMobile": "Bullish trenddivergens",
+    "overboughtRejectionMobile": "Överköpt avvisning",
+    "marketUpdates": "Globala marknadsuppdateringar",
+    "readFullStory": "Läs hela artikeln"
+  },
+  "investments": {
+    "title": "Investeringar",
+    "subtitle": "Live-översikt över din portfölj, allokeringar och AI-förvaltade positioner.",
+    "deposit": "Sätt in",
+    "newInvestment": "Ny investering",
+    "loading": "Laddar...",
+    "activeStrategies": "Aktiva strategier",
+    "completedStrategies": "Slutförda strategier",
+    "liveEngine": "Live-motor",
+    "engineOffline": "Motor offline",
+    "noActiveStrategies": "Inga aktiva AI-investeringsstrategier hittades.",
+    "daysSuffix": "Dagar",
+    "yieldSuffix": "Avkastning",
+    "details": "Detaljer",
+    "viewingLogs": "Visar loggar",
+    "viewLogs": "Visa loggar",
+    "executionFeedTitle": "Strategiutförandeflöde",
+    "exportPdf": "Exportera PDF",
+    "closeFeed": "Stäng flöde",
+    "neuralLinkLoading": "Ansluter till AuraAI neural länk...",
+    "completed": "Slutförd",
+    "finalReturn": "Slutlig avkastning",
+    "stats": {
+      "totalCapital": "Totalt kapital",
+      "totalCapitalNote": "Investerat i strategier",
+      "totalNetProfit": "Total nettovinst",
+      "totalNetProfitNote": "Realiserade intäkter",
+      "activeStrategies": "Aktiva strategier",
+      "activeStrategiesNote": "Förvaltas för närvarande av AI",
+      "aiEngine": "AI-motor",
+      "aiEngineNote": "Online & Söker"
+    },
+    "headers": {
+      "asset": "Tillgång",
+      "capital": "Kapital",
+      "netProfit": "Nettovinst",
+      "aiPnl24h": "24h AI Resultat",
+      "duration": "Varaktighet",
+      "risk": "Risk",
+      "actions": "Åtgärder",
+      "finalNetProfit": "Slutlig nettovinst",
+      "totalYield": "Total avkastning",
+      "status": "Status"
+    },
+    "modal": {
+      "title": "Strategidetaljer",
+      "startDate": "Startdatum",
+      "maturityDate": "Slutdatum",
+      "capitalAllocation": "Kapitalallokering",
+      "entryPrice": "Ingångspris",
+      "riskProfile": "Riskprofil",
+      "executionStatus": "Utförandestatus",
+      "understood": "Uppfattat"
+    },
+    "pdf": {
+      "terminal": "AURA TERMINAL",
+      "reportTitle": "Investeringsstrategirapport",
+      "generated": "Genererad",
+      "summaryTitle": "Strategisammanfattning",
+      "disclaimerLine1": "Obs: Vid en övergripande strategiförlust kommer 15% av förlusten att återbetalas till användaren",
+      "disclaimerLine2": "som en del av Aura Protection-programmet.",
+      "executionLogTitle": "Utförandelogg",
+      "footerText": "Aura Investment Terminal",
+      "pageText": "Sida",
+      "summaryHeaders": {
+        "asset": "Tillgång",
+        "capital": "Kapital",
+        "assetQuantity": "Tillgångskvantitet",
+        "netProfit": "Nettovinst",
+        "duration": "Varaktighet",
+        "riskProfile": "Riskprofil",
+        "status": "Status"
+      },
+      "logHeaders": {
+        "date": "Datum",
+        "type": "Typ",
+        "asset": "Tillgång",
+        "entry": "Ingång",
+        "exit": "Utgång",
+        "pnl": "Resultat",
+        "status": "Status"
+      }
+    }
+  },
+  "actionLog": {
+    "title": "AuraAI motorlogg",
+    "subtitle": "Självständigt utförandeflöde",
+    "liveMonitoring": "Liveövervakning",
+    "monitoring": "Övervakar...",
+    "activePosition": "Aktiv position",
+    "strategyComplete": "Strategi slutförd",
+    "scanningMarkets": "Söker på marknader efter möjligheter...",
+    "engineVersion": "Motorversion: 2.4.0-AuraAI med Claude Opus 4.7 Max"
+  },
+  "transactions": {
+    "title": "Transaktioner",
+    "subtitle": "Övervaka alla insättningar, uttag och strategiresultat.",
+    "searchPlaceholder": "Sök efter tillgångar, typ eller hash...",
+    "filtersBtn": "Filter",
+    "typeTrade": "Handel",
+    "typeRebalance": "Ombalansering",
+    "statusFailed": "Misslyckades",
+    "filters": {
+      "type": "Typ",
+      "allTypes": "Alla typer",
+      "status": "Status",
+      "allStatuses": "Alla statusar",
+      "dateRange": "Tidsintervall",
+      "allTime": "Sedan början",
+      "last24h": "Senaste 24 timmarna",
+      "last7d": "Senaste 7 dagarna",
+      "last30d": "Senaste 30 dagarna"
+    },
+    "headers": {
+      "activity": "Aktivitet",
+      "hash": "Hash"
+    },
+    "mobile": {
+      "txIdLabel": "TxID / Hash"
+    },
+    "locked": {
+      "title": "Investeringsloggar begränsade",
+      "subtitle": "Uppgradera till Pro för att se din automatiserade AI-handelslogg och vinstfördelningsloggar.",
+      "unlockBtn": "Lås upp Pro"
+    },
+    "modal": {
+      "title": "Investeringsloggar",
+      "description": "Detaljerade insikter i varje affär. Pro-medlemmar får en komplett historik över alla AI-aktiviteter, ombalanseringar och realiserade vinster."
+    },
+    "empty": {
+      "title": "Inga transaktioner hittades",
+      "subtitle": "Försök att justera dina filter eller sökord."
+    },
+    "footer": {
+      "showing": "Visar",
+      "results": "resultat",
+      "prev": "Föregående",
+      "next": "Nästa"
+    }
+  },
+  "performance": {
+    "subtitle": "Detaljerad analys av din AI-drivna avkastning.",
+    "intervals": {
+      "24H": "24H",
+      "1W": "1W",
+      "1M": "1M",
+      "1Y": "1Y",
+      "ALL": "ALLA"
+    },
+    "stats": {
+      "rangeReturn": "Periodavkastning",
+      "rangeProfit": "Periodvinst",
+      "trades": "Affärer",
+      "winRate": "Vinstprocent",
+      "realized": "Realiserad",
+      "text": "Utförande",
+      "success": "Framgång"
+    },
+    "locked": {
+      "title": "Pro-funktion",
+      "subtitle": "Prestandaanalys och avancerad vinstspårning är endast tillgängliga för Pro-medlemmar.",
+      "upgradeBtn": "Uppgradera till Pro"
+    },
+    "modal": {
+      "title": "Prestandaanalys",
+      "description": "Följ din tillväxt med precision. Pro-medlemmar får tillgång till detaljerade prestandadiagram och historiska data."
+    },
+    "charts": {
+      "cumulativeTitle": "Ackumulerad avkastning",
+      "cumulativeSubtitle": "Aura AI-strategi vs marknadsindex",
+      "auraLegend": "Aura AI",
+      "marketLegend": "Marknadsgenomsnitt",
+      "tooltipValue": "Värde",
+      "noActivity": "Ingen aktivitet registrerad under den valda perioden",
+      "monthlyTitle": "Månadsavkastning (%)"
+    },
+    "bestStrategy": {
+      "topAsset": "Bästa tillgången",
+      "bannerText": "Bästa strategin",
+      "description": "AI-strategin optimerade positioner under perioder med hög volatilitet, vilket ledde till bättre resultat än marknadens index."
+    }
+  },
+  "askAi": {
+    "title": "Fråga Aura AI",
+    "onlineStatus": "Online & Analyserar",
+    "welcomeMessage": "Hej! Jag är Aura, din AI-investeringsassistent. Jag har analyserat din nuvarande portfölj och är redo att hjälpa till. Hur kan jag hjälpa dig idag?",
+    "delayMessage": "Analyserar din data... vänligen vänta.",
+    "inputPlaceholder": "Fråga Aura om dina investeringar...",
+    "footerText": "Drivs av Claude 4.7 Sonnet & Aura Neural Engine",
+    "errorMessage": "Jag är ledsen, jag stötte på ett fel. Försök igen senare.",
+    "suggestions": {
+      "analyzePortfolio": "Analysera min portfölj",
+      "marketOutlookSol": "Marknadsutsikter för SOL",
+      "balanceBreakdown": "Saldouppdelning",
+      "recentTradeHistory": "Senaste transaktioner"
+    },
+    "modal": {
+      "title": "AI-gräns nådd",
+      "description": "Gratisanvändare kan ställa upp till 2 frågor per dag. Uppgradera till Pro för obegränsade AI-insikter och marknadsanalys i realtid."
+    }
+  },
+  "settings": {
+    "title": "Kontohantering",
+    "subtitle": "Hantera dina neurala identiteter och inställningar.",
+    "supportCenter": "Supportcenter",
+    "exportProfileData": "Exportera profilinformation",
+    "exporting": "Exporterar...",
+    "systemNotifications": "Systemaviseringar",
+    "securityLayers": "Säkerhetslager",
+    "preferences": "Inställningar",
+    "interfaceLanguage": "Gränssnittsspråk",
+    "activeMembership": "Aktivt medlemskap",
+    "upgrade": "Uppgradera",
+    "validityPeriod": "Giltighetsperiod",
+    "expiresToday": "Löper ut idag",
+    "oneDayLeft": "1 dag kvar",
+    "daysLeft": "Dagar kvar",
+    "membershipExpiryText": "Ditt medlemskap kommer att löpa ut den ",
+    "notifications": {
+      "tradeOpen": {
+        "label": "Positionsinträde",
+        "description": "Realtidsaviseringar när AuraAI utför ett marknadsinträde."
+      },
+      "tradeClose": {
+        "label": "Positionsutträde",
+        "description": "Omedelbar rapportering om stängda positioner och realiserat resultat."
+      },
+      "investmentMaturity": {
+        "label": "Investeringsslutdatum",
+        "description": "Aviseras när strategins varaktighet upphör och medlen avvecklas."
+      },
+      "walletMovements": {
+        "label": "Plånboksrörelser",
+        "description": "Bekräftelser för varje insättnings- och uttagsförfrågan."
+      }
+    },
+    "security": {
+      "masterPassword": {
+        "label": "Huvudlösenord",
+        "description": "Senast uppdaterat för 14 dagar sedan. Hög komplexitet aktiv."
+      },
+      "change": "Ändra",
+      "twoFactor": {
+        "label": "Tvåfaktorsautentisering",
+        "activeDescription": "Aktiv — Ditt konto är skyddat med TOTP-verifiering.",
+        "inactiveDescription": "Förbättra säkerheten med Google Authenticator eller Authy.",
+        "protected": "Skyddad",
+        "disable": "Inaktivera",
+        "recommended": "Rekommenderas",
+        "setup": "Konfigurera",
+        "loading": "Laddar..."
+      }
+    },
+    "passwordModal": {
+      "title": "Uppdatera lösenord",
+      "subtitle": "Säkra ditt konto med en ny huvudnyckel.",
+      "newPasswordLabel": "Nytt lösenord",
+      "confirmPasswordLabel": "Bekräfta nytt lösenord",
+      "weak": "Svagt lösenord",
+      "moderate": "Måttlig styrka",
+      "secure": "Mycket säkert",
+      "dontMatch": "De nya lösenorden matchar inte.",
+      "success": "Huvudlösenordet har uppdaterats.",
+      "updating": "Uppdaterar huvudnyckel...",
+      "confirm": "Bekräfta uppdatering"
+    },
+    "twoFactorModal": {
+      "disableTitle": "Inaktivera 2FA",
+      "disableDescription": "Detta tar bort TOTP-kravet från ditt konto. Du kan aktivera det igen när som helst.",
+      "confirmDisable": "Bekräfta inaktivering av 2FA",
+      "disabling": "Inaktiverar...",
+      "activatedTitle": "2FA aktiverat",
+      "activatedDescription": "Ditt konto är nu skyddat med tvåfaktorsautentisering. En TOTP-kod krävs vid varje inloggning.",
+      "done": "Klart",
+      "setupTitle": "Konfigurera autentiserare",
+      "setupDescription": "Skanna QR-koden nedan med Google Authenticator, Authy eller valfri TOTP-app.",
+      "manualEntryKey": "Manuell inmatningsnyckel",
+      "scannedNext": "Jag har skannat den → Nästa",
+      "verifyTitle": "Ange verifieringskod",
+      "verifyDescription": "Ange den 6-siffriga koden från din autentiseringsapp för att bekräfta konfigurationen.",
+      "refreshText": "Koden uppdateras var 30:e sekund",
+      "back": "Tillbaka",
+      "verifyEnable": "Verifiera & Aktivera",
+      "verifying": "Verifierar..."
+    }
+  },
+  "convert": {
+    "title": "Konvertera",
+    "subtitle": "Omedelbara tillgångsbyten med realtids neurala kurser.",
+    "from": "Från",
+    "balance": "Saldo",
+    "to": "Till (Uppskattat)",
+    "exchangeRate": "Växelkurs",
+    "success": "Konverteringen lyckades! Dina saldon har uppdaterats.",
+    "processing": "Behandlar byte...",
+    "confirm": "Bekräfta konvertering",
+    "realTimeRates": "Realtidskurser",
+    "errors": {
+      "insufficient": "Otillräckligt saldo.",
+      "auth": "Autentisering krävs."
+    }
+  },
+  "newInvestment": {
+    "title": "Förklara dina investeringsidéer",
+    "subtitle": "Steg för steg för att skapa din nästa investeringsplan.",
+    "backToDashboard": "Tillbaka till instrumentpanelen",
+    "stepOf": "Steg {step} av {total}",
+    "processed": "{percentage}% behandlat",
+    "next": "Nästa",
+    "back": "Tillbaka",
+    "goBack": "Gå tillbaka",
+    "backToAuth": "Tillbaka till autentisering",
+    "creatingPlan": "Skapar plan...",
+    "planCreated": "Plan skapad",
+    "createPlan": "Skapa investeringsplan",
+    "minAmountError": "Minsta investeringsbelopp är 150€.",
+    "insufficientBalance": "Otillräckligt USDT-saldo. Sätt in mer medel.",
+    "errors": {
+      "unexpected": "Ett oväntat fel uppstod. Försök igen."
+    },
+    "upgradeModal": {
+      "title": "Positionsgräns nådd",
+      "description": "Gratisanvändare kan öppna upp till 1 automatisk position per dag. Uppgradera till Pro för obegränsad autonom handel och utförande i realtid."
+    },
+    "crypto": {
+      "btc": {
+        "name": "Bitcoin",
+        "desc": "Digitalt guld. Det mest kända och säkraste myntet att hålla på lång sikt.",
+        "badge": "Marknadsledare"
+      },
+      "eth": {
+        "name": "Ethereum",
+        "desc": "Intelligent dator. Drivs av de flesta appar och digitala finansiella system.",
+        "badge": "Populär"
+      },
+      "sol": {
+        "name": "Solana",
+        "desc": "Blixtsnabb. Ett nyare, mycket snabbt mynt designat för miljontals användare."
+      },
+      "usdt": {
+        "name": "Tether",
+        "desc": "Stabil dollar. Ett digitalt mynt bundet till den amerikanska dollarn för att hålla ditt värde stabilt."
+      }
+    },
+    "risk": {
+      "conservative": {
+        "level": "Konservativ",
+        "desc": "Säkerheten först. Bäst för att skydda dina besparingar samtidigt som du får stabila, små vinster."
+      },
+      "balanced": {
+        "level": "Balanserad",
+        "desc": "Det bästa av två världar. En blandning av säkerhet och tillväxt för att hjälpa dina pengar att växa stadigt.",
+        "badge": "Rekommenderas"
+      },
+      "growth": {
+        "level": "Tillväxt",
+        "desc": "Snabbare tillväxt. Sikta på större vinster genom att ta mer risk under marknadsförändringar."
+      },
+      "aggressive": {
+        "level": "Aggressiv",
+        "desc": "Maximal hastighet. Använder avancerad högfrekvent handel för att söka efter högsta möjliga avkastning."
+      }
+    },
+    "goals": {
+      "growth": {
+        "title": "Kapitaltillväxt",
+        "desc": "Maximera det totala värdet av din portfölj på lång sikt."
+      },
+      "passive": {
+        "title": "Passiv inkomst",
+        "desc": "Generera regelbundna utdelningar och ett konsekvent kassaflöde."
+      },
+      "preservation": {
+        "title": "Kapitalbevarande",
+        "desc": "Håll din ursprungliga investering säker med minimal riskexponering."
+      }
+    },
+    "experience": {
+      "beginner": {
+        "title": "Nybörjare",
+        "desc": "Ny inom kryptohandel. Söker vägledning och automatiserad säkerhet."
+      },
+      "intermediate": {
+        "title": "Mellannivå",
+        "desc": "Bekant med marknadsdynamiken. Förstår grunderna i teknisk analys."
+      },
+      "advanced": {
+        "title": "Avancerad",
+        "desc": "Erfaren handlare. Söker djup optimering och avancerade verktyg."
+      }
+    },
+    "steps": {
+      "step1": {
+        "badge": "Steg 01",
+        "title": "Välj tillgångsklass",
+        "desc": "Välj den grundläggande tillgången för din investeringsstrategi. Aura AI optimerar ingångspunkter baserat på den valda tillgångens likviditet."
+      },
+      "step2": {
+        "badge": "Steg 02",
+        "title": "Välj riskprofil",
+        "desc": "Definiera driftsgränserna för AuraAI:s neurala motor. Ditt val kalibrerar volatilitetstolerans och målavkastningshastighet."
+      },
+      "step3": {
+        "badge": "Steg 03",
+        "title": "Definiera strategiparametrar",
+        "desc": "Ange din kapitalallokering och önskade investeringshorisont. Vår motor optimerar avkastningen baserat på din tidsram.",
+        "capital": "Startkapital",
+        "minText": "Minst 150",
+        "duration": "Målvaraktighet",
+        "days": "Dagar",
+        "estMonthly": "Beräknad månadsvis:",
+        "monthlyReturnRate": "Månatlig avkastningsgrad",
+        "riskTier": "Risknivå"
+      },
+      "step4": {
+        "badge": "Steg 04",
+        "title": "Välj investeringsmål",
+        "desc": "Vad är det primära målet för just denna strategi? Ditt val påverkar positionernas innehavstider och utgångsmål."
+      },
+      "step5": {
+        "badge": "Steg 05",
+        "title": "Handelserfarenhet",
+        "desc": "Välj den nivå som bäst beskriver din marknadskompetens. Aura AI anpassar sina riskvarningar och gränssnitt därefter."
+      },
+      "step6": {
+        "badge": "Steg 06",
+        "title": "Vinsthantering & anteckningar",
+        "desc": "Ange vinsthantering och extra begränsningar.",
+        "profitQuestion": "Hur ska vi hantera dina vinster?",
+        "options": {
+          "deposit": "Sätt in alla vinster på mitt konto",
+          "reinvest": "Reinvestera alla vinster automatiskt",
+          "split": "Dela vinster: 50% konto / 50% reinvestering"
+        },
+        "extraNotes": "Extra anteckningar (valfritt)",
+        "placeholder": "Eventuella begränsningar, mynt att undvika eller anpassade instruktioner..."
+      },
+      "step7": {
+        "badge": "Steg 07",
+        "title": "Slutlig strategigranskning",
+        "desc": "Granska dina autonoma strategiparametrar före aktivering. Aura AI startar utförandet omedelbart efter bekräftelse.",
+        "coreParameters": "Kärnparametrar",
+        "selectedAsset": "Vald tillgång",
+        "initialCapital": "Startkapital",
+        "timeHorizon": "Tidshorisont",
+        "riskObjective": "Risk & Mål",
+        "profile": "Profil",
+        "primaryGoal": "Primärt mål",
+        "riskTier": "Risknivå",
+        "executionRules": "Utföranderegler",
+        "mode": "Läge",
+        "profitDistribution": "Vinstfördelning",
+        "engineStatus": "Motorstatus",
+        "readyStatus": "Redo för driftsättning",
+        "customInstructions": "Anpassade instruktioner"
+      }
+    },
+    "animation": {
+      "strategyActive": "Strategi aktiv",
+      "optimizing": "Neural optimering pågår",
+      "stage0": "Aura AI analyserar din investeringsprofil...",
+      "stage1": "Bygger din strategi och förbereder ingångszoner...",
+      "stage2": "Tillämpar riskkontroller och positionsstorlekar...",
+      "stage3": "Din plan är klar. Positioner förbereds.",
+      "latency": "Latens",
+      "confidence": "Förtroende",
+      "riskBuffer": "Riskbuffert",
+      "enterTerminal": "Öppna terminal"
+    }
+  },
+  "privacy": {
+    "title": "Integritetspolicy",
+    "lastUpdated": "Senast uppdaterad: 2 maj 2026",
+    "sec1Title": "1. Datainsamling",
+    "sec1Desc": "Vi samlar endast in de data som är nödvändiga för att tillhandahålla våra AI-drivna insikter. Detta inkluderar din transaktionshistorik (om ansluten), portföljsaldon och grundläggande kontoinformation. Vi säljer inte dina personuppgifter till tredje part.",
+    "sec2Title": "2. Användning av information",
+    "sec2Desc": "Dina uppgifter används uteslutande för att träna våra AI-modeller på användarnivå för att tillhandahålla personliga investeringsstrategier och för att förbättra Aura Neural Engines övergripande noggrannhet.",
+    "sec3Title": "3. Säkerhetsåtgärder",
+    "sec3Desc": "Vi tillämpar branschstandardkryptering för all data i vila och under överföring. Tillgång till känsliga data är strikt begränsad till auktoriserade automatiserade system inom Aura-ekosystemet.",
+    "sec4Title": "4. Tredjepartsintegrationer",
+    "sec4Desc": "Aura integreras med olika blockkedjenätverk och API:er. Dessa tredje parter har sina egna integritetspolicyer, och vi rekommenderar att du granskar dem när du ansluter dina externa plånböcker.",
+    "sec5Title": "5. Dina rättigheter",
+    "sec5Desc": "Du har rätt att när som helst begära en kopia av dina uppgifter eller att de raderas. Behandlingen av sådana begäranden kan ta upp till 30 dagar och kan leda till att AI-drivna funktioner stängs av."
+  },
+  "terms": {
+    "title": "Användarvillkor",
+    "lastUpdated": "Senast uppdaterad: 2 maj 2026",
+    "sec1Title": "1. Godkännande av villkor",
+    "sec1Desc": "Genom att gå in på och använda Aura-plattformen (\"Tjänsten\") godkänner du att vara bunden av dessa användarvillkor. Om du inte godkänner dessa villkor, vänligen använd inte vår tjänst.",
+    "sec2Title": "2. Beskrivning av tjänsten",
+    "sec2Desc": "Aura tillhandahåller en AI-driven plattform för investeringsstöd. Vi tillhandahåller inte direkt finansiell rådgivning, och våra AI-genererade insikter är endast för informationssyfte. Alla investeringsbeslut förblir användarens eget ansvar.",
+    "sec3Title": "3. Användaransvar",
+    "sec3Desc": "Du är ansvarig för att upprätthålla säkerheten för ditt konto och eventuella API-nycklar som tillhandahålls tjänsten. Aura är inte ansvarig för förluster som uppstår till följd av obehörig åtkomst till ditt konto på grund av försumlighet från din sida.",
+    "sec4Title": "4. Riskavslöjande",
+    "sec4Desc": "Handel med kryptovalutor innebär betydande risker. Våra AI-verktyg är utformade för att hjälpa, men de kan inte garantera vinster eller förhindra förluster. Marknadsvolatilitet kan leda till total förlust av investerade medel.",
+    "sec5Title": "5. Ansvarsbegränsning",
+    "sec5Desc": "I den utsträckning det är tillåtet enligt lag ska Aura inte hållas ansvarig för några indirekta, oförutsedda, speciella eller följdskador som uppstår till följd av användningen eller oförmågan att använda tjänsten."
+  },
+  "blog": {
+    "title": "Aura-bloggen",
+    "subtitle": "Forskning & Nyheter",
+    "desc": "Strategiska insikter, teknisk forskning och marknadsanalys från framkanten av autonom finans.",
+    "readArticle": "Läs artikeln",
+    "stayAhead": "Håll dig steget före",
+    "newsletterDesc": "Få vår senaste forskning och institutionella analys levererad direkt till din inkorg.",
+    "emailPlaceholder": "Ange din e-postadress",
+    "subscribe": "Prenumerera",
+    "categories": {
+      "all": "Alla inlägg",
+      "tech": "Teknologi",
+      "market": "Marknadsanalys",
+      "strategy": "Strategi",
+      "economy": "Ekonomi",
+      "security": "Säkerhet",
+      "ai": "AI"
+    },
+    "posts": [
+      {
+        "id": 1,
+        "title": "Framtiden för autonom handel: Hur Aura AI leder vägen",
+        "excerpt": "Utforska utvecklingen av AI på finansmarknaderna och varför decentraliserad autonom handel är nästa naturliga steg för institutionella investerare.",
+        "category": "Teknologi",
+        "author": "Arif Can",
+        "date": "12 maj 2026",
+        "readTime": "8 min läsning"
+      },
+      {
+        "id": 2,
+        "title": "Förstå Layer 1-skalbarhet: SOL vs ETH vs BTC",
+        "excerpt": "En djupdykning i de tekniska skillnaderna mellan världens ledande L1-protokoll och vad de betyder för din portföljstrategi.",
+        "category": "Marknadsanalys",
+        "author": "Elena Rodriguez",
+        "date": "10 maj 2026",
+        "readTime": "12 min läsning"
+      },
+      {
+        "id": 3,
+        "title": "Maximera avkastningen på högvolatila marknader",
+        "excerpt": "Strategier för att utnyttja AI-drivna insikter för att skydda kapital och fånga uppgångar under perioder av extrem marknadsturbulens.",
+        "category": "Strategi",
+        "author": "Marcus Chen",
+        "date": "8 maj 2026",
+        "readTime": "6 min läsning"
+      },
+      {
+        "id": 4,
+        "title": "Inverkan av globala makrotrender på kryptotillgångar",
+        "excerpt": "Hur räntehöjningar och geopolitiska förändringar påverkar den långsiktiga adoptionskurvan för digitala valutor.",
+        "category": "Ekonomi",
+        "author": "Sarah Jenkins",
+        "date": "5 maj 2026",
+        "readTime": "10 min läsning"
+      },
+      {
+        "id": 5,
+        "title": "Säkerhetsrutiner för institutionellt förvar",
+        "excerpt": "Säkerställ att dina digitala tillgångar skyddas av bankklassade säkerhetsprotokoll samtidigt som du behåller omedelbar likviditet.",
+        "category": "Säkerhet",
+        "author": "James Wilson",
+        "date": "1 maj 2026",
+        "readTime": "7 min läsning"
+      },
+      {
+        "id": 6,
+        "title": "AI & Neurala nätverk: Kärnan i Auras intelligens",
+        "excerpt": "En teknisk sammanfattning av de maskininlärningsmodeller som driver vår autonoma beslutsbörda.",
+        "category": "AI",
+        "author": "Dr. Thomas Miller",
+        "date": "28 april 2026",
+        "readTime": "15 min läsning"
+      }
+    ]
+  },
+  "newsroom": {
+    "liveUpdates": "Live-uppdateringar",
+    "title": "Aura Nyhetsrum",
+    "desc": "Officiella uppdateringar, milstolpar för plattformen och institutionella meddelanden direkt från Aura AI-ekosystemet.",
+    "readStory": "Läs hela artikeln",
+    "noUpdates": "Inga uppdateringar hittades",
+    "noUpdatesDesc": "Återkom senare för officiella meddelanden.",
+    "notFound": "Nyheten hittades inte",
+    "notFoundDesc": "Artikeln du söker efter finns inte eller har tagits bort.",
+    "backToNewsroom": "Tillbaka till nyhetsrummet",
+    "shareArticle": "Dela artikel",
+    "sourceLink": "Källänk",
+    "allUpdates": "Alla uppdateringar"
+  },
+  "academy": {
+    "hero": {
+      "badge": "Aura kunskapscenter",
+      "title1": "Hantera AI inom",
+      "title2": "investeringar tillsammans",
+      "desc": "Bemästra konsten av AI-driven kapitalförvaltning. Från grundläggande neurala nätverk till avancerad riskprofilering – Aura Academy är din port till finansens framtid.",
+      "cta1": "Kom igång gratis",
+      "cta2": "Utforska kursplan"
+    },
+    "philosophy": {
+      "title": "Vår metod för att säkerställa säker och etisk AI-adoption",
+      "desc": "Vi anser att kraften i AI ska vara tillgänglig men kontrollerad. Vår kursplan fokuserar på tre kärnpelare: transparens i algoritmiskt beslutsfattande, riskreducering via neural feedback och långsiktigt kapitalbevarande.",
+      "secureTitle": "Säker",
+      "secureDesc": "Strikta tester på alla neurala strategier.",
+      "neuralTitle": "Neural",
+      "neuralDesc": "Nästa generations AI-modeller för marknadsanalys.",
+      "moduleTitle": "Teorin om automatiserad rikedom",
+      "moduleSubtitle": "Modul 01 • Introduktion"
+    },
+    "pillars": {
+      "p1Title": "Algoritmisk hastighet",
+      "p1Desc": "Förstå utförande i stor skala.",
+      "p2Title": "Social handel",
+      "p2Desc": "Inverkan av kollektiv AI-intelligens.",
+      "p3Title": "Globala marknader",
+      "p3Desc": "Navigera i dygnetrunthållna finansiella ekosystem.",
+      "p4Title": "Riskhantering",
+      "p4Desc": "Skydda kapital i volatila tider."
+    },
+    "resources": {
+      "title": "Utbildningsresurser",
+      "desc": "Djupdyk i våra whitepapers, guider och strategihandböcker sammanställda av Aura AI-forskare.",
+      "viewAll": "Visa alla resurser",
+      "videoLesson": "Videolektion",
+      "lessonTitle": "Hur neurala nätverk förutsäger marknadsvolatilitet",
+      "lessonDesc": "En 8-minuters masterclass om prisrörelsemodellering."
+    },
+    "cta": {
+      "title": "Redo att bemästra framtiden?",
+      "desc": "Gå med över 50 000 investerare som redan använder Aura AI för att förbättra sin finansiella läskunnighet.",
+      "button": "Skapa ditt studentkonto"
+    },
+    "footer": {
+      "copy": "© 2026 Aura AI Plattform • Kunskap är makt",
+      "link1": "Kursplan",
+      "link2": "Resurser",
+      "link3": "Partner"
+    }
+  },
+  "support": {
+    "title1": "Välkommen till",
+    "title2": "Aura supportcenter",
+    "searchPlaceholder": "Sök efter artiklar, guider eller problem...",
+    "selfService": "Självbetjäning",
+    "selfServiceItems": {
+      "resetPassword": {
+        "title": "Återställ lösenord",
+        "desc": "Återställ din huvudnyckel på ett säkert sätt"
+      },
+      "twoFactor": {
+        "title": "2FA-hantering",
+        "desc": "Aktivera eller inaktivera Authenticator"
+      },
+      "depositIssue": {
+        "title": "Problem med kryptoinsättning",
+        "desc": "Spåra obekräftade transaktioner"
+      },
+      "withdrawalStatus": {
+        "title": "Uttagsstatus",
+        "desc": "Kontrollera fastnade uttag"
+      },
+      "exportData": {
+        "title": "Exportera data",
+        "desc": "Ladda ner dina portföljrapporter"
+      },
+      "deviceManagement": {
+        "title": "Enhetshantering",
+        "desc": "Hantera auktoriserade sessioner"
+      }
+    },
+    "faqGuides": "FAQ & guider",
+    "topQuestions": "Vanliga frågor",
+    "faqList": [
+      {
+        "q": "Behöver jag identitetsverifiering (KYC)?",
+        "a": "För närvarande prioriterar Aura Wallet integritet. De flesta kärnfunktioner är tillgängliga utan KYC. Men för att få tillgång till högre uttagsgränser eller premium enterprise-funktioner kan verifiering krävas."
+      },
+      {
+        "q": "Hur sätter jag in krypto i min Aura-plånbok?",
+        "a": "Gå till sidan 'Sätt in' på din instrumentpanel, välj tillgång (t.ex. BTC, ETH, USDT) och nätverk. En unik plånboksadress och QR-kod genereras som du kan skicka medel till."
+      },
+      {
+        "q": "Varför är mitt uttag spärrat?",
+        "a": "Uttag kan tillfälligt spärras under 24 timmar efter ett lösenordsbyte, 2FA-återställning eller om vårt säkerhetssystem upptäcker ovanliga inloggningsmönster. Detta är för att skydda dina medel mot obehörig åtkomst."
+      },
+      {
+        "q": "Hur utför Aura AI handelsstrategier?",
+        "a": "Vår neurala motor analyserar marknadssentiment, sociala signaler och tekniska indikatorer i realtid på över 40 börser för att automatiskt utföra Long- eller Short-positioner med hög sannolikhet."
+      },
+      {
+        "q": "Vad händer om min strategi förlorar pengar?",
+        "a": "Om du förlorar pengar med AuraAI och din investeringsplan fortfarande är aktiv, kommer AuraAI att göra allt för att återhämta dessa förluster. Skulle du ändå uppleva en förlust kommer mellan 15% och 30% av förlusten (vid investeringar från 500 €) att återbetalas till dig som en del av Aura-skyddsprogrammet."
+      }
+    ],
+    "walletGuide": "Aura plånboksguide",
+    "guidesList": [
+      {
+        "q": "Vad är Aura Wallet?",
+        "a": "Aura är en nästa generations plånbok som är integrerad med en kraftfull AI-handelsmotor, vilket gör att du kan hantera tillgångar och öka din förmögenhet autonomt."
+      },
+      {
+        "q": "Följa prestanda",
+        "a": "Du kan se ROI, resultatkurvor och tillgångsfördelningar i realtid direkt på din 'Investeringspanel' med millisekunds noggrannhet."
+      },
+      {
+        "q": "AI-handelsloggar",
+        "a": "Varje affär som görs av AI:n loggas med ingångspris, utgångspris och motivering. Du kan se dessa i avsnittet 'Utförandeflöde'."
+      }
+    ],
+    "securityVerification": "Säkerhet & Verifiering",
+    "securityList": [
+      "Identitetsverifiering säkerställer hög säkerhet och låser upp premium-gränser.",
+      "Förlorat 2FA? Använd din återställningsnyckel eller kontakta supporten.",
+      "Aktivera anti-phishingkoder för att verifiera varje e-postmeddelande från Aura."
+    ],
+    "aiTutorial": "AI handelsguide",
+    "tutorialList": [
+      "Steg 1: Sätt in medel. Steg 2: Välj en riskprofil. Steg 3: Aura sköter resten.",
+      "Aggressiv: Hög avkastning, hög volatilitet. Tillväxt: Balanserad långsiktig tillväxt."
+    ],
+    "viewFullTutorial": "Visa hela guiden",
+    "needMoreSupport": "Behöver du mer support?",
+    "myTickets": "Mina supportärenden",
+    "myTicketsDesc": "Se dina tidigare konversationer eller öppna ett ärende för att få hjälp från vårt team dygnet runt.",
+    "viewTickets": "Visa ärenden",
+    "feedback": "Produktfeedback",
+    "feedbackDesc": "Hjälp oss att förbättra Aura Wallet. Dela dina idéer, förslag eller felrapporter.",
+    "shareFeedback": "Dela feedback",
+    "noResults": "Inga resultat för",
+    "noResultsDesc": "Försök att använda andra sökord eller kolla in våra FAQ-kategorier nedan.",
+    "clearSearch": "Rensa sökning"
+  },
+  "careers": {
+    "backHome": "Tillbaka till start",
+    "hiringBadge": "Vi anställer",
+    "heroTitle1": "Bygg framtiden för",
+    "heroTitle2": "autonom finans",
+    "heroDesc": "Gå med i ett världsklass-team av ingenjörer, formgivare och forskare som flyttar fram gränserna för AI-driven handel från Zürich, Schweiz.",
+    "perks": {
+      "health": {
+        "title": "Hälsa & välbefinnande",
+        "desc": "Förstklassig sjuk-, tand- och synvårdsförsäkring för dig och din familj."
+      },
+      "remote": {
+        "title": "Helt på distans",
+        "desc": "Arbeta var som helst i världen. Vi tror på resultat, inte fasta kontorstider."
+      },
+      "equity": {
+        "title": "Aktier & Tokens",
+        "desc": "Konkurrenskraftiga aktiepaket plus token-allokering i Aura-ekosystemet."
+      },
+      "learning": {
+        "title": "Utbildningsbudget",
+        "desc": "En årlig budget på 5 000 CHF för kurser, konferenser och certifieringar."
+      }
+    },
+    "positionsTitle": "Lediga tjänster",
+    "positionsDesc": "{count} lediga tjänster i vårt globala team",
+    "departments": {
+      "engineering": "Engineering",
+      "neural": "Neural Engine",
+      "infra": "Infrastruktur",
+      "design": "Design",
+      "marketing": "Marketing"
+    },
+    "locations": {
+      "eu": "Distans (EU-tidszon)",
+      "ch": "Zürich, CH / Distans",
+      "global": "Distans (Global)"
+    },
+    "types": {
+      "fullTime": "Heltid"
+    },
+    "openPositions": [
+      {
+        "title": "Senior Blockchain Engineer",
+        "department": "Engineering",
+        "location": "Distans (EU-tidszon)"
+      },
+      {
+        "title": "AI/ML Research Engineer",
+        "department": "Neural Engine",
+        "location": "Zürich, CH / Distans"
+      },
+      {
+        "title": "Security Engineer",
+        "department": "Infrastruktur",
+        "location": "Distans (Global)"
+      },
+      {
+        "title": "Product Designer",
+        "department": "Design",
+        "location": "Distans (EU-tidszon)"
+      },
+      {
+        "title": "Community & Growth Lead",
+        "department": "Marketing",
+        "location": "Distans (Global)"
+      }
+    ],
+    "noRole": {
+      "title": "Hittar du inte din roll?",
+      "desc": "Vi letar alltid efter exceptionella talanger. Skicka oss en spontanansökan och berätta hur du kan bidra till framtiden för autonom finans.",
+      "button": "Skicka spontanansökan"
+    }
+  }
+}

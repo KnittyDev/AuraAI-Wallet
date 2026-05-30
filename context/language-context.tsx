@@ -3,12 +3,16 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import en from "./en.json";
 import tr from "./tr.json";
+import de from "./de.json";
+import sv from "./sv.json";
 
-export type Language = "en" | "tr";
+export type Language = "en" | "tr" | "de" | "sv";
 
 const translations: Record<Language, any> = {
   en,
-  tr
+  tr,
+  de,
+  sv
 };
 
 type LanguageContextType = {
@@ -25,12 +29,15 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // Load language preference from local storage or browser language on mount
   useEffect(() => {
     const savedLang = localStorage.getItem("aura_language") as Language;
-    if (savedLang === "en" || savedLang === "tr") {
+    if (["en", "tr", "de", "sv"].includes(savedLang)) {
       setLanguageState(savedLang);
       document.documentElement.setAttribute("lang", savedLang);
     } else {
       const browserLang = navigator.language.split("-")[0];
-      const defaultLang: Language = browserLang === "tr" ? "tr" : "en";
+      let defaultLang: Language = "en";
+      if (browserLang === "tr") defaultLang = "tr";
+      else if (browserLang === "de") defaultLang = "de";
+      else if (browserLang === "sv") defaultLang = "sv";
       setLanguageState(defaultLang);
       document.documentElement.setAttribute("lang", defaultLang);
     }

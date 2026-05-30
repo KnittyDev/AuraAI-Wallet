@@ -2,24 +2,45 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { LuChevronDown, LuExternalLink, LuBookOpen, LuCpu, LuUsers, LuZap } from "react-icons/lu";
+import { LuChevronDown, LuExternalLink, LuBookOpen, LuCpu, LuUsers, LuZap, LuGlobe, LuCheck } from "react-icons/lu";
 import auralogo from "@/app/auralogo.png";
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
 import { useLanguage } from "@/context/language-context";
+
+const LANGUAGES = [
+  { code: "en" as const, name: "English", flag: "🇺🇸" },
+  { code: "tr" as const, name: "Türkçe", flag: "🇹🇷" },
+  { code: "de" as const, name: "Deutsch", flag: "🇩🇪" },
+  { code: "sv" as const, name: "Svenska", flag: "🇸🇪" },
+] as const;
 
 export function LandingHeader() {
   const { language, setLanguage, t } = useLanguage();
   const [isResourcesOpen, setIsResourcesOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [isLangOpen, setIsLangOpen] = useState(false);
+  const langRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user);
     });
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (langRef.current && !langRef.current.contains(event.target as Node)) {
+        setIsLangOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const navLinks = [
@@ -121,16 +142,59 @@ export function LandingHeader() {
       </div>
 
       <div className="flex items-center gap-4">
-        {/* Sleek Minimialist Language Selector */}
-        <button
-          onClick={() => setLanguage(language === "en" ? "tr" : "en")}
-          className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-bold tracking-wider text-white transition hover:bg-white/10 flex items-center gap-1 cursor-pointer select-none"
-          aria-label="Switch Language"
-        >
-          <span className={language === "en" ? "text-white" : "text-white/40"}>EN</span>
-          <span className="text-white/10">/</span>
-          <span className={language === "tr" ? "text-white" : "text-white/40"}>TR</span>
-        </button>
+        {/* Modern Glassmorphic Language Selector Dropdown */}
+        <div className="relative" ref={langRef}>
+          <button
+            onClick={() => setIsLangOpen(!isLangOpen)}
+            className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-bold tracking-wider text-white hover:text-white transition hover:bg-white/10 hover:border-white/20 flex items-center gap-1.5 cursor-pointer select-none active:scale-95"
+            aria-label="Select Language"
+            aria-expanded={isLangOpen}
+          >
+            <LuGlobe className="h-3.5 w-3.5 text-white/60" />
+            <span className="uppercase">
+              {language}
+            </span>
+            <LuChevronDown className={`h-3 w-3 text-white/40 transition-transform duration-300 ${isLangOpen ? "rotate-180" : ""}`} />
+          </button>
+
+          <AnimatePresence>
+            {isLangOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+                className="absolute right-0 mt-2 w-32 rounded-2xl border border-white/10 bg-black/90 p-1.5 backdrop-blur-2xl shadow-2xl z-50 flex flex-col gap-0.5"
+              >
+                {LANGUAGES.map((lang) => {
+                  const isSelected = language === lang.code;
+                  return (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        setLanguage(lang.code);
+                        setIsLangOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-[10px] font-bold tracking-wider uppercase transition-all cursor-pointer ${
+                        isSelected 
+                          ? "bg-white/10 text-white" 
+                          : "text-white/60 hover:text-white hover:bg-white/5"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm select-none">{lang.flag}</span>
+                        <span>{lang.name}</span>
+                      </div>
+                      {isSelected && (
+                        <LuCheck className="h-3 w-3 text-cyan-400" />
+                      )}
+                    </button>
+                  );
+                })}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         <div className="hidden lg:flex items-center gap-2">
           <Link

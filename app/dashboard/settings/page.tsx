@@ -30,7 +30,7 @@ import { supabase } from "@/lib/supabase";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import auraLogo from "@/app/auralogo.png";
-import { useLanguage } from "@/context/language-context";
+import { useLanguage, Language } from "@/context/language-context";
 
 interface SettingCardProps {
   label: string;
@@ -593,11 +593,13 @@ export default function SettingsPage() {
                     </label>
                     <select 
                       value={language}
-                      onChange={(e) => setLanguage(e.target.value as "en" | "tr")}
+                      onChange={(e) => setLanguage(e.target.value as Language)}
                       className="w-full bg-black/60 border border-white/5 rounded-2xl px-5 py-4 text-sm font-bold text-white outline-none focus:border-white/20 transition-all appearance-none cursor-pointer"
                     >
                       <option value="en">English (US)</option>
                       <option value="tr">Türkçe (TR)</option>
+                      <option value="de">Deutsch (DE)</option>
+                      <option value="sv">Svenska (SE)</option>
                     </select>
                   </div>
                 </div>

@@ -1,0 +1,1235 @@
+{
+  "header": {
+    "pricing": "Preise",
+    "features": "Funktionen",
+    "results": "Ergebnisse",
+    "caseStudies": "Fallstudien",
+    "faq": "FAQ",
+    "resources": "Ressourcen",
+    "insights": "Analysen",
+    "learn": "Lernen",
+    "blog": "Blog",
+    "stories": "Kundenberichte",
+    "storiesSoon": "Bald",
+    "news": "Aura News",
+    "academy": "Akademie",
+    "support": "Hilfe-Center",
+    "tutorials": "Anleitungen",
+    "careers": "Karriere",
+    "contactSales": "Vertrieb kontaktieren",
+    "tryNow": "Jetzt starten",
+    "dashboard": "Dashboard"
+  },
+  "dashboard": {
+    "overview": "Übersicht",
+    "wallet": "Mein Wallet",
+    "marketData": "Marktdaten",
+    "investments": "Investitionen",
+    "transactions": "Transaktionen",
+    "performance": "Leistung",
+    "askAi": "Frag AI",
+    "settings": "Einstellungen",
+    "logout": "Abmelden",
+    "netWorth": "Gesamtnettovermögen",
+    "adminPanel": "Admin-Bereich"
+  },
+  "dashboardHome": {
+    "title": "Investment-Dashboard",
+    "subtitle": "Verfolgen Sie Ihren Portfoliowert, Ihre Renditen und AI-Handelsaktivitäten an einem Ort.",
+    "deposit": "Einzahlen",
+    "newInvestment": "Neue Investition",
+    "totalCapital": "Gesamt investiertes Kapital",
+    "yield24h": "24h Rendite",
+    "netProfit": "Nettogewinn",
+    "allTimeEarnings": "AuraAI-Gewinne insgesamt",
+    "availableUsdt": "Verfügbares USDT",
+    "readyPositions": "Bereit für neue Positionen",
+    "activeStrategies": "Aktive Investmentstrategien",
+    "strategiesSubtitle": "Echtzeit-Performance Ihrer KI-verwalteten Portfolios.",
+    "liveEngine": "AuraAI Live-Engine",
+    "scanning": "Suche nach aktiven Strategien...",
+    "activateAura": "Starten Sie Ihre erste Investition, um AuraAI zu aktivieren",
+    "strategyAsset": "Strategie-Asset",
+    "risk": "Risiko",
+    "plan": "Plan",
+    "initialCapital": "Startkapital",
+    "assetVol": "Asset-Volumen",
+    "currentValue": "Aktueller Wert",
+    "netProfitUsdt": "Nettogewinn (USDT)",
+    "yieldHeader": "Rendite",
+    "ai24h": "24h KI",
+    "days": "Tage",
+    "netVolume": "NETTOVOLUMEN",
+    "risks": {
+      "aggressive": "Aggressiv",
+      "growth": "Wachstum",
+      "balanced": "Ausgewogen"
+    }
+  },
+  "hero": {
+    "eyebrow": "Claude Opus 4.7 — Max",
+    "title1": "Lassen Sie KI Ihr ",
+    "title2": "Portfolio verwalten",
+    "subtitle": "Aura AI analysiert kontinuierlich Märkte, verwaltet Risiken und führt Trades aus – so arbeitet Ihr Portfolio weiter, auch wenn Sie es nicht tun.",
+    "ctaDashboard": "Zum Dashboard",
+    "ctaStart": "Kostenlos starten",
+    "ctaTalk": "Kontakt aufnehmen"
+  },
+  "prompt": {
+    "assetsManaged": "Verwaltetes Vermögen",
+    "uptime": "Betriebszeit",
+    "avgResponse": "Durchschn. Antwort",
+    "ticker": "Aura AI führt Live-Strategien aus"
+  },
+  "marquee": {
+    "title": "Vertraut von institutionellen Partnern & Krypto-Apps"
+  },
+  "pricing": {
+    "title": "Preise",
+    "free": {
+      "name": "Kostenlos",
+      "price": "$0",
+      "description": "Ein begrenztes, aber leistungsstarkes automatisiertes Portfolio-Erlebnis für neue Benutzer.",
+      "features": [
+        "Opus 4.6 AI Modell",
+        "5 automatisierte Trades pro Tag",
+        "1 verwaltetes Portfolio",
+        "Grundlegende wöchentliche Performance-Berichte",
+        "Grundlegende Kauf-/Verkaufsvorschläge",
+        "Automatisierter Ablauf nach allgemeinen Strategien",
+        "1 Auszahlung alle 3 Tage",
+        "Und mehr"
+      ],
+      "cta": "Kostenlos starten"
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "$15 / 3 Monate",
+      "description": "Vollständig autonomer Modus: KI verwaltet Trades rund um die Uhr. Abrechnung alle 3 Monate.",
+      "features": [
+        "Opus 4.7 Max AI Modell",
+        "Kapitalschutz: 15% Verlustrückerstattung",
+        "Unbegrenzte automatisierte Trades",
+        "Unbegrenzte Portfolio-Verwaltung",
+        "Sofortige Auszahlungen",
+        "Tägliche und wöchentliche Performance-Berichte",
+        "Auto-Verkauf / Auto-Kauf",
+        "Rund um die Uhr autonome Trade-Ausführung und -Verwaltung",
+        "Vollständig autonome Portfolio-Operationen",
+        "Und mehr"
+      ],
+      "cta": "Auf Pro upgraden"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "price": "Individuell",
+      "description": "Speziell für Investmentgeschäfte von Unternehmen mit geschützten Kapitalstrukturen entwickelt.",
+      "features": [
+        "Modell nur für Unternehmen",
+        "Sicherheitsleistung / Garantie-Sicherheiten-Setup",
+        "Teilweise Verlustrückerstattung an das Unternehmen",
+        "Individuelle Kapitalschutzbedingungen",
+        "Risikoüberwachung auf Unternehmensebene",
+        "Engagierter Investment-Support"
+      ],
+      "cta": "Vertrieb kontaktieren"
+    }
+  },
+  "features": {
+    "prediction": {
+      "title": "Einfach zu bedienen",
+      "description": "Selbst wenn Sie keine Kenntnisse über Trading, Kryptowährungen oder den Aktienmarkt haben, wickelt das Aura Opus 4.7 Modell alle Ihre Trades vollständig autonom ab!",
+      "button": "Trading starten",
+      "status": "Systemstatus",
+      "trading": "Autonomes Trading",
+      "active": "Modell: Aktiv",
+      "standby": "Modell: Standby",
+      "profit": "Gesamtgewinn",
+      "live": "Global Live"
+    },
+    "ai": {
+      "title": "Handeln mit KI",
+      "description": "Nutzen Sie modellgestützte Portfolio-Ideen und verwandeln Sie diese mit einem einzigen Prompt sofort in umsetzbare Handelslogik.",
+      "button": "Strategie generieren",
+      "strategy": "Wachstumsstrategie"
+    },
+    "sleep": {
+      "title": "Lassen Sie es laufen, während Sie schlafen",
+      "description": "Während Sie schlafen, führt Aura autonom Trades basierend auf Ihrer konfigurierten Strategie aus und sendet Ihnen Echtzeit-Benachrichtigungen.",
+      "button": "Jetzt automatisieren",
+      "success": "Ausführung erfolgreich",
+      "mode": "Aura Autonomer Modus",
+      "profit": "Realisierter Gewinn"
+    },
+    "risk": {
+      "title": "Geringes Risiko Hohe Renditen",
+      "description": "Aura überwacht das Marktrisiko und passt das Trading automatisch an oder pausiert es, um Ihr Kapital zu schützen und die Rendite zu maximieren.",
+      "button": "Performance anzeigen",
+      "guard": "Risikoschutz Aktiv",
+      "stability": "Systemstabilität"
+    }
+  },
+  "results": {
+    "title": "Echte Ergebnisse",
+    "disclaimer": "*Illustrative 30-Tage-Schätzung basierend auf historischen Strategie-Benchmarks. (Opus 4.7 Modell)",
+    "invest": "Sie investieren in 1 Monat",
+    "auraEarn": "Sie verdienen mit Aura AI Wallet*",
+    "manualEarn": "Sie verdienen mit manuellem Trading",
+    "monthlyInvested": "Monatlich investiert",
+    "profitDifference": "Gewinnunterschied",
+    "monthlyProfitUsd": "Monatlicher Gewinn (USD)",
+    "manualLabel": "Manuell",
+    "auraLabel": "Aura AI"
+  },
+  "benchmark": {
+    "title": "AI Benchmark",
+    "topModel": "Top-Modell",
+    "scoreLead": "Punkte-Vorsprung",
+    "compositeDesc": "*Gesamtwertung aus über 10.000 Live-Krypto-Szenarien. BTC, ETH, SOL Paare. Mai 2026.",
+    "compositeIndex": "Gesamtindex",
+    "accuracy": "Vorhersagegenauigkeit",
+    "liveMarkets": "Live-Kryptomärkte",
+    "latency": "Ausführungslatenz",
+    "edgeRuntime": "Edge-Laufzeit",
+    "sharpe": "Sharpe-Ratio",
+    "riskReturns": "Risikobereinigte Renditen",
+    "financialScore": "Finanzielle Intelligenz-Wertung"
+  },
+  "caseStudies": {
+    "eyebrow": "Bewährte Ergebnisse",
+    "title": "Fallstudien",
+    "subtitle": "Echte Portfolio-Teams, die Aura zur Optimierung autonomer Handelsgeschäfte in der Produktion einsetzen.",
+    "readFull": "Vollständige Fallstudie lesen",
+    "tags": {
+      "growth": "Wachstum",
+      "risk": "Risiko",
+      "efficiency": "Effizienz"
+    },
+    "roles": {
+      "grayscale": "Chief Investment Officer",
+      "solidchain": "CEO",
+      "customer": "Lehrer"
+    },
+    "resultLabels": {
+      "grayscale": "Quartalsweises Gewinnwachstum",
+      "solidchain": "Geringerer maximaler Drawdown",
+      "customer": "Schnellere Rebalancing-Zyklen"
+    },
+    "quotes": {
+      "grayscale": "Wir sind von manuellen Spot-Entscheidungen zu vollständig automatisierten Strategieläufen übergegangen. Aura erledigt das, was früher unser 6-köpfiges Trading-Desk getan hat.",
+      "solidchain": "Die Kapitalschutzfunktion von Aura ist eines der besten Systeme, die wir je gesehen haben; als Krypto-Investor habe ich einen Gewinn von 30 % auf die investierten Mittel erzielt.",
+      "customer": "Ich hatte immer Angst, in Krypto zu investieren, weil ich befürchtete, mein Geld zu verlieren, aber AuraAI hat mir das Vertrauen gegeben, anzufangen."
+    }
+  },
+  "faq": {
+    "title": "Fragen?",
+    "subtitle": "Alles, was Sie vor dem Start wissen müssen.",
+    "items": [
+      {
+        "question": "Was genau ist Aura AI?",
+        "answer": "Aura ist eine KI-native Plattform für autonomes Trading und Portfoliomanagement. Sie nutzt fortschrittliche Sprachmodelle und Echtzeit-Marktdaten, um komplexe Investmentstrategien auszuführen, Risiken zu verwalten und Ihre Krypto-Bestände ohne manuelles Eingreifen zu optimieren."
+      },
+      {
+        "question": "Wie trifft die KI ihre Handelsentscheidungen?",
+        "answer": "Aura AI nutzt das Claude Opus 4.7-Modell und setzt fortschrittliche künstliche Intelligenz ein, die speziell für die Bereiche Investitionen und Kryptowährungen trainiert wurde. Das System analysiert kontinuierlich Echtzeit-Nachrichten, soziale Stimmungen, On-Chain-Daten und Live-Markt-Feeds. Es führt Trades autonom auf Basis dieser Signale aus, um die Performance entsprechend Ihrem Risikoprofil zu optimieren."
+      },
+      {
+        "question": "Ist mein Kapital bei Aura sicher?",
+        "answer": "Sicherheit hat für uns oberste Priorität. Aura verwendet Verschlüsselung auf Bankenniveau für alle Daten- und API-Verbindungen. Wir haben niemals direkten Zugriff auf Auszahlungen von Ihren angebundenen Börsen; das System verfügt nur über Handels- und Ansichtsrechte. Darüber hinaus nutzen wir Multi-Sig-Cold-Storage für Vermögenswerte innerhalb des Aura-Ökosystems."
+      },
+      {
+        "question": "Welche Vermögenswerte und Börsen werden unterstützt?",
+        "answer": "Aura unterstützt derzeit alle wichtigen Kryptowährungen wie BTC, ETH, SOL und USDT. Wir bieten eine nahtlose Integration mit führenden Börsen wie Binance, Coinbase und Kraken sowie eine direkte On-Chain-Ausführung für dezentrale Protokolle."
+      },
+      {
+        "question": "Wie unterscheidet sich der Pro-Plan vom Free-Plan?",
+        "answer": "Während der Free-Plan Ihnen ermöglicht, grundlegendes Portfolio-Tracking und manuelle KI-Vorschläge auszuprobieren, schaltet der Pro-Plan ($15/Monat) vollautonomes Trading rund um die Uhr, sofortige Auszahlungen, erweiterte Risikogrenzen und priorisierte Ausführung für alle Strategien frei."
+      },
+      {
+        "question": "Wie geht Aura mit extremer Marktvolatilität um?",
+        "answer": "Aura verfügt über neuronale Risikoschutzsysteme, die den Markt rund um die Uhr überwachen. Im Falle eines Flash-Crashs oder extremer Volatilität kann die KI Vermögenswerte automatisch in Stablecoins umschichten, Stop-Losses verengen oder Positionen absichern, um Ihr Kapital vor größeren Verlusten zu schützen."
+      },
+      {
+        "question": "Gibt es versteckte Gebühren pro Trade?",
+        "answer": "Nein. Aura erhebt keine prozentualen Provisionen oder versteckten Spreads auf Ihre Trades. Sie zahlen lediglich Ihre monatliche Abonnementsgebühr (falls Sie Pro nutzen) und die Standard-Transaktionsgebühren der jeweiligen Börsen oder Blockchain-Netzwerke."
+      },
+      {
+        "question": "Kann ich mein Abonnement jederzeit kündigen?",
+        "answer": "Ja. Sie können Ihr Pro-Abonnement jederzeit mit einem einzigen Klick kündigen oder herabstufen. Es gibt keine langfristigen Verträge oder Kündigungsgebühren."
+      },
+      {
+        "question": "Warum gibt es eine monatliche Abonnementsgebühr?",
+        "answer": "Der Betrieb einer otonomen KI rund um die Uhr erfordert erhebliche Rechenressourcen. Ihr Abonnement deckt direkt die hohen Kosten für Claude Opus 4.7 Token (die Aura bei der Datenanalyse verbraucht), hochfrequente Marktdaten-Feeds und die sichere Cloud-Infrastruktur, die für eine Ausführung im Millisekundenbereich erforderlich ist."
+      },
+      {
+        "question": "Ist eine manuelle Genehmigung für Einzahlungen oder Auszahlungen erforderlich?",
+        "answer": "Absolut nicht. Wenn Sie ein Konto erstellen, werden Ihre Krypto-Wallets automatisch generiert. Ein- und Auszahlungen werden vom System und der Blockchain vollautomatisch über diese dedizierten Wallets abgewickelt, was eine nahtlose und vollständig autonome Erfahrung garantiert."
+      }
+    ]
+  },
+  "footer": {
+    "product": "Produkt",
+    "company": "Unternehmen",
+    "legal": "Rechtliches",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "privacy": "Datenschutz",
+    "terms": "AGB",
+    "status": "Systemstatus",
+    "rights": "Aura. Alle Rechte vorbehalten.",
+    "desc": "Autonome Portfolio-Intelligenz mit ständiger Ausführung und klaren Performance-Einblicken.",
+    "binance": "Binance-Infrastruktur",
+    "swissEng": "Entwickelt in der Schweiz",
+    "swissQuality": "Schweizer Qualität & Präzision",
+    "euCompliant": "Konform mit EU-Standards",
+    "euPlatform": "EU-konforme Plattform"
+  },
+  "auth": {
+    "login": {
+      "title1": "Schnell investieren, ",
+      "title2": "schneller wachsen.",
+      "subtitle": "Im Chat analysieren, mit Aura investieren. Die Intelligenz-Engine für moderne Portfolios.",
+      "google": "Weiter mit Google",
+      "or": "ODER",
+      "emailPlaceholder": "E-Mail-Adresse eingeben",
+      "passwordPlaceholder": "Passwort eingeben",
+      "submit": "Weiter mit E-Mail",
+      "submitting": "Anmeldung läuft...",
+      "policy": "Mit dem Fortfahren akzeptieren Sie Auras ",
+      "policyLink": "Datenschutzrichtlinie",
+      "policyEnd": ".",
+      "noAccount": "Noch kein Konto? ",
+      "createOne": "Konto erstellen",
+      "downloadApp": "Desktop-App herunterladen",
+      "twoFactor": {
+        "title": "Zwei-Faktor-Verifizierung",
+        "subtitle": "Geben Sie den 6-stelligen Code aus Ihrer Authentikator-App ein, um fortzufahren.",
+        "refresh": "Code wird alle 30 Sekunden aktualisiert",
+        "submit": "Verifizieren & Fortfahren",
+        "submitting": "Verifizierung...",
+        "cancel": "Anmeldung abbrechen",
+        "invalidCode": "Ungültiger Code. Bitte versuchen Sie es erneut."
+      }
+    },
+    "register": {
+      "title1": "Tritt der Zukunft bei, ",
+      "title2": "starte heute.",
+      "subtitle": "Erstellen Sie Ihr Konto und lassen Sie Aura Ihr Portfolio auf institutionellem Niveau verwalten.",
+      "google": "Registrieren mit Google",
+      "or": "ODER",
+      "fullName": "Vollständiger Name",
+      "username": "Öffentlicher Benutzername",
+      "anonymous": "Ich möchte ein anonymer Investor sein",
+      "emailAddress": "E-Mail-Adresse",
+      "createPassword": "Passwort erstellen",
+      "strength": {
+        "weak": "Schwaches Passwort",
+        "fair": "Mittlere Sicherheit",
+        "good": "Gutes Passwort",
+        "strong": "Stark / Sicher"
+      },
+      "submit": "Konto erstellen",
+      "submitting": "Konto wird erstellt...",
+      "policy": "Mit der Registrierung akzeptieren Sie Auras ",
+      "policyLink1": "Datenschutzrichtlinie",
+      "policyAnd": " und ",
+      "policyLink2": "AGB",
+      "policyEnd": ".",
+      "alreadyAccount": "Haben Sie bereits ein Konto? ",
+      "signIn": "Anmelden",
+      "downloadApp": "Desktop-App herunterladen"
+    }
+  },
+  "sales": {
+    "title1": "Heben Sie Ihr ",
+    "title2": "Kapitalmanagement an.",
+    "subtitle": "Die institutionelle Infrastruktur von Aura bietet die Sicherheit, Liquidität und KI-gestützten Erkenntnisse, die für ein modernes Asset Management erforderlich sind. Kontaktieren Sie unser Team, um maßgeschneiderte Lösungen zu besprechen.",
+    "securityTitle": "Sicherheit auf Bankniveau",
+    "securityDesc": "Multi-Sig-Verwahrung und institutionelle Compliance-Standards.",
+    "liquidityTitle": "Globale Liquidität",
+    "liquidityDesc": "Tiefe Orderbücher bei über 50 großen Liquiditätsanbietern.",
+    "strategiesTitle": "Maßgeschneiderte Strategien",
+    "strategiesDesc": "Auf Ihre spezifischen Risiko- und Renditevorgaben abgestimmte KI-Modelle.",
+    "apiTitle": "Skalierbare API",
+    "apiDesc": "Hochdurchsatz-Infrastruktur für automatisierten Hochfrequenzhandel.",
+    "formTitle": "Vertriebsteam kontaktieren",
+    "fullName": "Vollständiger Name",
+    "organization": "Organisation",
+    "businessEmail": "Geschäftliche E-Mail",
+    "expectedAum": "Erwartetes AUM",
+    "howHelp": "Wie können wir Ihnen helfen?",
+    "helpPlaceholder": "Teilen Sie uns Ihre Anforderungen mit...",
+    "submit": "Anfrage senden",
+    "policy": "Durch Absenden dieses Formulars stimmen Sie unseren ",
+    "termsLink": "Nutzungsbedingungen",
+    "policyAnd": " und ",
+    "privacyLink": "Datenschutzbestimmungen",
+    "policyEnd": " zu.",
+    "trusted": "Vertraut von weltweit führenden Finanzhäusern",
+    "successMessage": "Vielen Dank! Ihre Anfrage ist eingegangen. Unser Vertriebsteam wird sich in Kürze mit Ihnen in Verbindung setzen.",
+    "errorMessage": "Fehler beim Senden der Anfrage. Bitte versuchen Sie es später noch einmal.",
+    "validationError": "Bitte füllen Sie alle erforderlichen Felder aus."
+  },
+  "wallet": {
+    "title": "Mein Wallet",
+    "subtitle": "Verwalten Sie Ihre Vermögenswerte und Liquidität sicher.",
+    "deposit": "Einzahlen",
+    "withdraw": "Auszahlen",
+    "totalNetWorth": "Gesamtnettovermögen",
+    "available": "Verfügbar",
+    "inStrategies": "In Strategien",
+    "assetBreakdown": "Asset-Aufteilung",
+    "convertAssets": "Assets konvertieren",
+    "specialOffer": "Besonderes Angebot",
+    "comingSoon": "Demnächst",
+    "cardTitle": "Aura Elite \nKrypto-Bankkarte",
+    "cardSubtitle": "Geben Sie Ihre Kryptowährungen weltweit aus. 0% Gebühren, 3% Cashback.",
+    "cardElite": "Elite",
+    "cardPlatinum": "Aura Platinum",
+    "discoverCard": "Entdecke die Karte",
+    "recentActivity": "Letzte Aktivitäten",
+    "viewAll": "Alle anzeigen",
+    "noRecentActivity": "Keine letzten Aktivitäten gefunden.",
+    "dateLabel": "Datum",
+    "transactionHeader": "Transaktion",
+    "assetHeader": "Asset",
+    "amountHeader": "Betrag",
+    "dateHeader": "Datum",
+    "statusHeader": "Status",
+    "principalReturn": "Kapitalrückzahlung",
+    "strategyProfit": "Strategiegewinn",
+    "planLabel": "Plan",
+    "typeDeposit": "Einzahlung",
+    "typeWithdrawal": "Auszahlung",
+    "typeProfit": "Gewinn",
+    "typeInvestment": "Investition",
+    "statusCompleted": "Abgeschlossen",
+    "statusProcessing": "In Bearbeitung"
+  },
+  "marketData": {
+    "title": "Marktdaten",
+    "subtitle": "Sehen Sie sich Krypto-Marktcharts in Echtzeit an, bereitgestellt von TradingView.",
+    "neuralLink": "Greife auf Neural Link zu...",
+    "openPositions": "Aktive Live-Positionen",
+    "executionFeed": "Echtzeit-Ausführungs-Feed der AuraAI Neural Engine.",
+    "scanningEntries": "Suche nach Einstiegspunkten mit hoher Wahrscheinlichkeit...",
+    "monitoring": "AuraAI überwacht die Märkte",
+    "pairHeader": "Paar",
+    "sideHeader": "Richtung",
+    "entryPriceHeader": "Einstiegspreis",
+    "currentPriceHeader": "Aktueller Preis",
+    "timeHeader": "Zeit",
+    "strategyLogicHeader": "Strategielogik",
+    "long": "Long",
+    "short": "Short",
+    "bullishTrendDivergence": "Bullische Trenddivergenz erkannt",
+    "overboughtRejection": "Überkauft-Ablehnungssignal bestätigt",
+    "bullishTrendMobile": "Bullische Trenddivergenz",
+    "overboughtRejectionMobile": "Überkauft-Ablehnung",
+    "marketUpdates": "Globale Markt-Updates",
+    "readFullStory": "Ganzen Artikel lesen"
+  },
+  "investments": {
+    "title": "Investitionen",
+    "subtitle": "Live-Übersicht Ihres Portfolios, Ihrer Allokationen und KI-verwalteten Positionen.",
+    "deposit": "Einzahlen",
+    "newInvestment": "Neue Investition",
+    "loading": "Lade...",
+    "activeStrategies": "Aktive Strategien",
+    "completedStrategies": "Abgeschlossene Strategien",
+    "liveEngine": "Live-Engine",
+    "engineOffline": "Engine Offline",
+    "noActiveStrategies": "Keine aktiven KI-Investmentstrategien gefunden.",
+    "daysSuffix": "Tage",
+    "yieldSuffix": "Rendite",
+    "details": "Details",
+    "viewingLogs": "Protokolle anzeigen",
+    "viewLogs": "Protokolle anzeigen",
+    "executionFeedTitle": "Strategie-Ausführungs-Feed",
+    "exportPdf": "PDF exportieren",
+    "closeFeed": "Feed schließen",
+    "neuralLinkLoading": "Greife auf AuraAI Neural Link zu...",
+    "completed": "Abgeschlossen",
+    "finalReturn": "Finale Rendite",
+    "stats": {
+      "totalCapital": "Gesamtkapital",
+      "totalCapitalNote": "In Strategien investiert",
+      "totalNetProfit": "Gesamtnettogewinn",
+      "totalNetProfitNote": "Realisierte Gewinne",
+      "activeStrategies": "Aktive Strategien",
+      "activeStrategiesNote": "Aktuell von KI verwaltet",
+      "aiEngine": "KI-Engine",
+      "aiEngineNote": "Online & Scannend"
+    },
+    "headers": {
+      "asset": "Asset",
+      "capital": "Kapital",
+      "netProfit": "Nettogewinn",
+      "aiPnl24h": "24h KI G&V",
+      "duration": "Dauer",
+      "risk": "Risiko",
+      "actions": "Aktionen",
+      "finalNetProfit": "Finaler Nettogewinn",
+      "totalYield": "Gesamtrendite",
+      "status": "Status"
+    },
+    "modal": {
+      "title": "Strategiedetails",
+      "startDate": "Startdatum",
+      "maturityDate": "Fälligkeitsdatum",
+      "capitalAllocation": "Kapitalallokation",
+      "entryPrice": "Einstiegspreis",
+      "riskProfile": "Risikoprofil",
+      "executionStatus": "Ausführungsstatus",
+      "understood": "Verstanden"
+    },
+    "pdf": {
+      "terminal": "AURA TERMINAL",
+      "reportTitle": "Investment-Strategiebericht",
+      "generated": "Generiert am",
+      "summaryTitle": "Strategiezusammenfassung",
+      "disclaimerLine1": "Hinweis: Im Falle eines Gesamtverlusts der Strategie werden dem Benutzer 15 % des Verlusts zurückerstattet",
+      "disclaimerLine2": "als Teil des Aura-Schutzprogramms.",
+      "executionLogTitle": "Ausführungsprotokoll",
+      "footerText": "Aura Investment Terminal",
+      "pageText": "Seite",
+      "summaryHeaders": {
+        "asset": "Asset",
+        "capital": "Kapital",
+        "assetQuantity": "Asset-Menge",
+        "netProfit": "Nettogewinn",
+        "duration": "Dauer",
+        "riskProfile": "Risikoprofil",
+        "status": "Status"
+      },
+      "logHeaders": {
+        "date": "Datum",
+        "type": "Typ",
+        "asset": "Asset",
+        "entry": "Einstieg",
+        "exit": "Ausstieg",
+        "pnl": "G&V",
+        "status": "Status"
+      }
+    }
+  },
+  "actionLog": {
+    "title": "AuraAI-Engine-Protokoll",
+    "subtitle": "Autonomer Ausführungsstream",
+    "liveMonitoring": "Live-Überwachung",
+    "monitoring": "Überwachung...",
+    "activePosition": "Aktive Position",
+    "strategyComplete": "Strategie abgeschlossen",
+    "scanningMarkets": "Märkte nach Gelegenheiten scannen...",
+    "engineVersion": "Engine-Version: 2.4.0-AuraAI mit Claude Opus 4.7 Max"
+  },
+  "transactions": {
+    "title": "Transaktionen",
+    "subtitle": "Überwachen Sie alle Einzahlungen, Auszahlungen und Strategieergebnisse.",
+    "searchPlaceholder": "Suche nach Assets, Typ oder Hash...",
+    "filtersBtn": "Filter",
+    "typeTrade": "Handel",
+    "typeRebalance": "Umschichtung",
+    "statusFailed": "Fehlgeschlagen",
+    "filters": {
+      "type": "Typ",
+      "allTypes": "Alle Typen",
+      "status": "Status",
+      "allStatuses": "Alle Status",
+      "dateRange": "Zeitraum",
+      "allTime": "Gesamte Zeit",
+      "last24h": "Letzte 24 Stunden",
+      "last7d": "Letzte 7 Tage",
+      "last30d": "Letzte 30 Tage"
+    },
+    "headers": {
+      "activity": "Aktivität",
+      "hash": "Hash"
+    },
+    "mobile": {
+      "txIdLabel": "TxID / Hash"
+    },
+    "locked": {
+      "title": "Investmentprotokolle eingeschränkt",
+      "subtitle": "Upgrade auf Pro, um Ihre automatisierten KI-Handelsdaten und Gewinnverteilungsprotokolle zu sehen.",
+      "unlockBtn": "Pro freischalten"
+    },
+    "modal": {
+      "title": "Investmentprotokolle",
+      "description": "Detaillierte Einblicke in jeden Trade. Pro-Mitglieder erhalten ein vollständiges Protokoll aller KI-Aktivitäten, Umschichtungen und realisierten Gewinne."
+    },
+    "empty": {
+      "title": "Keine Transaktionen gefunden",
+      "subtitle": "Passen Sie Ihre Filter oder Ihren Suchbegriff an."
+    },
+    "footer": {
+      "showing": "Zeige",
+      "results": "Ergebnisse",
+      "prev": "Zurück",
+      "next": "Weiter"
+    }
+  },
+  "performance": {
+    "subtitle": "Detaillierte Analyse Ihrer KI-gesteuerten Renditen.",
+    "intervals": {
+      "24H": "24H",
+      "1W": "1W",
+      "1M": "1M",
+      "1Y": "1Y",
+      "ALL": "ALLE"
+    },
+    "stats": {
+      "rangeReturn": "Zeitraumrendite",
+      "rangeProfit": "Zeitraumgewinn",
+      "trades": "Trades",
+      "winRate": "Erfolgsquote",
+      "realized": "Realisiert",
+      "execution": "Ausführung",
+      "success": "Erfolgreich"
+    },
+    "locked": {
+      "title": "Pro-Funktion",
+      "subtitle": "Performance-Analysen und detaillierte Gewinnverfolgung sind nur für Pro-Mitglieder verfügbar.",
+      "upgradeBtn": "Auf Pro upgraden"
+    },
+    "modal": {
+      "title": "Performance-Analysen",
+      "description": "Verfolgen Sie Ihr Wachstum mit Präzision. Pro-Mitglieder erhalten Zugang zu detaillierten Performance-Charts und historischen Daten."
+    },
+    "charts": {
+      "cumulativeTitle": "Kumulierte Renditen",
+      "cumulativeSubtitle": "Aura AI-Strategie vs. Marktbenchmark",
+      "auraLegend": "Aura AI",
+      "marketLegend": "Marktdurchschnitt",
+      "tooltipValue": "Wert",
+      "noActivity": "Für den ausgewählten Zeitraum wurden keine Aktivitäten aufgezeichnet",
+      "monthlyTitle": "Monatliche Renditen (%)"
+    },
+    "bestStrategy": {
+      "topAsset": "Erfolgreichstes Asset",
+      "bannerText": "Beste Strategie",
+      "description": "Die KI-Strategie hat Positionen für Phasen hoher Volatilität optimiert und so die Marktbenchmark übertroffen."
+    }
+  },
+  "askAi": {
+    "title": "Frag Aura AI",
+    "onlineStatus": "Online & Analysierend",
+    "welcomeMessage": "Hallo! Ich bin Aura, Ihr KI-Investmentassistent. Ich habe Ihr aktuelles Portfolio analysiert und bin bereit zu helfen. Wie kann ich Ihnen heute helfen?",
+    "delayMessage": "Analysiere Ihre Daten... Bitte warten.",
+    "inputPlaceholder": "Fragen Sie Aura nach Ihren Investitionen...",
+    "footerText": "Unterstützt durch Claude 4.7 Sonnet & Aura Neural Engine",
+    "errorMessage": "Es tut mir leid, es ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.",
+    "suggestions": {
+      "analyzePortfolio": "Mein Portfolio analysieren",
+      "marketOutlookSol": "Marktaussichten für SOL",
+      "balanceBreakdown": "Guthabenaufteilung",
+      "recentTradeHistory": "Letzte Transaktionen"
+    },
+    "modal": {
+      "title": "KI-Limit erreicht",
+      "description": "Kostenlose Benutzer können bis zu 2 Fragen pro Tag stellen. Upgrade auf Pro für unbegrenzte KI-Erkenntnisse und Marktanalysen in Echtzeit."
+    }
+  },
+  "settings": {
+    "title": "Kontoverwaltung",
+    "subtitle": "Verwalten Sie Ihre neuronalen Identitäten und Präferenzen.",
+    "supportCenter": "Hilfe-Center",
+    "exportProfileData": "Profildaten exportieren",
+    "exporting": "Exportiere...",
+    "systemNotifications": "System-Benachrichtigungen",
+    "securityLayers": "Sicherheitsstufen",
+    "preferences": "Präferenzen",
+    "interfaceLanguage": "Benutzeroberfläche Sprache",
+    "activeMembership": "Aktive Mitgliedschaft",
+    "upgrade": "Upgrade",
+    "validityPeriod": "Gültigkeitsdauer",
+    "expiresToday": "Läuft heute ab",
+    "oneDayLeft": "1 Tag verbleibend",
+    "daysLeft": "Tage verbleibend",
+    "membershipExpiryText": "Ihre Mitgliedschaft läuft ab am ",
+    "notifications": {
+      "tradeOpen": {
+        "label": "Einstieg in Position",
+        "description": "Echtzeit-Warnungen, wenn AuraAI einen Markteinstieg durchführt."
+      },
+      "tradeClose": {
+        "label": "Ausstieg aus Position",
+        "description": "Sofortige Berichte über geschlossene Positionen und realisierte Gewinne."
+      },
+      "investmentMaturity": {
+        "label": "Fälligkeit der Investition",
+        "description": "Benachrichtigung, wenn die Strategie endet und die Mittel abgerechnet werden."
+      },
+      "walletMovements": {
+        "label": "Wallet-Bewegungen",
+        "description": "Bestätigungen für jede Einzahlungs- und Auszahlungsanfrage."
+      }
+    },
+    "security": {
+      "masterPassword": {
+        "label": "Master-Passwort",
+        "description": "Zuletzt aktualisiert vor 14 Tagen. Hohe Komplexität aktiv."
+      },
+      "change": "Ändern",
+      "twoFactor": {
+        "label": "Zwei-Faktor-Authentifizierung",
+        "activeDescription": "Aktiv — Ihr Konto ist mit TOTP-Verifizierung geschützt.",
+        "inactiveDescription": "Erhöhen Sie die Sicherheit mit Google Authenticator oder Authy.",
+        "protected": "Geschützt",
+        "disable": "Deaktivieren",
+        "recommended": "Empfohlen",
+        "setup": "Einrichten",
+        "loading": "Lade..."
+      }
+    },
+    "passwordModal": {
+      "title": "Passwort aktualisieren",
+      "subtitle": "Sichern Sie Ihr Konto mit einem neuen Master-Key.",
+      "newPasswordLabel": "Neues Passwort",
+      "confirmPasswordLabel": "Neues Passwort bestätigen",
+      "weak": "Schwaches Passwort",
+      "moderate": "Mittlere Stärke",
+      "secure": "Sehr sicher",
+      "dontMatch": "Die neuen Passwörter stimmen nicht überein.",
+      "success": "Master-Passwort erfolgreich aktualisiert.",
+      "updating": "Aktualisiere Master-Key...",
+      "confirm": "Update bestätigen"
+    },
+    "twoFactorModal": {
+      "disableTitle": "2FA deaktivieren",
+      "disableDescription": "Dadurch wird die TOTP-Anforderung von Ihrem Konto entfernt. Sie können sie jederzeit wieder aktivieren.",
+      "confirmDisable": "2FA deaktivieren bestätigen",
+      "disabling": "Deaktivieren...",
+      "activatedTitle": "2FA aktiviert",
+      "activatedDescription": "Ihr Konto ist jetzt mit Zwei-Faktor-Authentifizierung geschützt. Bei jeder Anmeldung wird ein TOTP-Code benötigt.",
+      "done": "Fertig",
+      "setupTitle": "Authentikator einrichten",
+      "setupDescription": "Scannen Sie den QR-Code unten mit Google Authenticator, Authy oder einer beliebigen TOTP-App.",
+      "manualEntryKey": "Schlüssel zur manuellen Eingabe",
+      "scannedNext": "Ich habe ihn gescannt → Weiter",
+      "verifyTitle": "Verifizierungscode eingeben",
+      "verifyDescription": "Geben Sie den 6-stelligen Code aus Ihrer Authentikator-App ein, um die Einrichtung zu bestätigen.",
+      "refreshText": "Code wird alle 30 Sekunden aktualisiert",
+      "back": "Zurück",
+      "verifyEnable": "Verifizieren & Aktivieren",
+      "verifying": "Verifiziere..."
+    }
+  },
+  "convert": {
+    "title": "Konvertieren",
+    "subtitle": "Sofortiger Asset-Tausch mit neuronalen Echtzeitkursen.",
+    "from": "Von",
+    "balance": "Guthaben",
+    "to": "Nach (Geschätzt)",
+    "exchangeRate": "Wechselkurs",
+    "success": "Konvertierung erfolgreich! Ihre Guthaben wurden aktualisiert.",
+    "processing": "Verarbeite Tausch...",
+    "confirm": "Konvertierung bestätigen",
+    "realTimeRates": "Echtzeitkurse",
+    "errors": {
+      "insufficient": "Unzureichendes Guthaben.",
+      "auth": "Authentifizierung erforderlich."
+    }
+  },
+  "newInvestment": {
+    "title": "Erklären Sie Ihre Investmentideen",
+    "subtitle": "Schritt-für-Schritt-Assistent zur Erstellung Ihres nächsten Investmentplans.",
+    "backToDashboard": "Zurück zum Dashboard",
+    "stepOf": "Schritt {step} von {total}",
+    "processed": "{percentage}% verarbeitet",
+    "next": "Weiter",
+    "back": "Zurück",
+    "goBack": "Zurückgehen",
+    "backToAuth": "Zurück zur Authentifizierung",
+    "creatingPlan": "Plan wird erstellt...",
+    "planCreated": "Plan erstellt",
+    "createPlan": "Investmentplan erstellen",
+    "minAmountError": "Der Mindestinvestitionsbetrag beträgt 150€.",
+    "insufficientBalance": "Unzureichendes USDT-Guthaben. Bitte zahlen Sie mehr Guthaben ein.",
+    "errors": {
+      "unexpected": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+    },
+    "upgradeModal": {
+      "title": "Positionslimit erreicht",
+      "description": "Kostenlose Benutzer können bis zu 1 automatische Position pro Tag eröffnen. Upgrade auf Pro für unbegrenztes autonomes Trading und Echtzeit-Ausführung."
+    },
+    "crypto": {
+      "btc": {
+        "name": "Bitcoin",
+        "desc": "Digitales Gold. Die bekannteste und sicherste Münze für langfristiges Halten.",
+        "badge": "Marktführer"
+      },
+      "eth": {
+        "name": "Ethereum",
+        "desc": "Intelligenter Computer. Unterstützt die meisten Apps und digitalen Finanzsysteme.",
+        "badge": "Beliebt"
+      },
+      "sol": {
+        "name": "Solana",
+        "desc": "Ultraschnell. Eine neuere, sehr schnelle Münze, die für Millionen von Benutzern entwickelt wurde."
+      },
+      "usdt": {
+        "name": "Tether",
+        "desc": "Stabiler Dollar. Eine digitale Münze, die an den US-Dollar gekoppelt ist, um Ihren Wert stabil zu halten."
+      }
+    },
+    "risk": {
+      "conservative": {
+        "level": "Konservativ",
+        "desc": "Sicherheit zuerst. Am besten geeignet, um Ihre Ersparnisse zu schützen und gleichzeitig stetige, kleine Gewinne zu erzielen."
+      },
+      "balanced": {
+        "level": "Ausgewogen",
+        "desc": "Das Beste aus beiden Welten. Eine Mischung aus Sicherheit und Wachstum, damit Ihr Geld stetig wächst.",
+        "badge": "Empfohlen"
+      },
+      "growth": {
+        "level": "Wachstum",
+        "desc": "Schnelleres Wachstum. Zielen Sie auf größere Gewinne ab, indem Sie bei Marktveränderungen mehr Risiko eingehen."
+      },
+      "aggressive": {
+        "level": "Aggressiv",
+        "desc": "Maximale Geschwindigkeit. Nutzt hochentwickelten Hochgeschwindigkeitshandel, um nach den höchstmöglichen Renditen zu suchen."
+      }
+    },
+    "goals": {
+      "growth": {
+        "title": "Kapitalwachstum",
+        "desc": "Maximieren Sie den Gesamtwert Ihres Portfolios auf lange Sicht."
+      },
+      "passive": {
+        "title": "Passives Einkommen",
+        "desc": "Erzeugen Sie regelmäßige Ausschüttungen und einen konstanten Cashflow."
+      },
+      "preservation": {
+        "title": "Kapitalerhalt",
+        "desc": "Halten Sie Ihre ursprüngliche Investition bei minimalem Risiko sicher."
+      }
+    },
+    "experience": {
+      "beginner": {
+        "title": "Anfänger",
+        "desc": "Neu im Krypto-Handel. Sucht nach Anleitung und automatisierter Sicherheit."
+      },
+      "intermediate": {
+        "title": "Fortgeschritten",
+        "desc": "Vertraut mit der Marktdynamik. Versteht die Grundlagen der technischen Analyse."
+      },
+      "advanced": {
+        "title": "Profi",
+        "desc": "Erfahrener Trader. Sucht nach tiefgehender Optimierung und fortschrittlichen Tools."
+      }
+    },
+    "steps": {
+      "step1": {
+        "badge": "Schritt 01",
+        "title": "Asset-Klasse auswählen",
+        "desc": "Wählen Sie das Basis-Asset für Ihre Investmentstrategie. Aura AI wird die Einstiegspunkte basierend auf der Liquidität des ausgewählten Assets optimieren."
+      },
+      "step2": {
+        "badge": "Schritt 02",
+        "title": "Risikoprofil auswählen",
+        "desc": "Definieren Sie die operativen Grenzen für die AuraAI Neural Engine. Ihre Auswahl kalibriert die Volatilitätstoleranz und die Geschwindigkeit der Zielrendite."
+      },
+      "step3": {
+        "badge": "Schritt 03",
+        "title": "Strategieparameter definieren",
+        "desc": "Geben Sie Ihre Kapitalallokation und den gewünschten Anlagehorizont an. Unsere Engine optimiert die Rendite basierend auf Ihrem Zeitrahmen.",
+        "capital": "Startkapital",
+        "minText": "Mindestens 150",
+        "duration": "Ziel-Dauer",
+        "days": "Tage",
+        "estMonthly": "Geschätzt monatlich:",
+        "monthlyReturnRate": "Monatliche Renditequote",
+        "riskTier": "Risikostufe"
+      },
+      "step4": {
+        "badge": "Schritt 04",
+        "title": "Investmentziel auswählen",
+        "desc": "Was ist das Hauptziel für diese spezielle Strategie? Ihre Wahl beeinflusst die Haltedauer von Positionen und die Ausstiegsziele."
+      },
+      "step5": {
+        "badge": "Schritt 05",
+        "title": "Handelserfahrung",
+        "desc": "Wählen Sie die Stufe aus, die Ihre Marktkenntnisse am besten beschreibt. Aura AI passt die Risikowarnungen und die Bedienoberfläche entsprechend an."
+      },
+      "step6": {
+        "badge": "Schritt 06",
+        "title": "Gewinnbehandlung & Notizen",
+        "desc": "Geben Sie die Gewinnbehandlung und zusätzliche Einschränkungen an.",
+        "profitQuestion": "Wie sollen wir mit Ihren Gewinnen umgehen?",
+        "options": {
+          "deposit": "Alle Gewinne auf mein Konto einzahlen",
+          "reinvest": "Alle Gewinne automatisch reinvestieren",
+          "split": "Gewinne aufteilen: 50% Konto / 50% Reinvestition"
+        },
+        "extraNotes": "Zusätzliche Notizen (optional)",
+        "placeholder": "Jegliche Einschränkungen, zu vermeidende Coins oder benutzerdefinierte Anweisungen..."
+      },
+      "step7": {
+        "badge": "Schritt 07",
+        "title": "Finale Strategieprüfung",
+        "desc": "Überprüfen Sie Ihre autonomen Strategieparameter vor der Aktivierung. Aura AI beginnt sofort nach der Bestätigung mit der Ausführung.",
+        "coreParameters": "Kernparameter",
+        "selectedAsset": "Ausgewähltes Asset",
+        "initialCapital": "Startkapital",
+        "timeHorizon": "Anlagehorizont",
+        "riskObjective": "Risiko & Ziel",
+        "profile": "Profil",
+        "primaryGoal": "Hauptziel",
+        "riskTier": "Risikostufe",
+        "executionRules": "Ausführungsregeln",
+        "mode": "Modus",
+        "profitDistribution": "Gewinnverteilung",
+        "engineStatus": "Engine-Status",
+        "readyStatus": "Bereit für den Einsatz",
+        "customInstructions": "Benutzerdefinierte Anweisungen"
+      }
+    },
+    "animation": {
+      "strategyActive": "Strategie aktiv",
+      "optimizing": "Neuronale Optimierung läuft",
+      "stage0": "Aura AI analysiert Ihr Investmentprofil...",
+      "stage1": "Erstelle Ihre Strategie und bereite Einstiegszonen vor...",
+      "stage2": "Wende Risikokontrollen und Positionsgrößen an...",
+      "stage3": "Ihr Plan ist bereit. Positionen werden vorbereitet.",
+      "latency": "Latenz",
+      "confidence": "Vertrauen",
+      "riskBuffer": "Risiko-Puffer",
+      "enterTerminal": "Terminal öffnen"
+    }
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "lastUpdated": "Zuletzt aktualisiert: 2. Mai 2026",
+    "sec1Title": "1. Datenerhebung",
+    "sec1Desc": "Wir erheben nur die Daten, die notwendig sind, um unsere KI-gestützten Erkenntnisse bereitzustellen. Dazu gehören Ihre Transaktionshistorie (falls verbunden), Portfolio-Salden und grundlegende Kontoinformationen. Wir verkaufen Ihre persönlichen Daten nicht an Dritte.",
+    "sec2Title": "2. Nutzung von Informationen",
+    "sec2Desc": "Ihre Daten werden ausschließlich dazu verwendet, unsere KI-Modelle auf Benutzerbasis zu trainieren, um personalisierte Investmentstrategien bereitzustellen und die Gesamtgenauigkeit der Aura Neural Engine zu verbessern.",
+    "sec3Title": "3. Sicherheitsmaßnahmen",
+    "sec3Desc": "Wir setzen branchenübliche Verschlüsselung für alle Daten im Ruhezustand und bei der Übertragung ein. Der Zugriff auf sensible Daten ist streng auf autorisierte automatisierte Systeme innerhalb des Aura-Ökosystems beschränkt.",
+    "sec4Title": "4. Integrationen von Drittanbietern",
+    "sec4Desc": "Aura integriert sich mit verschiedenen Blockchain-Netzwerken und APIs. Diese Drittanbieter haben ihre eigenen Datenschutzrichtlinien, und wir empfehlen, diese bei der Verbindung Ihrer externen Wallets zu überprüfen.",
+    "sec5Title": "5. Ihre Rechte",
+    "sec5Desc": "Sie haben jederzeit das Recht, eine Kopie Ihrer Daten oder deren Löschung zu verlangen. Die Bearbeitung solcher Anfragen kann bis zu 30 Tage dauern und kann zur Aussetzung von KI-gestützten Funktionen führen."
+  },
+  "terms": {
+    "title": "Nutzungsbedingungen",
+    "lastUpdated": "Zuletzt aktualisiert: 2. Mai 2026",
+    "sec1Title": "1. Akzeptanz der Bedingungen",
+    "sec1Desc": "Durch den Zugriff auf und die Nutzung der Aura-Plattform („Dienst“) erklären Sie sich mit diesen Nutzungsbedingungen einverstanden. Wenn Sie diesen Bedingungen nicht zustimmen, nutzen Sie unseren Dienst bitte nicht.",
+    "sec2Title": "2. Beschreibung des Dienstes",
+    "sec2Desc": "Aura bietet eine KI-gestützte Investmentunterstützungsplattform. Wir bieten keine direkte Finanzberatung an, und unsere KI-generierten Erkenntnisse dienen nur zu Informationszwecken. Alle Investmententscheidungen liegen in der alleinigen Verantwortung des Benutzers.",
+    "sec3Title": "3. Verantwortlichkeiten des Benutzers",
+    "sec3Desc": "Sie sind für die Aufrechterhaltung der Sicherheit Ihres Kontos und aller dem Dienst bereitgestellten API-Schlüssel verantwortlich. Aura haftet nicht für Verluste, die durch unbefugten Zugriff auf Ihr Konto aufgrund von Fahrlässigkeit Ihrerseits entstehen.",
+    "sec4Title": "4. Risikohinweis",
+    "sec4Desc": "Der Handel mit Kryptowährungen birgt erhebliche Risiken. Unsere KI-Tools sind als Hilfsmittel konzipiert, können jedoch keine Gewinne garantieren oder Verluste verhindern. Marktvolatilität kann zum Totalverlust der investierten Mittel führen.",
+    "sec5Title": "5. Haftungsbeschränkung",
+    "sec5Desc": "Soweit gesetzlich zulässig, haftet Aura nicht für indirekte, zufällige, besondere oder Folgeschäden, die sich aus der Nutzung oder der Unfähigkeit zur Nutzung des Dienstes ergeben."
+  },
+  "blog": {
+    "title": "Der Aura Blog",
+    "subtitle": "Forschung & News",
+    "desc": "Strategische Einblicke, technische Forschung und Marktanalysen an der Spitze der autonomen Finanzen.",
+    "readArticle": "Artikel lesen",
+    "stayAhead": "Bleiben Sie einen Schritt voraus",
+    "newsletterDesc": "Erhalten Sie unsere neuesten Forschungsberichte und institutionellen Analysen direkt in Ihren Posteingang.",
+    "emailPlaceholder": "Geben Sie Ihre E-Mail-Adresse ein",
+    "subscribe": "Abonnieren",
+    "categories": {
+      "all": "Alle Beiträge",
+      "tech": "Technologie",
+      "market": "Marktanalyse",
+      "strategy": "Strategie",
+      "economy": "Wirtschaft",
+      "security": "Sicherheit",
+      "ai": "KI"
+    },
+    "posts": [
+      {
+        "id": 1,
+        "title": "Die Zukunft des autonomen Handels: Wie Aura AI wegweisend ist",
+        "excerpt": "Untersuchung der Evolution der KI in Finanzmärkten und warum dezentraler autonomer Handel der nächste logische Schritt für institutionelle Investoren ist.",
+        "category": "Technologie",
+        "author": "Arif Can",
+        "date": "12. Mai 2026",
+        "readTime": "8 Min. Lesezeit"
+      },
+      {
+        "id": 2,
+        "title": "Layer 1 Skalierbarkeit verstehen: SOL vs ETH vs BTC",
+        "excerpt": "Ein tiefer Einblick in die technischen Unterschiede zwischen den weltweit führenden L1-Protokollen und was sie für Ihre Portfoliostrategie bedeuten.",
+        "category": "Marktanalyse",
+        "author": "Elena Rodriguez",
+        "date": "10. Mai 2026",
+        "readTime": "12 Min. Lesezeit"
+      },
+      {
+        "id": 3,
+        "title": "Maximierung der Renditen in hochvolatilen Märkten",
+        "excerpt": "Strategien zur Nutzung KI-gestützter Erkenntnisse zum Kapitalschutz und zur Erzielung von Gewinnen in Phasen extremer Marktturbulenzen.",
+        "category": "Strategie",
+        "author": "Marcus Chen",
+        "date": "8. Mai 2026",
+        "readTime": "6 Min. Lesezeit"
+      },
+      {
+        "id": 4,
+        "title": "Der Einfluss globaler Makrotrends auf Krypto-Assets",
+        "excerpt": "Wie Zinsanhebungen und geopolitische Veränderungen die langfristige Adoptionskurve digitaler Währungen beeinflussen.",
+        "category": "Wirtschaft",
+        "author": "Sarah Jenkins",
+        "date": "5. Mai 2026",
+        "readTime": "10 Min. Lesezeit"
+      },
+      {
+        "id": 5,
+        "title": "Sicherheits-Best-Practices für institutionelle Verwahrung",
+        "excerpt": "Sicherstellen, dass Ihre digitalen Vermögenswerte durch Sicherheitsrelevante Protokolle geschützt sind und gleichzeitig sofortige Liquidität erhalten bleibt.",
+        "category": "Sicherheit",
+        "author": "James Wilson",
+        "date": "1. Mai 2026",
+        "readTime": "7 Min. Lesezeit"
+      },
+      {
+        "id": 6,
+        "title": "KI & Neuronale Netze: Das Herzstück der Aura-Intelligenz",
+        "excerpt": "Ein technischer Überblick über die maschinellen Lernmodelle, die unsere autonome Entscheidungs-Engine antreiben.",
+        "category": "KI",
+        "author": "Dr. Thomas Miller",
+        "date": "28. April 2026",
+        "readTime": "15 Min. Lesezeit"
+      }
+    ]
+  },
+  "newsroom": {
+    "liveUpdates": "Live-Updates",
+    "title": "Aura Newsroom",
+    "desc": "Offizielle Updates, Meilensteine der Plattform und institutionelle Ankündigungen direkt aus dem Aura AI Ökosystem.",
+    "readStory": "Ganze Story lesen",
+    "noUpdates": "Keine Updates gefunden",
+    "noUpdatesDesc": "Schauen Sie später wieder vorbei, um offizielle Ankündigungen zu sehen.",
+    "notFound": "News nicht gefunden",
+    "notFoundDesc": "Die gesuchte Meldung existiert nicht oder wurde entfernt.",
+    "backToNewsroom": "Zurück zum Newsroom",
+    "shareArticle": "Artikel teilen",
+    "sourceLink": "Quellen-Link",
+    "allUpdates": "Alle Updates"
+  },
+  "academy": {
+    "hero": {
+      "badge": "Aura Wissenszentrum",
+      "title1": "KI im Investment",
+      "title2": "gemeinsam meistern",
+      "desc": "Meistern Sie die Kunst des KI-gesteuerten Kapitalmanagements. Von den Grundlagen neuronaler Netze bis zum fortgeschrittenen Risikoprofiling – die Aura Academy ist Ihr Tor zur Zukunft der Finanzen.",
+      "cta1": "Kostenlos starten",
+      "cta2": "Lehrplan erkunden"
+    },
+    "philosophy": {
+      "title": "Unser Ansatz zur Gewährleistung einer sicheren und ethischen KI-Adoption",
+      "desc": "Wir glauben, dass die Kraft der KI zugänglich, aber kontrolliert sein sollte. Unser Lehrplan konzentriert sich auf drei Kernsäulen: Transparenz bei algorithmischen Entscheidungen, Risikominderung durch neuronales Feedback und langfristiger Kapitalerhalt.",
+      "secureTitle": "Sicher",
+      "secureDesc": "Strenge Tests aller neuronalen Strategien.",
+      "neuralTitle": "Neuronale",
+      "neuralDesc": "KI-Modelle der nächsten Generation für Marktanalysen.",
+      "moduleTitle": "Theorie des automatisierten Wohlstands",
+      "moduleSubtitle": "Modul 01 • Einführung"
+    },
+    "pillars": {
+      "p1Title": "Algorithmische Geschwindigkeit",
+      "p1Desc": "Ausführung im großen Maßstab verstehen.",
+      "p2Title": "Social Trading",
+      "p2Desc": "Der Einfluss kollektiver KI-Intelligenz.",
+      "p3Title": "Globale Märkte",
+      "p3Desc": "Navigieren in 24/7 Finanzökosystemen.",
+      "p4Title": "Risikomanagement",
+      "p4Desc": "Schutz des Kapitals in volatilen Zeiten."
+    },
+    "resources": {
+      "title": "Bildungsressourcen",
+      "desc": "Tauchen Sie tief in unsere Whitepaper, Tutorials und Strategieleitfäden ein, die von Aura AI Forschern kuratiert wurden.",
+      "viewAll": "Alle Ressourcen anzeigen",
+      "videoLesson": "Videolektion",
+      "lessonTitle": "Wie neuronale Netze die Marktvolatilität vorhersagen",
+      "lessonDesc": "Eine 8-minütige Masterclass zur Modellierung von Preisbewegungen."
+    },
+    "cta": {
+      "title": "Bereit, die Zukunft zu meistern?",
+      "desc": "Schließen Sie sich über 50.000 Investoren an, die bereits Aura AI nutzen, um ihre Finanzbildung zu verbessern.",
+      "button": "Studentenkonto erstellen"
+    },
+    "footer": {
+      "copy": "© 2026 Aura AI Plattform • Wissen ist Macht",
+      "link1": "Lehrplan",
+      "link2": "Ressourcen",
+      "link3": "Partner"
+    }
+  },
+  "support": {
+    "title1": "Willkommen im",
+    "title2": "Aura Hilfe-Center",
+    "searchPlaceholder": "Suche nach Artikeln, Anleitungen oder Problemen...",
+    "selfService": "Selbstbedienung",
+    "selfServiceItems": {
+      "resetPassword": {
+        "title": "Passwort zurücksetzen",
+        "desc": "Stellen Sie Ihren Master-Key sicher wieder her"
+      },
+      "twoFactor": {
+        "title": "2FA-Verwaltung",
+        "desc": "Aktivieren oder Deaktivieren Sie Authentikator"
+      },
+      "depositIssue": {
+        "title": "Problem mit Krypto-Einzahlung",
+        "desc": "Verfolgen Sie unbestätigte Transaktionen"
+      },
+      "withdrawalStatus": {
+        "title": "Auszahlungsstatus",
+        "desc": "Überprüfen Sie hängende Auszahlungen"
+      },
+      "exportData": {
+        "title": "Daten exportieren",
+        "desc": "Laden Sie Ihre Portfolioberichte herunter"
+      },
+      "deviceManagement": {
+        "title": "Geräteverwaltung",
+        "desc": "Verwalten Sie autorisierte Sitzungen"
+      }
+    },
+    "faqGuides": "FAQ & Anleitungen",
+    "topQuestions": "Häufige Fragen",
+    "faqList": [
+      {
+        "q": "Benötige ich eine Identitätsprüfung (KYC)?",
+        "a": "Derzeit priorisiert Aura Wallet Ihre Privatsphäre. Die meisten Kernfunktionen sind ohne KYC verfügbar. Um jedoch auf höhere Auszahlungslimits oder Premium-Enterprise-Funktionen zuzugreifen, kann eine Verifizierung erforderlich sein."
+      },
+      {
+        "q": "Wie zahle ich Krypto in mein Aura Wallet ein?",
+        "a": "Navigieren Sie auf Ihrem Dashboard zur Seite 'Einzahlen', wählen Sie das Asset (z. B. BTC, ETH, USDT) und das Netzwerk aus. Eine eindeutige Wallet-Adresse und ein QR-Code werden generiert, an die Sie Ihre Mittel senden können."
+      },
+      {
+        "q": "Warum ist meine Auszahlung gesperrt?",
+        "a": "Auszahlungen können nach einer Passwortänderung, einem 2FA-Reset oder wenn unser Sicherheitssystem ungewöhnliche Anmeldemuster erkennt, vorübergehend für 24 Stunden gesperrt werden. Dies dient dem Schutz Ihres Guthabens vor unbefugtem Zugriff."
+      },
+      {
+        "q": "Wie führt Aura AI Handelsstrategien aus?",
+        "a": "Unsere Neural Engine analysiert Echtzeit-Marktstimmung, soziale Signale und technische Indikatoren auf über 40 Börsen, um automatisch Long- oder Short-Positionen mit hoher Wahrscheinlichkeit auszuführen."
+      },
+      {
+        "q": "Was passiert, wenn meine Strategie Geld verliert?",
+        "a": "Wenn Sie mit AuraAI Verluste erleiden und Ihr Investitionsplan noch aktiv ist, wird AuraAI alles tun, um diese Verluste auszugleichen. Sollten Sie dennoch einen Verlust verzeichnen, werden Ihnen 15 % bis 30 % des Verlusts (bei Investitionen ab 500 €) im Rahmen des Aura-Schutzprogramms zurückerstattet."
+      }
+    ],
+    "walletGuide": "Aura Wallet Anleitung",
+    "guidesList": [
+      {
+        "q": "Was ist Aura Wallet?",
+        "a": "Aura ist ein Wallet der nächsten Generation, das mit einer leistungsstarken KI-Trading-Engine integriert ist, sodass Sie Vermögenswerte autonom verwalten und vermehren können."
+      },
+      {
+        "q": "Performance verfolgen",
+        "a": "Sie können Echtzeit-ROI, G&V-Kurven und Vermögensverteilungen direkt auf Ihrem 'Investment-Dashboard' mit Millisekundengenauigkeit anzeigen."
+      },
+      {
+        "q": "KI-Aktionsprotokolle",
+        "a": "Jeder von der KI getätigte Trade wird mit Einstiegspreis, Ausstiegspreis und Begründung protokolliert. Diese können Sie im Bereich 'Ausführungs-Feed' einsehen."
+      }
+    ],
+    "securityVerification": "Sicherheit & Verifizierung",
+    "securityList": [
+      "Die Identitätsprüfung sorgt für ein hohes Sicherheitsniveau und schaltet Premium-Limits frei.",
+      "2FA verloren? Nutzen Sie Ihren Master-Wiederherstellungsschlüssel oder kontaktieren Sie den Support.",
+      "Aktivieren Sie Anti-Phishing-Codes, um jede E-Mail von Aura zu verifizieren."
+    ],
+    "aiTutorial": "KI-Handels-Tutorial",
+    "tutorialList": [
+      "Schritt 1: Guthaben einzahlen. Schritt 2: Risikoprofil wählen. Schritt 3: Aura erledigt den Rest.",
+      "Aggressiv: Hohe Rendite, hohe Volatilität. Wachstum: Ausgewogener langfristiger Vermögensaufbau."
+    ],
+    "viewFullTutorial": "Vollständiges Tutorial ansehen",
+    "needMoreSupport": "Benötigen Sie weitere Hilfe?",
+    "myTickets": "Meine Support-Tickets",
+    "myTicketsDesc": "Sehen Sie sich Ihre früheren Konversationen an oder eröffnen Sie ein Ticket, um Hilfe von unserem Team zu erhalten.",
+    "viewTickets": "Tickets anzeigen",
+    "feedback": "Produkt-Feedback",
+    "feedbackDesc": "Helfen Sie uns, Aura Wallet zu verbessern. Teilen Sie Ihre Ideen, Vorschläge oder Fehlermeldungen mit.",
+    "shareFeedback": "Feedback teilen",
+    "noResults": "Keine Ergebnisse für",
+    "noResultsDesc": "Versuchen Sie es mit anderen Begriffen oder sehen Sie sich unsere FAQ-Kategorien unten an.",
+    "clearSearch": "Suche löschen"
+  },
+  "careers": {
+    "backHome": "Zurück zur Startseite",
+    "hiringBadge": "Wir stellen ein",
+    "heroTitle1": "Bauen Sie die Zukunft",
+    "heroTitle2": "autonomer Finanzen",
+    "heroDesc": "Schließen Sie sich einem Weltklasse-Team aus Entwicklern, Designern und Forschern an, die in Zürich, Schweiz, die Grenzen des KI-gesteuerten Handels neu definieren.",
+    "perks": {
+      "health": {
+        "title": "Gesundheit & Vorsorge",
+        "desc": "Erstklassige Kranken-, Zahn- und Sehversicherung für Sie und Ihre Familie."
+      },
+      "remote": {
+        "title": "Vollständig Remote",
+        "desc": "Arbeiten Sie von überall auf der Welt. Wir glauben an Ergebnisse, nicht an feste Bürozeiten."
+      },
+      "equity": {
+        "title": "Beteiligung & Token",
+        "desc": "Attraktive Aktienpakete sowie Token-Allokation im Aura-Ökosystem."
+      },
+      "learning": {
+        "title": "Fortbildungsbudget",
+        "desc": "Ein jährliches Budget von 5.000 CHF für Kurse, Konferenzen und Zertifizierungen."
+      }
+    },
+    "positionsTitle": "Offene Stellen",
+    "positionsDesc": "{count} offene Positionen in unserem globalen Team",
+    "departments": {
+      "engineering": "Engineering",
+      "neural": "Neural Engine",
+      "infra": "Infrastruktur",
+      "design": "Design",
+      "marketing": "Marketing"
+    },
+    "locations": {
+      "eu": "Remote (EU Zeitzone)",
+      "ch": "Zürich, CH / Remote",
+      "global": "Remote (Global)"
+    },
+    "types": {
+      "fullTime": "Vollzeit"
+    },
+    "openPositions": [
+      {
+        "title": "Senior Blockchain Engineer",
+        "department": "Engineering",
+        "location": "Remote (EU Zeitzone)"
+      },
+      {
+        "title": "AI/ML Research Engineer",
+        "department": "Neural Engine",
+        "location": "Zürich, CH / Remote"
+      },
+      {
+        "title": "Security Engineer",
+        "department": "Infrastruktur",
+        "location": "Remote (Global)"
+      },
+      {
+        "title": "Product Designer",
+        "department": "Design",
+        "location": "Remote (EU Zeitzone)"
+      },
+      {
+        "title": "Community & Growth Lead",
+        "department": "Marketing",
+        "location": "Remote (Global)"
+      }
+    ],
+    "noRole": {
+      "title": "Keine passende Stelle gefunden?",
+      "desc": "Wir sind immer auf der Suche nach außergewöhnlichen Talenten. Senden Sie uns Ihre Initiativbewerbung und erzählen Sie uns, wie Sie die Zukunft der Finanzen mitgestalten wollen.",
+      "button": "Initiativbewerbung senden"
+    }
+  }
+}
