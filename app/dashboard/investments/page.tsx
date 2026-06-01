@@ -135,7 +135,7 @@ export default function InvestmentsPage() {
     doc.setFontSize(8);
     doc.setTextColor(180, 180, 180);
     doc.text(t("investments.pdf.reportTitle"), 28, 24);
-    doc.text(`${t("investments.pdf.generated")}: ${new Date().toLocaleDateString(language === "tr" ? "tr-TR" : "en-US", { month: 'long', day: 'numeric', year: 'numeric' })}`, 28, 30);
+    doc.text(`${t("investments.pdf.generated")}: ${new Date().toLocaleDateString(language === "tr" ? "tr-TR" : language === "de" ? "de-DE" : language === "sv" ? "sv-SE" : language === "es" ? "es-ES" : language === "el" ? "el-GR" : "en-US", { month: 'long', day: 'numeric', year: 'numeric' })}`, 28, 30);
 
     // Investment Summary
     doc.setTextColor(50, 50, 50);
@@ -185,7 +185,7 @@ export default function InvestmentsPage() {
     doc.text(t("investments.pdf.executionLogTitle"), 14, tableEndY + 10);
 
     const logRows = selectedLogs.map(log => [
-      new Date(log.created_at).toLocaleString(language === "tr" ? "tr-TR" : "en-US", { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+      new Date(log.created_at).toLocaleString(language === "tr" ? "tr-TR" : language === "de" ? "de-DE" : language === "sv" ? "sv-SE" : language === "es" ? "es-ES" : language === "el" ? "el-GR" : "en-US", { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
       t(`marketData.${log.action_type}`).toUpperCase(),
       log.asset_code,
       `$${log.entry_price.toLocaleString()}`,
@@ -342,7 +342,7 @@ export default function InvestmentsPage() {
                           <div className="flex items-center gap-1.5 mt-1">
                             <span className={`h-1 w-1 rounded-full animate-pulse ${profits24h[inv.id] < 0 ? "bg-red-400" : "bg-emerald-400"}`} />
                             <span className={`text-[10px] font-mono font-bold ${profits24h[inv.id] < 0 ? "text-red-400" : "text-emerald-400"}`}>
-                              {language === "tr" ? "24s" : "24h"}: {profits24h[inv.id] >= 0 ? "+" : ""}{Number(profits24h[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ({((profits24h[inv.id] || 0) / Number(inv.amount) * 100).toFixed(2)}%)
+                              {language === "tr" ? "24s" : language === "el" ? "24ω" : language === "de" ? "24 Std." : "24h"}: {profits24h[inv.id] >= 0 ? "+" : ""}{Number(profits24h[inv.id] || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ({((profits24h[inv.id] || 0) / Number(inv.amount) * 100).toFixed(2)}%)
                             </span>
                           </div>
                         </div>
@@ -724,7 +724,7 @@ export default function InvestmentsPage() {
                         <LuCalendar className="h-3 w-3" /> {t("investments.modal.startDate")}
                       </p>
                       <p className="text-sm font-medium text-white">
-                        {new Date(infoModalInvestment.created_at).toLocaleDateString(language === "tr" ? "tr-TR" : "en-US", { month: 'long', day: 'numeric', year: 'numeric' })}
+                        {new Date(infoModalInvestment.created_at).toLocaleDateString(language === "tr" ? "tr-TR" : language === "de" ? "de-DE" : language === "sv" ? "sv-SE" : language === "es" ? "es-ES" : language === "el" ? "el-GR" : "en-US", { month: 'long', day: 'numeric', year: 'numeric' })}
                       </p>
                     </div>
                     <div className="p-5 rounded-3xl bg-white/[0.03] border border-white/5">
@@ -735,7 +735,7 @@ export default function InvestmentsPage() {
                         {(() => {
                           const date = new Date(infoModalInvestment.created_at);
                           date.setDate(date.getDate() + infoModalInvestment.duration_days);
-                          return date.toLocaleDateString(language === "tr" ? "tr-TR" : "en-US", { month: 'long', day: 'numeric', year: 'numeric' });
+                          return date.toLocaleDateString(language === "tr" ? "tr-TR" : language === "de" ? "de-DE" : language === "sv" ? "sv-SE" : language === "es" ? "es-ES" : language === "el" ? "el-GR" : "en-US", { month: 'long', day: 'numeric', year: 'numeric' });
                         })()}
                       </p>
                     </div>

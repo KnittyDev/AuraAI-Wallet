@@ -34,7 +34,14 @@ export default function ContactSalesPage() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const aumOptions = [
-    { value: "under_100k", label: language === "tr" ? "100.000$ Altı" : "Under $100K" },
+    { value: "under_100k", label: 
+      language === "tr" ? "100.000$ Altı" : 
+      language === "es" ? "Bajo $100K" : 
+      language === "el" ? "Κάτω από $100K" : 
+      language === "de" ? "Unter $100K" : 
+      language === "sv" ? "Under $100K" : 
+      "Under $100K" 
+    },
     { value: "100k_500k", label: "$100K - $500K" },
     { value: "500k_1m", label: "$500K - $1M" },
     { value: "1m_5m", label: "$1M - $5M" },

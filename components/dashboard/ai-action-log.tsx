@@ -63,7 +63,7 @@ export function AiActionLog({ actions }: AiActionLogProps) {
                   </div>
                   <div>
                     <div className="flex flex-wrap items-center gap-2 mb-1">
-                      <span className="text-white/40">[{new Date(action.created_at).toLocaleTimeString(language === "tr" ? "tr-TR" : "en-US", { hour12: false })}]</span>
+                      <span className="text-white/40">[{new Date(action.created_at).toLocaleTimeString(language === "tr" ? "tr-TR" : language === "de" ? "de-DE" : language === "sv" ? "sv-SE" : language === "es" ? "es-ES" : language === "el" ? "el-GR" : "en-US", { hour12: false })}]</span>
                       <span className="text-white font-bold">{action.asset_code}/USDT</span>
                       <span className={`text-[10px] px-1.5 py-0.5 rounded uppercase font-bold tracking-widest ${action.action_type === 'long' ? "bg-emerald-500/10 text-emerald-400" : "bg-orange-500/10 text-orange-400"
                         }`}>

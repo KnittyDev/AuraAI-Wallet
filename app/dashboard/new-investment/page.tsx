@@ -339,13 +339,39 @@ export default function NewInvestmentPage() {
 
   const getRiskTierLabel = (tier: string | undefined) => {
     if (!tier) return "";
-    if (language === "tr") {
-      if (tier === "Institutional Low") return "Kurumsal Düşük";
-      if (tier === "Institutional Medium") return "Kurumsal Orta";
-      if (tier === "High Growth") return "Yüksek Büyüme";
-      return "Maksimum Alfa";
-    }
-    return tier;
+    const mappings: Record<string, Record<string, string>> = {
+      tr: {
+        "Institutional Low": "Kurumsal Düşük",
+        "Institutional Medium": "Kurumsal Orta",
+        "High Growth": "Yüksek Büyüme",
+        "Maximum Alpha": "Maksimum Alfa"
+      },
+      es: {
+        "Institutional Low": "Institucional Bajo",
+        "Institutional Medium": "Institucional Medio",
+        "High Growth": "Alto Crecimiento",
+        "Maximum Alpha": "Alfa Máximo"
+      },
+      el: {
+        "Institutional Low": "Θεσμικό Χαμηλό",
+        "Institutional Medium": "Θεσμικό Μεσαίο",
+        "High Growth": "Υψηλή Ανάπτυξη",
+        "Maximum Alpha": "Μέγιστο Άλφα"
+      },
+      de: {
+        "Institutional Low": "Institutionell Niedrig",
+        "Institutional Medium": "Institutionell Mittel",
+        "High Growth": "Hohes Wachstum",
+        "Maximum Alpha": "Maximales Alpha"
+      },
+      sv: {
+        "Institutional Low": "Institutionell Låg",
+        "Institutional Medium": "Institutionell Medel",
+        "High Growth": "Hög Tillväxt",
+        "Maximum Alpha": "Maximalt Alfa"
+      }
+    };
+    return mappings[language]?.[tier] || tier;
   };
 
   return (
@@ -595,7 +621,14 @@ export default function NewInvestmentPage() {
                           <span>7D</span>
                           <span>90D</span>
                           <span>180D</span>
-                          <span>{language === "tr" ? "Özel" : "Custom"}</span>
+                          <span>{
+                            language === "tr" ? "Özel" :
+                            language === "es" ? "Personalizado" :
+                            language === "el" ? "Προσαρμοσμένο" :
+                            language === "de" ? "Benutzerdefiniert" :
+                            language === "sv" ? "Anpassad" :
+                            "Custom"
+                          }</span>
                         </div>
                       </div>
 

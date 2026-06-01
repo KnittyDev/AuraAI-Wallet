@@ -457,7 +457,7 @@ export default function WalletPage() {
                       </div>
                       <div className="bg-white/[0.02] p-3 rounded-xl border border-white/5 flex items-center justify-between text-xs">
                         <span className="text-white/30 uppercase tracking-widest font-bold text-[9px]">{t("wallet.dateLabel")}</span>
-                        <span className="text-white/80 font-medium">{new Date(tx.created_at).toLocaleDateString(language === "tr" ? "tr-TR" : "en-US", { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                        <span className="text-white/80 font-medium">{new Date(tx.created_at).toLocaleDateString({ en: "en-US", tr: "tr-TR", de: "de-DE", sv: "sv-SE", es: "es-ES", el: "el-GR" }[language], { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                       </div>
                     </div>
                   ))}
@@ -504,7 +504,7 @@ export default function WalletPage() {
                           </span>
                         </td>
                         <td className="px-8 py-5 text-sm text-white/40">
-                          {new Date(tx.created_at).toLocaleDateString(language === "tr" ? "tr-TR" : "en-US", { month: 'short', day: 'numeric', year: 'numeric' })}
+                          {new Date(tx.created_at).toLocaleDateString(language === "tr" ? "tr-TR" : language === "de" ? "de-DE" : language === "sv" ? "sv-SE" : language === "es" ? "es-ES" : language === "el" ? "el-GR" : "en-US", { month: 'short', day: 'numeric', year: 'numeric' })}
                         </td>
                         <td className="px-8 py-5 text-right">
                           <span className={`text-[9px] font-bold px-2 py-1 rounded-md uppercase tracking-widest ${tx.status === "Completed" ? "bg-emerald-400/10 text-emerald-400" : "bg-white/5 text-white/40"

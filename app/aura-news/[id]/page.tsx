@@ -54,14 +54,45 @@ export default function NewsDetailPage() {
 
   const getNewsCategoryLabel = (cat: string) => {
     if (!cat) return "";
-    if (language === "tr") {
-      if (cat.toLowerCase() === "announcement") return "Duyuru";
-      if (cat.toLowerCase() === "update") return "Güncelleme";
-      if (cat.toLowerCase() === "milestone") return "Kilometre Taşı";
-      if (cat.toLowerCase() === "security") return "Güvenlik";
-      if (cat.toLowerCase() === "tech") return "Teknoloji";
-    }
-    return cat;
+    const catLower = cat.toLowerCase();
+    const mappings: Record<string, Record<string, string>> = {
+      tr: {
+        announcement: "Duyuru",
+        update: "Güncelleme",
+        milestone: "Kilometre Taşı",
+        security: "Güvenlik",
+        tech: "Teknoloji",
+      },
+      es: {
+        announcement: "Anuncio",
+        update: "Actualización",
+        milestone: "Hito",
+        security: "Seguridad",
+        tech: "Tecnología",
+      },
+      el: {
+        announcement: "Ανακοίνωση",
+        update: "Ενημέρωση",
+        milestone: "Ορόσημο",
+        security: "Ασφάλεια",
+        tech: "Τεχνολογία",
+      },
+      de: {
+        announcement: "Ankündigung",
+        update: "Aktualisierung",
+        milestone: "Meilenstein",
+        security: "Sicherheit",
+        tech: "Technologie",
+      },
+      sv: {
+        announcement: "Meddelande",
+        update: "Uppdatering",
+        milestone: "Milstolpe",
+        security: "Säkerhet",
+        tech: "Teknologi",
+      }
+    };
+    return mappings[language]?.[catLower] || cat;
   };
 
   if (loading) {
@@ -121,7 +152,7 @@ export default function NewsDetailPage() {
             </span>
             <div className="flex items-center gap-2 text-xs text-white/30">
               <LuCalendar className="h-3.5 w-3.5" />
-              {new Date(news.published_at).toLocaleDateString(language === "tr" ? "tr-TR" : "en-US", { month: 'long', day: 'numeric', year: 'numeric' })}
+              {new Date(news.published_at).toLocaleDateString(language === "tr" ? "tr-TR" : language === "de" ? "de-DE" : language === "sv" ? "sv-SE" : language === "es" ? "es-ES" : language === "el" ? "el-GR" : "en-US", { month: 'long', day: 'numeric', year: 'numeric' })}
             </div>
             <div className="flex items-center gap-2 text-xs text-white/30">
               <LuTag className="h-3.5 w-3.5" />
@@ -186,7 +217,14 @@ export default function NewsDetailPage() {
                   });
                 } else {
                   navigator.clipboard.writeText(window.location.href);
-                  alert(language === "tr" ? "Bağlantı panoya kopyalandı!" : "Link copied to clipboard!");
+                  const alerts: Record<string, string> = {
+                    tr: "Bağlantı panoya kopyalandı!",
+                    es: "¡Enlace copiado al portapapeles!",
+                    el: "Ο σύνδεσμος αντιγράφηκε στο πρόχειρο!",
+                    de: "Link in die Zwischenablage kopiert!",
+                    sv: "Länk kopierad till urklipp!"
+                  };
+                  alert(alerts[language] || "Link copied to clipboard!");
                 }
               }}
               className="flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-sm font-bold"

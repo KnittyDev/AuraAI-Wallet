@@ -126,7 +126,7 @@ export default function PerformancePage() {
     const performanceHistory = filteredActions.map(a => {
       tempRunning += Number(a.profit_usd || 0);
       return {
-        date: new Date(a.created_at).toLocaleDateString(language === "tr" ? "tr-TR" : "en-US", 
+        date: new Date(a.created_at).toLocaleDateString(language === "tr" ? "tr-TR" : language === "de" ? "de-DE" : language === "sv" ? "sv-SE" : language === "es" ? "es-ES" : language === "el" ? "el-GR" : "en-US", 
           timeRange === "24H" 
             ? { hour: '2-digit', minute: '2-digit' } 
             : { month: 'short', day: 'numeric' }
@@ -139,7 +139,7 @@ export default function PerformancePage() {
     // 3. Process Monthly Returns
     const monthlyData: Record<string, number> = {};
     filteredActions.forEach(a => {
-      const month = new Date(a.created_at).toLocaleDateString(language === "tr" ? "tr-TR" : "en-US", { month: 'short' });
+      const month = new Date(a.created_at).toLocaleDateString(language === "tr" ? "tr-TR" : language === "de" ? "de-DE" : language === "sv" ? "sv-SE" : language === "es" ? "es-ES" : language === "el" ? "el-GR" : "en-US", { month: 'short' });
       monthlyData[month] = (monthlyData[month] || 0) + Number(a.profit_usd || 0);
     });
 

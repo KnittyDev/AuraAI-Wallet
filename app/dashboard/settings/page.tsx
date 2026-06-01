@@ -600,6 +600,8 @@ export default function SettingsPage() {
                       <option value="tr">Türkçe (TR)</option>
                       <option value="de">Deutsch (DE)</option>
                       <option value="sv">Svenska (SE)</option>
+                      <option value="es">Español (ES)</option>
+                      <option value="el">Ελληνικά (GR)</option>
                     </select>
                   </div>
                 </div>
@@ -668,7 +670,7 @@ export default function SettingsPage() {
                            />
                         </div>
                         <p className="text-[10px] text-white/40 leading-relaxed">
-                          {t("settings.membershipExpiryText")} <span className="text-white font-bold">{new Date(profileData.expiry).toLocaleDateString(language === "tr" ? "tr-TR" : "en-US")}</span>.
+                          {t("settings.membershipExpiryText")} <span className="text-white font-bold">{new Date(profileData.expiry).toLocaleDateString(language === "tr" ? "tr-TR" : language === "de" ? "de-DE" : language === "sv" ? "sv-SE" : language === "es" ? "es-ES" : language === "el" ? "el-GR" : "en-US")}</span>.
                         </p>
                       </div>
                     )}

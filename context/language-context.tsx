@@ -5,14 +5,18 @@ import en from "./en.json";
 import tr from "./tr.json";
 import de from "./de.json";
 import sv from "./sv.json";
+import es from "./es.json";
+import el from "./el.json";
 
-export type Language = "en" | "tr" | "de" | "sv";
+export type Language = "en" | "tr" | "de" | "sv" | "es" | "el";
 
 const translations: Record<Language, any> = {
   en,
   tr,
   de,
-  sv
+  sv,
+  es,
+  el
 };
 
 type LanguageContextType = {
@@ -29,7 +33,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // Load language preference from local storage or browser language on mount
   useEffect(() => {
     const savedLang = localStorage.getItem("aura_language") as Language;
-    if (["en", "tr", "de", "sv"].includes(savedLang)) {
+    if (["en", "tr", "de", "sv", "es", "el"].includes(savedLang)) {
       setLanguageState(savedLang);
       document.documentElement.setAttribute("lang", savedLang);
     } else {
@@ -38,6 +42,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       if (browserLang === "tr") defaultLang = "tr";
       else if (browserLang === "de") defaultLang = "de";
       else if (browserLang === "sv") defaultLang = "sv";
+      else if (browserLang === "es") defaultLang = "es";
+      else if (browserLang === "el") defaultLang = "el";
       setLanguageState(defaultLang);
       document.documentElement.setAttribute("lang", defaultLang);
     }
@@ -57,7 +63,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       if (current && current[part] !== undefined) {
         current = current[part];
       } else {
-        // Fallback to English if translation key is missing in Turkish
+        // Fallback to English if translation key is missing
         let englishFallback: any = translations["en"];
         for (const fallbackPart of parts) {
           if (englishFallback && englishFallback[fallbackPart] !== undefined) {
@@ -87,3 +93,4 @@ export const useLanguage = () => {
   }
   return context;
 };
+

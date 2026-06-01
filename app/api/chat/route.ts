@@ -26,9 +26,13 @@ export async function POST(req: Request) {
       console.error("Failed to fetch Binance prices for AI context:", e);
     }
 
-    const systemInstructionLanguage = language === "tr"
-      ? "You MUST respond in Turkish. All explanations, table headers, numbers, labels, advice, and analysis MUST be written entirely in Turkish."
-      : "You MUST respond in English. All explanations, table headers, numbers, labels, advice, and analysis MUST be written entirely in English.";
+    const systemInstructionLanguage = 
+      language === "tr" ? "You MUST respond in Turkish. All explanations, table headers, numbers, labels, advice, and analysis MUST be written entirely in Turkish." :
+      language === "es" ? "You MUST respond in Spanish. All explanations, table headers, numbers, labels, advice, and analysis MUST be written entirely in Spanish." :
+      language === "el" ? "You MUST respond in Greek. All explanations, table headers, numbers, labels, advice, and analysis MUST be written entirely in Greek." :
+      language === "de" ? "You MUST respond in German. All explanations, table headers, numbers, labels, advice, and analysis MUST be written entirely in German." :
+      language === "sv" ? "You MUST respond in Swedish. All explanations, table headers, numbers, labels, advice, and analysis MUST be written entirely in Swedish." :
+      "You MUST respond in English. All explanations, table headers, numbers, labels, advice, and analysis MUST be written entirely in English.";
 
     // Context about the user's portfolio to give the AI some "knowledge"
     const systemMessage = {

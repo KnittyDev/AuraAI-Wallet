@@ -65,7 +65,7 @@ export default function AuraNewsPage() {
 
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp * 1000);
-    return date.toLocaleDateString(language === "tr" ? "tr-TR" : "en-US", {
+    return date.toLocaleDateString(language === "tr" ? "tr-TR" : language === "de" ? "de-DE" : language === "sv" ? "sv-SE" : language === "es" ? "es-ES" : language === "el" ? "el-GR" : "en-US", {
       month: "short",
       day: "numeric",
       year: "numeric"
@@ -74,14 +74,45 @@ export default function AuraNewsPage() {
 
   const getNewsCategoryLabel = (cat: string) => {
     if (!cat) return "";
-    if (language === "tr") {
-      if (cat.toLowerCase() === "announcement") return "Duyuru";
-      if (cat.toLowerCase() === "update") return "Güncelleme";
-      if (cat.toLowerCase() === "milestone") return "Kilometre Taşı";
-      if (cat.toLowerCase() === "security") return "Güvenlik";
-      if (cat.toLowerCase() === "tech") return "Teknoloji";
-    }
-    return cat;
+    const catLower = cat.toLowerCase();
+    const mappings: Record<string, Record<string, string>> = {
+      tr: {
+        announcement: "Duyuru",
+        update: "Güncelleme",
+        milestone: "Kilometre Taşı",
+        security: "Güvenlik",
+        tech: "Teknoloji",
+      },
+      es: {
+        announcement: "Anuncio",
+        update: "Actualización",
+        milestone: "Hito",
+        security: "Seguridad",
+        tech: "Tecnología",
+      },
+      el: {
+        announcement: "Ανακοίνωση",
+        update: "Ενημέρωση",
+        milestone: "Ορόσημο",
+        security: "Ασφάλεια",
+        tech: "Τεχνολογία",
+      },
+      de: {
+        announcement: "Ankündigung",
+        update: "Aktualisierung",
+        milestone: "Meilenstein",
+        security: "Sicherheit",
+        tech: "Technologie",
+      },
+      sv: {
+        announcement: "Meddelande",
+        update: "Uppdatering",
+        milestone: "Milstolpe",
+        security: "Säkerhet",
+        tech: "Teknologi",
+      }
+    };
+    return mappings[language]?.[catLower] || cat;
   };
 
   return (

@@ -24,7 +24,7 @@ export function TradingviewMarketWidget() {
       timezone: "Etc/UTC",
       theme: "dark",
       style: "1",
-      locale: language === "tr" ? "tr" : "en",
+      locale: language,
       enable_publishing: false,
       allow_symbol_change: true,
       details: true,
