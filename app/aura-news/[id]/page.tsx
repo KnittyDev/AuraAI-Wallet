@@ -90,6 +90,13 @@ export default function NewsDetailPage() {
         milestone: "Milstolpe",
         security: "Säkerhet",
         tech: "Teknologi",
+      },
+      ru: {
+        announcement: "Объявление",
+        update: "Обновление",
+        milestone: "Веха",
+        security: "Безопасность",
+        tech: "Технологии",
       }
     };
     return mappings[language]?.[catLower] || cat;
@@ -152,7 +159,7 @@ export default function NewsDetailPage() {
             </span>
             <div className="flex items-center gap-2 text-xs text-white/30">
               <LuCalendar className="h-3.5 w-3.5" />
-              {new Date(news.published_at).toLocaleDateString(language === "tr" ? "tr-TR" : language === "de" ? "de-DE" : language === "sv" ? "sv-SE" : language === "es" ? "es-ES" : language === "el" ? "el-GR" : "en-US", { month: 'long', day: 'numeric', year: 'numeric' })}
+              {new Date(news.published_at).toLocaleDateString(language === "tr" ? "tr-TR" : language === "de" ? "de-DE" : language === "sv" ? "sv-SE" : language === "es" ? "es-ES" : language === "el" ? "el-GR" : language === "ru" ? "ru-RU" : "en-US", { month: 'long', day: 'numeric', year: 'numeric' })}
             </div>
             <div className="flex items-center gap-2 text-xs text-white/30">
               <LuTag className="h-3.5 w-3.5" />
@@ -222,7 +229,8 @@ export default function NewsDetailPage() {
                     es: "¡Enlace copiado al portapapeles!",
                     el: "Ο σύνδεσμος αντιγράφηκε στο πρόχειρο!",
                     de: "Link in die Zwischenablage kopiert!",
-                    sv: "Länk kopierad till urklipp!"
+                    sv: "Länk kopierad till urklipp!",
+                    ru: "Ссылка скопирована в буфер обмена!"
                   };
                   alert(alerts[language] || "Link copied to clipboard!");
                 }

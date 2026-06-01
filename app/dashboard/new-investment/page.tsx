@@ -369,6 +369,12 @@ export default function NewInvestmentPage() {
         "Institutional Medium": "Institutionell Medel",
         "High Growth": "Hög Tillväxt",
         "Maximum Alpha": "Maximalt Alfa"
+      },
+      ru: {
+        "Institutional Low": "Институциональный Низкий",
+        "Institutional Medium": "Институциональный Средний",
+        "High Growth": "Высокий Рост",
+        "Maximum Alpha": "Максимум Альфа"
       }
     };
     return mappings[language]?.[tier] || tier;
@@ -627,6 +633,7 @@ export default function NewInvestmentPage() {
                             language === "el" ? "Προσαρμοσμένο" :
                             language === "de" ? "Benutzerdefiniert" :
                             language === "sv" ? "Anpassad" :
+                            language === "ru" ? "Свой" :
                             "Custom"
                           }</span>
                         </div>

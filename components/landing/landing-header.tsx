@@ -17,6 +17,7 @@ const LANGUAGES = [
   { code: "sv" as const, name: "Svenska", flag: "🇸🇪" },
   { code: "es" as const, name: "Español", flag: "🇪🇸" },
   { code: "el" as const, name: "Ελληνικά", flag: "🇬🇷" },
+  { code: "ru" as const, name: "Русский", flag: "🇷🇺" },
 ] as const;
 
 export function LandingHeader() {

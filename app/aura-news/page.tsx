@@ -65,7 +65,7 @@ export default function AuraNewsPage() {
 
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp * 1000);
-    return date.toLocaleDateString(language === "tr" ? "tr-TR" : language === "de" ? "de-DE" : language === "sv" ? "sv-SE" : language === "es" ? "es-ES" : language === "el" ? "el-GR" : "en-US", {
+    return date.toLocaleDateString(language === "tr" ? "tr-TR" : language === "de" ? "de-DE" : language === "sv" ? "sv-SE" : language === "es" ? "es-ES" : language === "el" ? "el-GR" : language === "ru" ? "ru-RU" : "en-US", {
       month: "short",
       day: "numeric",
       year: "numeric"
@@ -110,6 +110,13 @@ export default function AuraNewsPage() {
         milestone: "Milstolpe",
         security: "Säkerhet",
         tech: "Teknologi",
+      },
+      ru: {
+        announcement: "Объявление",
+        update: "Обновление",
+        milestone: "Веха",
+        security: "Безопасность",
+        tech: "Технологии",
       }
     };
     return mappings[language]?.[catLower] || cat;

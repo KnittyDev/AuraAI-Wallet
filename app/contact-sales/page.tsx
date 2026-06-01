@@ -40,6 +40,7 @@ export default function ContactSalesPage() {
       language === "el" ? "Κάτω από $100K" : 
       language === "de" ? "Unter $100K" : 
       language === "sv" ? "Under $100K" : 
+      language === "ru" ? "Менее $100K" : 
       "Under $100K" 
     },
     { value: "100k_500k", label: "$100K - $500K" },

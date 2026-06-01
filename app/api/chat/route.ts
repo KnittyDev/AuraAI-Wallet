@@ -32,6 +32,7 @@ export async function POST(req: Request) {
       language === "el" ? "You MUST respond in Greek. All explanations, table headers, numbers, labels, advice, and analysis MUST be written entirely in Greek." :
       language === "de" ? "You MUST respond in German. All explanations, table headers, numbers, labels, advice, and analysis MUST be written entirely in German." :
       language === "sv" ? "You MUST respond in Swedish. All explanations, table headers, numbers, labels, advice, and analysis MUST be written entirely in Swedish." :
+      language === "ru" ? "You MUST respond in Russian. All explanations, table headers, numbers, labels, advice, and analysis MUST be written entirely in Russian." :
       "You MUST respond in English. All explanations, table headers, numbers, labels, advice, and analysis MUST be written entirely in English.";
 
     // Context about the user's portfolio to give the AI some "knowledge"

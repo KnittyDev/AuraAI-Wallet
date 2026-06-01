@@ -7,8 +7,9 @@ import de from "./de.json";
 import sv from "./sv.json";
 import es from "./es.json";
 import el from "./el.json";
+import ru from "./ru.json";
 
-export type Language = "en" | "tr" | "de" | "sv" | "es" | "el";
+export type Language = "en" | "tr" | "de" | "sv" | "es" | "el" | "ru";
 
 const translations: Record<Language, any> = {
   en,
@@ -16,7 +17,8 @@ const translations: Record<Language, any> = {
   de,
   sv,
   es,
-  el
+  el,
+  ru
 };
 
 type LanguageContextType = {
@@ -33,7 +35,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // Load language preference from local storage or browser language on mount
   useEffect(() => {
     const savedLang = localStorage.getItem("aura_language") as Language;
-    if (["en", "tr", "de", "sv", "es", "el"].includes(savedLang)) {
+    if (["en", "tr", "de", "sv", "es", "el", "ru"].includes(savedLang)) {
       setLanguageState(savedLang);
       document.documentElement.setAttribute("lang", savedLang);
     } else {
@@ -44,6 +46,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       else if (browserLang === "sv") defaultLang = "sv";
       else if (browserLang === "es") defaultLang = "es";
       else if (browserLang === "el") defaultLang = "el";
+      else if (browserLang === "ru") defaultLang = "ru";
       setLanguageState(defaultLang);
       document.documentElement.setAttribute("lang", defaultLang);
     }
