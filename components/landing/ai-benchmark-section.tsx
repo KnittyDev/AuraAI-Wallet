@@ -17,7 +17,7 @@ const benchmarkData = [
   { model: "Grok-3", score: 71.6, accuracy: 84.1, latency: 520, sharpe: 1.21 },
   { model: "Gemini 3", score: 79.1, accuracy: 88.7, latency: 280, sharpe: 1.63 },
   { model: "GPT-4.1", score: 82.4, accuracy: 91.2, latency: 340, sharpe: 1.87 },
-  { model: "AuraAI (Claude O4.7)", score: 97.8, accuracy: 99.8, latency: 12, sharpe: 3.42 },
+  { model: "AuraAI (Claude O4.8)", score: 97.8, accuracy: 99.8, latency: 12, sharpe: 3.42 },
 ];
 
 const BAR_COLORS = [
@@ -32,7 +32,7 @@ export function AIBenchmarkSection() {
   const { language, t } = useLanguage();
 
   const metrics = [
-    { value: "97.8", label: language === "en" ? "AuraAI (Claude Opus 4.7) score" : "AuraAI (Claude Opus 4.7) skoru", sub: t("benchmark.compositeIndex") },
+    { value: "97.8", label: language === "en" ? "AuraAI (Claude Opus 4.8) score" : "AuraAI (Claude Opus 4.8) skoru", sub: t("benchmark.compositeIndex") },
     { value: "99.8%", label: t("benchmark.accuracy"), sub: t("benchmark.liveMarkets") },
     { value: "12ms", label: t("benchmark.latency"), sub: t("benchmark.edgeRuntime") },
     { value: "3.42", label: t("benchmark.sharpe"), sub: t("benchmark.riskReturns") },
@@ -58,7 +58,7 @@ export function AIBenchmarkSection() {
             <div className="mb-4 grid grid-cols-2 gap-3 text-sm">
               <div className="rounded-xl border border-white/10 bg-white/5 p-3 text-white/80">
                 <p className="text-white/60">{t("benchmark.topModel")}</p>
-                <p className="mt-1 text-xl font-semibold text-white">AuraAI (Claude Opus 4.7)</p>
+                <p className="mt-1 text-xl font-semibold text-white">AuraAI (Claude Opus 4.8)</p>
               </div>
               <div className="rounded-xl border border-white/10 bg-white/5 p-3 text-white/80">
                 <p className="text-white/60">{t("benchmark.scoreLead")}</p>

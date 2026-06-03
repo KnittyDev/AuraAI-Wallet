@@ -36,7 +36,7 @@ export const caseStudies = [
       },
       {
         heading: "Implementation Strategy",
-        body: "The best thing about Aura was that it had been trained using Claude Opus 4.7, and during our discussions with the founders, we learned how Aura AI was trained to learn strategies and which datasets it used, because we were transitioning to autonomous investing and this was a critical strategy for the company’s funds; by selecting a strategy focused on aggressive and rapid growth, the AI opened positions, and it understood our needs and what we wanted",
+        body: "The best thing about Aura was that it had been trained using Claude Opus 4.8, and during our discussions with the founders, we learned how Aura AI was trained to learn strategies and which datasets it used, because we were transitioning to autonomous investing and this was a critical strategy for the company’s funds; by selecting a strategy focused on aggressive and rapid growth, the AI opened positions, and it understood our needs and what we wanted",
       },
       {
         heading: "The Results",

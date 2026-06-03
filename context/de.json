@@ -67,7 +67,7 @@
     }
   },
   "hero": {
-    "eyebrow": "Claude Opus 4.7 — Max",
+    "eyebrow": "Claude Opus 4.8 — Max",
     "title1": "Lassen Sie KI Ihr ",
     "title2": "Portfolio verwalten",
     "subtitle": "Aura AI analysiert kontinuierlich Märkte, verwaltet Risiken und führt Trades aus – so arbeitet Ihr Portfolio weiter, auch wenn Sie es nicht tun.",
@@ -107,7 +107,7 @@
       "price": "$15 / 3 Monate",
       "description": "Vollständig autonomer Modus: KI verwaltet Trades rund um die Uhr. Abrechnung alle 3 Monate.",
       "features": [
-        "Opus 4.7 Max AI Modell",
+        "Opus 4.8 Max AI Modell",
         "Kapitalschutz: 15% Verlustrückerstattung",
         "Unbegrenzte automatisierte Trades",
         "Unbegrenzte Portfolio-Verwaltung",
@@ -138,7 +138,7 @@
   "features": {
     "prediction": {
       "title": "Einfach zu bedienen",
-      "description": "Selbst wenn Sie keine Kenntnisse über Trading, Kryptowährungen oder den Aktienmarkt haben, wickelt das Aura Opus 4.7 Modell alle Ihre Trades vollständig autonom ab!",
+      "description": "Selbst wenn Sie keine Kenntnisse über Trading, Kryptowährungen oder den Aktienmarkt haben, wickelt das Aura Opus 4.8 Modell alle Ihre Trades vollständig autonom ab!",
       "button": "Trading starten",
       "status": "Systemstatus",
       "trading": "Autonomes Trading",
@@ -171,7 +171,7 @@
   },
   "results": {
     "title": "Echte Ergebnisse",
-    "disclaimer": "*Illustrative 30-Tage-Schätzung basierend auf historischen Strategie-Benchmarks. (Opus 4.7 Modell)",
+    "disclaimer": "*Illustrative 30-Tage-Schätzung basierend auf historischen Strategie-Benchmarks. (Opus 4.8 Modell)",
     "invest": "Sie investieren in 1 Monat",
     "auraEarn": "Sie verdienen mit Aura AI Wallet*",
     "manualEarn": "Sie verdienen mit manuellem Trading",
@@ -231,7 +231,7 @@
       },
       {
         "question": "Wie trifft die KI ihre Handelsentscheidungen?",
-        "answer": "Aura AI nutzt das Claude Opus 4.7-Modell und setzt fortschrittliche künstliche Intelligenz ein, die speziell für die Bereiche Investitionen und Kryptowährungen trainiert wurde. Das System analysiert kontinuierlich Echtzeit-Nachrichten, soziale Stimmungen, On-Chain-Daten und Live-Markt-Feeds. Es führt Trades autonom auf Basis dieser Signale aus, um die Performance entsprechend Ihrem Risikoprofil zu optimieren."
+        "answer": "Aura AI nutzt das Claude Opus 4.8-Modell und setzt fortschrittliche künstliche Intelligenz ein, die speziell für die Bereiche Investitionen und Kryptowährungen trainiert wurde. Das System analysiert kontinuierlich Echtzeit-Nachrichten, soziale Stimmungen, On-Chain-Daten und Live-Markt-Feeds. Es führt Trades autonom auf Basis dieser Signale aus, um die Performance entsprechend Ihrem Risikoprofil zu optimieren."
       },
       {
         "question": "Ist mein Kapital bei Aura sicher?",
@@ -259,7 +259,7 @@
       },
       {
         "question": "Warum gibt es eine monatliche Abonnementsgebühr?",
-        "answer": "Der Betrieb einer otonomen KI rund um die Uhr erfordert erhebliche Rechenressourcen. Ihr Abonnement deckt direkt die hohen Kosten für Claude Opus 4.7 Token (die Aura bei der Datenanalyse verbraucht), hochfrequente Marktdaten-Feeds und die sichere Cloud-Infrastruktur, die für eine Ausführung im Millisekundenbereich erforderlich ist."
+        "answer": "Der Betrieb einer otonomen KI rund um die Uhr erfordert erhebliche Rechenressourcen. Ihr Abonnement deckt direkt die hohen Kosten für Claude Opus 4.8 Token (die Aura bei der Datenanalyse verbraucht), hochfrequente Marktdaten-Feeds und die sichere Cloud-Infrastruktur, die für eine Ausführung im Millisekundenbereich erforderlich ist."
       },
       {
         "question": "Ist eine manuelle Genehmigung für Einzahlungen oder Auszahlungen erforderlich?",
@@ -521,7 +521,7 @@
     "activePosition": "Aktive Position",
     "strategyComplete": "Strategie abgeschlossen",
     "scanningMarkets": "Märkte nach Gelegenheiten scannen...",
-    "engineVersion": "Engine-Version: 2.4.0-AuraAI mit Claude Opus 4.7 Max"
+    "engineVersion": "Engine-Version: 2.4.0-AuraAI mit Claude Opus 4.8 Max"
   },
   "transactions": {
     "title": "Transaktionen",

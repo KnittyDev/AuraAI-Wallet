@@ -67,7 +67,7 @@
     }
   },
   "hero": {
-    "eyebrow": "Claude Opus 4.7 — Max",
+    "eyebrow": "Claude Opus 4.8 — Max",
     "title1": "Let AI Manage ",
     "title2": "Your Portfolio",
     "subtitle": "Aura AI continuously analyzes markets, manages risk, and executes trades — so your portfolio keeps working even when you don't.",
@@ -107,7 +107,7 @@
       "price": "$15 / 3 months",
       "description": "Full autonomous mode: AI manages trades 24/7. Billed every 3 months.",
       "features": [
-        "Opus 4.7 Max AI Model",
+        "Opus 4.8 Max AI Model",
         "Capital Protection: 15% Loss Recovery",
         "Unlimited automated trades",
         "Unlimited portfolio management",
@@ -138,7 +138,7 @@
   "features": {
     "prediction": {
       "title": "Easy to use",
-      "description": "Even if you have no knowledge of trading, cryptocurrency, or stock market, the Aura Opus 4.7 model handles all your trades fully autonomously!",
+      "description": "Even if you have no knowledge of trading, cryptocurrency, or stock market, the Aura Opus 4.8 model handles all your trades fully autonomously!",
       "button": "Start Trading",
       "status": "System Status",
       "trading": "Autonomous Trading",
@@ -171,7 +171,7 @@
   },
   "results": {
     "title": "Real Results",
-    "disclaimer": "*Illustrative 30-day estimate based on historical strategy benchmarks. (Opus 4.7 model)",
+    "disclaimer": "*Illustrative 30-day estimate based on historical strategy benchmarks. (Opus 4.8 model)",
     "invest": "You invest in 1 month",
     "auraEarn": "You earn with Aura AI Wallet*",
     "manualEarn": "You earn with manual trading",
@@ -231,7 +231,7 @@
       },
       {
         "question": "How does the AI make trading decisions?",
-        "answer": "Aura AI leverages the Claude Opus 4.7 model, utilizing advanced artificial intelligence specifically trained in the domains of investment and cryptocurrency. The system continuously analyzes real-time news, social sentiment, on-chain data, and live market streams. It autonomously executes trades based on its assessment of these signals to optimize performance in line with your risk profile."
+        "answer": "Aura AI leverages the Claude Opus 4.8 model, utilizing advanced artificial intelligence specifically trained in the domains of investment and cryptocurrency. The system continuously analyzes real-time news, social sentiment, on-chain data, and live market streams. It autonomously executes trades based on its assessment of these signals to optimize performance in line with your risk profile."
       },
       {
         "question": "Is my capital secure with Aura?",
@@ -259,7 +259,7 @@
       },
       {
         "question": "Why is there a monthly subscription fee?",
-        "answer": "Operating a 24/7 otonom AI requires significant compute resources. Your subscription directly covers the high cost of Claude Opus 4.7 tokens (which Aura 'burns' as it analyzes data), high-frequency market data streams, and the secure cloud infrastructure required to execute trades with millisecond latency across global markets."
+        "answer": "Operating a 24/7 otonom AI requires significant compute resources. Your subscription directly covers the high cost of Claude Opus 4.8 tokens (which Aura 'burns' as it analyzes data), high-frequency market data streams, and the secure cloud infrastructure required to execute trades with millisecond latency across global markets."
       },
       {
         "question": "Is manual approval required for deposits or withdrawals?",
@@ -521,7 +521,7 @@
     "activePosition": "Active Position",
     "strategyComplete": "Strategy Complete",
     "scanningMarkets": "Scanning Markets for Opportunity...",
-    "engineVersion": "Engine Version: 2.4.0-AuraAI with Claude Opus 4.7 Max"
+    "engineVersion": "Engine Version: 2.4.0-AuraAI with Claude Opus 4.8 Max"
   },
   "transactions": {
     "title": "Transactions",

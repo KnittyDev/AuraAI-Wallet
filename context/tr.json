@@ -67,7 +67,7 @@
     }
   },
   "hero": {
-    "eyebrow": "Claude Opus 4.7 — En Üst Seviye",
+    "eyebrow": "Claude Opus 4.8 — En Üst Seviye",
     "title1": "Portföyünüzü ",
     "title2": "Bırakın AI Yönetsin",
     "subtitle": "Aura AI piyasaları sürekli analiz eder, riskleri yönetir ve işlemleri gerçekleştirir — siz dinlenirken bile portföyünüz çalışmaya devam eder.",
@@ -107,7 +107,7 @@
       "price": "$15 / 3 ay",
       "description": "Tam otonom mod: AI işlemleri 7/24 yönetir. 3 ayda bir faturalandırılır.",
       "features": [
-        "Opus 4.7 Max AI Modeli",
+        "Opus 4.8 Max AI Modeli",
         "Sermaye Koruması: %15 Kayıp Telafisi",
         "Sınırsız otonom işlem",
         "Sınırsız portföy yönetimi",
@@ -138,7 +138,7 @@
   "features": {
     "prediction": {
       "title": "Kullanımı Kolay",
-      "description": "Ticaret, kripto para veya borsa hakkında hiçbir bilginiz olmasa bile, Aura Opus 4.7 modeli tüm işlemlerinizi tamamen otonom olarak yönetir!",
+      "description": "Ticaret, kripto para veya borsa hakkında hiçbir bilginiz olmasa bile, Aura Opus 4.8 modeli tüm işlemlerinizi tamamen otonom olarak yönetir!",
       "button": "İşlemlere Başla",
       "status": "Sistem Durumu",
       "trading": "Otonom İşlemler",
@@ -148,10 +148,10 @@
       "live": "Küresel Canlı"
     },
     "ai": {
-      "title": "Trade with AI",
-      "description": "Use model-powered portfolio ideas and instantly convert them into actionable trade logic with a single prompt.",
-      "button": "Generate Strategy",
-      "strategy": "Growth Strategy"
+      "title": "Yapay Zeka ile İşlem Yap",
+      "description": "Model destekli portföy fikirlerini kullanın ve tek bir komutla anında uygulanabilir işlem mantığına dönüştürün.",
+      "button": "Strateji Oluştur",
+      "strategy": "Büyüme Stratejisi"
     },
     "sleep": {
       "title": "Siz Uyurken Çalışsın",
@@ -171,7 +171,7 @@
   },
   "results": {
     "title": "Gerçek Sonuçlar",
-    "disclaimer": "*Tarihsel strateji kriterlerine dayalı açıklayıcı 30 günlük tahmin. (Opus 4.7 modeli)",
+    "disclaimer": "*Tarihsel strateji kriterlerine dayalı açıklayıcı 30 günlük tahmin. (Opus 4.8 modeli)",
     "invest": "1 ayda yatırdığınız tutar",
     "auraEarn": "Aura AI Cüzdanı ile kazancınız*",
     "manualEarn": "Manuel işlemlerle kazancınız",
@@ -185,7 +185,7 @@
     "title": "AI Kıyaslaması",
     "topModel": "En İyi Model",
     "scoreLead": "Skor Liderliği",
-    "compositeDesc": "*Tarihsel strateji kriterlerine dayalı açıklayıcı 30 günlük tahmin. (Opus 4.7 modeli)",
+    "compositeDesc": "*Tarihsel strateji kriterlerine dayalı açıklayıcı 30 günlük tahmin. (Opus 4.8 modeli)",
     "compositeIndex": "Birleşik Endeks",
     "accuracy": "Tahmin doğruluğu",
     "liveMarkets": "Canlı kripto piyasaları",
@@ -231,7 +231,7 @@
       },
       {
         "question": "Yapay zeka işlem kararlarını nasıl alıyor?",
-        "answer": "Aura AI, yatırım ve kripto para birimleri alanlarında özel olarak eğitilmiş gelişmiş yapay zeka Claude Opus 4.7 modelini kullanır. Sistem; gerçek zamanlı haberleri, sosyal medya eğilimlerini, zincir üstü verileri ve canlı piyasa akışlarını sürekli olarak analiz eder. Bu sinyallerden çıkardığı değerlendirmelere göre, risk profilinize uygun performansı optimize etmek amacıyla otonom olarak işlemler gerçekleştirir."
+        "answer": "Aura AI, yatırım ve kripto para birimleri alanlarında özel olarak eğitilmiş gelişmiş yapay zeka Claude Opus 4.8 modelini kullanır. Sistem; gerçek zamanlı haberleri, sosyal medya eğilimlerini, zincir üstü verileri ve canlı piyasa akışlarını sürekli olarak analiz eder. Bu sinyallerden çıkardığı değerlendirmelere göre, risk profilinize uygun performansı optimize etmek amacıyla otonom olarak işlemler gerçekleştirir."
       },
       {
         "question": "Sermayem Aura ile güvende mi?",
@@ -259,7 +259,7 @@
       },
       {
         "question": "Neden aylık abonelik ücreti var?",
-        "answer": "7/24 otonom çalışan bir yapay zekayı işletmek ciddi hesaplama kaynakları gerektirir. Aboneliğiniz; Aura'nın veri analiz ederken harcadığı Claude Opus 4.7 tokenlarının maliyetini, yüksek frekanslı piyasa verisi akışlarını ve küresel piyasalarda milisaniye düzeyinde gecikmeyle işlemler yürütebilmesi için gereken güvenli bulut altyapısını doğrudan karşılar."
+        "answer": "7/24 otonom çalışan bir yapay zekayı işletmek ciddi hesaplama kaynakları gerektirir. Aboneliğiniz; Aura'nın veri analiz ederken harcadığı Claude Opus 4.8 tokenlarının maliyetini, yüksek frekanslı piyasa verisi akışlarını ve küresel piyasalarda milisaniye düzeyinde gecikmeyle işlemler yürütebilmesi için gereken güvenli bulut altyapısını doğrudan karşılar."
       },
       {
         "question": "Yatırma veya çekme işlemleri için manuel onay gerekiyor mu?",
@@ -521,7 +521,7 @@
     "activePosition": "Aktif Pozisyon",
     "strategyComplete": "Strateji Tamamlandı",
     "scanningMarkets": "Piyasalar Fırsat İçin Taranıyor...",
-    "engineVersion": "Motor Sürümü: 2.4.0-AuraAI ile Claude Opus 4.7 Max"
+    "engineVersion": "Motor Sürümü: 2.4.0-AuraAI ile Claude Opus 4.8 Max"
   },
   "transactions": {
     "title": "İşlemler",

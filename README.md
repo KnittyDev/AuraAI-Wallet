@@ -1,6 +1,6 @@
 # Aura AI Wallet — Next-Gen Portfolio Intelligence
 
-A premium, AI-native autonomous trading platform built with **Next.js 15** and **Claude Opus 4.7**. Aura manages your crypto portfolio 24/7, executing strategies with millisecond latency and institutional-grade risk controls.
+A premium, AI-native autonomous trading platform built with **Next.js 15** and **Claude Opus 4.8**. Aura manages your crypto portfolio 24/7, executing strategies with millisecond latency and institutional-grade risk controls.
 
 ## 💎 Design & Preview
 
@@ -40,7 +40,7 @@ Dynamic, editorial-style case studies featuring real-world investment firms (Gra
 - **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
 - **Animations**: [Framer Motion](https://www.framer.com/motion/)
 - **Charts**: [Recharts](https://recharts.org/) for high-performance data visualization.
-- **AI Engine**: [Anthropic Claude Opus 4.7](https://www.anthropic.com/)
+- **AI Engine**: [Anthropic Claude Opus 4.8](https://www.anthropic.com/)
 - **Payment Gateway**: [OxaPay Merchant API](https://oxapay.com/)
 - **Icons**: [Lucide React](https://lucide.dev/) & [Simple Icons](https://simpleicons.org/)
 

@@ -67,7 +67,7 @@
     }
   },
   "hero": {
-    "eyebrow": "Claude Opus 4.7 — Max",
+    "eyebrow": "Claude Opus 4.8 — Max",
     "title1": "Låt AI förvalta ",
     "title2": "din portfölj",
     "subtitle": "Aura AI analyserar ständigt marknader, hanterar risker och utför affärer – så att din portfölj fortsätter att arbeta även när du inte gör det.",
@@ -107,7 +107,7 @@
       "price": "$15 / 3 månader",
       "description": "Fullt autonomt läge: AI hanterar affärer dygnet runt. Faktureras var tredje månad.",
       "features": [
-        "Opus 4.7 Max AI-modell",
+        "Opus 4.8 Max AI-modell",
         "Kapitalkydd: 15% förluståterbetalning",
         "Obegränsade automatiserade affärer",
         "Obegränsad portföljförvaltning",
@@ -138,7 +138,7 @@
   "features": {
     "prediction": {
       "title": "Enkel att använda",
-      "description": "Även om du inte har någon kunskap om handel, kryptovaluta eller aktiemarknaden, hanterar Aura Opus 4.7-modellen alla dina affärer helt självständigt!",
+      "description": "Även om du inte har någon kunskap om handel, kryptovaluta eller aktiemarknaden, hanterar Aura Opus 4.8-modellen alla dina affärer helt självständigt!",
       "button": "Börja handla",
       "status": "Systemstatus",
       "trading": "Autonom handel",
@@ -171,7 +171,7 @@
   },
   "results": {
     "title": "Verkliga resultat",
-    "disclaimer": "*Illustrativ 30-dagars uppskattning baserad på historiska strategiriktmärken. (Opus 4.7-modell)",
+    "disclaimer": "*Illustrativ 30-dagars uppskattning baserad på historiska strategiriktmärken. (Opus 4.8-modell)",
     "invest": "Du investerar på 1 månad",
     "auraEarn": "Du tjänar med Aura AI Wallet*",
     "manualEarn": "Du tjänar med manuell handel",
@@ -231,7 +231,7 @@
       },
       {
         "question": "Hur fattar AI:n handelsbeslut?",
-        "answer": "Aura AI använder Claude Opus 4.7-modellen och utnyttjar avancerad artificiell intelligens som är särskilt tränad inom investerings- och kryptovalutadomänerna. Systemet analyserar ständigt realtidsnyheter, sociala känslor, on-chain-data och live-marknadsströmmar. Den utför självständigt affärer baserat på dessa signaler för att optimera prestanda i linje med din riskprofil."
+        "answer": "Aura AI använder Claude Opus 4.8-modellen och utnyttjar avancerad artificiell intelligens som är särskilt tränad inom investerings- och kryptovalutadomänerna. Systemet analyserar ständigt realtidsnyheter, sociala känslor, on-chain-data och live-marknadsströmmar. Den utför självständigt affärer baserat på dessa signaler för att optimera prestanda i linje med din riskprofil."
       },
       {
         "question": "Är mitt kapital säkert med Aura?",
@@ -259,7 +259,7 @@
       },
       {
         "question": "Varför finns det en månatlig prenumerationsavgift?",
-        "answer": "Att driva en autonom AI dygnet runt kräver betydande beräkningsresurser. Din prenumeration täcker direkt den höga kostnaden för Claude Opus 4.7-tokens (som Aura 'förbrukar' när den analyserar data), högfrekventa marknadsdataströmmar och den säkra molninfrastruktur som krävs för att utföra affärer med millisekunds latens över globala marknader."
+        "answer": "Att driva en autonom AI dygnet runt kräver betydande beräkningsresurser. Din prenumeration täcker direkt den höga kostnaden för Claude Opus 4.8-tokens (som Aura 'förbrukar' när den analyserar data), högfrekventa marknadsdataströmmar och den säkra molninfrastruktur som krävs för att utföra affärer med millisekunds latens över globala marknader."
       },
       {
         "question": "Krävs manuellt godkännande för insättningar eller uttag?",
@@ -521,7 +521,7 @@
     "activePosition": "Aktiv position",
     "strategyComplete": "Strategi slutförd",
     "scanningMarkets": "Söker på marknader efter möjligheter...",
-    "engineVersion": "Motorversion: 2.4.0-AuraAI med Claude Opus 4.7 Max"
+    "engineVersion": "Motorversion: 2.4.0-AuraAI med Claude Opus 4.8 Max"
   },
   "transactions": {
     "title": "Transaktioner",
