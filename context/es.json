@@ -1231,5 +1231,49 @@
       "desc": "Siempre estamos buscando talento excepcional. Envíanos tu currículum y cuéntanos cómo contribuirías al futuro de las finanzas autónomas.",
       "button": "Enviar solicitud abierta"
     }
+  },
+  "card": {
+    "backToWallet": "Volver a la Billetera",
+    "comingSoon": "Próximamente",
+    "title1": "Aura Elite",
+    "title2": "Tarjeta Cripto",
+    "description": "La tarjeta bancaria criptográfica más premium del mundo. Gaste sus activos digitales en cualquier lugar y en cualquier momento, con cero comisiones y seguridad de nivel institucional.",
+    "joinWaitlist": "Unirse a la Lista de Espera",
+    "onList": "Estás en la lista",
+    "waitingCount": "2.847 en espera",
+    "cardHolder": "Titular de la Tarjeta",
+    "platinumMember": "Miembro Aura Platinum",
+    "whyTitle": "¿Por qué la Tarjeta Aura?",
+    "whySubtitle": "Creada para la próxima generación de poseedores de activos digitales.",
+    "features": {
+      "spendAnywhere": {
+        "title": "Gaste en Cualquier Lugar",
+        "desc": "Aceptada en más de 80 millones de comercios en todo el mundo. Pague con cripto tan fácil como con una tarjeta normal."
+      },
+      "instantConversion": {
+        "title": "Conversión Instantánea",
+        "desc": "Sus criptomonedas se convierten automáticamente a la mejor tasa en el momento de la compra."
+      },
+      "zeroFees": {
+        "title": "Cero Comisiones Ocultas",
+        "desc": "Sin tarifas mensuales, sin recargos por conversión. Solo precios transparentes y honestos."
+      },
+      "cashback": {
+        "title": "3% de Reembolso",
+        "desc": "Obtenga reembolsos en su criptomoneda preferida en cada transacción que realice."
+      }
+    },
+    "chooseTier": "Elija su Nivel",
+    "chooseTierSubtitle": "Seleccione la tarjeta que coincida con su ambición.",
+    "monthlyLimit": "Límite Mensual",
+    "cashbackLabel": "Reembolso",
+    "selected": "Seleccionada",
+    "readyTitle": "¿Listo para gastar cripto?",
+    "readySubtitle": "Únase a miles de miembros de Aura que esperan el futuro de los pagos.",
+    "onWaitlist": "Está en la lista de espera",
+    "perks": "Sin comisiones • Acceso prioritario • Beneficios exclusivos",
+    "standardLimit": "10.000 $/mes",
+    "eliteLimit": "50.000 $/mes",
+    "platinumLimit": "Ilimitado"
   }
 }

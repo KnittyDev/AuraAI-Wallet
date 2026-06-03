@@ -1231,5 +1231,49 @@
       "desc": "We're always looking for exceptional talent. Send us your resume and tell us how you'd contribute to the future of autonomous finance.",
       "button": "Send Open Application"
     }
+  },
+  "card": {
+    "backToWallet": "Back to Wallet",
+    "comingSoon": "Coming Soon",
+    "title1": "Aura Elite",
+    "title2": "Crypto Card",
+    "description": "The world's most premium crypto bank card. Spend your digital assets anywhere, anytime — with zero fees and institutional-grade security.",
+    "joinWaitlist": "Join Waitlist",
+    "onList": "You're on the list",
+    "waitingCount": "2,847 waiting",
+    "cardHolder": "Card Holder",
+    "platinumMember": "Aura Platinum Member",
+    "whyTitle": "Why Aura Card?",
+    "whySubtitle": "Built for the next generation of digital asset holders.",
+    "features": {
+      "spendAnywhere": {
+        "title": "Spend Anywhere",
+        "desc": "Accepted at 80M+ merchants worldwide. Pay with crypto as easily as a regular card."
+      },
+      "instantConversion": {
+        "title": "Instant Conversion",
+        "desc": "Your crypto is automatically converted at the best rate at the moment of purchase."
+      },
+      "zeroFees": {
+        "title": "Zero Hidden Fees",
+        "desc": "No monthly fees, no conversion markup. Just transparent, honest pricing."
+      },
+      "cashback": {
+        "title": "3% Cashback",
+        "desc": "Earn cashback in your preferred cryptocurrency on every transaction you make."
+      }
+    },
+    "chooseTier": "Choose Your Tier",
+    "chooseTierSubtitle": "Select the card that matches your ambition.",
+    "monthlyLimit": "Monthly Limit",
+    "cashbackLabel": "Cashback",
+    "selected": "Selected",
+    "readyTitle": "Ready to spend crypto?",
+    "readySubtitle": "Join thousands of Aura members waiting for the future of payments.",
+    "onWaitlist": "You're on the waitlist",
+    "perks": "No fees • Priority access • Exclusive perks",
+    "standardLimit": "$10,000/mo",
+    "eliteLimit": "$50,000/mo",
+    "platinumLimit": "Unlimited"
   }
 }

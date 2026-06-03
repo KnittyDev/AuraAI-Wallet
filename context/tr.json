@@ -1231,5 +1231,49 @@
       "desc": "Her zaman olağanüstü yetenekler arıyoruz. Özgeçmişinizi bize gönderin ve otonom finansın geleceğine nasıl katkıda bulunacağınızı anlatın.",
       "button": "Genel Başvuru Gönder"
     }
+  },
+  "card": {
+    "backToWallet": "Cüzdana Geri Dön",
+    "comingSoon": "Yakında",
+    "title1": "Aura Elite",
+    "title2": "Kripto Kart",
+    "description": "Dünyanın en prestijli kripto banka kartı. Dijital varlıklarınızı dilediğiniz yerde, dilediğiniz zaman — sıfır komisyon ve kurumsal düzeyde güvenlikle harcayın.",
+    "joinWaitlist": "Bekleme Listesine Katıl",
+    "onList": "Listeye eklendiniz",
+    "waitingCount": "2.847 kişi bekliyor",
+    "cardHolder": "Kart Sahibi",
+    "platinumMember": "Aura Platin Üyesi",
+    "whyTitle": "Neden Aura Kart?",
+    "whySubtitle": "Yeni nesil dijital varlık sahipleri için tasarlandı.",
+    "features": {
+      "spendAnywhere": {
+        "title": "Her Yerde Harcayın",
+        "desc": "Dünya çapında 80 milyondan fazla üye işyerinde geçerlidir. Kripto ile ödemeyi normal bir kart kadar kolayca yapın."
+      },
+      "instantConversion": {
+        "title": "Anında Dönüştürme",
+        "desc": "Kripto paralarınız, alışveriş anında en iyi kur üzerinden otomatik olarak dönüştürülür."
+      },
+      "zeroFees": {
+        "title": "Sıfır Gizli Ücret",
+        "desc": "Aylık ücret yok, dönüştürme marjı yok. Sadece şeffaf ve dürüst fiyatlandırma."
+      },
+      "cashback": {
+        "title": "%3 Nakit İade",
+        "desc": "Yaptığınız her işlemde tercih ettiğiniz kripto para biriminde nakit iade kazanın."
+      }
+    },
+    "chooseTier": "Kartınızı Seçin",
+    "chooseTierSubtitle": "Hedeflerinize en uygun kartı belirleyin.",
+    "monthlyLimit": "Aylık Limit",
+    "cashbackLabel": "Nakit İade",
+    "selected": "Seçildi",
+    "readyTitle": "Kripto harcamaya hazır mısınız?",
+    "readySubtitle": "Ödemelerin geleceğini bekleyen binlerce Aura üyesine katılın.",
+    "onWaitlist": "Bekleme listesindesiniz",
+    "perks": "Ücret yok • Öncelikli erişim • Ayrıcalıklı avantajlar",
+    "standardLimit": "10.000$/ay",
+    "eliteLimit": "50.000$/ay",
+    "platinumLimit": "Sınırsız"
   }
 }

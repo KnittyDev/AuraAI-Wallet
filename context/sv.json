@@ -1231,5 +1231,49 @@
       "desc": "Vi letar alltid efter exceptionella talanger. Skicka oss en spontanansökan och berätta hur du kan bidra till framtiden för autonom finans.",
       "button": "Skicka spontanansökan"
     }
+  },
+  "card": {
+    "backToWallet": "Tillbaka till Wallet",
+    "comingSoon": "Kommer Snart",
+    "title1": "Aura Elite",
+    "title2": "Kryptokort",
+    "description": "Världens mest premium krypto-bankkort. Spendera dina digitala tillgångar var som helst, när som helst — med noll avgifter och säkerhet på institutionell nivå.",
+    "joinWaitlist": "Gå med i väntelistan",
+    "onList": "Du är på listan",
+    "waitingCount": "2 847 väntar",
+    "cardHolder": "Korthållare",
+    "platinumMember": "Aura Platinum-medlem",
+    "whyTitle": "Varför Aura Card?",
+    "whySubtitle": "Byggt för nästa generation av digitala tillgångsägare.",
+    "features": {
+      "spendAnywhere": {
+        "title": "Spendera var som helst",
+        "desc": "Accepteras hos över 80 miljoner handlare världen över. Betala med krypto lika enkelt som med ett vanligt kort."
+      },
+      "instantConversion": {
+        "title": "Direkt konvertering",
+        "desc": "Din krypto konverteras automatiskt till bästa kurs vid köptillfället."
+      },
+      "zeroFees": {
+        "title": "Inga dolda avgifter",
+        "desc": "Inga månadsavgifter, inget konverteringspåslag. Bara transparenta, ärliga priser."
+      },
+      "cashback": {
+        "title": "3% Cashback",
+        "desc": "Tjäna cashback i din favoritkryptovaluta på varje transaktion du gör."
+      }
+    },
+    "chooseTier": "Välj din nivå",
+    "chooseTierSubtitle": "Välj det kort som matchar dina ambitioner.",
+    "monthlyLimit": "Månadsgräns",
+    "cashbackLabel": "Cashback",
+    "selected": "Vald",
+    "readyTitle": "Redo att spendera krypto?",
+    "readySubtitle": "Gå med i tusentals Aura-medlemmar som väntar på betalningarnas framtid.",
+    "onWaitlist": "Du är på väntelistan",
+    "perks": "Inga avgifter • Prioriterad tillgång • Exklusiva förmåner",
+    "standardLimit": "10 000 $/mån",
+    "eliteLimit": "50 000 $/mån",
+    "platinumLimit": "Obegränsat"
   }
 }

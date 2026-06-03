@@ -7,40 +7,99 @@ import { LuCreditCard, LuShieldCheck, LuGlobe, LuZap, LuArrowLeft, LuCheck, LuSp
 import Link from "next/link";
 import Image from "next/image";
 import auraLogo from "@/app/auralogo.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLanguage } from "@/context/language-context";
+import { supabase } from "@/lib/supabase";
 
 const CARD_FEATURES = [
   {
     icon: LuGlobe,
-    title: "Spend Anywhere",
-    description: "Accepted at 80M+ merchants worldwide. Pay with crypto as easily as a regular card."
+    titleKey: "card.features.spendAnywhere.title",
+    descKey: "card.features.spendAnywhere.desc"
   },
   {
     icon: LuZap,
-    title: "Instant Conversion",
-    description: "Your crypto is automatically converted at the best rate at the moment of purchase."
+    titleKey: "card.features.instantConversion.title",
+    descKey: "card.features.instantConversion.desc"
   },
   {
     icon: LuShieldCheck,
-    title: "Zero Hidden Fees",
-    description: "No monthly fees, no conversion markup. Just transparent, honest pricing."
+    titleKey: "card.features.zeroFees.title",
+    descKey: "card.features.zeroFees.desc"
   },
   {
     icon: LuSparkles,
-    title: "3% Cashback",
-    description: "Earn cashback in your preferred cryptocurrency on every transaction you make."
+    titleKey: "card.features.cashback.title",
+    descKey: "card.features.cashback.desc"
   }
 ];
 
 const CARD_TIERS = [
-  { name: "Standard", limit: "$10,000/mo", cashback: "1%", color: "from-zinc-900 to-black", accent: "text-white/60", accentBg: "bg-white/5 border-white/10 text-white/60", chipColor: "from-white/15 to-white/5" },
-  { name: "Elite", limit: "$50,000/mo", cashback: "2%", color: "from-blue-800 to-blue-950", accent: "text-blue-400", accentBg: "bg-blue-400/10 border-blue-400/20 text-blue-400", chipColor: "from-blue-300/30 to-blue-500/20" },
-  { name: "Platinum", limit: "Unlimited", cashback: "3%", color: "from-amber-600/80 to-amber-900", accent: "text-amber-300", accentBg: "bg-amber-400/10 border-amber-400/20 text-amber-300", chipColor: "from-amber-300/40 to-amber-500/20" },
+  { name: "Standard", limitKey: "card.standardLimit", cashback: "1%", color: "from-zinc-900 to-black", accent: "text-white/60", accentBg: "bg-white/5 border-white/10 text-white/60", chipColor: "from-white/15 to-white/5" },
+  { name: "Elite", limitKey: "card.eliteLimit", cashback: "2%", color: "from-blue-800 to-blue-950", accent: "text-blue-400", accentBg: "bg-blue-400/10 border-blue-400/20 text-blue-400", chipColor: "from-blue-300/30 to-blue-500/20" },
+  { name: "Platinum", limitKey: "card.platinumLimit", cashback: "3%", color: "from-amber-600/80 to-amber-900", accent: "text-amber-300", accentBg: "bg-amber-400/10 border-amber-400/20 text-amber-300", chipColor: "from-amber-300/40 to-amber-500/20" },
 ];
 
 export default function CardPage() {
+  const { t } = useLanguage();
   const [selectedTier, setSelectedTier] = useState(1);
   const [isWaitlisted, setIsWaitlisted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function checkWaitlist() {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const { data, error } = await supabase
+          .from("card_waitlist")
+          .select("id")
+          .eq("user_id", user.id)
+          .maybeSingle();
+
+        if (error) throw error;
+        if (data) {
+          setIsWaitlisted(true);
+        }
+      } catch (err) {
+        console.error("Error checking card waitlist:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    checkWaitlist();
+  }, []);
+
+  const handleJoinWaitlist = async () => {
+    setErrorMsg(null);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        setErrorMsg("User session not found.");
+        return;
+      }
+
+      // Map tier names: 0 -> Standard, 1 -> Elite, 2 -> Platinum
+      const tierName = CARD_TIERS[selectedTier]?.name || "Elite";
+
+      const { error } = await supabase
+        .from("card_waitlist")
+        .insert({
+          user_id: user.id,
+          email: user.email || "",
+          tier: tierName
+        });
+
+      if (error) throw error;
+      setIsWaitlisted(true);
+    } catch (err: any) {
+      console.error("Error joining waitlist:", err);
+      setErrorMsg(err.message || "Failed to join waitlist. Please try again later.");
+    }
+  };
 
   return (
     <main className="min-h-screen bg-black text-white overflow-x-hidden">
@@ -63,7 +122,7 @@ export default function CardPage() {
               className="inline-flex items-center gap-2 text-white/30 hover:text-white text-xs font-bold uppercase tracking-widest transition-colors"
             >
               <LuArrowLeft className="h-4 w-4" />
-              Back to Wallet
+              {t("card.backToWallet")}
             </Link>
           </motion.div>
 
@@ -78,41 +137,48 @@ export default function CardPage() {
             >
               <div className="space-y-2">
                 <span className="text-[10px] font-bold tracking-[0.3em] text-emerald-400 uppercase bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20">
-                  Coming Soon
+                  {t("card.comingSoon")}
                 </span>
               </div>
               <h1 className="text-5xl md:text-6xl font-bold tracking-tight leading-[1.1]">
-                Aura Elite<br />
-                <span className="text-white/30">Crypto Card</span>
+                {t("card.title1")}<br />
+                <span className="text-white/30">{t("card.title2")}</span>
               </h1>
               <p className="text-lg text-white/40 leading-relaxed max-w-md">
-                The world's most premium crypto bank card. Spend your digital assets anywhere, anytime — with zero fees and institutional-grade security.
+                {t("card.description")}
               </p>
 
-              <div className="flex items-center gap-6">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => setIsWaitlisted(true)}
-                  disabled={isWaitlisted}
-                  className={`px-8 py-4 rounded-2xl font-bold transition-all flex items-center gap-3 ${
-                    isWaitlisted
-                      ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
-                      : "bg-white text-black hover:bg-white/90"
-                  }`}
-                >
-                  {isWaitlisted ? (
-                    <>
-                      <LuCheck className="h-5 w-5" />
-                      You're on the list
-                    </>
-                  ) : (
-                    "Join Waitlist"
-                  )}
-                </motion.button>
-                <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
-                  2,847 waiting
-                </span>
+              <div className="flex flex-col items-start gap-3">
+                <div className="flex items-center gap-6">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleJoinWaitlist}
+                    disabled={isWaitlisted || isLoading}
+                    className={`px-8 py-4 rounded-2xl font-bold transition-all flex items-center gap-3 ${
+                      isWaitlisted
+                        ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
+                        : "bg-white text-black hover:bg-white/90"
+                    }`}
+                  >
+                    {isLoading ? (
+                      <span className="opacity-75">Loading...</span>
+                    ) : isWaitlisted ? (
+                      <>
+                        <LuCheck className="h-5 w-5" />
+                        {t("card.onList")}
+                      </>
+                    ) : (
+                      t("card.joinWaitlist")
+                    )}
+                  </motion.button>
+                  <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
+                    {t("card.waitingCount")}
+                  </span>
+                </div>
+                {errorMsg && (
+                  <p className="text-xs text-red-400 font-medium">{errorMsg}</p>
+                )}
               </div>
             </motion.div>
 
@@ -156,8 +222,8 @@ export default function CardPage() {
                     <p className="text-xl font-mono tracking-[0.3em] text-white/70">•••• •••• •••• 8842</p>
                     <div className="flex justify-between items-end">
                       <div>
-                        <p className="text-[8px] font-bold tracking-[0.2em] text-white/30 uppercase mb-1">Card Holder</p>
-                        <p className="text-xs font-bold tracking-widest text-white/70 uppercase">Aura Platinum Member</p>
+                        <p className="text-[8px] font-bold tracking-[0.2em] text-white/30 uppercase mb-1">{t("card.cardHolder")}</p>
+                        <p className="text-xs font-bold tracking-widest text-white/70 uppercase">{t("card.platinumMember")}</p>
                       </div>
                       <div className="flex -space-x-2">
                         <div className="h-7 w-7 rounded-full bg-red-500/80" />
@@ -183,17 +249,17 @@ export default function CardPage() {
           >
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">
-                Why Aura Card?
+                {t("card.whyTitle")}
               </h2>
               <p className="text-white/30 max-w-lg mx-auto">
-                Built for the next generation of digital asset holders.
+                {t("card.whySubtitle")}
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {CARD_FEATURES.map((feature, i) => (
                 <motion.div
-                  key={feature.title}
+                  key={feature.titleKey}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -203,8 +269,8 @@ export default function CardPage() {
                   <div className="h-12 w-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-white/10 group-hover:border-white/20 transition-all">
                     <feature.icon className="h-6 w-6 text-white/60 group-hover:text-white transition-colors" />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2 tracking-tight">{feature.title}</h3>
-                  <p className="text-sm text-white/40 leading-relaxed">{feature.description}</p>
+                  <h3 className="text-xl font-bold text-white mb-2 tracking-tight">{t(feature.titleKey)}</h3>
+                  <p className="text-sm text-white/40 leading-relaxed">{t(feature.descKey)}</p>
                 </motion.div>
               ))}
             </div>
@@ -219,10 +285,10 @@ export default function CardPage() {
           >
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">
-                Choose Your Tier
+                {t("card.chooseTier")}
               </h2>
               <p className="text-white/30 max-w-lg mx-auto">
-                Select the card that matches your ambition.
+                {t("card.chooseTierSubtitle")}
               </p>
             </div>
 
@@ -266,11 +332,11 @@ export default function CardPage() {
                   
                   <div className="space-y-3">
                     <div className="flex justify-between items-center text-sm">
-                      <span className="text-white/30">Monthly Limit</span>
-                      <span className="text-white font-bold">{tier.limit}</span>
+                      <span className="text-white/30">{t("card.monthlyLimit")}</span>
+                      <span className="text-white font-bold">{t(tier.limitKey)}</span>
                     </div>
                     <div className="flex justify-between items-center text-sm">
-                      <span className="text-white/30">Cashback</span>
+                      <span className="text-white/30">{t("card.cashbackLabel")}</span>
                       <span className={`font-bold ${tier.accent}`}>{tier.cashback}</span>
                     </div>
                   </div>
@@ -283,7 +349,7 @@ export default function CardPage() {
                     >
                       <div className={`inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border ${tier.accentBg}`}>
                         <LuCheck className="h-3 w-3" />
-                        Selected
+                        {t("card.selected")}
                       </div>
                     </motion.div>
                   )}
@@ -308,33 +374,40 @@ export default function CardPage() {
                 <LuCreditCard className="h-8 w-8 text-white" />
               </div>
               <h2 className="text-4xl font-bold tracking-tight text-white mb-4">
-                Ready to spend crypto?
+                {t("card.readyTitle")}
               </h2>
               <p className="text-white/40 max-w-md mx-auto mb-10">
-                Join thousands of Aura members waiting for the future of payments.
+                {t("card.readySubtitle")}
               </p>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => setIsWaitlisted(true)}
-                disabled={isWaitlisted}
-                className={`px-10 py-5 rounded-2xl font-bold text-lg transition-all flex items-center gap-3 mx-auto ${
-                  isWaitlisted
-                    ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
-                    : "bg-white text-black hover:bg-white/90"
-                }`}
-              >
-                {isWaitlisted ? (
-                  <>
-                    <LuCheck className="h-5 w-5" />
-                    You're on the waitlist
-                  </>
-                ) : (
-                  "Join the Waitlist"
+              <div className="flex flex-col items-center gap-3">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleJoinWaitlist}
+                  disabled={isWaitlisted || isLoading}
+                  className={`px-10 py-5 rounded-2xl font-bold text-lg transition-all flex items-center gap-3 mx-auto ${
+                    isWaitlisted
+                      ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
+                      : "bg-white text-black hover:bg-white/90"
+                  }`}
+                >
+                  {isLoading ? (
+                    <span className="opacity-75">Loading...</span>
+                  ) : isWaitlisted ? (
+                    <>
+                      <LuCheck className="h-5 w-5" />
+                      {t("card.onWaitlist")}
+                    </>
+                  ) : (
+                    t("card.joinWaitlist")
+                  )}
+                </motion.button>
+                {errorMsg && (
+                  <p className="text-xs text-red-400 font-medium">{errorMsg}</p>
                 )}
-              </motion.button>
+              </div>
               <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] font-bold mt-4">
-                No fees • Priority access • Exclusive perks
+                {t("card.perks")}
               </p>
             </div>
           </motion.div>
