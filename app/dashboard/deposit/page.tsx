@@ -51,7 +51,7 @@ const itemVariants = {
 export default function DepositPage() {
   const [selectedAsset, setSelectedAsset] = useState(ASSETS[0]);
   const [selectedNetwork, setSelectedNetwork] = useState(NETWORKS[selectedAsset.id][0]);
-  const [amount, setAmount] = useState<string>("100");
+  const [amount, setAmount] = useState<string>("150");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
@@ -78,8 +78,9 @@ export default function DepositPage() {
   };
 
   const handlePayment = async () => {
-    if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
-      setError("Please enter a valid amount.");
+    const minAmount = 150;
+    if (!amount || isNaN(Number(amount)) || Number(amount) < minAmount) {
+      setError(`Minimum deposit amount is $${minAmount}.`);
       return;
     }
     setError(null);

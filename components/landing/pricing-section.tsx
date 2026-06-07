@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/context/language-context";
+import Link from "next/link";
 
 type PricingPlan = {
   name: string;
@@ -9,6 +10,7 @@ type PricingPlan = {
   features: string[];
   cta: string;
   highlighted?: boolean;
+  href: string;
 };
 
 export function PricingSection() {
@@ -21,6 +23,7 @@ export function PricingSection() {
       description: t("pricing.free.description"),
       features: t("pricing.free.features"),
       cta: t("pricing.free.cta"),
+      href: "/dashboard",
     },
     {
       name: t("pricing.pro.name"),
@@ -29,6 +32,7 @@ export function PricingSection() {
       features: t("pricing.pro.features"),
       cta: t("pricing.pro.cta"),
       highlighted: true,
+      href: "/dashboard",
     },
     {
       name: t("pricing.enterprise.name"),
@@ -36,6 +40,7 @@ export function PricingSection() {
       description: t("pricing.enterprise.description"),
       features: t("pricing.enterprise.features"),
       cta: t("pricing.enterprise.cta"),
+      href: "/contact-sales",
     },
   ];
 
@@ -97,16 +102,18 @@ export function PricingSection() {
               ))}
             </ul>
 
-            <button
-              type="button"
-              className={`mt-6 w-full rounded-full px-4 py-2.5 text-sm font-medium transition ${
-                plan.highlighted
-                  ? "bg-white text-black hover:bg-white/85"
-                  : "border border-white/20 bg-white/5 text-white hover:bg-white/10"
-              }`}
-            >
-              {plan.cta}
-            </button>
+            <Link href={plan.href} className="block mt-6">
+              <button
+                type="button"
+                className={`w-full rounded-full px-4 py-2.5 text-sm font-medium transition cursor-pointer ${
+                  plan.highlighted
+                    ? "bg-white text-black hover:bg-white/85"
+                    : "border border-white/20 bg-white/5 text-white hover:bg-white/10"
+                }`}
+              >
+                {plan.cta}
+              </button>
+            </Link>
           </article>
         ))}
       </div>

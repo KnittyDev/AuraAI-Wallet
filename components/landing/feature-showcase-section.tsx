@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { LuShieldCheck, LuSparkles, LuMoon, LuZap, LuArrowUpRight, LuTrendingUp } from "react-icons/lu";
 import { useLanguage } from "@/context/language-context";
+import Link from "next/link";
 
 export function FeatureShowcaseSection() {
   const { t } = useLanguage();
@@ -59,9 +60,11 @@ export function FeatureShowcaseSection() {
                 </p>
               </div>
 
-              <button className="px-8 py-3 rounded-full bg-black border border-white/20 text-white font-bold text-sm hover:bg-white hover:text-black transition-all duration-300">
-                {feature.button}
-              </button>
+              <Link href="/dashboard">
+                <button className="px-8 py-3 rounded-full bg-black border border-white/20 text-white font-bold text-sm hover:bg-white hover:text-black transition-all duration-300 cursor-pointer">
+                  {feature.button}
+                </button>
+              </Link>
             </motion.div>
 
             {/* Interactive UI Side */}
