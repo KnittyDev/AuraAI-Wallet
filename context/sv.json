@@ -79,7 +79,10 @@
     "assetsManaged": "Förvaltade tillgångar",
     "uptime": "Drifttid",
     "avgResponse": "Genomsn. svarstid",
-    "ticker": "Aura AI kör live-strategier"
+    "ticker": "Aura AI kör live-strategier",
+    "assetsManagedValue": "4.5 Miljoner €",
+    "uptimeValue": "99.99%",
+    "avgResponseValue": "8ms"
   },
   "marquee": {
     "title": "Betrodd av institutionella partner & kryptoappar"

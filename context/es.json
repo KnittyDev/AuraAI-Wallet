@@ -79,7 +79,10 @@
     "assetsManaged": "Activos administrados",
     "uptime": "Tiempo de actividad",
     "avgResponse": "Promedio. Respuesta",
-    "ticker": "Aura AI está ejecutando estrategias en vivo"
+    "ticker": "Aura AI está ejecutando estrategias en vivo",
+    "assetsManagedValue": "4.5 Millones €",
+    "uptimeValue": "99.99%",
+    "avgResponseValue": "8ms"
   },
   "marquee": {
     "title": "Con la confianza de socios institucionales y aplicaciones criptográficas"

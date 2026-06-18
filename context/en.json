@@ -79,7 +79,10 @@
     "assetsManaged": "Assets Managed",
     "uptime": "Uptime",
     "avgResponse": "Avg. Response",
-    "ticker": "Aura AI is running live strategies"
+    "ticker": "Aura AI is running live strategies",
+    "assetsManagedValue": "4.5 Million €",
+    "uptimeValue": "99.99%",
+    "avgResponseValue": "8ms"
   },
   "marquee": {
     "title": "Trusted by Institutional Partners & Crypto Apps"

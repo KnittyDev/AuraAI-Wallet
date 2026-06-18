@@ -79,7 +79,10 @@
     "assetsManaged": "Verwaltetes Vermögen",
     "uptime": "Betriebszeit",
     "avgResponse": "Durchschn. Antwort",
-    "ticker": "Aura AI führt Live-Strategien aus"
+    "ticker": "Aura AI führt Live-Strategien aus",
+    "assetsManagedValue": "4.5 Millionen €",
+    "uptimeValue": "99.99%",
+    "avgResponseValue": "8ms"
   },
   "marquee": {
     "title": "Vertraut von institutionellen Partnern & Krypto-Apps"

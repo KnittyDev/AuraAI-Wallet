@@ -79,7 +79,10 @@
     "assetsManaged": "Активы под управлением",
     "uptime": "Время работы",
     "avgResponse": "Среднее Ответ",
-    "ticker": "Aura AI запускает живые стратегии"
+    "ticker": "Aura AI запускает живые стратегии",
+    "assetsManagedValue": "4.5 Млн €",
+    "uptimeValue": "99.99%",
+    "avgResponseValue": "8ms"
   },
   "marquee": {
     "title": "Нам доверяют институциональные партнеры и криптоприложения"

@@ -8,9 +8,9 @@ export function PromptCard() {
   const { t } = useLanguage();
 
   const stats = [
-    { icon: LuTrendingUp, value: "$2.4B+", label: t("prompt.assetsManaged") },
-    { icon: LuShield, value: "99.9%", label: t("prompt.uptime") },
-    { icon: LuZap, value: "12ms", label: t("prompt.avgResponse") },
+    { icon: LuTrendingUp, value: t("prompt.assetsManagedValue"), label: t("prompt.assetsManaged") },
+    { icon: LuShield, value: t("prompt.uptimeValue"), label: t("prompt.uptime") },
+    { icon: LuZap, value: t("prompt.avgResponseValue"), label: t("prompt.avgResponse") },
   ];
 
   return (

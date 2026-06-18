@@ -79,7 +79,10 @@
     "assetsManaged": "Yönetilen Varlık",
     "uptime": "Çalışma Süresi",
     "avgResponse": "Ort. Yanıt",
-    "ticker": "Aura AI canlı stratejileri yürütüyor"
+    "ticker": "Aura AI canlı stratejileri yürütüyor",
+    "assetsManagedValue": "4.5 Milyon €",
+    "uptimeValue": "99.99%",
+    "avgResponseValue": "8ms"
   },
   "marquee": {
     "title": "Kurumsal Ortaklar ve Kripto Uygulamaları Tarafından Güvenilen"
