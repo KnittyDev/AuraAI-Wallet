@@ -620,7 +620,7 @@
     "welcomeMessage": "Merhaba! Ben yatırım asistanınız Aura. Mevcut portföyünüzü analiz ettim ve size yardımcı olmaya hazırım. Bugün size nasıl yardımcı olabilirim?",
     "delayMessage": "Verileriniz analiz ediliyor... lütfen bekleyin.",
     "inputPlaceholder": "Yatırımlarınız hakkında Aura'ya sorun...",
-    "footerText": "Claude 4.7 Sonnet ve Aura Nöral Motoru ile güçlendirilmiştir",
+    "footerText": "Claude 4.8 Sonnet ve Aura Nöral Motoru ile güçlendirilmiştir",
     "errorMessage": "Üzgünüm, bir hata ile karşılaştım. Lütfen daha sonra tekrar deneyin.",
     "suggestions": {
       "analyzePortfolio": "Portföyümü analiz et",

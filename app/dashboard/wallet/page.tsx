@@ -325,14 +325,10 @@ export default function WalletPage() {
                       transition={{ delay: i * 0.1 }}
                       className="rounded-2xl md:rounded-3xl border border-white/5 bg-white/[0.03] p-4 md:p-6 hover:bg-white/[0.06] transition-all cursor-pointer group flex flex-col justify-between"
                     >
-                      <div className="flex items-start md:items-center justify-between mb-4 md:mb-6">
+                      <div className="flex items-start md:items-center mb-4 md:mb-6">
                         <div className={`h-8 w-8 md:h-12 md:w-12 rounded-xl md:rounded-2xl bg-black flex items-center justify-center border border-white/10 group-hover:border-white/20 transition-colors shrink-0`}>
                           <asset.icon className={`h-4 w-4 md:h-6 md:w-6 ${asset.color}`} />
                         </div>
-                        <span className={`text-[8px] md:text-[10px] font-bold px-1.5 py-0.5 md:px-2 md:py-1 rounded-lg ${Number(asset.change) >= 0 ? "bg-emerald-400/10 text-emerald-400" : "bg-red-400/10 text-red-400"
-                          }`}>
-                          {Number(asset.change) >= 0 ? "+" : ""}{asset.change}%
-                        </span>
                       </div>
                       <div>
                         <h4 className="text-[10px] md:text-sm font-medium text-white/50 mb-0.5 md:mb-1 truncate">{asset.name}</h4>

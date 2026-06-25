@@ -620,7 +620,7 @@
     "welcomeMessage": "Hello! I am Aura, your AI investment assistant. I've analyzed your current portfolio and I'm ready to help. How can I assist you today?",
     "delayMessage": "Analyzing your data... please wait.",
     "inputPlaceholder": "Ask Aura about your investments...",
-    "footerText": "Powered by Claude 4.7 Sonnet & Aura Neural Engine",
+    "footerText": "Powered by Claude 4.8 Sonnet & Aura Neural Engine",
     "errorMessage": "I'm sorry, I encountered an error. Please try again later.",
     "suggestions": {
       "analyzePortfolio": "Analyze my portfolio",

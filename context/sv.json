@@ -620,7 +620,7 @@
     "welcomeMessage": "Hej! Jag är Aura, din AI-investeringsassistent. Jag har analyserat din nuvarande portfölj och är redo att hjälpa till. Hur kan jag hjälpa dig idag?",
     "delayMessage": "Analyserar din data... vänligen vänta.",
     "inputPlaceholder": "Fråga Aura om dina investeringar...",
-    "footerText": "Drivs av Claude 4.7 Sonnet & Aura Neural Engine",
+    "footerText": "Drivs av Claude 4.8 Sonnet & Aura Neural Engine",
     "errorMessage": "Jag är ledsen, jag stötte på ett fel. Försök igen senare.",
     "suggestions": {
       "analyzePortfolio": "Analysera min portfölj",

@@ -234,7 +234,7 @@ export default function InvestmentsPage() {
     { label: t("investments.stats.totalCapital"), value: `$${totalCapital.toLocaleString()}`, note: t("investments.stats.totalCapitalNote"), up: true },
     { label: t("investments.stats.totalNetProfit"), value: `$${totalProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, note: t("investments.stats.totalNetProfitNote"), up: totalProfit >= 0 },
     { label: t("investments.stats.activeStrategies"), value: activeCount.toString(), note: t("investments.stats.activeStrategiesNote"), up: true },
-    { label: t("investments.stats.aiEngine"), value: "Claude 4.7", note: t("investments.stats.aiEngineNote"), up: true },
+    { label: t("investments.stats.aiEngine"), value: "Claude 4.8", note: t("investments.stats.aiEngineNote"), up: true },
   ];
 
   if (loading) {
